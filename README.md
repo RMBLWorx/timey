@@ -40,3 +40,6 @@ Unterscheidung benannt werden. Ein eigener Alarmsound soll festgelegt werden
 können.
 
 ## verwendete Technologien
+
+* Java 7
+* JavaFX für GUI
