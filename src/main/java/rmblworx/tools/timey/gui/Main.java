@@ -1,20 +1,27 @@
 package rmblworx.tools.timey.gui;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.application.Application;
-import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class Main extends Application {
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage stage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
+			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale("de", "DE")); 
+//			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale("en", "EN")); 
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getResource("TimeyGui.fxml"), i18n);
+			Scene scene = new Scene(page); 
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			stage.setScene(scene);
+			stage.setTitle(i18n.getString("application.title"));
+			stage.show(); 
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

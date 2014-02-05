@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml">
-	<!-- TODO Add Nodes -->
+<AnchorPane styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.GuiController">
+  <children>
+    <Button fx:id="stopwatchStartButton" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" text="%stopwatchStartButton.label" />
+  </children>
+  <stylesheets>
+    <URL value="@application.css" />
+  </stylesheets>
 </AnchorPane>
