@@ -24,4 +24,18 @@ diesem Zusammenhang der Reset-Knopf im Anschluss betätigt so wird die Zeitmessu
 gestoppt und die Endzeit eingeblendet. Ein erneutes betätigen des Reset-Knopfes
 setzt die Stoppuhr zurück.
 
+* Countdown-Funktion
+Hier hat der Nutzer die Möglichkeit eine Zeit einzustellen
+(Stunden:Minuten:Sekunden). Nach Betätigung des Start-Knopfes beginnt die Uhr
+die Zeit bis auf Null herunterzuzählen und gibt dann ein Signal aus. Optional
+kann ein visueller Effekt konfiguriert werden der in diesem Fall ausgelöst wird.
+
+Bevor der Nutzer den Countdown aktiv startet bietet im ein zusätzlicher
+Reset-Knopf die Möglichkeit bei Fehleingabe erneut eine Zeit einzustellen.
+
+* Alarm-Funktion
+Der Nutzer kann einen Zeitpunkt definieren, also Tag,Monat,Jahr,Stunde,Minuten,Sekunden , an welchem ein
+Alarmsignal ertönen soll wenn dieser Zeitpunkt erreicht wird. Mit einem Ok-Knopf
+kann der Nutzer den Alarm abschalten.
+
 ###verwendete Technologien
