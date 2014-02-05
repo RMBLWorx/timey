@@ -1,4 +1,4 @@
-package rmblworx.timey.gui;
+package rmblworx.tools.timey.gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
