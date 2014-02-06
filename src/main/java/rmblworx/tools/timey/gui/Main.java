@@ -14,8 +14,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale("de", "DE")); 
-//			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale("en", "EN")); 
+			String locale = "de";
+			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale(locale)); 
 			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getResource("TimeyGui.fxml"), i18n);
 			Scene scene = new Scene(page); 
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
