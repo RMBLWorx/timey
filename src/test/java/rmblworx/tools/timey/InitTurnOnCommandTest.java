@@ -1,13 +1,16 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo.cmd;
+package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import rmblworx.tools.timey.Alarm;
+import rmblworx.tools.timey.AlarmClient;
 
 /**
  * @author mmatthies
@@ -39,7 +42,7 @@ public class InitTurnOnCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.bo.cmd.AlarmClient#initTurnOnCommand()}.
+	 * {@link rmblworx.tools.timey.AlarmClient#initTurnOnCommand()}.
 	 */
 	@Test
 	public final void testInitTurnOnCommand() {

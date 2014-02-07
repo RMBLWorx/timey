@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.util;
+package rmblworx.tools.timey;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
  * @author mmatthies
  * 
  */
-public final class TimeyUtils {
+final class TimeyUtils {
 	private final static Logger log = LogManager.getLogger(TimeyUtils.class);
 
 	private TimeyUtils() {

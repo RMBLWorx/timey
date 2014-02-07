@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo.cmd;
+package rmblworx.tools.timey;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

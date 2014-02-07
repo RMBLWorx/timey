@@ -2,6 +2,7 @@
  * 
  */
 /**
+ * Enthält alle Implementierungen für das GUI.
  * @author mmatthies
  *
  */

@@ -1,12 +1,11 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo.cmd;
+package rmblworx.tools.timey;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rmblworx.tools.timey.bo.IAlarm;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -19,7 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public final class Alarm implements IAlarm {
+final class Alarm implements IAlarm {
 	private final Logger log = LogManager.getLogger(Alarm.class);
 
 	/**

@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Unveraenderliches, Thread-sicheres Werteobjekt zum kapseln der Zeitangaben
- * die fuer den Countdown benoetigt werden. Die Instantiierung wird mittels des
- * Builder vorgenommen.
+ * die fuer den Countdown, Alarm benoetigt werden. Die Instantiierung wird
+ * mittels des Builder vorgenommen.
  * 
  * @author mmatthies
  * 
@@ -40,12 +40,33 @@ public final class TimeDescriptor {
 		// optionale Parameter
 		private int milliseconds = 0;
 
+		/**
+		 * Konstruktor der die nicht-optionalen Werte benoetigt.
+		 * 
+		 * @param hours
+		 *            Anzahl der Stunden. Es findet keine Pruefung auf negative
+		 *            Werte statt.
+		 * @param minutes
+		 *            Anzahl der Minuten. Es findet keine Pruefung auf negative
+		 *            Werte statt.
+		 * @param seconds
+		 *            Anzahl der Sekunden. Es findet keine Pruefung auf negative
+		 *            Werte statt.
+		 */
 		public Builder(int hours, int minutes, int seconds) {
 			this.hours = hours;
 			this.minutes = minutes;
 			this.seconds = seconds;
 		}
 
+		/**
+		 * Ermöglicht das Setzen eines optionalen Wertes.
+		 * 
+		 * @param milliseconds
+		 *            Anzahl der Millisekunden. Es findet keine Pruefung auf
+		 *            negative Werte statt.
+		 * @return Referenz auf dieses Erzeuger-Objekt.
+		 */
 		public Builder milliseconds(int milliseconds) {
 			this.log.entry();
 
@@ -55,6 +76,11 @@ public final class TimeDescriptor {
 			return this;
 		}
 
+		/**
+		 * Erzeugt das Werteobjekt anhand der gegebenen Werte.
+		 * 
+		 * @return unveränderliches Werteobjekt, welches die Zeitwerte kapselt.
+		 */
 		public TimeDescriptor build() {
 			this.log.entry();
 
@@ -68,28 +94,29 @@ public final class TimeDescriptor {
 	}
 
 	/**
-	 * @return the hours
+	 * @return Die Anzahl der Stunden.
 	 */
 	public int getHours() {
 		return hours;
 	}
 
 	/**
-	 * @return the minutes
+	 * @return Die Anzahl der Minuten.
 	 */
 	public int getMinutes() {
 		return minutes;
 	}
 
 	/**
-	 * @return the seconds
+	 * @return Die Anzahl der Sekunden.
 	 */
 	public int getSeconds() {
 		return seconds;
 	}
 
 	/**
-	 * @return the milliseconds or {@code 0} if it was not set before.
+	 * @return Die Anzahl der Millisekunden oder {@code 0} falls sie nie gesetzt
+	 *         wurden da diese Angabe optional ist.
 	 */
 	public int getMilliSeconds() {
 		return milliseconds;
