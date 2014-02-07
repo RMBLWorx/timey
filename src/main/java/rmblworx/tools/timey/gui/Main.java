@@ -18,7 +18,6 @@ public class Main extends Application {
 			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale(locale)); 
 			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getResource("TimeyGui.fxml"), i18n);
 			Scene scene = new Scene(page); 
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle(i18n.getString("application.title"));
 			stage.show(); 
