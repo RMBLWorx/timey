@@ -14,21 +14,35 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.11</junit.version>
 		<javafx.version>2.2</javafx.version>
+		<log4j2-api-version>2.0-beta9</log4j2-api-version>
+		<log4j2-core-version>${log4j2-api-version}</log4j2-core-version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>javafx</artifactId>
 			<version>${javafx.version}</version>
 			<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
 			<scope>system</scope>
+		</dependency>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j2-api-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2-core-version}</version>
+		</dependency>
+		<!-- Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -43,8 +57,67 @@
 						<target>1.7</target>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<inherited>true</inherited>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.6.4.201312101107</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<!-- <execution> -->
+					<!-- <id>default-check</id> -->
+					<!-- <goals> -->
+					<!-- <goal>check</goal> -->
+					<!-- </goals> -->
+					<!-- <configuration> -->
+					<!-- minimal geforderte Testabdeckung -->
+					<!-- <rules> -->
+					<!-- <rule> -->
+					<!-- <element>CLASS</element> -->
+					<!-- <excludes> -->
+					<!-- <exclude>*Test</exclude> -->
+					<!-- </excludes> -->
+					<!-- <limits> -->
+					<!-- <limit> -->
+					<!-- <counter>LINE</counter> -->
+					<!-- <value>COVEREDRATIO</value> -->
+					<!-- <minimum>0.50</minimum> -->
+					<!-- </limit> -->
+					<!-- </limits> -->
+					<!-- </rule> -->
+					<!-- </rules> -->
+					<!-- </configuration> -->
+					<!-- </execution> -->
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

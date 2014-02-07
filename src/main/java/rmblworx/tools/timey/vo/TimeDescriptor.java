@@ -3,6 +3,9 @@
  */
 package rmblworx.tools.timey.vo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Unveraenderliches, Thread-sicheres Werteobjekt zum kapseln der Zeitangaben
  * die fuer den Countdown benoetigt werden. Die Instantiierung wird mittels des
@@ -29,12 +32,13 @@ public final class TimeDescriptor {
 	}
 
 	public static class Builder {
+		private final Logger log = LogManager.getLogger(Builder.class);
 		// erforderliche Parameter
 		private int hours;
 		private int minutes;
 		private int seconds;
 		// optionale Parameter
-		private int milliseconds;
+		private int milliseconds = 0;
 
 		public Builder(int hours, int minutes, int seconds) {
 			this.hours = hours;
@@ -43,11 +47,22 @@ public final class TimeDescriptor {
 		}
 
 		public Builder milliseconds(int milliseconds) {
+			this.log.entry();
+
 			this.milliseconds = milliseconds;
+
+			this.log.exit();
 			return this;
 		}
 
 		public TimeDescriptor build() {
+			this.log.entry();
+
+			this.log.debug(
+					"\n\t Erzeuge Objekt mit den Werten: \n\t hours:{}\n\t minutes:{}\n\t seconds:{}\n\t milliseconds:{}",
+					hours, minutes, seconds, milliseconds);
+
+			this.log.exit();
 			return new TimeDescriptor(this);
 		}
 	}
@@ -74,7 +89,7 @@ public final class TimeDescriptor {
 	}
 
 	/**
-	 * @return the milliseconds or <code>null</code>
+	 * @return the milliseconds or {@code 0} if it was not set before.
 	 */
 	public int getMilliSeconds() {
 		return milliseconds;
