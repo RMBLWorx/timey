@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import rmblworx.tools.timey.TimeyFacade;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -32,6 +33,9 @@ public class GuiController {
 	@FXML
 	private Label stopwatchTimeLabel;
 
+	@FXML
+	private CheckBox includeMillisecondsCheckbox;
+
 	private boolean stopwatchRunning = false;
 
 	@FXML
@@ -40,27 +44,36 @@ public class GuiController {
 		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
 		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
 		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected: check your FXML file 'TimeyGui.fxml'.";
+		assert includeMillisecondsCheckbox != null : "fx:id='includeMillisecondsCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
 
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(resources.getString("stopwatchStartButton.pressed")); // TODO entfernen
-
 					stopwatchStartButton.setVisible(false);
 					stopwatchStopButton.setVisible(true);
 
 					stopwatchRunning = true;
+					final boolean includeMilliseconds = includeMillisecondsCheckbox.isSelected();
 
 					final TimeDescriptor td = facade.startStopwatch();
 
 					Task <Void> task = new Task<Void>() {
 						public Void call() throws InterruptedException {
-							SimpleDateFormat format = new SimpleDateFormat();
-							format.applyPattern("HH:mm:ss.SSS");
+							SimpleDateFormat formatter = new SimpleDateFormat();
+
+							if (includeMilliseconds) {
+								formatter.applyPattern("HH:mm:ss.SSS");
+							} else {
+								formatter.applyPattern("HH:mm:ss");
+							}
 
 							while (stopwatchRunning) {
-								updateMessage(format.format(td.getMilliSeconds()));
-								Thread.sleep(111);
+								updateMessage(formatter.format(td.getMilliSeconds()));
+								if (includeMilliseconds) {
+									Thread.sleep(5);
+								} else {
+									Thread.sleep(1000);
+								}
 							}
 
 							return null;
@@ -90,8 +103,7 @@ public class GuiController {
 		if (stopwatchStopButton != null) {
 			stopwatchStopButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(resources.getString("stopwatchStopButton.pressed")); // TODO entfernen
-
+					facade.stopStopwatch();
 					stopwatchRunning = false;
 					stopwatchStartButton.setVisible(true);
 					stopwatchStopButton.setVisible(false);
@@ -102,12 +114,27 @@ public class GuiController {
 		if (stopwatchResetButton != null) {
 			stopwatchResetButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(resources.getString("stopwatchResetButton.pressed")); // TODO entfernen
-
-					stopwatchTimeLabel.setText("00:00:00");
+					facade.resetStopwatch();
+					resetStopwatchTimeLabel();
 				}
 			});
 		}
+
+		if (includeMillisecondsCheckbox != null) {
+			includeMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					resetStopwatchTimeLabel();
+				}
+			});
+		}
+	}
+
+	protected void resetStopwatchTimeLabel() {
+		if (stopwatchRunning) {
+			return;
+		}
+
+		stopwatchTimeLabel.setText(includeMillisecondsCheckbox.isSelected() ? "00:00:00.000" : "00:00:00");
 	}
 
 }
