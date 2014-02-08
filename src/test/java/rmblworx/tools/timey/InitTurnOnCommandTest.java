@@ -17,7 +17,7 @@ import rmblworx.tools.timey.AlarmClient;
  * 
  */
 public class InitTurnOnCommandTest {
-	private AlarmClient steuerung;
+	private AlarmClient client;
 	private Alarm alarm;
 
 	/**
@@ -26,7 +26,7 @@ public class InitTurnOnCommandTest {
 	@Before
 	public void setUp() throws Exception {
 		this.alarm = new Alarm();
-		this.steuerung = new AlarmClient(alarm);
+		this.client = new AlarmClient(alarm);
 
 	}
 
@@ -36,7 +36,7 @@ public class InitTurnOnCommandTest {
 	@After
 	public void tearDown() throws Exception {
 		this.alarm = null;
-		this.steuerung = null;
+		this.client = null;
 
 	}
 
@@ -48,7 +48,7 @@ public class InitTurnOnCommandTest {
 	public final void testInitTurnOnCommand() {
 		Boolean expectedValue = Boolean.TRUE;
 		
-		Boolean actual = this.steuerung.initTurnOnCommand();
+		Boolean actual = this.client.initTurnOnCommand();
 		assertEquals(expectedValue, actual);
 
 	}
