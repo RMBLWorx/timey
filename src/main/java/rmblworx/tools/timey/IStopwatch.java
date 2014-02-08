@@ -11,4 +11,5 @@ package rmblworx.tools.timey;
 interface IStopwatch {
 	Boolean startStopwatch();
 	Boolean stopStopwatch();
+	Boolean resetStopwatch();
 }

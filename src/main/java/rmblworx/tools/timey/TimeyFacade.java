@@ -24,6 +24,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 public class TimeyFacade implements ITimey, IAlarm, ICountdown {
 	private final Logger log = LogManager.getLogger(TimeyFacade.class);
 	private final AlarmClient alarmClient = new AlarmClient(new Alarm());
+	private final StopwatchClient stopwatchClient = new StopwatchClient(new Stopwatch());
 
 	@Override
 	public String getVersion() {
@@ -79,21 +80,25 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown {
 	}
 
 	@Override
-	public Boolean startStopwatch() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Boolean stopCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
+	public Boolean startStopwatch() {
+		return this.stopwatchClient.initStopwatchStartCommand();
+	}
+
+
+	@Override
 	public Boolean stopStopwatch() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.stopwatchClient.initStopwatchStopCommand();
+	}
+
+	@Override
+	public Boolean resetStopwatch() {
+		return this.stopwatchClient.initStopwatchResetCommand();
 	}
 
 	@Override
@@ -105,4 +110,5 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown {
 	public Boolean turnOn() {
 		return this.alarmClient.initTurnOnCommand();
 	}
+
 }
