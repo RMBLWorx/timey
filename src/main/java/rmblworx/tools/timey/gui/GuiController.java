@@ -107,6 +107,7 @@ public class GuiController {
 				public void handle(ActionEvent event) {
 					System.out.println(resources.getString("stopwatchStopButton.pressed")); // TODO entfernen
 
+					facade.stopStopwatch();
 					stopwatchRunning = false;
 					stopwatchStartButton.setVisible(true);
 					stopwatchStopButton.setVisible(false);
@@ -119,6 +120,7 @@ public class GuiController {
 				public void handle(ActionEvent event) {
 					System.out.println(resources.getString("stopwatchResetButton.pressed")); // TODO entfernen
 
+					facade.resetStopwatch();
 					resetStopwatchTimeLabel();
 				}
 			});
