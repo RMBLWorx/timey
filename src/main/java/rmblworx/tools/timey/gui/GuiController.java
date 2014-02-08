@@ -49,8 +49,6 @@ public class GuiController {
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(resources.getString("stopwatchStartButton.pressed")); // TODO entfernen
-
 					stopwatchStartButton.setVisible(false);
 					stopwatchStopButton.setVisible(true);
 
@@ -105,8 +103,6 @@ public class GuiController {
 		if (stopwatchStopButton != null) {
 			stopwatchStopButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(resources.getString("stopwatchStopButton.pressed")); // TODO entfernen
-
 					facade.stopStopwatch();
 					stopwatchRunning = false;
 					stopwatchStartButton.setVisible(true);
@@ -118,8 +114,6 @@ public class GuiController {
 		if (stopwatchResetButton != null) {
 			stopwatchResetButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(resources.getString("stopwatchResetButton.pressed")); // TODO entfernen
-
 					facade.resetStopwatch();
 					resetStopwatchTimeLabel();
 				}
