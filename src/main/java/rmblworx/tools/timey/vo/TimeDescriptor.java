@@ -20,7 +20,7 @@ public final class TimeDescriptor {
 	private final int minutes;
 	private final int seconds;
 	// optionale Parameter
-	private int milliseconds;
+	private long milliseconds;
 
 	private TimeDescriptor(Builder builder) {
 		// erforderliche Parameter
@@ -38,7 +38,7 @@ public final class TimeDescriptor {
 		private int minutes;
 		private int seconds;
 		// optionale Parameter
-		private int milliseconds = 0;
+		private long milliseconds = 0;
 
 		/**
 		 * Konstruktor der die nicht-optionalen Werte benoetigt.
@@ -67,7 +67,7 @@ public final class TimeDescriptor {
 		 *            negative Werte statt.
 		 * @return Referenz auf dieses Erzeuger-Objekt.
 		 */
-		public Builder milliseconds(int milliseconds) {
+		public Builder milliseconds(long milliseconds) {
 			this.log.entry();
 
 			this.milliseconds = milliseconds;
@@ -118,7 +118,7 @@ public final class TimeDescriptor {
 	 * @return Die Anzahl der Millisekunden oder {@code 0} falls sie nie gesetzt
 	 *         wurden da diese Angabe optional ist.
 	 */
-	public int getMilliSeconds() {
+	public long getMilliSeconds() {
 		return milliseconds;
 	}
 

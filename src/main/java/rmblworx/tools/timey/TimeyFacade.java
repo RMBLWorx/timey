@@ -21,7 +21,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  * 
  */
-public class TimeyFacade implements ITimey, IAlarm, ICountdown {
+public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	private final Logger log = LogManager.getLogger(TimeyFacade.class);
 	private final AlarmClient alarmClient = new AlarmClient(new Alarm());
 	private final StopwatchClient stopwatchClient = new StopwatchClient(new Stopwatch());
@@ -86,7 +86,7 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown {
 	}
 
 	@Override
-	public Boolean startStopwatch() {
+	public TimeDescriptor startStopwatch() {
 		return this.stopwatchClient.initStopwatchStartCommand();
 	}
 

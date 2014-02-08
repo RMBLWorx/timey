@@ -6,6 +6,9 @@ package rmblworx.tools.timey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.TimeDescriptorTest;
+
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
@@ -39,11 +42,11 @@ public class StopwatchStartCommand implements ICommand {
 	public <T> T execute() {
 		this.log.entry();
 
-		fReceiver.startStopwatch();
-
 		this.log.exit();
+		return (T)fReceiver.startStopwatch();
 
-		return (T) Boolean.TRUE;
+
+		// return (T) Boolean.TRUE;
 	}
 
 }
