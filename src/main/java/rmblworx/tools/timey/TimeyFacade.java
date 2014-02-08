@@ -21,9 +21,9 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  * 
  */
-public class FacadeTimey implements ITimey, IAlarm, ICountdown {
-	private final Logger log = LogManager.getLogger(FacadeTimey.class);
-	private final AlarmClient alarmSteuerung = new AlarmClient(new Alarm());
+public class TimeyFacade implements ITimey, IAlarm, ICountdown {
+	private final Logger log = LogManager.getLogger(TimeyFacade.class);
+	private final AlarmClient alarmClient = new AlarmClient(new Alarm());
 
 	@Override
 	public String getVersion() {
@@ -69,7 +69,7 @@ public class FacadeTimey implements ITimey, IAlarm, ICountdown {
 
 	@Override
 	public TimeDescriptor setAlarmTime(TimeDescriptor td) {
-		return this.alarmSteuerung.initSetTimeCommand(td);
+		return this.alarmClient.initSetTimeCommand(td);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class FacadeTimey implements ITimey, IAlarm, ICountdown {
 	}
 
 	@Override
-	public Boolean startStopWatch() {
+	public Boolean startStopwatch() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -91,18 +91,18 @@ public class FacadeTimey implements ITimey, IAlarm, ICountdown {
 	}
 
 	@Override
-	public Boolean stopStopWatch() {
+	public Boolean stopStopwatch() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public Boolean turnOff() {
-		return this.alarmSteuerung.initTurnOffCommand();
+		return this.alarmClient.initTurnOffCommand();
 	}
 
 	@Override
 	public Boolean turnOn() {
-		return this.alarmSteuerung.initTurnOnCommand();
+		return this.alarmClient.initTurnOnCommand();
 	}
 }

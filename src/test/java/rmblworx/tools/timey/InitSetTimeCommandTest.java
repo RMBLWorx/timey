@@ -18,7 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  */
 public class InitSetTimeCommandTest {
-	private AlarmClient steuerung;
+	private AlarmClient client;
 	private Alarm alarm;
 
 	/**
@@ -27,7 +27,7 @@ public class InitSetTimeCommandTest {
 	@Before
 	public void setUp() throws Exception {
 		this.alarm = new Alarm();
-		this.steuerung = new AlarmClient(alarm);
+		this.client = new AlarmClient(alarm);
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class InitSetTimeCommandTest {
 	@After
 	public void tearDown() throws Exception {
 		this.alarm = null;
-		this.steuerung = null;
+		this.client = null;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class InitSetTimeCommandTest {
 		TimeDescriptor td = new TimeDescriptor.Builder(expectedHours,
 				expectedMinutes, expectedSeconds).build();
 
-		TimeDescriptor actual2 = this.steuerung.initSetTimeCommand(td);
+		TimeDescriptor actual2 = this.client.initSetTimeCommand(td);
 		
 		assertEquals(expectedHours, actual2.getHours());
 		assertEquals(expectedMinutes, actual2.getMinutes());

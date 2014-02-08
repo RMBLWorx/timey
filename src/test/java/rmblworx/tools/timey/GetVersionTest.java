@@ -9,21 +9,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import rmblworx.tools.timey.FacadeTimey;
+import rmblworx.tools.timey.TimeyFacade;
 
 /**
  * @author mmatthies
  *
  */
 public class GetVersionTest {
-	FacadeTimey facade;
+	TimeyFacade facade;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.facade = new FacadeTimey();
+		this.facade = new TimeyFacade();
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class GetVersionTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.FacadeTimey#getVersion()}.
+	 * Test method for {@link rmblworx.tools.timey.TimeyFacade#getVersion()}.
 	 */
 	@Test
 	public final void testGetVersion() {

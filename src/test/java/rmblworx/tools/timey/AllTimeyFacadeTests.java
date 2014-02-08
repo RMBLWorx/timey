@@ -6,6 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ GetVersionTest.class })
-public class AllFacadeTimeyTests {
+public class AllTimeyFacadeTests {
 
 }
