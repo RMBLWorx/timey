@@ -3,6 +3,8 @@
  */
 package rmblworx.tools.timey.vo;
 
+import java.util.Calendar;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -119,7 +121,7 @@ public final class TimeDescriptor {
 	 *         wurden da diese Angabe optional ist.
 	 */
 	public long getMilliSeconds() {
-		return milliseconds;
+		return Calendar.getInstance().getTime().getTime();
 	}
 
 }
