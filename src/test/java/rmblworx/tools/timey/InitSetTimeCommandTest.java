@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo.cmd;
+package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import rmblworx.tools.timey.Alarm;
+import rmblworx.tools.timey.AlarmClient;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -39,7 +41,7 @@ public class InitSetTimeCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.bo.cmd.AlarmClient#initSetTimeCommand(rmblworx.tools.timey.vo.TimeDescriptor)}
+	 * {@link rmblworx.tools.timey.AlarmClient#initSetTimeCommand(rmblworx.tools.timey.vo.TimeDescriptor)}
 	 * .
 	 */
 	@Test

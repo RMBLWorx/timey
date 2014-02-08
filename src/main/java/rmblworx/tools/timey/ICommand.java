@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo.cmd;
+package rmblworx.tools.timey;
 
 /**
  * PatternBox: "Command" implementation.

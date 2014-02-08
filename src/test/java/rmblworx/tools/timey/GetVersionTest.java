@@ -1,13 +1,15 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo;
+package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import rmblworx.tools.timey.FacadeTimey;
 
 /**
  * @author mmatthies
@@ -33,7 +35,7 @@ public class GetVersionTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.bo.FacadeTimey#getVersion()}.
+	 * Test method for {@link rmblworx.tools.timey.FacadeTimey#getVersion()}.
 	 */
 	@Test
 	public final void testGetVersion() {

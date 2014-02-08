@@ -1,4 +1,4 @@
-package rmblworx.tools.timey.bo;
+package rmblworx.tools.timey;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -1,4 +1,4 @@
-package rmblworx.tools.timey.util;
+package rmblworx.tools.timey;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @see {@code http://docs.oracle.com/javase/javatutorials/tutorial/essential/io/fileOps.html#glob}
  * @author mmatthies
  */
-public final class Finder extends SimpleFileVisitor<Path> {
+final class Finder extends SimpleFileVisitor<Path> {
 
 	private final PathMatcher matcher;
 	private List<Path> result = new LinkedList<Path>();

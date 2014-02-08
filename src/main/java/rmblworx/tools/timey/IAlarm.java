@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo;
+package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -9,7 +9,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  * 
  */
-public interface IAlarm {
+interface IAlarm {
 
 	/**
 	 * Setzt die Alarmzeit.

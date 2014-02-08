@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo;
+package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 

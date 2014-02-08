@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rmblworx.tools.timey.bo.cmd;
+package rmblworx.tools.timey;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,8 +17,8 @@ import org.apache.logging.log4j.Logger;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class TurnOffCommand implements ICommand {
-	private final Logger log = LogManager.getLogger(TurnOffCommand.class);
+final class TurnOnCommand implements ICommand {
+	private final Logger log = LogManager.getLogger(TurnOnCommand.class);
 
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
@@ -26,7 +26,7 @@ final class TurnOffCommand implements ICommand {
 	/**
 	 * Constructor
 	 */
-	public TurnOffCommand(Alarm receiver) {
+	public TurnOnCommand(Alarm receiver) {
 		super();
 		fReceiver = receiver;
 	}
@@ -34,14 +34,11 @@ final class TurnOffCommand implements ICommand {
 	/**
 	 * This method executes the command by invoking the corresponding method of
 	 * the Receiver instance.
-	 * 
-	 * @param <T>
-	 * @return
 	 */
 	public <T> T execute() {
 		this.log.entry();
 
-		fReceiver.turnOff();
+		fReceiver.turnOn();
 
 		this.log.exit();
 
