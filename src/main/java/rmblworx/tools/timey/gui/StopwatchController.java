@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import rmblworx.tools.timey.TimeyFacade;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
-public class GuiController {
+public class StopwatchController {
 
 	private TimeyFacade facade = new TimeyFacade();
 	private SimpleDateFormat dateFormatter;
