@@ -2,6 +2,7 @@ package rmblworx.tools.timey.gui;
 
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -17,6 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 public class GuiController {
 
 	private TimeyFacade facade = new TimeyFacade();
+	private SimpleDateFormat dateFormatter;
 
 	@FXML
 	private ResourceBundle resources;
@@ -36,7 +38,8 @@ public class GuiController {
 	@FXML
 	private CheckBox stopwatchIncludeMillisecondsCheckbox;
 
-	private boolean stopwatchRunning = false;
+	private volatile boolean stopwatchRunning = false;
+	private volatile long stopwatchValue;
 
 	@FXML
 	void initialize() {
@@ -52,19 +55,17 @@ public class GuiController {
 					stopwatchStartButton.setVisible(false);
 					stopwatchStopButton.setVisible(true);
 
-					stopwatchRunning = true;
-					final boolean includeMilliseconds = stopwatchIncludeMillisecondsCheckbox.isSelected();
+					setupDateFormatter();
 
+					stopwatchRunning = true;
 					final TimeDescriptor td = facade.startStopwatch();
 
-					Task<Void> task = new Task<Void>() {
+					final Task<Void> task = new Task<Void>() {
 						public Void call() throws InterruptedException {
-							SimpleDateFormat formatter = new SimpleDateFormat();
-							formatter.applyPattern(includeMilliseconds ? "HH:mm:ss.SSS" : "HH:mm:ss");
-
 							while (stopwatchRunning) {
-								updateMessage(formatter.format(td.getMilliSeconds()));
-								Thread.sleep(includeMilliseconds ? 5 : 1000);
+								stopwatchValue = td.getMilliSeconds();
+								updateMessage(dateFormatter.format(stopwatchValue));
+								Thread.sleep(stopwatchIncludeMillisecondsCheckbox.isSelected() ? 5L : 1000L);
 							}
 
 							return null;
@@ -73,7 +74,7 @@ public class GuiController {
 
 					stopwatchTimeLabel.textProperty().bind(task.messageProperty());
 
-					EventHandler<WorkerStateEvent> unbindLabel = new EventHandler<WorkerStateEvent>() {
+					final EventHandler<WorkerStateEvent> unbindLabel = new EventHandler<WorkerStateEvent>() {
 						public void handle(final WorkerStateEvent event) {
 							stopwatchTimeLabel.textProperty().unbind();
 						}
@@ -83,7 +84,7 @@ public class GuiController {
 					task.setOnFailed(unbindLabel);
 					task.setOnCancelled(unbindLabel);
 
-					Thread thread = new Thread(task);
+					final Thread thread = new Thread(task);
 					thread.setDaemon(true);
 					thread.setPriority(Thread.MIN_PRIORITY);
 					thread.start();
@@ -114,18 +115,28 @@ public class GuiController {
 		if (stopwatchIncludeMillisecondsCheckbox != null) {
 			stopwatchIncludeMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
+					setupDateFormatter();
 					resetStopwatchTimeLabel();
 				}
 			});
 		}
 	}
 
-	protected void resetStopwatchTimeLabel() {
+	private void setupDateFormatter() {
+		if (dateFormatter == null) {
+			dateFormatter = new SimpleDateFormat();
+			dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+		}
+
+		dateFormatter.applyPattern(stopwatchIncludeMillisecondsCheckbox.isSelected() ? "HH:mm:ss.SSS" : "HH:mm:ss");
+	}
+
+	private void resetStopwatchTimeLabel() {
 		if (stopwatchRunning) {
 			return;
 		}
 
-		stopwatchTimeLabel.setText(stopwatchIncludeMillisecondsCheckbox.isSelected() ? "00:00:00.000" : "00:00:00");
+		stopwatchTimeLabel.setText(dateFormatter.format(stopwatchValue));
 	}
 
 }
