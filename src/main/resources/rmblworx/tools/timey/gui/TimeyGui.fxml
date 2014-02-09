@@ -9,35 +9,31 @@
 <?import javafx.scene.text.*?>
 <?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
 
-<AnchorPane styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.GuiController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.GuiController">
   <children>
     <TabPane layoutX="0.0" layoutY="0.0" prefHeight="230.0" prefWidth="289.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="%tab.stopwatch.label">
           <content>
-            <AnchorPane id="stopwatch" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Button fx:id="stopwatchStartButton" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefWidth="55.0" text="%stopwatchStartButton.label" />
                 <Button fx:id="stopwatchStopButton" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefWidth="55.0" text="%stopwatchStopButton.label" visible="false" />
-                <Label fx:id="stopwatchTimeLabel" layoutX="14.0" layoutY="16.0" text="00:00:00.000">
-                  <font>
-                    <Font size="30.0" />
-                  </font>
-                </Label>
+                <Label fx:id="stopwatchTimeLabel" layoutX="14.0" layoutY="16.0" text="00:00:00.000" />
                 <Button fx:id="stopwatchResetButton" layoutX="91.0" layoutY="65.0" mnemonicParsing="false" text="%stopwatchResetButton.label" />
-                <CheckBox fx:id="includeMillisecondsCheckbox" indeterminate="false" layoutX="151.0" layoutY="68.0" mnemonicParsing="false" selected="true" text=".000" />
+                <CheckBox fx:id="stopwatchIncludeMillisecondsCheckbox" indeterminate="false" layoutX="151.0" layoutY="68.0" mnemonicParsing="false" selected="true" text=".000" />
               </children>
             </AnchorPane>
           </content>
         </Tab>
         <Tab text="%tab.countdown.label">
           <content>
-            <AnchorPane id="countdown" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
           </content>
         </Tab>
         <Tab text="%tab.alarm.label">
           <content>
-            <AnchorPane id="alarm" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
           </content>
         </Tab>
       </tabs>

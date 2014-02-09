@@ -34,7 +34,7 @@ public class GuiController {
 	private Label stopwatchTimeLabel;
 
 	@FXML
-	private CheckBox includeMillisecondsCheckbox;
+	private CheckBox stopwatchIncludeMillisecondsCheckbox;
 
 	private boolean stopwatchRunning = false;
 
@@ -44,36 +44,27 @@ public class GuiController {
 		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
 		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
 		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert includeMillisecondsCheckbox != null : "fx:id='includeMillisecondsCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
+		assert stopwatchIncludeMillisecondsCheckbox != null : "fx:id='stopwatchIncludeMillisecondsCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
 
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent event) {
+				public void handle(final ActionEvent event) {
 					stopwatchStartButton.setVisible(false);
 					stopwatchStopButton.setVisible(true);
 
 					stopwatchRunning = true;
-					final boolean includeMilliseconds = includeMillisecondsCheckbox.isSelected();
+					final boolean includeMilliseconds = stopwatchIncludeMillisecondsCheckbox.isSelected();
 
 					final TimeDescriptor td = facade.startStopwatch();
 
-					Task <Void> task = new Task<Void>() {
+					Task<Void> task = new Task<Void>() {
 						public Void call() throws InterruptedException {
 							SimpleDateFormat formatter = new SimpleDateFormat();
-
-							if (includeMilliseconds) {
-								formatter.applyPattern("HH:mm:ss.SSS");
-							} else {
-								formatter.applyPattern("HH:mm:ss");
-							}
+							formatter.applyPattern(includeMilliseconds ? "HH:mm:ss.SSS" : "HH:mm:ss");
 
 							while (stopwatchRunning) {
 								updateMessage(formatter.format(td.getMilliSeconds()));
-								if (includeMilliseconds) {
-									Thread.sleep(5);
-								} else {
-									Thread.sleep(1000);
-								}
+								Thread.sleep(includeMilliseconds ? 5 : 1000);
 							}
 
 							return null;
@@ -83,7 +74,7 @@ public class GuiController {
 					stopwatchTimeLabel.textProperty().bind(task.messageProperty());
 
 					EventHandler<WorkerStateEvent> unbindLabel = new EventHandler<WorkerStateEvent>() {
-						public void handle(WorkerStateEvent event) {
+						public void handle(final WorkerStateEvent event) {
 							stopwatchTimeLabel.textProperty().unbind();
 						}
 					};
@@ -102,7 +93,7 @@ public class GuiController {
 
 		if (stopwatchStopButton != null) {
 			stopwatchStopButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent event) {
+				public void handle(final ActionEvent event) {
 					facade.stopStopwatch();
 					stopwatchRunning = false;
 					stopwatchStartButton.setVisible(true);
@@ -113,16 +104,16 @@ public class GuiController {
 
 		if (stopwatchResetButton != null) {
 			stopwatchResetButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent event) {
+				public void handle(final ActionEvent event) {
 					facade.resetStopwatch();
 					resetStopwatchTimeLabel();
 				}
 			});
 		}
 
-		if (includeMillisecondsCheckbox != null) {
-			includeMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent event) {
+		if (stopwatchIncludeMillisecondsCheckbox != null) {
+			stopwatchIncludeMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(final ActionEvent event) {
 					resetStopwatchTimeLabel();
 				}
 			});
@@ -134,7 +125,7 @@ public class GuiController {
 			return;
 		}
 
-		stopwatchTimeLabel.setText(includeMillisecondsCheckbox.isSelected() ? "00:00:00.000" : "00:00:00");
+		stopwatchTimeLabel.setText(stopwatchIncludeMillisecondsCheckbox.isSelected() ? "00:00:00.000" : "00:00:00");
 	}
 
 }
