@@ -24,6 +24,7 @@ public class Main extends Application {
 			final Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setTitle(i18n.getString("application.title"));
+			stage.setResizable(false);
 			stage.show();
 
 			final TimeyController timeyController = (TimeyController) loader.getController();
