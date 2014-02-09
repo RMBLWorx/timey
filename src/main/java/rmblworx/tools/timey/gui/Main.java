@@ -11,22 +11,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	@Override
-	public void start(Stage stage) {
+	public void start(final Stage stage) {
 		try {
 			String locale = "de";
-			ResourceBundle i18n = ResourceBundle.getBundle("rmblworx.tools.timey.gui.TimeyGui_i18n", new Locale(locale)); 
+			ResourceBundle i18n = ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", new Locale(locale));
 			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getResource("TimeyGui.fxml"), i18n);
 			Scene scene = new Scene(page); 
 			stage.setScene(scene);
 			stage.setTitle(i18n.getString("application.title"));
 			stage.show(); 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		launch(args);
 	}
 
