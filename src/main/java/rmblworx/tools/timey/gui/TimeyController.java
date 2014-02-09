@@ -95,7 +95,7 @@ public class TimeyController {
 
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
-			trayIcon.displayMessage("Timey wurde minimiert", "Per Doppelklick auf das Symbol wird es wieder angezeigt.\nPer Rechtsklick erscheint das Menü.", TrayIcon.MessageType.INFO);
+			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"), TrayIcon.MessageType.INFO);
 			minimizedFirstTime = false;
 		}
 	}
