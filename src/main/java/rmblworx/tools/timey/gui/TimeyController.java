@@ -9,17 +9,19 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class TimeyController {
-
-	private static final boolean MINIMIZE_TO_TRAY = false;
 
 	private Stage stage;
 	private TrayIcon trayIcon;
@@ -31,13 +33,11 @@ public class TimeyController {
 
 	@FXML
 	void initialize() {
-		if (MINIMIZE_TO_TRAY) {
-			Platform.runLater(new Runnable() {
-				public void run() {
-					createTrayIcon(stage);
-				}
-			});
-		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				createTrayIcon(stage);
+			}
+		});
 	}
 
 	public void setStage(final Stage stage) {
@@ -52,39 +52,69 @@ public class TimeyController {
 
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
-					hide(stage);
+					if (Config.getInstance().isMinimizeToTray()) {
+						hide(stage);
+					} else {
+						exit();
+					}
 				}
 			});
 
-			final ActionListener closeListener = new ActionListener() {
-				public void actionPerformed(final ActionEvent event) {
-					System.exit(0);
+			stage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
+				public void changed(ObservableValue<? extends Boolean> property, Boolean oldValue, Boolean newValue) {
+					if (Boolean.TRUE.equals(newValue)) {
+						hide(stage);
+					}
 				}
-			};
-
-			final ActionListener showListener = new ActionListener() {
-				public void actionPerformed(final ActionEvent event) {
-					Platform.runLater(new Runnable() {
-						public void run() {
-							stage.show();
-							stage.toFront();
-						}
-					});
-				}
-			};
+			});
 
 			final PopupMenu popup = new PopupMenu();
 
 			final MenuItem showItem = new MenuItem(resources.getString("trayMenu.show.label"));
-			showItem.addActionListener(showListener);
+			showItem.addActionListener(new ActionListener() {
+				public void actionPerformed(final ActionEvent event) {
+					show(stage);
+				}
+			});
 			popup.add(showItem);
 
 			final MenuItem closeItem = new MenuItem(resources.getString("trayMenu.close.label"));
-			closeItem.addActionListener(closeListener);
+			closeItem.addActionListener(new ActionListener() {
+				public void actionPerformed(final ActionEvent event) {
+					exit();
+				}
+			});
 			popup.add(closeItem);
 
 			trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
-			trayIcon.addActionListener(showListener);
+			trayIcon.addActionListener(new ActionListener() {
+				public void actionPerformed(final ActionEvent event) {
+					show(stage);
+				}
+			});
+			trayIcon.addMouseListener(new MouseListener() {
+				public void mouseClicked(final MouseEvent event) {
+					if (event.getButton() == MouseEvent.BUTTON1) {
+						if (stage.isIconified()) {
+							show(stage);
+						} else {
+							hide(stage);
+						}
+					}
+				}
+
+				public void mouseReleased(final MouseEvent event) {
+				}
+
+				public void mousePressed(final MouseEvent event) {
+				}
+
+				public void mouseExited(final MouseEvent event) {
+				}
+
+				public void mouseEntered(final MouseEvent event) {
+				}
+			});
 			try {
 				tray.add(trayIcon);
 			} catch (final AWTException e) {
@@ -103,14 +133,27 @@ public class TimeyController {
 	private void hide(final Stage stage) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				if (SystemTray.isSupported()) {
+				if (SystemTray.isSupported() && Config.getInstance().isMinimizeToTray()) {
 					stage.hide();
+					stage.setIconified(true);
 					showProgramIsMinimizedMessage();
-				} else {
-					System.exit(0);
 				}
 			}
 		});
+	}
+
+	private void show(final Stage stage) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				stage.show();
+				stage.toFront();
+				stage.setIconified(false);
+			}
+		});
+	}
+
+	private void exit() {
+		System.exit(0);
 	}
 
 }
