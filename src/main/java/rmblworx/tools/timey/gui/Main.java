@@ -12,10 +12,14 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	private static final String CONFIG_FILENAME = "Timey.config.xml";
+
 	private ResourceBundle i18n;
 
 	public void start(final Stage stage) {
 		try {
+			new ConfigStorage().loadConfig(CONFIG_FILENAME);
+
 			String locale = "de";
 			i18n = ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", new Locale(locale));
 
@@ -32,6 +36,11 @@ public class Main extends Application {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void stop() throws Exception {
+		new ConfigStorage().saveConfig(CONFIG_FILENAME);
+		System.exit(0);
 	}
 
 	public static void main(final String[] args) {

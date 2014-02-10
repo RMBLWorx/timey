@@ -153,7 +153,7 @@ public class TimeyController {
 	}
 
 	private void exit() {
-		System.exit(0);
+		Platform.exit();
 	}
 
 }
