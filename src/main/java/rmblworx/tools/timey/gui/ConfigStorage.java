@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.Properties;
 
 public class ConfigStorage {
@@ -15,6 +17,7 @@ public class ConfigStorage {
 		final Config config = Config.getInstance();
 
 		final Properties props = new Properties();
+		props.setProperty("locale", config.getLocale().toString());
 		props.setProperty("minimizeToTray", Boolean.toString(config.isMinimizeToTray()));
 
 		OutputStream os = null;
@@ -47,6 +50,14 @@ public class ConfigStorage {
 		}
 
 		final Config config = Config.getInstance();
+
+		final String propLocale = props.getProperty("locale");
+		if (propLocale != null) {
+			final Locale locale = new Locale(propLocale);
+			if (Arrays.asList(Main.AVAILABLE_LOCALES).contains(locale)) {
+				config.setLocale(locale);
+			}
+		}
 
 		config.setMinimizeToTray(Boolean.parseBoolean(props.getProperty("minimizeToTray")));
 	}
