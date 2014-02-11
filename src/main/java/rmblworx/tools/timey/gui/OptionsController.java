@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -62,7 +63,11 @@ public class OptionsController {
 			languageChoice.valueProperty().addListener(new ChangeListener<Locale>() {
 				public void changed(final ObservableValue<? extends Locale> property, final Locale oldValue, final Locale newValue) {
 					Config.getInstance().setLocale(newValue);
-					// TODO Meldung anzeigen, dass Neustart der Anwendung nötig ist
+					Platform.runLater(new Runnable() {
+						public void run() {
+							new GuiHelper().showMessageDialog(resources.getString("messageDialog.languageChoice.title"), resources.getString("messageDialog.languageChoice.text"), resources);
+						}
+					});
 				}
 			});
 		}
