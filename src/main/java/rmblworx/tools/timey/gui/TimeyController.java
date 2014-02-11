@@ -61,7 +61,7 @@ public class TimeyController {
 			});
 
 			stage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
-				public void changed(ObservableValue<? extends Boolean> property, Boolean oldValue, Boolean newValue) {
+				public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
 					if (Boolean.TRUE.equals(newValue)) {
 						hide(stage);
 					}
@@ -153,7 +153,7 @@ public class TimeyController {
 	}
 
 	private void exit() {
-		System.exit(0);
+		Platform.exit();
 	}
 
 }

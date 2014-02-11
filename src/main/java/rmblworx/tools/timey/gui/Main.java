@@ -13,12 +13,16 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	private static final String CONFIG_FILENAME = "Timey.config.xml";
+	public static final Locale[] AVAILABLE_LOCALES = {Locale.GERMAN, Locale.ENGLISH};
+
 	private ResourceBundle i18n;
 
 	public void start(final Stage stage) {
 		try {
-			String locale = "de";
-			i18n = ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", new Locale(locale));
+			new ConfigStorage().loadConfig(CONFIG_FILENAME);
+
+			i18n = ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", Config.getInstance().getLocale());
 
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeyGui.fxml"), i18n);
 			final Parent root = (Parent) loader.load();
@@ -34,6 +38,11 @@ public class Main extends Application {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void stop() throws Exception {
+		new ConfigStorage().saveConfig(CONFIG_FILENAME);
+		System.exit(0);
 	}
 
 	public static void main(final String[] args) {
