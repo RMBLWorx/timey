@@ -19,6 +19,7 @@ public class ConfigStorage {
 		final Properties props = new Properties();
 		props.setProperty("locale", config.getLocale().toString());
 		props.setProperty("minimizeToTray", Boolean.toString(config.isMinimizeToTray()));
+		props.setProperty("stopwatchShowMilliseconds", Boolean.toString(config.isStopwatchShowMilliseconds()));
 
 		OutputStream os = null;
 		try {
@@ -59,7 +60,15 @@ public class ConfigStorage {
 			}
 		}
 
-		config.setMinimizeToTray(Boolean.parseBoolean(props.getProperty("minimizeToTray")));
+		final String propMinimizeToTray = props.getProperty("minimizeToTray");
+		if (propMinimizeToTray != null) {
+			config.setMinimizeToTray(Boolean.parseBoolean(propMinimizeToTray));
+		}
+
+		final String propStopwatchShowMilliseconds = props.getProperty("stopwatchShowMilliseconds");
+		if (propStopwatchShowMilliseconds != null) {
+			config.setStopwatchShowMilliseconds(Boolean.parseBoolean(propStopwatchShowMilliseconds));
+		}
 	}
 
 	private void closeStream(final Closeable stream) {
