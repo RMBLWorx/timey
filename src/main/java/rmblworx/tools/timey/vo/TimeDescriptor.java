@@ -1,127 +1,62 @@
 /**
- * 
  */
 package rmblworx.tools.timey.vo;
-
-import java.util.Calendar;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Unveraenderliches, Thread-sicheres Werteobjekt zum kapseln der Zeitangaben
- * die fuer den Countdown, Alarm benoetigt werden. Die Instantiierung wird
- * mittels des Builder vorgenommen.
- * 
+ * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
+ * Countdown, den Alarm und die Stopuhr benoetigt wird.
+ *
  * @author mmatthies
- * 
  */
 public final class TimeDescriptor {
-	// erforderliche Parameter
-	private final int hours;
-	private final int minutes;
-	private final int seconds;
-	// optionale Parameter
-	private long milliseconds;
+        /**
+         * Logger.
+         */
+        private final Logger log = LogManager.getLogger(TimeDescriptor.class);
+        /**
+         * Kapselt die aktuelle Systemzeit in Millisekunden.
+         */
+        private long milliseconds;
 
-	private TimeDescriptor(Builder builder) {
-		// erforderliche Parameter
-		hours = builder.hours;
-		minutes = builder.minutes;
-		seconds = builder.seconds;
-		// optionale Parameter
-		milliseconds = builder.milliseconds;
-	}
+        /**
+         * Konstruktor der die direkte Angabe der zu setzenden Millisekunden
+         * ermoeglicht.
+         *
+         * @param milliSeconds
+         *                Anzahl der Millisekunden. Es findet keine Pruefung auf
+         *                negative Werte statt.
+         */
+        public TimeDescriptor(final long milliSeconds) {
+                this.log.entry();
 
-	public static class Builder {
-		private final Logger log = LogManager.getLogger(Builder.class);
-		// erforderliche Parameter
-		private int hours;
-		private int minutes;
-		private int seconds;
-		// optionale Parameter
-		private long milliseconds = 0;
+                this.log.debug("Erzeuge TimeDescriptor mit dem Wert (ms):"
+                                + " %$tT", milliseconds);
+                this.milliseconds = milliSeconds;
+                this.log.exit();
+        }
 
-		/**
-		 * Konstruktor der die nicht-optionalen Werte benoetigt.
-		 * 
-		 * @param hours
-		 *            Anzahl der Stunden. Es findet keine Pruefung auf negative
-		 *            Werte statt.
-		 * @param minutes
-		 *            Anzahl der Minuten. Es findet keine Pruefung auf negative
-		 *            Werte statt.
-		 * @param seconds
-		 *            Anzahl der Sekunden. Es findet keine Pruefung auf negative
-		 *            Werte statt.
-		 */
-		public Builder(int hours, int minutes, int seconds) {
-			this.hours = hours;
-			this.minutes = minutes;
-			this.seconds = seconds;
-		}
+        /**
+         * @return Die Anzahl der Millisekunden oder {@code 0} falls sie nie
+         *         gesetzt wurden.
+         */
+        public long getMilliSeconds() {
+                this.log.entry();
 
-		/**
-		 * Ermöglicht das Setzen eines optionalen Wertes.
-		 * 
-		 * @param milliseconds
-		 *            Anzahl der Millisekunden. Es findet keine Pruefung auf
-		 *            negative Werte statt.
-		 * @return Referenz auf dieses Erzeuger-Objekt.
-		 */
-		public Builder milliseconds(long milliseconds) {
-			this.log.entry();
+                return this.log.exit(this.milliseconds);
+        }
 
-			this.milliseconds = milliseconds;
+        /**
+         * @param currentTimeMillis
+         *                zu setzende Zeit in Millisekunden
+         */
+        public void setMilliSeconds(final long currentTimeMillis) {
+                this.log.entry();
 
-			this.log.exit();
-			return this;
-		}
+                this.milliseconds = currentTimeMillis;
 
-		/**
-		 * Erzeugt das Werteobjekt anhand der gegebenen Werte.
-		 * 
-		 * @return unveränderliches Werteobjekt, welches die Zeitwerte kapselt.
-		 */
-		public TimeDescriptor build() {
-			this.log.entry();
-
-			this.log.debug(
-					"\n\t Erzeuge Objekt mit den Werten: \n\t hours:{}\n\t minutes:{}\n\t seconds:{}\n\t milliseconds:{}",
-					hours, minutes, seconds, milliseconds);
-
-			this.log.exit();
-			return new TimeDescriptor(this);
-		}
-	}
-
-	/**
-	 * @return Die Anzahl der Stunden.
-	 */
-	public int getHours() {
-		return hours;
-	}
-
-	/**
-	 * @return Die Anzahl der Minuten.
-	 */
-	public int getMinutes() {
-		return minutes;
-	}
-
-	/**
-	 * @return Die Anzahl der Sekunden.
-	 */
-	public int getSeconds() {
-		return seconds;
-	}
-
-	/**
-	 * @return Die Anzahl der Millisekunden oder {@code 0} falls sie nie gesetzt
-	 *         wurden da diese Angabe optional ist.
-	 */
-	public long getMilliSeconds() {
-		return Calendar.getInstance().getTime().getTime();
-	}
-
+                this.log.exit();
+        }
 }
