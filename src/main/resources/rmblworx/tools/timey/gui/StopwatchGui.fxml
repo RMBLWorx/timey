@@ -11,6 +11,6 @@
     <Button fx:id="stopwatchStopButton" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefWidth="55.0" text="%stopwatchStopButton.label" visible="false" />
     <Label fx:id="stopwatchTimeLabel" layoutX="14.0" layoutY="16.0" text="00:00:00.000" />
     <Button fx:id="stopwatchResetButton" layoutX="91.0" layoutY="65.0" mnemonicParsing="false" text="%stopwatchResetButton.label" />
-    <CheckBox fx:id="stopwatchIncludeMillisecondsCheckbox" indeterminate="false" layoutX="151.0" layoutY="68.0" mnemonicParsing="false" selected="true" text=".000" />
+    <CheckBox fx:id="stopwatchShowMillisecondsCheckbox" indeterminate="false" layoutX="151.0" layoutY="68.0" mnemonicParsing="false" selected="true" text=".000" />
   </children>
 </AnchorPane>

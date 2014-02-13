@@ -8,6 +8,7 @@ public class Config {
 
 	private Locale locale = Locale.GERMAN;
 	private boolean minimizeToTray = false;
+	private boolean stopwatchShowMilliseconds = true;
 
 	public static Config getInstance() {
 		if (instance == null) {
@@ -31,6 +32,14 @@ public class Config {
 
 	public boolean isMinimizeToTray() {
 		return minimizeToTray;
+	}
+
+	public void setStopwatchShowMilliseconds(final boolean stopwatchShowMilliseconds) {
+		this.stopwatchShowMilliseconds = stopwatchShowMilliseconds;
+	}
+
+	public boolean isStopwatchShowMilliseconds() {
+		return stopwatchShowMilliseconds;
 	}
 
 }
