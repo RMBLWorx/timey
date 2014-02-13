@@ -1,15 +1,11 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey;
-
-import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import rmblworx.tools.timey.TimeyFacade;
 
 /**
  * @author mmatthies
@@ -23,7 +19,7 @@ public class GetVersionTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.facade = new TimeyFacade();
+                this.facade = new TimeyFacade();
 	}
 
 	/**
