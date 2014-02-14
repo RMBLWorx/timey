@@ -12,7 +12,7 @@ import org.junit.Test;
  *
  */
 public class GetVersionTest {
-	TimeyFacade facade;
+	private TimeyFacade facade;
 
 	/**
 	 * @throws java.lang.Exception
