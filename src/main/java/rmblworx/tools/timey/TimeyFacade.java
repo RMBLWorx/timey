@@ -12,6 +12,8 @@ import java.util.jar.Manifest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -21,9 +23,17 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
-	private final AlarmClient alarmClient = new AlarmClient(new Alarm());
+	private final AlarmClient alarmClient;
 	private final Logger log = LogManager.getLogger(TimeyFacade.class);
-	private final StopwatchClient stopwatchClient = new StopwatchClient(new Stopwatch());
+	private final StopwatchClient stopwatchClient;
+	private final ApplicationContext springContext;
+
+	public TimeyFacade(){
+		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
+
+		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
+		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
+	}
 
 	@Override
 	public final String getVersion() {
@@ -66,12 +76,12 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	}
 
 	@Override
-	public final TimeDescriptor setAlarmTime(final TimeDescriptor td) {
-		return this.alarmClient.initSetTimeCommand(td);
+	public final TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
+		return this.alarmClient.initSetTimeCommand(descriptor);
 	}
 
 	@Override
-	public final TimeDescriptor setCountdownTime(final TimeDescriptor td) {
+	public final TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
 		// TODO Auto-generated method stub
 		return null;
 	}

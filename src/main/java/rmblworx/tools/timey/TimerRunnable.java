@@ -19,6 +19,9 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 final class TimerRunnable implements Runnable {
+	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat();
+	private static final String FORMAT_STRING = "HH:mm:ss.SSS";
+	private static final String UTC = "UTC";
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
 	 */
@@ -58,6 +61,8 @@ final class TimerRunnable implements Runnable {
 		this.timeDescriptor = descriptor;
 		this.timePassed = passedTime;
 		this.timeStarted = System.currentTimeMillis();
+		DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone(UTC));
+		DATE_FORMATTER.applyPattern(FORMAT_STRING);
 
 		this.log.exit();
 	}
@@ -69,20 +74,13 @@ final class TimerRunnable implements Runnable {
 	private void computeTime() {
 		this.log.entry();
 
-		// this.lock.lock();
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
-		// synchronized (this) {
 
-		// synchronized (this.timeDescriptor) {
-		final SimpleDateFormat dateFormatter = new SimpleDateFormat();
-		dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-		dateFormatter.applyPattern("HH:mm:ss.SSS");
 		this.timeDelta = currentTimeMillis - this.timeStarted;
-		this.log.debug("current (UTC): " + dateFormatter.format(currentTimeMillis));
-
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
 
+		this.log.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 		this.log.exit();
 	}
 

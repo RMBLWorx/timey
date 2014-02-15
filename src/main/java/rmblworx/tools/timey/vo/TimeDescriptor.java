@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
  * Countdown, den Alarm und die Stopuhr benoetigt wird.
- *
+ * 
  * @author mmatthies
  */
 public final class TimeDescriptor {
@@ -24,16 +24,15 @@ public final class TimeDescriptor {
 	/**
 	 * Konstruktor der die direkte Angabe der zu setzenden Millisekunden
 	 * ermoeglicht.
-	 *
+	 * 
 	 * @param milliSeconds
-	 *                Anzahl der Millisekunden. Es findet keine Pruefung auf
-	 *                negative Werte statt.
+	 *            Anzahl der Millisekunden. Es findet keine Pruefung auf
+	 *            negative Werte statt.
 	 */
 	public TimeDescriptor(final long milliSeconds) {
 		this.log.entry();
 
-		this.log.debug("Erzeuge TimeDescriptor mit dem Wert (ms):"
-				+ " %$tT", this.milliseconds);
+		this.log.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
 		this.log.exit();
 	}
@@ -50,7 +49,7 @@ public final class TimeDescriptor {
 
 	/**
 	 * @param currentTimeMillis
-	 *                zu setzende Zeit in Millisekunden
+	 *            zu setzende Zeit in Millisekunden
 	 */
 	public void setMilliSeconds(final long currentTimeMillis) {
 		this.log.entry();

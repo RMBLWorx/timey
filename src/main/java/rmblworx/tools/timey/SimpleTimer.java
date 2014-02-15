@@ -13,7 +13,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public final class SimpleTimer {
+public final class SimpleTimer implements ITimer {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -28,7 +28,6 @@ public final class SimpleTimer {
 	 * Die bereits vergangene Zeit in Millisekunden.
 	 */
 	private long timePassed = 0;
-
 	/**
 	 * Konstruktor. Erfordert die Referenz auf das Werteobjekt, welches den
 	 * Wert an die GUI liefern wird.
@@ -41,35 +40,31 @@ public final class SimpleTimer {
 		this.timeDescriptor = descriptor;
 	}
 
-	/**
-	 * Startet den Stopvorgang.
-	 * 
-	 * @param amountOfThreads
-	 *            Anzahl fuer die Zeitmessung zu verwendender Threads.
-	 * @param delayPerThread
-	 *            Setzt die Verzoegerung pro Thread. Die Maszeinheit
-	 *            wird mittels des TimeUnit-Enum gesetzt.
-	 * @param timeUnit
-	 *            Setzt die zu verwendende Zeiteinheit fuer die
-	 *            wiederholte Aktualisierung des Werteobjekts.
-	 * @return Referenz auf das Wertobjekt das die darzustellende Zeit
-	 *         kapselt. Es handelt sich hierbei um das im Konstruktor
-	 *         uebergebene Objekt.
+	/* (non-Javadoc)
+	 * @see rmblworx.tools.timey.ITimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)
 	 */
+	@Override
 	public TimeDescriptor startStopwatch(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
-
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		this.scheduler.scheduleAtFixedRate(new TimerRunnable(this.timeDescriptor, this.timePassed), 0, delayPerThread,
-				timeUnit);
+		TimerRunnable t = new TimerRunnable(this.timeDescriptor, this.timePassed);
+		//		TimerRunnable t = (TimerRunnable) this.applicationContext.getBean("timerRunnable");
+
+		this.scheduler.scheduleAtFixedRate(t, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
 	}
 
-	/**
-	 * Stoppt die Zeitmessung und beendet den/die gestarteten Threads.
+	/* (non-Javadoc)
+	 * @see rmblworx.tools.timey.ITimer#stopStopwatch()
 	 */
+	@Override
 	public void stopStopwatch() {
 		this.scheduler.shutdownNow();
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
+	}
+
+	@Override
+	public void resetStopwatch() {
+		// TODO Auto-generated method stub
 	}
 }

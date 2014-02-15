@@ -7,6 +7,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -15,6 +18,8 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class InitSetTimeCommandTest {
 	/**
 	 * Empfaenger fuer das Alarm-Kommando.

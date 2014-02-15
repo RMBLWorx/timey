@@ -8,12 +8,17 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Testklasse die das Wertobjekt zum kapseln der Zeitwerte testet.
  * 
  * @author mmatthies
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class TimeDescriptorTest {
 
 	/**
