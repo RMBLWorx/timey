@@ -9,7 +9,6 @@ import org.junit.Test;
 
 /**
  * @author mmatthies
- *
  */
 public class GetVersionTest {
 	TimeyFacade facade;
@@ -18,15 +17,15 @@ public class GetVersionTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
-                this.facade = new TimeyFacade();
+	public final void setUp() throws Exception {
+		this.facade = new TimeyFacade();
 	}
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() throws Exception {
 		this.facade = null;
 	}
 
@@ -42,6 +41,6 @@ public class GetVersionTest {
 		 * der Test hier zwar aufgeführt aber gezielt auskommentiert.
 		 */
 
-//		assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
+		// assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
 	}
 }

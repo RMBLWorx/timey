@@ -19,15 +19,14 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * Fassade fuer das System timey.
  * 
  * @author mmatthies
- * 
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
-	private final Logger log = LogManager.getLogger(TimeyFacade.class);
 	private final AlarmClient alarmClient = new AlarmClient(new Alarm());
+	private final Logger log = LogManager.getLogger(TimeyFacade.class);
 	private final StopwatchClient stopwatchClient = new StopwatchClient(new Stopwatch());
 
 	@Override
-	public String getVersion() {
+	public final String getVersion() {
 		this.log.entry();
 
 		File file;
@@ -37,22 +36,21 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 		try {
 			file = TimeyUtils.getPathToJar("timey*.jar").get(0).toFile();
 			jar = new java.util.jar.JarFile(file);
-			Manifest manifest = jar.getManifest();
-			Attributes attributes = manifest.getMainAttributes();
+			final Manifest manifest = jar.getManifest();
+			final Attributes attributes = manifest.getMainAttributes();
 			if (attributes != null) {
-				Iterator<Object> it = attributes.keySet().iterator();
+				final Iterator<Object> it = attributes.keySet().iterator();
 				while (it.hasNext()) {
-					Attributes.Name key = (Attributes.Name) it.next();
-					String keyword = key.toString();
-					if (keyword.equals("Implementation-Version")
-							|| keyword.equals("Bundle-Version")) {
+					final Attributes.Name key = (Attributes.Name) it.next();
+					final String keyword = key.toString();
+					if (keyword.equals("Implementation-Version") || keyword.equals("Bundle-Version")) {
 						versionNumber = (String) attributes.get(key);
 						break;
 					}
 				}
 			}
 			jar.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			this.log.error("Die timey-Jar Datei konnte nicht gefunden und somit die Version nicht ermittelt werden!");
 		}
 
@@ -63,51 +61,50 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	}
 
 	@Override
-	public TimeDescriptor setCountdownTime(TimeDescriptor td) {
+	public final Boolean resetStopwatch() {
+		return this.stopwatchClient.initStopwatchResetCommand();
+	}
+
+	@Override
+	public final TimeDescriptor setAlarmTime(final TimeDescriptor td) {
+		return this.alarmClient.initSetTimeCommand(td);
+	}
+
+	@Override
+	public final TimeDescriptor setCountdownTime(final TimeDescriptor td) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TimeDescriptor setAlarmTime(TimeDescriptor td) {
-		return this.alarmClient.initSetTimeCommand(td);
-	}
-
-	@Override
-	public Boolean startCountdown() {
+	public final Boolean startCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Boolean stopCountdown() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public TimeDescriptor startStopwatch() {
+	public final TimeDescriptor startStopwatch() {
 		return this.stopwatchClient.initStopwatchStartCommand();
 	}
 
+	@Override
+	public final Boolean stopCountdown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-	public Boolean stopStopwatch() {
+	public final Boolean stopStopwatch() {
 		return this.stopwatchClient.initStopwatchStopCommand();
 	}
 
 	@Override
-	public Boolean resetStopwatch() {
-		return this.stopwatchClient.initStopwatchResetCommand();
-	}
-
-	@Override
-	public Boolean turnOff() {
+	public final Boolean turnOff() {
 		return this.alarmClient.initTurnOffCommand();
 	}
 
 	@Override
-	public Boolean turnOn() {
+	public final Boolean turnOn() {
 		return this.alarmClient.initTurnOnCommand();
 	}
 

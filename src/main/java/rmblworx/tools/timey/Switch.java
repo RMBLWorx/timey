@@ -16,10 +16,10 @@ import org.apache.logging.log4j.Logger;
  * @author mmatthies
  */
 final class Switch {
-	private final Logger log = LogManager.getLogger(Switch.class);
-
 	/** stores the Command instance of the Invoker */
 	private ICommand fCommand;
+
+	private final Logger log = LogManager.getLogger(Switch.class);
 
 	/**
 	 * Default constructor
@@ -31,20 +31,9 @@ final class Switch {
 	/**
 	 * Constructor
 	 */
-	public Switch(ICommand cmd) {
+	public Switch(final ICommand cmd) {
 		super();
-		fCommand = cmd;
-	}
-
-	/**
-	 * This method stores a ConcreteCommand instance.
-	 */
-	public void storeCommand(ICommand cmd) {
-		this.log.entry();
-
-		fCommand = cmd;
-
-		this.log.exit();
+		this.fCommand = cmd;
 	}
 
 	/**
@@ -55,8 +44,19 @@ final class Switch {
 		this.log.entry();
 
 		this.log.exit();
-		return (T) fCommand.execute();
+		return (T) this.fCommand.execute();
 
+	}
+
+	/**
+	 * This method stores a ConcreteCommand instance.
+	 */
+	public void storeCommand(final ICommand cmd) {
+		this.log.entry();
+
+		this.fCommand = cmd;
+
+		this.log.exit();
 	}
 
 }

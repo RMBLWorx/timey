@@ -23,16 +23,16 @@ import java.util.List;
 final class Finder extends SimpleFileVisitor<Path> {
 
 	private final PathMatcher matcher;
-	private List<Path> result = new LinkedList<Path>();
+	private final List<Path> result = new LinkedList<Path>();
 
-	public Finder(String pattern) {
-		matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+	public Finder(final String pattern) {
+		this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
 	}
 
-	private void find(Path file) {
-		Path name = file.getFileName();
-		if (name != null && matcher.matches(name)) {
-			result.add(file);
+	private void find(final Path file) {
+		final Path name = file.getFileName();
+		if (name != null && this.matcher.matches(name)) {
+			this.result.add(file);
 			System.out.println(file);
 		}
 	}
@@ -48,19 +48,19 @@ final class Finder extends SimpleFileVisitor<Path> {
 	}
 
 	@Override
-	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-		find(file);
+	public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) {
+		this.find(dir);
 		return CONTINUE;
 	}
 
 	@Override
-	public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-		find(dir);
+	public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) {
+		this.find(file);
 		return CONTINUE;
 	}
 
 	@Override
-	public FileVisitResult visitFileFailed(Path file, IOException exc) {
+	public FileVisitResult visitFileFailed(final Path file, final IOException exc) {
 		System.err.println(exc);
 		return CONTINUE;
 	}

@@ -12,66 +12,66 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 /**
  * PatternBox: "Receiver" implementation.
  * <ul>
- * <li>knows how to perform the operations associated with carrying out a
- * request. Any class may serve as a Receiver.</li>
+ * <li>knows how to perform the operations associated with carrying out a request. Any class may serve as a Receiver.</li>
  * </ul>
+ * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 final class Stopwatch implements IStopwatch {
-        /**
-         * Logger.
-         */
-        private final Logger log = LogManager.getLogger(Stopwatch.class);
-        /**
-         * Die genutzte Zeitmessimplementierung.
-         */
-        private SimpleTimer timer;
-        /**
-         * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
-         */
-        private TimeDescriptor timeDescriptor = new TimeDescriptor(0);
+	/**
+	 * Logger.
+	 */
+	private final Logger log = LogManager.getLogger(Stopwatch.class);
+	/**
+	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
+	 */
+	private final TimeDescriptor timeDescriptor = new TimeDescriptor(0);
+	/**
+	 * Die genutzte Zeitmessimplementierung.
+	 */
+	private SimpleTimer timer;
 
-        /**
-         * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
-         */
-        public Stopwatch() {
-        }
+	/**
+	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
+	 */
+	public Stopwatch() {
+	}
 
-        @Override
-        public TimeDescriptor startStopwatch() {
-                this.log.entry();
+	@Override
+	public Boolean resetStopwatch() {
+		this.log.entry();
 
-                TimeDescriptor result;
+		this.log.debug("Action: resetStopwatch");
+		this.timer = null;
 
-                this.log.debug("Action: startStopwatch");
-                if (this.timer == null) {
-                        this.timer = new SimpleTimer(this.timeDescriptor);
-                }
+		return this.log.exit(Boolean.TRUE);
+	}
 
-                result = this.timer.startStopwatch(1, 1, TimeUnit.MILLISECONDS);
+	@Override
+	public TimeDescriptor startStopwatch() {
+		this.log.entry();
 
-                return this.log.exit(result);
-        }
+		TimeDescriptor result;
 
-        @Override
-        public Boolean stopStopwatch() {
-                this.log.entry();
+		this.log.debug("Action: startStopwatch");
+		if (this.timer == null) {
+			this.timer = new SimpleTimer(this.timeDescriptor);
+		}
 
-                this.log.debug("Action: stopStopwatch");
-                this.timer.stopStopwatch();
+		result = this.timer.startStopwatch(1, 1, TimeUnit.MILLISECONDS);
 
-                return this.log.exit(Boolean.TRUE);
-        }
+		return this.log.exit(result);
+	}
 
-        @Override
-        public Boolean resetStopwatch() {
-                this.log.entry();
+	@Override
+	public Boolean stopStopwatch() {
+		this.log.entry();
 
-                this.log.debug("Action: resetStopwatch");
-                this.timer = null;
+		this.log.debug("Action: stopStopwatch");
+		this.timer.stopStopwatch();
 
-                return this.log.exit(Boolean.TRUE);
-        }
+		return this.log.exit(Boolean.TRUE);
+	}
 
 }

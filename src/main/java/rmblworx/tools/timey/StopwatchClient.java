@@ -16,28 +16,29 @@ import org.apache.logging.log4j.Logger;
  * @author mmatthies
  */
 public class StopwatchClient {
-	private final Logger log = LogManager.getLogger(StopwatchClient.class);
-
 	/** stores the Receiver instance of the Client */
 	private final Stopwatch fReceiver;
 
+	private final Logger log = LogManager.getLogger(StopwatchClient.class);
+
 	/**
-	 * This construtor creates a Client instance and stores the given Receiver.
+	 * This construtor creates a Client instance and stores the given
+	 * Receiver.
 	 */
-	public StopwatchClient(Stopwatch receiver) {
+	public StopwatchClient(final Stopwatch receiver) {
 		super();
-		fReceiver = receiver;
+		this.fReceiver = receiver;
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
+	 * This method creates a ConcreteCommand instance and specifies a
+	 * Receiver object.
 	 */
-	public <T> T initStopwatchStartCommand() {
+	public final <T> T initStopwatchResetCommand() {
 		this.log.entry();
 
-		StopwatchStartCommand cmd = new StopwatchStartCommand(fReceiver);
-		Switch invoker = new Switch();
+		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
 		this.log.exit();
@@ -46,14 +47,14 @@ public class StopwatchClient {
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
+	 * This method creates a ConcreteCommand instance and specifies a
+	 * Receiver object.
 	 */
-	public <T> T initStopwatchStopCommand() {
+	public final <T> T initStopwatchStartCommand() {
 		this.log.entry();
 
-		StopwatchStopCommand cmd = new StopwatchStopCommand(fReceiver);
-		Switch invoker = new Switch();
+		final StopwatchStartCommand cmd = new StopwatchStartCommand(this.fReceiver);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
 		this.log.exit();
@@ -62,14 +63,14 @@ public class StopwatchClient {
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
+	 * This method creates a ConcreteCommand instance and specifies a
+	 * Receiver object.
 	 */
-	public <T> T initStopwatchResetCommand() {
+	public final <T> T initStopwatchStopCommand() {
 		this.log.entry();
 
-		StopwatchResetCommand cmd = new StopwatchResetCommand(fReceiver);
-		Switch invoker = new Switch();
+		final StopwatchStopCommand cmd = new StopwatchStopCommand(this.fReceiver);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
 		this.log.exit();

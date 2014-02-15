@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey;
 
@@ -18,28 +18,28 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 final class AlarmClient {
-	private final Logger log = LogManager.getLogger(AlarmClient.class);
-
 	/** stores the Receiver instance of the Client */
 	private final Alarm fReceiver;
+
+	private final Logger log = LogManager.getLogger(AlarmClient.class);
 
 	/**
 	 * This construtor creates a Client instance and stores the given Receiver.
 	 */
-	public AlarmClient(Alarm receiver) {
+	public AlarmClient(final Alarm receiver) {
 		super();
-		fReceiver = receiver;
+		this.fReceiver = receiver;
 	}
 
 	/**
 	 * This method creates a ConcreteCommand instance and specifies a Receiver
 	 * object.
 	 */
-	public <T> T initSetTimeCommand(TimeDescriptor td) {
+	public <T> T initSetTimeCommand(final TimeDescriptor td) {
 		this.log.entry();
 
-		SetTimeCommand cmd = new SetTimeCommand(fReceiver, td);
-		Switch invoker = new Switch();
+		final SetTimeCommand cmd = new SetTimeCommand(this.fReceiver, td);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
 		this.log.exit();
@@ -54,8 +54,8 @@ final class AlarmClient {
 	public <T> T initTurnOffCommand() {
 		this.log.entry();
 
-		TurnOffCommand cmd = new TurnOffCommand(fReceiver);
-		Switch invoker = new Switch();
+		final TurnOffCommand cmd = new TurnOffCommand(this.fReceiver);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
 		this.log.exit();
@@ -69,8 +69,8 @@ final class AlarmClient {
 	public <T> T initTurnOnCommand() {
 		this.log.entry();
 
-		TurnOnCommand cmd = new TurnOnCommand(fReceiver);
-		Switch invoker = new Switch();
+		final TurnOnCommand cmd = new TurnOnCommand(this.fReceiver);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
 		this.log.exit();

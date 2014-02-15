@@ -11,47 +11,47 @@ import org.junit.Test;
 
 /**
  * @author mmatthies
- *
  */
 public class InitTurnOffCommandTest {
-        /**
-         * Empfaenger fuer das Alarm-Kommando.
-         */
-        private Alarm alarm;
-        /**
-         * Client fuer das Alarm-Kommando.
-         */
-        private AlarmClient client;
+	/**
+	 * Empfaenger fuer das Alarm-Kommando.
+	 */
+	private Alarm alarm;
+	/**
+	 * Client fuer das Alarm-Kommando.
+	 */
+	private AlarmClient client;
 
-        /**
-         * @throws java.lang.Exception Exception
-         */
-        @Before
-        public final void setUp() throws Exception {
-                this.alarm = new Alarm();
-                this.client = new AlarmClient(alarm);
+	/**
+	 * @throws java.lang.Exception
+	 *             Exception
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		this.alarm = new Alarm();
+		this.client = new AlarmClient(this.alarm);
 
-        }
+	}
 
-        /**
-         * @throws java.lang.Exception Exception
-         */
-        @After
-        public final void tearDown() throws Exception {
-                this.alarm = null;
-                this.client = null;
+	/**
+	 * @throws java.lang.Exception
+	 *             Exception
+	 */
+	@After
+	public final void tearDown() throws Exception {
+		this.alarm = null;
+		this.client = null;
 
-        }
+	}
 
-        /**
-         * Test method for
-         * {@link rmblworx.tools.timey.AlarmClient#initTurnOffCommand()}.
-         */
-        @Test
-        public final void testInitTurnOffCommand() {
-                Boolean expectedValue = Boolean.TRUE;
+	/**
+	 * Test method for {@link rmblworx.tools.timey.AlarmClient#initTurnOffCommand()}.
+	 */
+	@Test
+	public final void testInitTurnOffCommand() {
+		Boolean expectedValue = Boolean.TRUE;
 
-                Boolean actual = this.client.initTurnOffCommand();
-                assertEquals(expectedValue, actual);
-        }
+		Boolean actual = this.client.initTurnOffCommand();
+		assertEquals(expectedValue, actual);
+	}
 }
