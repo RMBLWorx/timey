@@ -38,8 +38,8 @@ public class StopwatchController {
 	@FXML
 	private CheckBox stopwatchShowMillisecondsCheckbox;
 
-	private volatile boolean stopwatchRunning = false;
-	private volatile long stopwatchValue;
+	private boolean stopwatchRunning = false;
+	private long stopwatchValue;
 
 	@FXML
 	void initialize() {
@@ -52,12 +52,14 @@ public class StopwatchController {
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
+					if (stopwatchRunning) {
+						return;
+					}
+
+					stopwatchRunning = true;
 					stopwatchStartButton.setVisible(false);
 					stopwatchStopButton.setVisible(true);
 
-					setupDateFormatter();
-
-					stopwatchRunning = true;
 					final Config config = Config.getInstance();
 					final TimeDescriptor td = facade.startStopwatch();
 
@@ -96,6 +98,10 @@ public class StopwatchController {
 		if (stopwatchStopButton != null) {
 			stopwatchStopButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
+					if (!stopwatchRunning) {
+						return;
+					}
+
 					facade.stopStopwatch();
 					stopwatchRunning = false;
 					stopwatchStartButton.setVisible(true);
@@ -108,6 +114,7 @@ public class StopwatchController {
 			stopwatchResetButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
 					facade.resetStopwatch();
+					stopwatchValue = 0L;
 					resetStopwatchTimeLabel();
 				}
 			});
