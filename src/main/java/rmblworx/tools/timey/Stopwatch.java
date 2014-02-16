@@ -37,6 +37,9 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 	 * Die genutzte Zeitmessimplementierung.
 	 */
 	private ITimer timer;
+	/**
+	 * Gibt die Zeiteinheit an in welchem der Intervall die gemessene Zeit geliefert wird.
+	 */
 	private final TimeUnit timeUnit;
 
 	/**
@@ -92,7 +95,9 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 		this.log.entry();
 
 		this.log.debug("Action: stopStopwatch");
-		this.timer.stopStopwatch();
+		if (this.timer != null) {
+			this.timer.stopStopwatch();
+		}
 
 		return this.log.exit(Boolean.TRUE);
 	}

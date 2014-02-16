@@ -40,6 +40,13 @@ public final class SimpleTimer implements ITimer {
 		this.timeDescriptor = descriptor;
 	}
 
+	@Override
+	public void resetStopwatch() {
+		this.stopStopwatch();
+		this.timePassed = 0;
+		this.timeDescriptor.setMilliSeconds(0);
+	}
+
 	/* (non-Javadoc)
 	 * @see rmblworx.tools.timey.ITimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)
 	 */
@@ -61,10 +68,5 @@ public final class SimpleTimer implements ITimer {
 	public void stopStopwatch() {
 		this.scheduler.shutdownNow();
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
-	}
-
-	@Override
-	public void resetStopwatch() {
-		// TODO Auto-generated method stub
 	}
 }
