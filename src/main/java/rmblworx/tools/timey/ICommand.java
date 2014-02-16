@@ -18,6 +18,6 @@ interface ICommand {
 	 * This abstract method must be implemented by the ConcreteCommand implementation.
 	 * @param <T>
 	 */
-	public <T> T execute();
+	<T> T execute();
 
 }

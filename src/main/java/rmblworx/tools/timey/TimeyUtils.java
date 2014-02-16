@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * 
  */
 final class TimeyUtils {
-	private final static Logger log = LogManager.getLogger(TimeyUtils.class);
+	private static final Logger LOG = LogManager.getLogger(TimeyUtils.class);
 
 	private TimeyUtils() {
 	}
@@ -40,7 +40,7 @@ final class TimeyUtils {
 	 */
 	public static List<Path> getPathToJar(String pattern) throws IOException,
 			IllegalArgumentException {
-		log.entry();
+		LOG.entry();
 
 		if (isNullOrEmpty(pattern)) {
 			throw new IllegalArgumentException(
@@ -55,7 +55,7 @@ final class TimeyUtils {
 		Files.walkFileTree(startDir, finder);
 		result = finder.getResult();
 
-		log.exit();
+		LOG.exit();
 
 		return result;
 	}
@@ -70,7 +70,7 @@ final class TimeyUtils {
 	 *         {@code Laenge == 0} aufweist.
 	 */
 	public static boolean isNullOrEmpty(String... string) {
-		log.entry();
+		LOG.entry();
 		boolean result = false;
 
 		for (String str : string) {
@@ -80,7 +80,7 @@ final class TimeyUtils {
 			}
 		}
 
-		log.exit();
+		LOG.exit();
 
 		return result;
 	}
