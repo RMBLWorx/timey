@@ -39,9 +39,8 @@ public class StopwatchStartCommand implements ICommand {
 		this.log.entry();
 
 		this.log.exit();
-		return (T) this.fReceiver.startStopwatch();
 
-		// return (T) Boolean.TRUE;
+		return (T) this.fReceiver.startStopwatch();
 	}
 
 }

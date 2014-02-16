@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class GetVersionTest {
-	TimeyFacade facade;
+	private TimeyFacade facade;
 
 	/**
 	 * @throws java.lang.Exception
