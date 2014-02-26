@@ -9,36 +9,40 @@ import org.apache.logging.log4j.Logger;
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
- *   <li>defines a binding between a Receiver object and an action.</li>
- *   <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
+ * <li>defines a binding between a Receiver object and an action.</li>
+ * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
  * </ul>
  * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class StopwatchStopCommand implements ICommand {
-	private final Logger log = LogManager.getLogger(StopwatchStopCommand.class);
+final class StopwatchStopCommand implements ICommand {
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = LogManager.getLogger(StopwatchStopCommand.class);
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Stopwatch fReceiver;
 
-	/** 
+	/**
 	 * Constructor
 	 */
-	public StopwatchStopCommand(Stopwatch receiver) {
+	public StopwatchStopCommand(final Stopwatch receiver) {
 		super();
-		fReceiver = receiver;
+		this.fReceiver = receiver;
 	}
 
-	/** 
+	/**
 	 * This method executes the command by invoking the corresponding
 	 * method of the Receiver instance.
 	 */
-	public <T> T execute() {
-		this.log.entry();
+	@Override
+	public final <T> T execute() {
+		LOG.entry();
 
-		fReceiver.stopStopwatch();
+		this.fReceiver.stopStopwatch();
 
-		this.log.exit();
+		LOG.exit();
 
 		return (T) Boolean.TRUE;
 	}

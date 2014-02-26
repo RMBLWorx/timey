@@ -15,64 +15,74 @@ import org.apache.logging.log4j.Logger;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class StopwatchClient {
-	private final Logger log = LogManager.getLogger(StopwatchClient.class);
+final class StopwatchClient {
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = LogManager.getLogger(StopwatchClient.class);
 
-	/** stores the Receiver instance of the Client */
+	/**
+	 * stores the Receiver instance of the Client.
+	 * */
 	private final Stopwatch fReceiver;
 
 	/**
-	 * This construtor creates a Client instance and stores the given Receiver.
+	 * This construtor creates a Client instance and stores the given
+	 * Receiver.
+	 * @param receiver Referenz auf die Implementierung die dieser Client steuern soll.
 	 */
-	public StopwatchClient(Stopwatch receiver) {
+	public StopwatchClient(final Stopwatch receiver) {
 		super();
-		fReceiver = receiver;
+		this.fReceiver = receiver;
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
-	 */
-	public <T> T initStopwatchStartCommand() {
-		this.log.entry();
-
-		StopwatchStartCommand cmd = new StopwatchStartCommand(fReceiver);
-		Switch invoker = new Switch();
-		invoker.storeCommand(cmd);
-
-		this.log.exit();
-
-		return invoker.execute();
-	}
-
-	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
-	 */
-	public <T> T initStopwatchStopCommand() {
-		this.log.entry();
-
-		StopwatchStopCommand cmd = new StopwatchStopCommand(fReceiver);
-		Switch invoker = new Switch();
-		invoker.storeCommand(cmd);
-
-		this.log.exit();
-
-		return invoker.execute();
-	}
-
-	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
+	 * This method creates a ConcreteCommand instance and specifies a
+	 * Receiver object.
+	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
 	public <T> T initStopwatchResetCommand() {
-		this.log.entry();
+		LOG.entry();
 
-		StopwatchResetCommand cmd = new StopwatchResetCommand(fReceiver);
-		Switch invoker = new Switch();
+		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
+		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-		this.log.exit();
+		LOG.exit();
+
+		return invoker.execute();
+	}
+
+	/**
+	 * This method creates a ConcreteCommand instance and specifies a
+	 * Receiver object.
+	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
+	 */
+	public final <T> T initStopwatchStartCommand() {
+		LOG.entry();
+
+		final StopwatchStartCommand cmd = new StopwatchStartCommand(this.fReceiver);
+		final Switch invoker = new Switch();
+		invoker.storeCommand(cmd);
+
+		LOG.exit();
+
+		return invoker.execute();
+	}
+
+	/**
+	 * This method creates a ConcreteCommand instance and specifies a
+	 * Receiver object.
+	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
+	 */
+	public final <T> T initStopwatchStopCommand() {
+		LOG.entry();
+
+		final StopwatchStopCommand cmd = new StopwatchStopCommand(this.fReceiver);
+		final Switch invoker = new Switch();
+		invoker.storeCommand(cmd);
+
+		LOG.exit();
 
 		return invoker.execute();
 	}

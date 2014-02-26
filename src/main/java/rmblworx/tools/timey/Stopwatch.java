@@ -6,72 +6,105 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * PatternBox: "Receiver" implementation.
  * <ul>
- * <li>knows how to perform the operations associated with carrying out a
- * request. Any class may serve as a Receiver.</li>
+ * <li>knows how to perform the operations associated with carrying out a request. Any class may serve as a Receiver.</li>
  * </ul>
+ * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class Stopwatch implements IStopwatch {
-        /**
-         * Logger.
-         */
-        private final Logger log = LogManager.getLogger(Stopwatch.class);
-        /**
-         * Die genutzte Zeitmessimplementierung.
-         */
-        private SimpleTimer timer;
-        /**
-         * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
-         */
-        private TimeDescriptor timeDescriptor = new TimeDescriptor(0);
+final class Stopwatch implements IStopwatch, ApplicationContextAware {
+	/**
+	 * Anzahl der Threads die Zeit messen sollen.
+	 */
+	private final byte amountOfThreads;
+	/**
+	 * Spring Context.
+	 */
+	private ApplicationContext context;
+	/**
+	 * Gibt die Maszzahl fuer die Zeiteinheit an.
+	 * @see #timeUnit
+	 */
+	private final int delayPerThread;
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = LogManager.getLogger(Stopwatch.class);
+	/**
+	 * Die genutzte Zeitmessimplementierung.
+	 */
+	private ITimer timer;
+	/**
+	 * Gibt die Zeiteinheit an in welchem der Intervall die gemessene Zeit geliefert wird.
+	 */
+	private final TimeUnit timeUnit;
 
-        /**
-         * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
-         */
-        public Stopwatch() {
-        }
+	/**
+	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
+	 * 
+	 * @param amount
+	 *            Anzahl der Zeitmessungs-Threads
+	 * @param delay
+	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurueckgeliefert wird.
+	 * @param unit
+	 *            Maszeinheit fuer den Intervall.
+	 */
+	public Stopwatch(final byte amount, final int delay, final TimeUnit unit) {
+		this.amountOfThreads = amount;
+		this.delayPerThread = delay;
+		this.timeUnit = unit;
+	}
 
-        @Override
-        public TimeDescriptor startStopwatch() {
-                this.log.entry();
+	@Override
+	public Boolean resetStopwatch() {
+		LOG.entry();
 
-                TimeDescriptor result;
+		LOG.debug("Action: resetStopwatch");
+		this.timer.resetStopwatch();
+		this.timer = null;
 
-                this.log.debug("Action: startStopwatch");
-                if (this.timer == null) {
-                        this.timer = new SimpleTimer(this.timeDescriptor);
-                }
+		return LOG.exit(Boolean.TRUE);
+	}
 
-                result = this.timer.startStopwatch(1, 1, TimeUnit.MILLISECONDS);
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.context = applicationContext;
+	}
 
-                return this.log.exit(result);
-        }
+	@Override
+	public TimeDescriptor startStopwatch() {
+		LOG.entry();
 
-        @Override
-        public Boolean stopStopwatch() {
-                this.log.entry();
+		TimeDescriptor result;
 
-                this.log.debug("Action: stopStopwatch");
-                this.timer.stopStopwatch();
+		LOG.debug("Action: startStopwatch");
+		if (this.timer == null) {
+			this.timer = (ITimer) this.context.getBean("timer");
+		}
 
-                return this.log.exit(Boolean.TRUE);
-        }
+		result = this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
 
-        @Override
-        public Boolean resetStopwatch() {
-                this.log.entry();
+		return LOG.exit(result);
+	}
 
-                this.log.debug("Action: resetStopwatch");
-                this.timer = null;
+	@Override
+	public Boolean stopStopwatch() {
+		LOG.entry();
 
-                return this.log.exit(Boolean.TRUE);
-        }
+		LOG.debug("Action: stopStopwatch");
+		if (this.timer != null) {
+			this.timer.stopStopwatch();
+		}
 
+		return LOG.exit(Boolean.TRUE);
+	}
 }

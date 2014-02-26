@@ -12,6 +12,8 @@ import java.util.jar.Manifest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -19,16 +21,23 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * Fassade fuer das System timey.
  * 
  * @author mmatthies
- * 
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
-	private final Logger log = LogManager.getLogger(TimeyFacade.class);
-	private final AlarmClient alarmClient = new AlarmClient(new Alarm());
-	private final StopwatchClient stopwatchClient = new StopwatchClient(new Stopwatch());
+	private final AlarmClient alarmClient;
+	private static final Logger LOG = LogManager.getLogger(TimeyFacade.class);
+	private final StopwatchClient stopwatchClient;
+	private final ApplicationContext springContext;
+
+	public TimeyFacade(){
+		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
+
+		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
+		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
+	}
 
 	@Override
-	public String getVersion() {
-		this.log.entry();
+	public final String getVersion() {
+		LOG.entry();
 
 		File file;
 		JarFile jar;
@@ -37,77 +46,75 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 		try {
 			file = TimeyUtils.getPathToJar("timey*.jar").get(0).toFile();
 			jar = new java.util.jar.JarFile(file);
-			Manifest manifest = jar.getManifest();
-			Attributes attributes = manifest.getMainAttributes();
+			final Manifest manifest = jar.getManifest();
+			final Attributes attributes = manifest.getMainAttributes();
 			if (attributes != null) {
-				Iterator<Object> it = attributes.keySet().iterator();
+				final Iterator<Object> it = attributes.keySet().iterator();
 				while (it.hasNext()) {
-					Attributes.Name key = (Attributes.Name) it.next();
-					String keyword = key.toString();
-					if (keyword.equals("Implementation-Version")
-							|| keyword.equals("Bundle-Version")) {
+					final Attributes.Name key = (Attributes.Name) it.next();
+					final String keyword = key.toString();
+					if (keyword.equals("Implementation-Version") || keyword.equals("Bundle-Version")) {
 						versionNumber = (String) attributes.get(key);
 						break;
 					}
 				}
 			}
 			jar.close();
-		} catch (IOException e) {
-			this.log.error("Die timey-Jar Datei konnte nicht gefunden und somit die Version nicht ermittelt werden!");
+		} catch (final IOException e) {
+			LOG.error("Die timey-Jar Datei konnte nicht gefunden und somit die Version nicht ermittelt werden!");
 		}
 
-		this.log.debug("Version: " + versionNumber);
-		this.log.exit();
+		LOG.debug("Version: " + versionNumber);
+		LOG.exit();
 
 		return versionNumber;
 	}
 
 	@Override
-	public TimeDescriptor setCountdownTime(TimeDescriptor td) {
+	public final Boolean resetStopwatch() {
+		return this.stopwatchClient.initStopwatchResetCommand();
+	}
+
+	@Override
+	public final TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
+		return this.alarmClient.initSetTimeCommand(descriptor);
+	}
+
+	@Override
+	public final TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TimeDescriptor setAlarmTime(TimeDescriptor td) {
-		return this.alarmClient.initSetTimeCommand(td);
-	}
-
-	@Override
-	public Boolean startCountdown() {
+	public final Boolean startCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Boolean stopCountdown() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public TimeDescriptor startStopwatch() {
+	public final TimeDescriptor startStopwatch() {
 		return this.stopwatchClient.initStopwatchStartCommand();
 	}
 
+	@Override
+	public final Boolean stopCountdown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-	public Boolean stopStopwatch() {
+	public final Boolean stopStopwatch() {
 		return this.stopwatchClient.initStopwatchStopCommand();
 	}
 
 	@Override
-	public Boolean resetStopwatch() {
-		return this.stopwatchClient.initStopwatchResetCommand();
-	}
-
-	@Override
-	public Boolean turnOff() {
+	public final Boolean turnOff() {
 		return this.alarmClient.initTurnOffCommand();
 	}
 
 	@Override
-	public Boolean turnOn() {
+	public final Boolean turnOn() {
 		return this.alarmClient.initTurnOnCommand();
 	}
 

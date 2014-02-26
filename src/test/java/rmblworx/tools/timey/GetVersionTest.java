@@ -6,11 +6,15 @@ package rmblworx.tools.timey;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author mmatthies
- *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class GetVersionTest {
 	private TimeyFacade facade;
 
@@ -18,15 +22,15 @@ public class GetVersionTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
-                this.facade = new TimeyFacade();
+	public final void setUp() throws Exception {
+		this.facade = new TimeyFacade();
 	}
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() throws Exception {
 		this.facade = null;
 	}
 
@@ -42,6 +46,6 @@ public class GetVersionTest {
 		 * der Test hier zwar aufgeführt aber gezielt auskommentiert.
 		 */
 
-//		assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
+		// assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
 	}
 }

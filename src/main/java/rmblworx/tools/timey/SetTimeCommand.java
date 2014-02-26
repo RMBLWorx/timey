@@ -12,43 +12,43 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
  * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on
- * Receiver.</li>
+ * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
  * </ul>
  * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 final class SetTimeCommand implements ICommand {
-	private final Logger log = LogManager.getLogger(SetTimeCommand.class);
-
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
-	private TimeDescriptor td;
+
+	private static final Logger LOG = LogManager.getLogger(SetTimeCommand.class);
+	private final TimeDescriptor td;
 
 	/**
 	 * Constructor
 	 */
-	public SetTimeCommand(Alarm receiver, TimeDescriptor td) {
+	public SetTimeCommand(final Alarm receiver, final TimeDescriptor td) {
 		super();
-		fReceiver = receiver;
+		this.fReceiver = receiver;
 		this.td = td;
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding method of
-	 * the Receiver instance.
+	 * This method executes the command by invoking the corresponding method
+	 * of the Receiver instance.
 	 * 
 	 * @param <T>
 	 * @return
 	 */
+	@Override
 	public <T> T execute() {
-		this.log.entry();
-		this.log.debug("Führe SetTimeCommand aus!");
-		fReceiver.setAlarmTime(td);
-		this.log.exit();
+		LOG.entry();
+		LOG.debug("Führe SetTimeCommand aus!");
+		this.fReceiver.setAlarmTime(this.td);
+		LOG.exit();
 
-		return (T) td;
+		return (T) this.td;
 
 	}
 

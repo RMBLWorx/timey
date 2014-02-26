@@ -7,7 +7,6 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * @author mmatthies
- * 
  */
 interface IAlarm {
 
@@ -21,17 +20,17 @@ interface IAlarm {
 	TimeDescriptor setAlarmTime(TimeDescriptor td);
 
 	/**
-	 * Stellt die Alarmzeit scharf.
-	 * 
-	 * @return true wenn erfolgreich.
-	 */
-	Boolean turnOn();
-
-	/**
 	 * Stellt die Alarmzeit unscharf.
 	 * 
 	 * @return true wenn erfolgreich.
 	 */
 	Boolean turnOff();
+
+	/**
+	 * Stellt die Alarmzeit scharf.
+	 * 
+	 * @return true wenn erfolgreich.
+	 */
+	Boolean turnOn();
 
 }

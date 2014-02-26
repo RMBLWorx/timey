@@ -10,15 +10,14 @@ import org.apache.logging.log4j.Logger;
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
  * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on
- * Receiver.</li>
+ * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
  * </ul>
  * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 final class TurnOnCommand implements ICommand {
-	private final Logger log = LogManager.getLogger(TurnOnCommand.class);
+	private static final Logger LOG = LogManager.getLogger(TurnOnCommand.class);
 
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
@@ -26,21 +25,22 @@ final class TurnOnCommand implements ICommand {
 	/**
 	 * Constructor
 	 */
-	public TurnOnCommand(Alarm receiver) {
+	public TurnOnCommand(final Alarm receiver) {
 		super();
-		fReceiver = receiver;
+		this.fReceiver = receiver;
 	}
 
 	/**
 	 * This method executes the command by invoking the corresponding method of
 	 * the Receiver instance.
 	 */
+	@Override
 	public <T> T execute() {
-		this.log.entry();
+		LOG.entry();
 
-		fReceiver.turnOn();
+		this.fReceiver.turnOn();
 
-		this.log.exit();
+		LOG.exit();
 
 		return (T) Boolean.TRUE;
 	}

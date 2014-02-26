@@ -18,10 +18,10 @@ import org.apache.logging.log4j.Logger;
  * 
  */
 final class TimeyUtils {
+	/**
+	 * Logger.
+	 */
 	private static final Logger LOG = LogManager.getLogger(TimeyUtils.class);
-
-	private TimeyUtils() {
-	}
 
 	/**
 	 * Vom aktuellen Verzeichnis in welchem die Anwendung gerade ausgefuehrt
@@ -38,8 +38,8 @@ final class TimeyUtils {
 	 *             wenn die Zeichenkette {@code null} referenziert oder eine
 	 *             {@code Laenge == 0} aufweist.
 	 */
-	public static List<Path> getPathToJar(String pattern) throws IOException,
-			IllegalArgumentException {
+	public static List<Path> getPathToJar(final String pattern) throws IOException,
+	IllegalArgumentException {
 		LOG.entry();
 
 		if (isNullOrEmpty(pattern)) {
@@ -47,9 +47,9 @@ final class TimeyUtils {
 					"Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
 		}
 
-		String property = System.getProperty("user.dir");
-		Path startDir = Paths.get(property);
-		Finder finder = new Finder(pattern);
+		final String property = System.getProperty("user.dir");
+		final Path startDir = Paths.get(property);
+		final Finder finder = new Finder(pattern);
 		List<Path> result = new LinkedList<Path>();
 
 		Files.walkFileTree(startDir, finder);
@@ -61,6 +61,28 @@ final class TimeyUtils {
 	}
 
 	/**
+	 * Prueft die Zeichenkette ob sie {@code Laenge == 0} aufweist.
+	 * 
+	 * @param string
+	 *            zu pruefende Zeichenkette.
+	 * @return true wenn {@code Laenge == 0}.
+	 */
+	public static boolean isEmpty(final String string) {
+		return string.length() < 1;
+	}
+
+	/**
+	 * Prueft die Zeichenkette ob sie {@code null} referenziert.
+	 * 
+	 * @param string
+	 *            zu pruefende Zeichenkette.
+	 * @return true wenn {@code null} referenziert wird.
+	 */
+	public static boolean isNull(final String string) {
+		return string == null;
+	}
+
+	/**
 	 * Prueft die Zeichenkette(n) ob sie {@code null} referenzieren oder die
 	 * {@code Laenge == 0} aufweisen.
 	 * 
@@ -69,7 +91,7 @@ final class TimeyUtils {
 	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die
 	 *         {@code Laenge == 0} aufweist.
 	 */
-	public static boolean isNullOrEmpty(String... string) {
+	public static boolean isNullOrEmpty(final String... string) {
 		LOG.entry();
 		boolean result = false;
 
@@ -86,25 +108,8 @@ final class TimeyUtils {
 	}
 
 	/**
-	 * Prueft die Zeichenkette ob sie {@code Laenge == 0} aufweist.
-	 * 
-	 * @param string
-	 *            zu pruefende Zeichenkette.
-	 * @return true wenn {@code Laenge == 0}.
+	 * Konstruktor.
 	 */
-	public static boolean isEmpty(String string) {
-		return string.length() < 1;
+	private TimeyUtils() {
 	}
-
-	/**
-	 * Prueft die Zeichenkette ob sie {@code null} referenziert.
-	 * 
-	 * @param string
-	 *            zu pruefende Zeichenkette.
-	 * @return true wenn {@code null} referenziert wird.
-	 */
-	public static boolean isNull(String string) {
-		return string == null;
-	}
-
 }
