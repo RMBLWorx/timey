@@ -29,7 +29,7 @@ final class TimerRunnable implements Runnable {
 	/**
 	 * Logger.
 	 */
-	private final Logger log = LogManager.getLogger(TimerRunnable.class);
+	private static final Logger LOG = LogManager.getLogger(TimerRunnable.class);
 	/**
 	 * Differenz zwischen Startzeit und aktueller Zeit.
 	 */
@@ -56,7 +56,7 @@ final class TimerRunnable implements Runnable {
 	 *            Vergangene Zeit in Millisekunden.
 	 */
 	public TimerRunnable(final TimeDescriptor descriptor, final long passedTime) {
-		this.log.entry();
+		LOG.entry();
 
 		this.timeDescriptor = descriptor;
 		this.timePassed = passedTime;
@@ -64,7 +64,7 @@ final class TimerRunnable implements Runnable {
 		DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone(UTC));
 		DATE_FORMATTER.applyPattern(FORMAT_STRING);
 
-		this.log.exit();
+		LOG.exit();
 	}
 
 	/**
@@ -72,7 +72,7 @@ final class TimerRunnable implements Runnable {
 	 * Wertobjekt.
 	 */
 	private void computeTime() {
-		this.log.entry();
+		LOG.entry();
 
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
@@ -80,18 +80,18 @@ final class TimerRunnable implements Runnable {
 		this.timeDelta = currentTimeMillis - this.timeStarted;
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
 
-		this.log.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
-		this.log.exit();
+		LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
+		LOG.exit();
 	}
 
 	@Override
 	public void run() {
-		this.log.entry();
+		LOG.entry();
 
 		this.lock.lock();
 		this.computeTime();
 		this.lock.unlock();
 
-		this.log.exit();
+		LOG.exit();
 	}
 }

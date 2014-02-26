@@ -24,7 +24,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	private final AlarmClient alarmClient;
-	private final Logger log = LogManager.getLogger(TimeyFacade.class);
+	private static final Logger LOG = LogManager.getLogger(TimeyFacade.class);
 	private final StopwatchClient stopwatchClient;
 	private final ApplicationContext springContext;
 
@@ -37,7 +37,7 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 
 	@Override
 	public final String getVersion() {
-		this.log.entry();
+		LOG.entry();
 
 		File file;
 		JarFile jar;
@@ -61,11 +61,11 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 			}
 			jar.close();
 		} catch (final IOException e) {
-			this.log.error("Die timey-Jar Datei konnte nicht gefunden und somit die Version nicht ermittelt werden!");
+			LOG.error("Die timey-Jar Datei konnte nicht gefunden und somit die Version nicht ermittelt werden!");
 		}
 
-		this.log.debug("Version: " + versionNumber);
-		this.log.exit();
+		LOG.debug("Version: " + versionNumber);
+		LOG.exit();
 
 		return versionNumber;
 	}

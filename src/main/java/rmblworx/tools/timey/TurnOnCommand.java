@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
  * @author mmatthies
  */
 final class TurnOnCommand implements ICommand {
-	private final Logger log = LogManager.getLogger(TurnOnCommand.class);
+	private static final Logger LOG = LogManager.getLogger(TurnOnCommand.class);
 
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
@@ -36,11 +36,11 @@ final class TurnOnCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		this.log.entry();
+		LOG.entry();
 
 		this.fReceiver.turnOn();
 
-		this.log.exit();
+		LOG.exit();
 
 		return (T) Boolean.TRUE;
 	}

@@ -15,7 +15,7 @@ public final class TimeDescriptor {
 	/**
 	 * Logger.
 	 */
-	private final Logger log = LogManager.getLogger(TimeDescriptor.class);
+	private static final Logger LOG = LogManager.getLogger(TimeDescriptor.class);
 	/**
 	 * Kapselt die aktuelle Systemzeit in Millisekunden.
 	 */
@@ -30,11 +30,11 @@ public final class TimeDescriptor {
 	 *            negative Werte statt.
 	 */
 	public TimeDescriptor(final long milliSeconds) {
-		this.log.entry();
+		LOG.entry();
 
-		this.log.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
+		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
-		this.log.exit();
+		LOG.exit();
 	}
 
 	/**
@@ -42,9 +42,9 @@ public final class TimeDescriptor {
 	 *         gesetzt wurden.
 	 */
 	public long getMilliSeconds() {
-		this.log.entry();
+		LOG.entry();
 
-		return this.log.exit(this.milliseconds);
+		return LOG.exit(this.milliseconds);
 	}
 
 	/**
@@ -52,10 +52,10 @@ public final class TimeDescriptor {
 	 *            zu setzende Zeit in Millisekunden
 	 */
 	public void setMilliSeconds(final long currentTimeMillis) {
-		this.log.entry();
+		LOG.entry();
 
 		this.milliseconds = currentTimeMillis;
 
-		this.log.exit();
+		LOG.exit();
 	}
 }

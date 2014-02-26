@@ -18,7 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 final class Alarm implements IAlarm {
-	private final Logger log = LogManager.getLogger(Alarm.class);
+	private static final Logger LOG = LogManager.getLogger(Alarm.class);
 
 	/**
 	 * This construtor creates a Receiver instance.
@@ -32,12 +32,12 @@ final class Alarm implements IAlarm {
 	 */
 	@Override
 	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		this.log.entry();
+		LOG.entry();
 
 		// TODO Write your action code here ...
 		System.out.println("setTime");
 
-		this.log.exit();
+		LOG.exit();
 
 		return descriptor;
 	}
@@ -47,12 +47,12 @@ final class Alarm implements IAlarm {
 	 */
 	@Override
 	public Boolean turnOff() {
-		this.log.entry();
+		LOG.entry();
 
 		// TODO Write your action code here ...
 		System.out.println("TurnOff");
 
-		this.log.exit();
+		LOG.exit();
 		return Boolean.TRUE;
 	}
 
@@ -61,12 +61,12 @@ final class Alarm implements IAlarm {
 	 */
 	@Override
 	public Boolean turnOn() {
-		this.log.entry();
+		LOG.entry();
 
 		// TODO Write your action code here ...
 		System.out.println("TurnOn");
 
-		this.log.exit();
+		LOG.exit();
 		return Boolean.TRUE;
 	}
 

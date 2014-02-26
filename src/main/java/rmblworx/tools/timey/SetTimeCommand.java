@@ -22,7 +22,7 @@ final class SetTimeCommand implements ICommand {
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
 
-	private final Logger log = LogManager.getLogger(SetTimeCommand.class);
+	private static final Logger LOG = LogManager.getLogger(SetTimeCommand.class);
 	private final TimeDescriptor td;
 
 	/**
@@ -43,10 +43,10 @@ final class SetTimeCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		this.log.entry();
-		this.log.debug("Führe SetTimeCommand aus!");
+		LOG.entry();
+		LOG.debug("Führe SetTimeCommand aus!");
 		this.fReceiver.setAlarmTime(this.td);
-		this.log.exit();
+		LOG.exit();
 
 		return (T) this.td;
 

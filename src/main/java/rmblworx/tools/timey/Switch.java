@@ -19,7 +19,7 @@ final class Switch {
 	/** stores the Command instance of the Invoker */
 	private ICommand fCommand;
 
-	private final Logger log = LogManager.getLogger(Switch.class);
+	private static final Logger LOG = LogManager.getLogger(Switch.class);
 
 	/**
 	 * Default constructor
@@ -41,9 +41,9 @@ final class Switch {
 	 * instance.
 	 */
 	public <T> T execute() {
-		this.log.entry();
+		LOG.entry();
 
-		this.log.exit();
+		LOG.exit();
 		return (T) this.fCommand.execute();
 
 	}
@@ -52,11 +52,11 @@ final class Switch {
 	 * This method stores a ConcreteCommand instance.
 	 */
 	public void storeCommand(final ICommand cmd) {
-		this.log.entry();
+		LOG.entry();
 
 		this.fCommand = cmd;
 
-		this.log.exit();
+		LOG.exit();
 	}
 
 }

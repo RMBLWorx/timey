@@ -6,6 +6,9 @@
 	<artifactId>timey</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<organization>
+		<name>rmblworx</name>
+	</organization>
 
 	<name>timey</name>
 	<url>http://maven.apache.org</url>
@@ -67,6 +70,20 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<!-- folgendes Ziel ist auszufuehren um ein lauffaehiges jar-Archiv erzeugen 
+					zu lassen: -->
+				<!-- * mvn jfx:jar (erzeugt lauffaehiges jar samt lib Verzeichnis mit 
+					den Abhängigkeiten unter /target/jfx ) -->
+				<!-- * weitere Moeglichkeiten bspw. zur Erzeugung von Native Installer 
+					- siehe http://zenjava.com/javafx/maven/ -->
+				<plugin>
+					<groupId>com.zenjava</groupId>
+					<artifactId>javafx-maven-plugin</artifactId>
+					<version>2.0</version>
+					<configuration>
+						<mainClass>rmblworx.tools.timey.gui.Main</mainClass>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>

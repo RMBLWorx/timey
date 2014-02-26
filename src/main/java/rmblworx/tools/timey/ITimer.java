@@ -4,13 +4,16 @@ import java.util.concurrent.TimeUnit;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
-public interface ITimer {
+interface ITimer {
+
+	/**
+	 * Setzt die Stoppuhr auf Null.
+	 */
+	void resetStopwatch();
 
 	/**
 	 * Startet den Stopvorgang.
 	 * 
-	 * @param timerImplementation
-	 *            Referenz auf die zu verwendende Time-Implementierung.
 	 * @param amountOfThreads
 	 *            Anzahl fuer die Zeitmessung zu verwendender Threads.
 	 * @param delayPerThread
@@ -23,16 +26,11 @@ public interface ITimer {
 	 *         kapselt. Es handelt sich hierbei um das im Konstruktor
 	 *         uebergebene Objekt.
 	 */
-	public TimeDescriptor startStopwatch(int amountOfThreads, int delayPerThread, TimeUnit timeUnit);
+	TimeDescriptor startStopwatch(int amountOfThreads, int delayPerThread, TimeUnit timeUnit);
 
 	/**
 	 * Stoppt die Zeitmessung und beendet den/die gestarteten Threads.
 	 */
-	public void stopStopwatch();
-
-	/**
-	 * Setzt die Stoppuhr auf Null.
-	 */
-	public void resetStopwatch();
+	void stopStopwatch();
 
 }

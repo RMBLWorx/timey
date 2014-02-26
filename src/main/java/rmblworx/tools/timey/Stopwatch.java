@@ -22,17 +22,23 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 final class Stopwatch implements IStopwatch, ApplicationContextAware {
+	/**
+	 * Anzahl der Threads die Zeit messen sollen.
+	 */
 	private final byte amountOfThreads;
+	/**
+	 * Spring Context.
+	 */
 	private ApplicationContext context;
+	/**
+	 * Gibt die Maszzahl fuer die Zeiteinheit an.
+	 * @see #timeUnit
+	 */
 	private final int delayPerThread;
 	/**
 	 * Logger.
 	 */
-	private final Logger log = LogManager.getLogger(Stopwatch.class);
-	//	/**
-	//	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
-	//	 */
-	//	private final TimeDescriptor timeDescriptor = new TimeDescriptor(0);
+	private static final Logger LOG = LogManager.getLogger(Stopwatch.class);
 	/**
 	 * Die genutzte Zeitmessimplementierung.
 	 */
@@ -60,13 +66,13 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 	@Override
 	public Boolean resetStopwatch() {
-		this.log.entry();
+		LOG.entry();
 
-		this.log.debug("Action: resetStopwatch");
+		LOG.debug("Action: resetStopwatch");
 		this.timer.resetStopwatch();
 		this.timer = null;
 
-		return this.log.exit(Boolean.TRUE);
+		return LOG.exit(Boolean.TRUE);
 	}
 
 	@Override
@@ -76,29 +82,29 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 	@Override
 	public TimeDescriptor startStopwatch() {
-		this.log.entry();
+		LOG.entry();
 
 		TimeDescriptor result;
 
-		this.log.debug("Action: startStopwatch");
+		LOG.debug("Action: startStopwatch");
 		if (this.timer == null) {
 			this.timer = (ITimer) this.context.getBean("timer");
 		}
 
 		result = this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
 
-		return this.log.exit(result);
+		return LOG.exit(result);
 	}
 
 	@Override
 	public Boolean stopStopwatch() {
-		this.log.entry();
+		LOG.entry();
 
-		this.log.debug("Action: stopStopwatch");
+		LOG.debug("Action: stopStopwatch");
 		if (this.timer != null) {
 			this.timer.stopStopwatch();
 		}
 
-		return this.log.exit(Boolean.TRUE);
+		return LOG.exit(Boolean.TRUE);
 	}
 }

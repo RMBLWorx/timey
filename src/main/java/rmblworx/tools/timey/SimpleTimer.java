@@ -13,7 +13,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public final class SimpleTimer implements ITimer {
+final class SimpleTimer implements ITimer {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -53,10 +53,10 @@ public final class SimpleTimer implements ITimer {
 	@Override
 	public TimeDescriptor startStopwatch(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		TimerRunnable t = new TimerRunnable(this.timeDescriptor, this.timePassed);
+		final TimerRunnable timer = new TimerRunnable(this.timeDescriptor, this.timePassed);
 		//		TimerRunnable t = (TimerRunnable) this.applicationContext.getBean("timerRunnable");
 
-		this.scheduler.scheduleAtFixedRate(t, 0, delayPerThread, timeUnit);
+		this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
 	}

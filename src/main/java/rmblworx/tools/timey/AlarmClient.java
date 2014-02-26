@@ -21,7 +21,7 @@ final class AlarmClient {
 	/** stores the Receiver instance of the Client */
 	private final Alarm fReceiver;
 
-	private final Logger log = LogManager.getLogger(AlarmClient.class);
+	private static final Logger LOG = LogManager.getLogger(AlarmClient.class);
 
 	/**
 	 * This construtor creates a Client instance and stores the given Receiver.
@@ -36,13 +36,13 @@ final class AlarmClient {
 	 * object.
 	 */
 	public <T> T initSetTimeCommand(final TimeDescriptor td) {
-		this.log.entry();
+		LOG.entry();
 
 		final SetTimeCommand cmd = new SetTimeCommand(this.fReceiver, td);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-		this.log.exit();
+		LOG.exit();
 
 		return invoker.execute();
 	}
@@ -52,13 +52,13 @@ final class AlarmClient {
 	 * object.
 	 */
 	public <T> T initTurnOffCommand() {
-		this.log.entry();
+		LOG.entry();
 
 		final TurnOffCommand cmd = new TurnOffCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-		this.log.exit();
+		LOG.exit();
 		return invoker.execute();
 	}
 
@@ -67,13 +67,13 @@ final class AlarmClient {
 	 * object.
 	 */
 	public <T> T initTurnOnCommand() {
-		this.log.entry();
+		LOG.entry();
 
 		final TurnOnCommand cmd = new TurnOnCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-		this.log.exit();
+		LOG.exit();
 		return invoker.execute();
 	}
 

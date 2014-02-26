@@ -16,14 +16,19 @@ import org.apache.logging.log4j.Logger;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class StopwatchResetCommand implements ICommand {
-	/** stores the Receiver instance of the ConcreteCommand */
-	private final Stopwatch fReceiver;
-
-	private final Logger log = LogManager.getLogger(StopwatchResetCommand.class);
+final class StopwatchResetCommand implements ICommand {
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = LogManager.getLogger(StopwatchResetCommand.class);
 
 	/**
-	 * Constructor
+	 * stores the Receiver instance of the ConcreteCommand.
+	 * */
+	private final Stopwatch fReceiver;
+
+	/**
+	 * Constructor.
 	 */
 	public StopwatchResetCommand(final Stopwatch receiver) {
 		super();
@@ -38,11 +43,11 @@ public class StopwatchResetCommand implements ICommand {
 	 */
 	@Override
 	public final <T> T execute() {
-		this.log.entry();
+		LOG.entry();
 
 		this.fReceiver.resetStopwatch();
 
-		this.log.exit();
+		LOG.exit();
 
 		return (T) Boolean.TRUE;
 	}
