@@ -64,11 +64,14 @@ public class StopwatchController {
 					final TimeDescriptor td = facade.startStopwatch();
 
 					final Task<Void> task = new Task<Void>() {
+						private static final long SLEEP_TIME_FINE_GRAINED = 5L;
+						private static final long SLEEP_TIME_COARSE_GRAINED = 1000L;
+
 						public Void call() throws InterruptedException {
 							while (stopwatchRunning) {
 								stopwatchValue = td.getMilliSeconds();
 								updateMessage(dateFormatter.format(stopwatchValue));
-								Thread.sleep(config.isStopwatchShowMilliseconds() ? 5L : 1000L);
+								Thread.sleep(config.isStopwatchShowMilliseconds() ? SLEEP_TIME_FINE_GRAINED : SLEEP_TIME_COARSE_GRAINED);
 							}
 
 							return null;
