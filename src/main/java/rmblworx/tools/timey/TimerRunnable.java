@@ -89,8 +89,11 @@ final class TimerRunnable implements Runnable {
 		LOG.entry();
 
 		this.lock.lock();
-		this.computeTime();
-		this.lock.unlock();
+		try {
+			this.computeTime();
+		} finally {
+			this.lock.unlock();
+		}
 
 		LOG.exit();
 	}
