@@ -32,7 +32,7 @@ public final class TimeDescriptor {
 	public TimeDescriptor(final long milliSeconds) {
 		LOG.entry();
 
-		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
+		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", milliSeconds);
 		this.milliseconds = milliSeconds;
 		LOG.exit();
 	}
