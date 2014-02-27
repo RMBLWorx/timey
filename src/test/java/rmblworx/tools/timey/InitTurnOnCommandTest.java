@@ -53,9 +53,9 @@ public class InitTurnOnCommandTest {
 	 */
 	@Test
 	public final void testInitTurnOnCommand() {
-		Boolean expectedValue = Boolean.TRUE;
+		final Boolean expectedValue = Boolean.TRUE;
 
-		Boolean actual = this.client.initTurnOnCommand();
+		final Boolean actual = this.client.initTurnOnCommand();
 		assertEquals(expectedValue, actual);
 
 	}

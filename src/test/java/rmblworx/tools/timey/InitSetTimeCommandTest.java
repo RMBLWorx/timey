@@ -56,11 +56,11 @@ public class InitSetTimeCommandTest {
 	 */
 	@Test
 	public final void testInitSetTimeCommand() {
-		int expectedMilliseconds = 0;
+		final int expectedMilliseconds = 0;
 
-		TimeDescriptor expectedDescriptor = new TimeDescriptor(expectedMilliseconds);
+		final TimeDescriptor expectedDescriptor = new TimeDescriptor(expectedMilliseconds);
 
-		TimeDescriptor actualDescriptor = this.client.initSetTimeCommand(expectedDescriptor);
+		final TimeDescriptor actualDescriptor = this.client.initSetTimeCommand(expectedDescriptor);
 
 		assertEquals(expectedMilliseconds, actualDescriptor.getMilliSeconds());
 	}
