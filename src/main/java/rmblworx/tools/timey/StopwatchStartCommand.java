@@ -38,7 +38,7 @@ final class StopwatchStartCommand implements ICommand {
 	 * of the Receiver instance.
 	 */
 	@Override
-	public final <T> T execute() {
+	public <T> T execute() {
 		LOG.entry();
 
 		LOG.exit();
