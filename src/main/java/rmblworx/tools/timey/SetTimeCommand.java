@@ -3,9 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -18,11 +15,9 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class SetTimeCommand implements ICommand {
+public class SetTimeCommand implements ICommand {
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
-
-	private static final Logger LOG = LogManager.getLogger(SetTimeCommand.class);
 	private final TimeDescriptor td;
 
 	/**
@@ -43,13 +38,9 @@ final class SetTimeCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		LOG.entry();
-		LOG.debug("Führe SetTimeCommand aus!");
 		this.fReceiver.setAlarmTime(this.td);
-		LOG.exit();
 
 		return (T) this.td;
-
 	}
 
 }

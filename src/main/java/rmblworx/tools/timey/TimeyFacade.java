@@ -23,21 +23,21 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
-	private final AlarmClient alarmClient;
+	//	private final AlarmClient alarmClient;
 	private static final Logger LOG = LogManager.getLogger(TimeyFacade.class);
-	private final StopwatchClient stopwatchClient;
 	private final ApplicationContext springContext;
+	private final StopwatchClient stopwatchClient;
 
 	public TimeyFacade(){
 		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
 
-		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
+		//		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
 	}
 
 	@Override
-	public final String getVersion() {
-		LOG.entry();
+	public  String getVersion() {
+
 
 		File file;
 		JarFile jar;
@@ -65,57 +65,60 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 		}
 
 		LOG.debug("Version: " + versionNumber);
-		LOG.exit();
+
 
 		return versionNumber;
 	}
 
 	@Override
-	public final Boolean resetStopwatch() {
+	public  Boolean resetStopwatch() {
 		return this.stopwatchClient.initStopwatchResetCommand();
 	}
 
 	@Override
-	public final TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		return this.alarmClient.initSetTimeCommand(descriptor);
+	public  TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
+		//		return this.alarmClient.initSetTimeCommand(descriptor);
+		return null;
 	}
 
 	@Override
-	public final TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
+	public  TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public final Boolean startCountdown() {
+	public  Boolean startCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public final TimeDescriptor startStopwatch() {
+	public  TimeDescriptor startStopwatch() {
 		return this.stopwatchClient.initStopwatchStartCommand();
 	}
 
 	@Override
-	public final Boolean stopCountdown() {
+	public  Boolean stopCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public final Boolean stopStopwatch() {
+	public  Boolean stopStopwatch() {
 		return this.stopwatchClient.initStopwatchStopCommand();
 	}
 
 	@Override
-	public final Boolean turnOff() {
-		return this.alarmClient.initTurnOffCommand();
+	public  Boolean turnOff() {
+		//		return this.alarmClient.initTurnOffCommand();
+		return null;
 	}
 
 	@Override
-	public final Boolean turnOn() {
-		return this.alarmClient.initTurnOnCommand();
+	public  Boolean turnOn() {
+		//		return this.alarmClient.initTurnOnCommand();
+		return null;
 	}
 
 }

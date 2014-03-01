@@ -7,11 +7,11 @@
     </Console>
   </Appenders>
   <Loggers>
-<!--     <Root level="trace"> -->
+    <Root level="trace">
 <!--     <Root level="debug"> -->
 <!--     <Root level="info"> -->
 <!--     <Root level="warn"> -->
-    <Root level="error">
+<!--     <Root level="error"> -->
 <!--     <Root level="fatal"> -->
       <AppenderRef ref="Console"/>
     </Root>

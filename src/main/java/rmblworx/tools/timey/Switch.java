@@ -3,8 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * PatternBox: "Invoker" implementation.
@@ -15,11 +13,9 @@ import org.apache.logging.log4j.Logger;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class Switch {
+public class Switch {
 	/** stores the Command instance of the Invoker */
 	private ICommand fCommand;
-
-	private static final Logger LOG = LogManager.getLogger(Switch.class);
 
 	/**
 	 * Default constructor
@@ -41,9 +37,9 @@ final class Switch {
 	 * instance.
 	 */
 	public <T> T execute() {
-		LOG.entry();
 
-		LOG.exit();
+
+
 		return (T) this.fCommand.execute();
 
 	}
@@ -52,11 +48,11 @@ final class Switch {
 	 * This method stores a ConcreteCommand instance.
 	 */
 	public void storeCommand(final ICommand cmd) {
-		LOG.entry();
+
 
 		this.fCommand = cmd;
 
-		LOG.exit();
+
 	}
 
 }

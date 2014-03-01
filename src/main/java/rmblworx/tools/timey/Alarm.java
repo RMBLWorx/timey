@@ -3,9 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -17,8 +14,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class Alarm implements IAlarm {
-	private static final Logger LOG = LogManager.getLogger(Alarm.class);
+public class Alarm implements IAlarm {
 
 	/**
 	 * This construtor creates a Receiver instance.
@@ -32,12 +28,12 @@ final class Alarm implements IAlarm {
 	 */
 	@Override
 	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		LOG.entry();
+
 
 		// TODO Write your action code here ...
 		System.out.println("setTime");
 
-		LOG.exit();
+
 
 		return descriptor;
 	}
@@ -47,12 +43,12 @@ final class Alarm implements IAlarm {
 	 */
 	@Override
 	public Boolean turnOff() {
-		LOG.entry();
+
 
 		// TODO Write your action code here ...
 		System.out.println("TurnOff");
 
-		LOG.exit();
+
 		return Boolean.TRUE;
 	}
 
@@ -61,12 +57,12 @@ final class Alarm implements IAlarm {
 	 */
 	@Override
 	public Boolean turnOn() {
-		LOG.entry();
+
 
 		// TODO Write your action code here ...
 		System.out.println("TurnOn");
 
-		LOG.exit();
+
 		return Boolean.TRUE;
 	}
 

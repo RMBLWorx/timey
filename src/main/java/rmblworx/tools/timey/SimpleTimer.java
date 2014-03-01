@@ -13,7 +13,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-final class SimpleTimer implements ITimer {
+public class SimpleTimer implements ITimer {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt

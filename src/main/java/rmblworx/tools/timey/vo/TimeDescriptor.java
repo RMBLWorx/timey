@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  * 
  * @author mmatthies
  */
-public final class TimeDescriptor {
+public class TimeDescriptor {
 	/**
 	 * Logger.
 	 */
@@ -30,11 +30,9 @@ public final class TimeDescriptor {
 	 *            negative Werte statt.
 	 */
 	public TimeDescriptor(final long milliSeconds) {
-		LOG.entry();
-
-		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", milliSeconds);
+		//		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
-		LOG.exit();
+
 	}
 
 	/**
@@ -42,9 +40,9 @@ public final class TimeDescriptor {
 	 *         gesetzt wurden.
 	 */
 	public long getMilliSeconds() {
-		LOG.entry();
 
-		return LOG.exit(this.milliseconds);
+
+		return this.milliseconds;
 	}
 
 	/**
@@ -52,10 +50,6 @@ public final class TimeDescriptor {
 	 *            zu setzende Zeit in Millisekunden
 	 */
 	public void setMilliSeconds(final long currentTimeMillis) {
-		LOG.entry();
-
 		this.milliseconds = currentTimeMillis;
-
-		LOG.exit();
 	}
 }

@@ -10,19 +10,11 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * @author mmatthies
  * 
  */
-final class TimeyUtils {
-	/**
-	 * Logger.
-	 */
-	private static final Logger LOG = LogManager.getLogger(TimeyUtils.class);
-
+public class TimeyUtils {
 	/**
 	 * Vom aktuellen Verzeichnis in welchem die Anwendung gerade ausgefuehrt
 	 * wird, liefert diese Hilfsmethode den Pfad zu jenen Dateien, die zum
@@ -40,7 +32,7 @@ final class TimeyUtils {
 	 */
 	public static List<Path> getPathToJar(final String pattern) throws IOException,
 	IllegalArgumentException {
-		LOG.entry();
+
 
 		if (isNullOrEmpty(pattern)) {
 			throw new IllegalArgumentException(
@@ -55,7 +47,7 @@ final class TimeyUtils {
 		Files.walkFileTree(startDir, finder);
 		result = finder.getResult();
 
-		LOG.exit();
+
 
 		return result;
 	}
@@ -92,7 +84,7 @@ final class TimeyUtils {
 	 *         {@code Laenge == 0} aufweist.
 	 */
 	public static boolean isNullOrEmpty(final String... string) {
-		LOG.entry();
+
 		boolean result = false;
 
 		for (String str : string) {
@@ -102,7 +94,7 @@ final class TimeyUtils {
 			}
 		}
 
-		LOG.exit();
+
 
 		return result;
 	}

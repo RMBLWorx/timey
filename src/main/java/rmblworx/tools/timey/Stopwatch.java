@@ -4,8 +4,6 @@ package rmblworx.tools.timey;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -21,7 +19,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class Stopwatch implements IStopwatch, ApplicationContextAware {
+class Stopwatch implements IStopwatch, ApplicationContextAware {
 	/**
 	 * Anzahl der Threads die Zeit messen sollen.
 	 */
@@ -35,10 +33,6 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 	 * @see #timeUnit
 	 */
 	private final int delayPerThread;
-	/**
-	 * Logger.
-	 */
-	private static final Logger LOG = LogManager.getLogger(Stopwatch.class);
 	/**
 	 * Die genutzte Zeitmessimplementierung.
 	 */
@@ -66,12 +60,9 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 	@Override
 	public Boolean resetStopwatch() {
-		LOG.entry();
-
-		LOG.debug("Action: resetStopwatch");
 		this.timer.resetStopwatch();
 
-		return LOG.exit(Boolean.TRUE);
+		return Boolean.TRUE;
 	}
 
 	@Override
@@ -81,29 +72,23 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 	@Override
 	public TimeDescriptor startStopwatch() {
-		LOG.entry();
-
 		TimeDescriptor result;
 
-		LOG.debug("Action: startStopwatch");
 		if (this.timer == null) {
 			this.timer = (ITimer) this.context.getBean("timer");
 		}
 
 		result = this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
 
-		return LOG.exit(result);
+		return result;
 	}
 
 	@Override
 	public Boolean stopStopwatch() {
-		LOG.entry();
-
-		LOG.debug("Action: stopStopwatch");
 		if (this.timer != null) {
 			this.timer.stopStopwatch();
 		}
 
-		return LOG.exit(Boolean.TRUE);
+		return Boolean.TRUE;
 	}
 }

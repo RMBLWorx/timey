@@ -32,7 +32,7 @@ public class InitTurnOffCommandTest {
 	 *             Exception
 	 */
 	@Before
-	public final void setUp() throws Exception {
+	public  void setUp() throws Exception {
 		this.alarm = new Alarm();
 		this.client = new AlarmClient(this.alarm);
 
@@ -43,7 +43,7 @@ public class InitTurnOffCommandTest {
 	 *             Exception
 	 */
 	@After
-	public final void tearDown() throws Exception {
+	public  void tearDown() throws Exception {
 		this.alarm = null;
 		this.client = null;
 
@@ -55,7 +55,6 @@ public class InitTurnOffCommandTest {
 	@Test
 	public final void testInitTurnOffCommand() {
 		final Boolean expectedValue = Boolean.TRUE;
-
 		final Boolean actual = this.client.initTurnOffCommand();
 		assertEquals(expectedValue, actual);
 	}
