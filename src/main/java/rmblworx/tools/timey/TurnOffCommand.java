@@ -34,10 +34,8 @@ public class TurnOffCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-
 		this.fReceiver.turnOff();
 
 		return (T) Boolean.TRUE;
 	}
-
 }

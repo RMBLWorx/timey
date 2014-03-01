@@ -30,7 +30,6 @@ public class TimeyUtils {
 	 *             wenn die Zeichenkette {@code null} referenziert oder eine {@code Laenge == 0} aufweist.
 	 */
 	public static List<Path> getPathToJar(final String pattern) throws IOException, IllegalArgumentException {
-
 		if (isNullOrEmpty(pattern)) {
 			throw new IllegalArgumentException("Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
 		}

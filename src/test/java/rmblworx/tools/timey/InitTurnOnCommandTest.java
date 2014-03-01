@@ -31,7 +31,7 @@ public class InitTurnOnCommandTest {
 	 *             Exception
 	 */
 	@Before
-	public  void setUp() throws Exception {
+	public final void setUp() throws Exception {
 		this.alarm = new Alarm();
 		this.client = new AlarmClient(this.alarm);
 
@@ -42,7 +42,7 @@ public class InitTurnOnCommandTest {
 	 *             Exception
 	 */
 	@After
-	public  void tearDown() throws Exception {
+	public final void tearDown() throws Exception {
 		this.alarm = null;
 		this.client = null;
 

@@ -36,18 +36,13 @@ public class Switch {
 	 * instance.
 	 */
 	public <T> T execute() {
-
 		return (T) this.fCommand.execute();
-
 	}
 
 	/**
 	 * This method stores a ConcreteCommand instance.
 	 */
 	public void storeCommand(final ICommand cmd) {
-
 		this.fCommand = cmd;
-
 	}
-
 }

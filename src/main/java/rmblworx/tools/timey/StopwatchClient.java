@@ -37,7 +37,6 @@ public class StopwatchClient {
 	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
 	public <T> T initStopwatchResetCommand() {
-
 		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);

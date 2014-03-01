@@ -37,7 +37,6 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 
 	@Override
 	public String getVersion() {
-
 		File file;
 		JarFile jar;
 		String versionNumber = "";
@@ -75,8 +74,7 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 
 	@Override
 	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		// return this.alarmClient.initSetTimeCommand(descriptor);
-		return null;
+		return this.alarmClient.initSetTimeCommand(descriptor);
 	}
 
 	@Override
@@ -109,14 +107,11 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 
 	@Override
 	public Boolean turnOff() {
-		// return this.alarmClient.initTurnOffCommand();
-		return null;
+		return this.alarmClient.initTurnOffCommand();
 	}
 
 	@Override
 	public Boolean turnOn() {
-		// return this.alarmClient.initTurnOnCommand();
-		return null;
+		return this.alarmClient.initTurnOnCommand();
 	}
-
 }
