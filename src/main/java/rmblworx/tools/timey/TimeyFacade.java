@@ -10,8 +10,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,15 +23,15 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
-	//	private final AlarmClient alarmClient;
-	private static final Logger LOG = LogManager.getLogger(TimeyFacade.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TimeyFacade.class);
+	private final AlarmClient alarmClient;
 	private final ApplicationContext springContext;
 	private final StopwatchClient stopwatchClient;
 
 	public TimeyFacade(){
 		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
 
-		//		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
+		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
 	}
 
