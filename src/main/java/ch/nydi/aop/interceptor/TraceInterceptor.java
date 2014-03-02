@@ -29,8 +29,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Daniel Nydegger
  */
-public class TraceInterceptor
-implements MethodInterceptor {
+public class TraceInterceptor implements MethodInterceptor {
 
 	private final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
 
