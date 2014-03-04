@@ -56,9 +56,7 @@ public class StopwatchController {
 						return;
 					}
 
-					stopwatchRunning = true;
-					stopwatchStartButton.setVisible(false);
-					stopwatchStopButton.setVisible(true);
+					startStopwatch();
 
 					final Config config = Config.getInstance();
 					final TimeDescriptor td = facade.startStopwatch();
@@ -105,20 +103,19 @@ public class StopwatchController {
 						return;
 					}
 
-					facade.stopStopwatch();
-					stopwatchRunning = false;
-					stopwatchStartButton.setVisible(true);
-					stopwatchStopButton.setVisible(false);
+					stopStopwatch();
 				}
 			});
 		}
 
 		if (stopwatchResetButton != null) {
+			stopwatchResetButton.setDisable(true);
 			stopwatchResetButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
 					facade.resetStopwatch();
 					stopwatchValue = 0L;
 					resetStopwatchTimeLabel();
+					stopwatchResetButton.setDisable(true);
 				}
 			});
 		}
@@ -136,6 +133,21 @@ public class StopwatchController {
 				}
 			});
 		}
+	}
+
+	protected void startStopwatch() {
+		stopwatchRunning = true;
+		stopwatchResetButton.setDisable(true);
+		stopwatchStartButton.setVisible(false);
+		stopwatchStopButton.setVisible(true);
+	}
+
+	protected void stopStopwatch() {
+		stopwatchRunning = false;
+		facade.stopStopwatch();
+		stopwatchResetButton.setDisable(false);
+		stopwatchStartButton.setVisible(true);
+		stopwatchStopButton.setVisible(false);
 	}
 
 	private void setupDateFormatter() {
