@@ -54,9 +54,9 @@ public class InitTurnOffCommandTest {
 	 */
 	@Test
 	public final void testInitTurnOffCommand() {
-		Boolean expectedValue = Boolean.TRUE;
+		final Boolean expectedValue = Boolean.TRUE;
 
-		Boolean actual = this.client.initTurnOffCommand();
+		final Boolean actual = this.client.initTurnOffCommand();
 		assertEquals(expectedValue, actual);
 	}
 }

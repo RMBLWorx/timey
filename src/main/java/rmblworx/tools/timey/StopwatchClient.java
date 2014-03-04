@@ -58,7 +58,7 @@ final class StopwatchClient {
 	 * Receiver object.
 	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
-	public final <T> T initStopwatchStartCommand() {
+	public <T> T initStopwatchStartCommand() {
 		LOG.entry();
 
 		final StopwatchStartCommand cmd = new StopwatchStartCommand(this.fReceiver);
@@ -75,7 +75,7 @@ final class StopwatchClient {
 	 * Receiver object.
 	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
-	public final <T> T initStopwatchStopCommand() {
+	public <T> T initStopwatchStopCommand() {
 		LOG.entry();
 
 		final StopwatchStopCommand cmd = new StopwatchStopCommand(this.fReceiver);

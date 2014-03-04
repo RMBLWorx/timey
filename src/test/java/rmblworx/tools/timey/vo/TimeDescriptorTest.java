@@ -47,7 +47,7 @@ public class TimeDescriptorTest {
 	 */
 	@Test
 	public final void testCorrectBehaviorOfTheVo() {
-		TimeDescriptor td = new TimeDescriptor(EXPECTED_MILLISECONDS);
+		final TimeDescriptor td = new TimeDescriptor(EXPECTED_MILLISECONDS);
 		assertEquals("Test fehlgeschlagen: Millisekunden falsch!", EXPECTED_MILLISECONDS, td.getMilliSeconds());
 	}
 }

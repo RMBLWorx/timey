@@ -42,7 +42,7 @@ final class StopwatchResetCommand implements ICommand {
 	 * @return
 	 */
 	@Override
-	public final <T> T execute() {
+	public <T> T execute() {
 		LOG.entry();
 
 		this.fReceiver.resetStopwatch();
