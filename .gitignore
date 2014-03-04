@@ -1,4 +1,5 @@
 /.settings
 /bin
+/create-target-symlink.bat
 /target
 /Timey.config.xml
