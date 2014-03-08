@@ -22,7 +22,7 @@ import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring-timey-context.xml" })
-public class IAlarmTimestampServiceTest {
+public class AlarmTimestampServiceTest {
 
 	private long currentTimeMillis;
 	private AlarmTimestamp expectedEntity;
@@ -64,9 +64,31 @@ public class IAlarmTimestampServiceTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service. IAlarmTimestampService#setIsActivated(rmblworx.tools.timey.persistence.model.AlarmTimestamp)}
-	 * .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(Long)} .
+	 */
+	@Test
+	public void testDeleteAlarmTimestamp() {
+
+		this.expectedEntity.setAlarmTimestamp(this.expectedTimestamp);
+		this.expectedEntity.setIsActivated(Boolean.TRUE);
+		this.service.create(this.expectedEntity);
+
+		Long id = this.expectedEntity.getId();
+		this.service.delete(this.expectedEntity.getId());
+
+		assertEquals(null, this.service.findById(id));
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(Long)} .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteAlarmTimestampShouldFailBecauseIdNull() {
+		this.service.delete(null);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#activate(Long, Boolean)} .
 	 */
 	@Test
 	public void testSetIsActivated() {
@@ -82,7 +104,21 @@ public class IAlarmTimestampServiceTest {
 		actualEntity = this.service.findById(actualEntity.getId());
 
 		assertEquals(Boolean.FALSE, actualEntity.getIsActivated());
-
 	}
 
+	/**
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#activate(Long, Boolean)} .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetIsActivatedShouldFailBecauseIdNull() {
+		this.service.activate(null, Boolean.FALSE);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#activate(Long, Boolean)} .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetIsActivatedShouldFailBecauseIsActivatedIsNull() {
+		this.service.activate(this.expectedEntity.getId(), null);
+	}
 }

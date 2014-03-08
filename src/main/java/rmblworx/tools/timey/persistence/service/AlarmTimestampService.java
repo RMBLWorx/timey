@@ -32,7 +32,13 @@ public class AlarmTimestampService implements IAlarmTimestampService {
 
 	@Override
 	public Boolean create(final AlarmTimestamp entity) {
-		return this.getDao().addAlarmTimestamp(entity);
+		return this.getDao().createAlarmTimestamp(entity);
+	}
+
+
+	@Override
+	public Boolean delete(final Long id) {
+		return this.getDao().deleteAlarmTimestamp(id);
 	}
 
 
@@ -47,6 +53,13 @@ public class AlarmTimestampService implements IAlarmTimestampService {
 	 */
 	private TimeyDao getDao() {
 		return this.dao;
+	}
+
+
+	@Override
+	public Boolean update(AlarmTimestamp entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
