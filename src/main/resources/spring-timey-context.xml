@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-
+	<context:annotation-config />
 
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm"></bean>
 	<bean id="alarmClient" name="alarmClient" class="rmblworx.tools.timey.AlarmClient">
@@ -39,7 +43,62 @@
 	<bean id="countdown" name="simpleCountdown" class="rmblworx.tools.timey.SimpleCountdown">
 	</bean>
 
+	<!-- <bean id="alarmService" name="alarmService" -->
+	<!-- class="rmblworx.tools.timey.persistence.service.AlarmTimestampService"> -->
+	<!-- </bean> -->
+	<!-- <bean id="abstractService" name="abstractService" -->
+	<!-- class="rmblworx.tools.timey.persistence.service.AbstractService"> -->
+	<!-- </bean> -->
+	<!-- DAO's -->
+	<bean id="alarmTimestampDao" name="alarmTimestampDao"
+		class="rmblworx.tools.timey.persistence.dao.AlarmTimestampDao">
+	</bean>
+
 	<!-- ############################ Ende Beandeklaration ######################## -->
+	<context:component-scan base-package="rmblworx.tools.timey.persistence" />
+	<tx:annotation-driven />
+	<!-- <bean id="emf" -->
+	<!-- class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> -->
+	<!-- <property name="dataSource" ref="dataSource" /> -->
+	<!-- <property name="jpaVendorAdapter" ref="jpaVendorAdapter" /> -->
+	<!-- </bean> -->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:alarmdb" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="10" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="rmblworx.tools.timey.persistence.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- um die Exception-Übersetzung einem HibernateDAO ohne Schablonen hinzuzufügen 
+		wird die im folgenden deklarierte Bean dem Spring-Anwendungscontext hinzugefügt. 
+		Der Postprocessor hängt einen Advisor an jede Bean die mit @Repository annotiert 
+		ist sodass alle plattformspezifischen Exceptions abgefangen und als standardisierte, 
+		ungeprüfte Spring-Exceptionserneut ausgelöst werden. -->
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<!-- ############################ Ende Spring - Hibernate Integration ######################## -->
 
 	<!-- Konzept - Quelle: https://github.com/nydi/spring-practice -->
 	<!-- AOP config -->
@@ -66,4 +125,5 @@
 		<aop:advisor advice-ref="debugInterceptorWithComposite"
 			pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" />
 	</aop:config>
+
 </beans>

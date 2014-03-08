@@ -67,7 +67,6 @@ public class TraceInterceptor implements MethodInterceptor {
 			}
 			flattenArguments.append("}");
 			this.logger.trace(prefix + flattenArguments.toString());
-
 		}
 
 		Object invocationResult = null;
@@ -79,7 +78,6 @@ public class TraceInterceptor implements MethodInterceptor {
 			throw e;
 		}
 		finally {
-
 			final StringBuilder builder = new StringBuilder();
 			builder.append("invocation return value of ").append(invocation.getMethod().getName()).append(": {").append(
 					this.flattenArgument(invocationResult)).append("}");

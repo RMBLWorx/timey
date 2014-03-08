@@ -26,60 +26,59 @@ import org.aopalliance.intercept.MethodInvocation;
  * @author Daniel Nydegger
  */
 public class ThreadLocalInterceptor<T>
-    implements MethodInterceptor {
+implements MethodInterceptor {
 
-    private final ThreadLocal<T> threadLocal;
-    private final T value;
+	/**
+	 * Creates a {@link ThreadLocalInterceptor} to hold the value in threadLocale during
+	 * {@link #invoke(MethodInvocation)}.
+	 * 
+	 * @param <T>
+	 *            type of {@link ThreadLocal}
+	 * @param threadLocal
+	 *            instance of {@link ThreadLocal} must not null
+	 * @param value
+	 *            can be null
+	 * @return newly created instance of {@link ThreadLocalInterceptor}
+	 */
+	public static <T> ThreadLocalInterceptor<T> create(final ThreadLocal<T> threadLocal, final T value) {
+		return new ThreadLocalInterceptor<T>(threadLocal, value);
+	}
+	/**
+	 * Creates and invoke a {@link ThreadLocalInterceptor}
+	 * 
+	 * @see #create(ThreadLocal, Object)
+	 * @param invocation
+	 *            invocation of the current method call
+	 * @return result of the invocation
+	 * @throws Throwable
+	 *             any thrown error during the invocation
+	 */
+	public static <T> Object invoke(final ThreadLocal<T> threadLocal, final T value, final MethodInvocation invocation)
+			throws Throwable {
+		return create(threadLocal, value).invoke(invocation);
+	}
 
-    /**
-     * Creates a {@link ThreadLocalInterceptor} to hold the value in threadLocale during
-     * {@link #invoke(MethodInvocation)}.
-     * 
-     * @param <T>
-     *            type of {@link ThreadLocal}
-     * @param threadLocal
-     *            instance of {@link ThreadLocal} must not null
-     * @param value
-     *            can be null
-     * @return newly created instance of {@link ThreadLocalInterceptor}
-     */
-    public static <T> ThreadLocalInterceptor<T> create(final ThreadLocal<T> threadLocal, final T value) {
-        return new ThreadLocalInterceptor<T>(threadLocal, value);
-    }
+	private final ThreadLocal<T> threadLocal;
 
-    /**
-     * Creates and invoke a {@link ThreadLocalInterceptor}
-     * 
-     * @see #create(ThreadLocal, Object)
-     * @param invocation
-     *            invocation of the current method call
-     * @return result of the invocation
-     * @throws Throwable
-     *             any thrown error during the invocation
-     */
-    public static <T> Object invoke(final ThreadLocal<T> threadLocal, final T value, final MethodInvocation invocation)
-        throws Throwable {
-        return create(threadLocal, value).invoke(invocation);
-    }
+	private final T value;
 
-    private ThreadLocalInterceptor(final ThreadLocal<T> threadLocal, final T value) {
-        assert (null != threadLocal);
+	private ThreadLocalInterceptor(final ThreadLocal<T> threadLocal, final T value) {
+		assert (null != threadLocal);
 
-        this.threadLocal = threadLocal;
-        this.value = value;
-    }
+		this.threadLocal = threadLocal;
+		this.value = value;
+	}
 
-    @Override
-    public Object invoke(final MethodInvocation invocation)
-        throws Throwable {
-        // save back old value to respect multiple invoke calls during the same invocation.
-        final T old = threadLocal.get();
-        threadLocal.set(value);
-        try {
-            return invocation.proceed();
-        }
-        finally {
-            threadLocal.set(old);
-        }
-    }
+	@Override
+	public Object invoke(final MethodInvocation invocation)
+			throws Throwable {
+		// save back old value to respect multiple invoke calls during the same invocation.
+		final T old = this.threadLocal.get();
+		this.threadLocal.set(this.value);
+		try {
+			return invocation.proceed();
+		}finally {
+			this.threadLocal.set(old);
+		}
+	}
 }

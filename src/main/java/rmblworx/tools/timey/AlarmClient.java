@@ -15,7 +15,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class AlarmClient {
-	/** stores the Receiver instance of the Client */
+	/** stores the Receiver instance of the Client. */
 	private final Alarm fReceiver;
 
 	/**
