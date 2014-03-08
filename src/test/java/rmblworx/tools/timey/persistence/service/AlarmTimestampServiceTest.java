@@ -61,8 +61,9 @@ public class AlarmTimestampServiceTest {
 		assertEquals(this.expectedEntity.getId(), actualEntity.getId());
 		assertEquals(this.expectedEntity.getAlarmTimestamp(), actualEntity.getAlarmTimestamp());
 		assertEquals(this.expectedEntity.getIsActivated(), actualEntity.getIsActivated());
-	}
 
+		this.service.delete(this.expectedEntity.getId());
+	}
 	/**
 	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(Long)} .
 	 */
@@ -104,6 +105,8 @@ public class AlarmTimestampServiceTest {
 		actualEntity = this.service.findById(actualEntity.getId());
 
 		assertEquals(Boolean.FALSE, actualEntity.getIsActivated());
+
+		this.service.delete(this.expectedEntity.getId());
 	}
 
 	/**
@@ -120,5 +123,32 @@ public class AlarmTimestampServiceTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetIsActivatedShouldFailBecauseIsActivatedIsNull() {
 		this.service.activate(this.expectedEntity.getId(), null);
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#update(AlarmTimestamp)}
+	 * .
+	 */
+	@Test
+	public void testUpdate() {
+
+		this.expectedEntity.setAlarmTimestamp(this.expectedTimestamp);
+		this.expectedEntity.setIsActivated(Boolean.TRUE);
+		this.service.create(this.expectedEntity);
+		final AlarmTimestamp actualEntity = this.service.findById(this.expectedEntity.getId());
+
+		final Timestamp newTimestamp = new Timestamp(System.currentTimeMillis());
+		final Long actualId = actualEntity.getId();
+		actualEntity.setAlarmTimestamp(newTimestamp);
+		actualEntity.setIsActivated(Boolean.FALSE);
+		this.service.update(actualEntity);
+		this.service.findById(actualEntity.getId());
+
+		assertEquals(actualEntity.getId(), actualId);
+		assertEquals(actualEntity.getAlarmTimestamp(), newTimestamp);
+		assertEquals(actualEntity.getIsActivated(), Boolean.FALSE);
+
+		this.service.delete(this.expectedEntity.getId());
 	}
 }

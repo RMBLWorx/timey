@@ -58,8 +58,7 @@ public class AlarmTimestampService implements IAlarmTimestampService {
 
 	@Override
 	public Boolean update(AlarmTimestamp entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getDao().updateAlarmTimestamp(entity);
 	}
 
 }

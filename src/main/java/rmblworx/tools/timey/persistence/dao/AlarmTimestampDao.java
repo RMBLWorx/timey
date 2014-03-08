@@ -6,8 +6,6 @@ package rmblworx.tools.timey.persistence.dao;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,10 +20,6 @@ import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AlarmTimestampDao implements TimeyDao {
 
-	/**
-	 * Logger.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(AlarmTimestampDao.class);
 	/**
 	 * SessionFactory.
 	 */
@@ -85,7 +79,7 @@ public class AlarmTimestampDao implements TimeyDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public Boolean updateAlarmTimestamp(AlarmTimestamp entity) {
+	public Boolean updateAlarmTimestamp(final AlarmTimestamp entity) {
 		final AlarmTimestamp ts = this.findById(entity.getId());
 		ts.setAlarmTimestamp(entity.getAlarmTimestamp());
 		ts.setIsActivated(entity.getIsActivated());

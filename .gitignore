@@ -3,3 +3,6 @@
 /create-target-symlink.bat
 /target
 /Timey.config.xml
+alarmdb.h2.db
+alarmdb.trace.db
+alarmdb.lock.db
