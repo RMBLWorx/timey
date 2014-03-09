@@ -3,26 +3,36 @@
 ## Zielsetzung
 Es soll eine Anwendung entstehen, die folgende Funktionalitäten
 mittels einem GUI für alle Plattformen (Android, iOS, etc.) bietet:
-* Stoppuhr-Funktion 
-* Countdown-Funktion 
+* Stoppuhr-Funktion
+* Countdown-Funktion
 * Alarm-Funktion
 
-## Anforderungen 
+## Anforderungen
 
 * Stoppuhr-Funktion: Der Nutzer kann mittels Betätigung eines
-Startknopfes die Uhr starten. Bei erneutem Betätigen des gleichen Knopfes wird
-die Zeit angehalten. Wird der Knopf erneut betätigt, wird die Zeit
-fortschreitend gemessen. Über einen separaten Knopf wird die Uhr zurückgesetzt.
-Eine Zwischenzeitmessung wird dadurch realisiert, dass während der laufenden
-Zeitmessung der Reset-Knopf bei Betätigung die aktuelle Zeit nimmt und anzeigt,
-jedoch wird die Zeitmessung im Hintergrund fortgeführt. Erst beim erneuten
-Drücken des Reset-Knopfes wird die aktuelle Zeitmessung wieder direkt
-eingeblendet. Wird stattdessen der Start-Knopf im Zwischenzeitanzeigemodus
-betätigt, wird die Zeitmessung unterbrochen - es bleibt aber die aktuelle
-Zwischenzeit eingeblendet. Wird in diesem Zusammenhang der Reset-Knopf im
-Anschluss betätigt, so wird die Zeitmessung gestoppt und die Endzeit
-eingeblendet. Ein erneutes Betätigen des Reset-Knopfes setzt die Stoppuhr
-zurück.
+Knopfes (im Folgenden START betitelt) die Uhr starten. Bei erneutem Betätigen von START
+wird die Zeitnahme unterbrochen. Wird START erneut betätigt, wird die Zeit
+fortschreitend gemessen. Über einen separaten Knopf wird die Uhr zurückgesetzt (im
+Folgenden RESET betitelt).
+Ein RESET während der fortschreitenden, ununterbrochenen Zeitmessung ist zu ermöglichen.
+In diesem Falle hat die Stoppuhr ihre Zeitmessung bei 0 Sekunden selbstständig ihre Arbeit
+ fortzusetzen. Dies gilt nicht für die Zwischenzeitmessung.
+Eine Zwischenzeitmessung wird durch einen extra dafür vorgesehenen Knopf (TIME) realisiert.
+Wird TIME während laufender Zeitmessung einmal betätigt, so ist die Zeitmessung im
+Hintergrund fortschreitend durchzuführen und dem Nutzer der bei TIME-Betätigung von der
+Uhr zu zwischenspeichernde Zeitwert anzuzeigen bis eine andere Nutzeraktion eintritt. Während
+ dieser Zeit befindet sich die Uhr im Zwischenzeit-Modus, im Folgenden TIME-MODE genannt.
+Wird im TIME-MODE START betätigt, so ist im die im Hintergrund laufende Zeitmessung zu
+unterbrechen. Durch START kann der Nutzer die Zeitmessung im Hintergrund fortsetzen lassen.
+ Die Stoppuhr befindet sich noch im TIME-MODE.
+Wird jedoch anstelle START vom Nutzer ein RESET ausgelöst, so verlässt die Stoppuhr
+den TIME-MODE, wird komplett zurückgesetzt und startet nicht selbstständig die Zeitnahme
+sondern wartet auf eine Nutzerinteraktion.
+Befindet sich die Uhr im TIME-MODE und wird nach fortschreitender Zeitmessung mittels START
+ die Zeitmessung unterbrochen so kann der Nutzer mittels TIME sich die letzte, im
+Hintergrund gemessene, Zeit anzeigen lassen. Die vorher angezeigte Zwischenzeit geht unwiderruflich
+ verloren. Mittels START kann der Nutzer die Zeitnahme im Vordergrund fortsetzen lassen oder
+ mit RESET die Uhr komplett zurücksetzen lassen wobei die Uhr den TIME-MODE verlässt.
 
 * Countdown-Funktion: Hier hat der Nutzer die Möglichkeit, eine Zeit einzustellen
 (Stunden:Minuten:Sekunden). Nach Betätigung des Start-Knopfes beginnt die Uhr
@@ -42,4 +52,19 @@ können.
 ## verwendete Technologien
 
 * Java 7
-* JavaFX für GUI
+* JavaFX 2.2 für GUI
+* Maven 3
+
+
+## verwendete externe Frameworks/ Bibliotheken
+
+* Spring-Framework 4.0.0-RELEASE (Spring-AOP, Spring-Context, Spring-Core, Spring-TX, Spring-Test)
+* Hibernate 3
+* Apache Commons Lang 2.6
+* SLF4J 1.7.6
+* Log4j
+* JUnit 4.11
+* CGlib 3.1
+* AspectJWeaver 1.7.4
+
+

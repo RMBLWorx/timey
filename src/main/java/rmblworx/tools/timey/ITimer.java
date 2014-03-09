@@ -4,12 +4,18 @@ import java.util.concurrent.TimeUnit;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/**
+ * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Stoppuhr-Objekts.
+ * @author mmatthies
+ *
+ */
 interface ITimer {
 
 	/**
 	 * Setzt die Stoppuhr auf Null.
+	 * @return true wenn die Uhr erfolgreich auf Anfang gesetzt werden konnte sonst false.
 	 */
-	void resetStopwatch();
+	Boolean resetStopwatch();
 
 	/**
 	 * Startet den Stopvorgang.
@@ -30,7 +36,8 @@ interface ITimer {
 
 	/**
 	 * Stoppt die Zeitmessung und beendet den/die gestarteten Threads.
+	 * @return true wenn erfolgreich die Uhr angehalten werden konnte sonst false.
 	 */
-	void stopStopwatch();
+	Boolean stopStopwatch();
 
 }
