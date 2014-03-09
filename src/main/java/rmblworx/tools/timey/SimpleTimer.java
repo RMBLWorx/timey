@@ -56,17 +56,6 @@ public class SimpleTimer implements ITimer {
 		return Boolean.TRUE;
 	}
 
-	/**
-	 * Veranlasst die fuer die Zeitnahme verwendete Implementierung sich zu beenden. Es wird so lange gewartet bis sie
-	 * beendet wurde.
-	 */
-	private void shutdownStopwatch() {
-		this.scheduler.shutdownNow();
-		while (!this.scheduler.isTerminated()) {
-			// wir warten solange bis alle Threads beendet wurden
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see rmblworx.tools.timey.ITimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)
@@ -88,7 +77,7 @@ public class SimpleTimer implements ITimer {
 	 */
 	@Override
 	public Boolean stopStopwatch() {
-		this.shutdownStopwatch();
+		TimeyUtils.shutdownScheduler(this.scheduler);
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 		return Boolean.TRUE;
 	}
