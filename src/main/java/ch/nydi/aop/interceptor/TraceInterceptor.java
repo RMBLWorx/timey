@@ -40,7 +40,7 @@ public class TraceInterceptor
 
         final Object[] arguments = invocation.getArguments();
         if (ArrayUtils.isEmpty(arguments)) {
-            logger.info(prefix + "{no arguments}");
+            logger.trace(prefix + "{no arguments}");
         } else {
             final StringBuilder flattenArguments = new StringBuilder();
             flattenArguments.append("{");
@@ -51,7 +51,7 @@ public class TraceInterceptor
                 flattenArguments.append(flattenArgument(arguments[i]));
             }
             flattenArguments.append("}");
-            logger.info(prefix + flattenArguments.toString());
+            logger.trace(prefix + flattenArguments.toString());
 
         }
 
@@ -60,7 +60,7 @@ public class TraceInterceptor
         try {
             invocationResult = invocation.proceed();
         } catch (final Throwable e) {
-            logger.info("execption occured, no return value");
+            logger.trace("execption occured, no return value");
             throw e;
         }
         finally {
@@ -68,7 +68,7 @@ public class TraceInterceptor
             final StringBuilder builder = new StringBuilder();
             builder.append("invocation return value of ").append(invocation.getMethod().getName()).append(": {").append(
                 flattenArgument(invocationResult)).append("}");
-            logger.info(builder.toString());
+            logger.trace(builder.toString());
         }
 
         return invocationResult;

@@ -51,7 +51,7 @@ public class TimerInterceptor
             final StringBuilder builder = new StringBuilder();
             builder.append("duration of ").append(invocation.getMethod().getName()).append(" [ns]: ").append(
                 chronometer.getTime(TimeUnit.NANOSECONDS));
-            logger.info(builder.toString());
+            logger.debug(builder.toString());
         }
 
         return retVal;
