@@ -70,7 +70,6 @@ final class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 		LOG.debug("Action: resetStopwatch");
 		this.timer.resetStopwatch();
-		this.timer = null;
 
 		return LOG.exit(Boolean.TRUE);
 	}
