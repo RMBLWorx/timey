@@ -61,7 +61,9 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 	@Override
 	public Boolean resetStopwatch() {
-		this.timer.resetStopwatch();
+		if (this.timer != null) {
+			this.timer.resetStopwatch();
+		}
 
 		return Boolean.TRUE;
 	}

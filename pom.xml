@@ -23,6 +23,7 @@
 		<apache.commons.lang.version>2.6</apache.commons.lang.version>
 		<cglib.version>3.1</cglib.version>
 		<aspectjweaver.version>1.7.4</aspectjweaver.version>
+		<testfx.version>3.1.2</testfx.version>
 	</properties>
 
 	<dependencies>
@@ -88,6 +89,11 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.loadui</groupId>
+			<artifactId>testFx</artifactId>
+			<version>${testfx.version}</version>
 		</dependency>
 	</dependencies>
 
