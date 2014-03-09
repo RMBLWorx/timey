@@ -20,7 +20,7 @@ import java.util.List;
  * @see {@code http://docs.oracle.com/javase/javatutorials/tutorial/essential/io/fileOps.html#glob}
  * @author mmatthies
  */
-final class Finder extends SimpleFileVisitor<Path> {
+public class Finder extends SimpleFileVisitor<Path> {
 
 	private final PathMatcher matcher;
 	private final List<Path> result = new LinkedList<Path>();

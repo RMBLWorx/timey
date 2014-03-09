@@ -8,9 +8,6 @@ import java.util.TimeZone;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -18,18 +15,14 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-final class TimerRunnable implements Runnable {
-	private final SimpleDateFormat dateFormatter = new SimpleDateFormat();
+public class TimerRunnable implements Runnable {
+	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat();
 	private static final String FORMAT_STRING = "HH:mm:ss.SSS";
 	private static final String UTC = "UTC";
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
 	 */
 	private final Lock lock = new ReentrantLock();
-	/**
-	 * Logger.
-	 */
-	private static final Logger LOG = LogManager.getLogger(TimerRunnable.class);
 	/**
 	 * Differenz zwischen Startzeit und aktueller Zeit.
 	 */
@@ -56,15 +49,13 @@ final class TimerRunnable implements Runnable {
 	 *            Vergangene Zeit in Millisekunden.
 	 */
 	public TimerRunnable(final TimeDescriptor descriptor, final long passedTime) {
-		LOG.entry();
 
 		this.timeDescriptor = descriptor;
 		this.timePassed = passedTime;
 		this.timeStarted = System.currentTimeMillis();
-		dateFormatter.setTimeZone(TimeZone.getTimeZone(UTC));
-		dateFormatter.applyPattern(FORMAT_STRING);
+		DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone(UTC));
+		DATE_FORMATTER.applyPattern(FORMAT_STRING);
 
-		LOG.exit();
 	}
 
 	/**
@@ -72,7 +63,6 @@ final class TimerRunnable implements Runnable {
 	 * Wertobjekt.
 	 */
 	private void computeTime() {
-		LOG.entry();
 
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
@@ -80,21 +70,16 @@ final class TimerRunnable implements Runnable {
 		this.timeDelta = currentTimeMillis - this.timeStarted;
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
 
-		LOG.debug("current (UTC): " + dateFormatter.format(currentTimeMillis));
-		LOG.exit();
+		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
 
 	@Override
 	public void run() {
-		LOG.entry();
-
 		this.lock.lock();
 		try {
 			this.computeTime();
 		} finally {
 			this.lock.unlock();
 		}
-
-		LOG.exit();
 	}
 }

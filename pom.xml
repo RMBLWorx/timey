@@ -18,13 +18,47 @@
 		<maven-clean-plugin.version>2.4.1</maven-clean-plugin.version>
 		<junit.version>4.11</junit.version>
 		<javafx.version>2.2</javafx.version>
-		<log4j2-api-version>2.0-beta9</log4j2-api-version>
-		<log4j2-core-version>${log4j2-api-version}</log4j2-core-version>
 		<spring.version>4.0.0.RELEASE</spring.version>
+		<slf4j.version>1.7.6</slf4j.version>
+		<apache.commons.lang.version>2.6</apache.commons.lang.version>
+		<cglib.version>3.1</cglib.version>
+		<aspectjweaver.version>1.7.4</aspectjweaver.version>
 	</properties>
 
 	<dependencies>
+		<!-- logging per AOP dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${apache.commons.lang.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
+		</dependency>
 		<!-- Spring-Framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -47,17 +81,6 @@
 			<version>${javafx.version}</version>
 			<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
 			<scope>system</scope>
-		</dependency>
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j2-api-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j2-core-version}</version>
 		</dependency>
 		<!-- Testing -->
 		<dependency>

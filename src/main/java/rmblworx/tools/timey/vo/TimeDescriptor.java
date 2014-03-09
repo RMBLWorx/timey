@@ -2,8 +2,9 @@
  */
 package rmblworx.tools.timey.vo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
@@ -11,11 +12,11 @@ import org.apache.logging.log4j.Logger;
  * 
  * @author mmatthies
  */
-public final class TimeDescriptor {
+public class TimeDescriptor {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = LogManager.getLogger(TimeDescriptor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TimeDescriptor.class);
 	/**
 	 * Kapselt die aktuelle Systemzeit in Millisekunden.
 	 */
@@ -30,11 +31,9 @@ public final class TimeDescriptor {
 	 *            negative Werte statt.
 	 */
 	public TimeDescriptor(final long milliSeconds) {
-		LOG.entry();
-
-		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", milliSeconds);
+		//		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
-		LOG.exit();
+
 	}
 
 	/**
@@ -42,9 +41,7 @@ public final class TimeDescriptor {
 	 *         gesetzt wurden.
 	 */
 	public long getMilliSeconds() {
-		LOG.entry();
-
-		return LOG.exit(this.milliseconds);
+		return this.milliseconds;
 	}
 
 	/**
@@ -52,10 +49,11 @@ public final class TimeDescriptor {
 	 *            zu setzende Zeit in Millisekunden
 	 */
 	public void setMilliSeconds(final long currentTimeMillis) {
-		LOG.entry();
-
 		this.milliseconds = currentTimeMillis;
+	}
 
-		LOG.exit();
+	@Override
+	public String toString(){
+		return "TimeDescriptor (ms): " + this.milliseconds;
 	}
 }

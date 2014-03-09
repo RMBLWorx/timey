@@ -6,13 +6,14 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Stoppuhr-Objekts.
+ * 
  * @author mmatthies
- *
  */
 interface ITimer {
 
 	/**
 	 * Setzt die Stoppuhr auf Null.
+	 * 
 	 * @return true wenn die Uhr erfolgreich auf Anfang gesetzt werden konnte sonst false.
 	 */
 	Boolean resetStopwatch();
@@ -36,6 +37,7 @@ interface ITimer {
 
 	/**
 	 * Stoppt die Zeitmessung und beendet den/die gestarteten Threads.
+	 * 
 	 * @return true wenn erfolgreich die Uhr angehalten werden konnte sonst false.
 	 */
 	Boolean stopStopwatch();

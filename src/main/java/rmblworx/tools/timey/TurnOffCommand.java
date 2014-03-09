@@ -3,9 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
@@ -16,9 +13,7 @@ import org.apache.logging.log4j.Logger;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class TurnOffCommand implements ICommand {
-	private static final Logger LOG = LogManager.getLogger(TurnOffCommand.class);
-
+public class TurnOffCommand implements ICommand {
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Alarm fReceiver;
 
@@ -39,11 +34,8 @@ final class TurnOffCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		LOG.entry();
 
 		this.fReceiver.turnOff();
-
-		LOG.exit();
 
 		return (T) Boolean.TRUE;
 	}

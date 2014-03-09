@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+	<!--Appender zur Ausgabe und zum filtern auf Log-Level-Ebene -->
+	<appender name="debug" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE}%6p %c{1}:%L - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<!--Eselsbruecke: (ALL)e Level von (TRACE) - bis (DEBUG) -->
+			<!-- Die Reihenfolge der Level: -->
+			<!-- ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF -->
+			<param name="levelMin" value="INFO" />
+			<param name="levelMax" value="FATAL" />
+		</filter>
+	</appender>
+
+	<logger name="ch.nydi.aop.interceptor">
+		<level value="trace" />
+	</logger>
+	<logger name="rmblworx.tools.timey">
+		<level value="trace" />
+	</logger>
+
+	<!--Logger der fuer alle Klassen in allen Packages gilt -->
+	<root>
+		<priority value="error"></priority>
+		<appender-ref ref="debug" />
+	</root>
+</log4j:configuration>

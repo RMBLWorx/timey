@@ -3,9 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
@@ -16,12 +13,7 @@ import org.apache.logging.log4j.Logger;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class StopwatchStartCommand implements ICommand {
-	/**
-	 * Logger.
-	 */
-	private static final Logger LOG = LogManager.getLogger(StopwatchStartCommand.class);
-
+public class StopwatchStartCommand implements ICommand {
 	/** stores the Receiver instance of the ConcreteCommand */
 	private final Stopwatch fReceiver;
 
@@ -39,11 +31,6 @@ final class StopwatchStartCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		LOG.entry();
-
-		LOG.exit();
-
 		return (T) this.fReceiver.startStopwatch();
 	}
-
 }

@@ -3,9 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -17,11 +14,9 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-final class AlarmClient {
+public class AlarmClient {
 	/** stores the Receiver instance of the Client */
 	private final Alarm fReceiver;
-
-	private static final Logger LOG = LogManager.getLogger(AlarmClient.class);
 
 	/**
 	 * This construtor creates a Client instance and stores the given Receiver.
@@ -36,13 +31,10 @@ final class AlarmClient {
 	 * object.
 	 */
 	public <T> T initSetTimeCommand(final TimeDescriptor td) {
-		LOG.entry();
 
 		final SetTimeCommand cmd = new SetTimeCommand(this.fReceiver, td);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
-
-		LOG.exit();
 
 		return invoker.execute();
 	}
@@ -52,13 +44,11 @@ final class AlarmClient {
 	 * object.
 	 */
 	public <T> T initTurnOffCommand() {
-		LOG.entry();
 
 		final TurnOffCommand cmd = new TurnOffCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-		LOG.exit();
 		return invoker.execute();
 	}
 
@@ -67,13 +57,11 @@ final class AlarmClient {
 	 * object.
 	 */
 	public <T> T initTurnOnCommand() {
-		LOG.entry();
 
 		final TurnOnCommand cmd = new TurnOnCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-		LOG.exit();
 		return invoker.execute();
 	}
 

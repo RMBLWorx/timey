@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
 
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm"></bean>
 	<bean id="alarmClient" name="alarmClient" class="rmblworx.tools.timey.AlarmClient">
-		<constructor-arg ref="alarmReceiver" />
+	<constructor-arg ref="alarmReceiver" />
 	</bean>
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
-		<!-- <constructor-arg ref="simpleTimer" index="0" /> -->
 		<constructor-arg value="1" index="0" />
 		<constructor-arg value="1" index="1" />
 		<constructor-arg type="java.util.concurrent.TimeUnit"
@@ -20,16 +20,42 @@
 		class="rmblworx.tools.timey.StopwatchClient">
 		<constructor-arg ref="stopwatchReceiver" />
 	</bean>
-	<bean scope="singleton" id="timerRunnable" name="timerRunnable"
-		class="rmblworx.tools.timey.TimerRunnable">
+	<bean id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
-	<bean scope="singleton" id="descriptor" name="descriptor"
+	<bean id="descriptor" name="descriptor"
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
 		<constructor-arg value="0"></constructor-arg>
 	</bean>
 	<bean id="timer" name="simpleTimer" class="rmblworx.tools.timey.SimpleTimer">
 		<constructor-arg ref="descriptor"></constructor-arg>
 	</bean>
+
+	<!-- ############################ Ende Beandeklaration ######################## -->
+
+	<!-- Konzept - Quelle: https://github.com/nydi/spring-practice -->
+	<!-- AOP config -->
+	<aop:aspectj-autoproxy />
+
+	<!-- declarative chained interceptor -->
+	<bean id="debugInterceptorWithComposite" class="ch.nydi.aop.interceptor.CompositeInterceptor">
+		<property name="interceptors">
+			<list>
+				<bean class="ch.nydi.aop.interceptor.TraceInterceptor" />
+				<bean class="ch.nydi.aop.interceptor.TimerInterceptor" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- dynamic chained interceptor -->
+	<bean id="debugInterceptor" class="ch.nydi.aop.interceptor.DebugInterceptor" />
+
+	<aop:config proxy-target-class="true">
+		<!-- comment one of the advisor configuration -->
+<!-- 		<aop:advisor advice-ref="debugInterceptor" -->
+<!-- 			pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" /> -->
+		<aop:advisor advice-ref="debugInterceptorWithComposite"
+			pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" />
+	</aop:config>
 </beans>
