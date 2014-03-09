@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -78,17 +80,11 @@ public class StopwatchController {
 						}
 					};
 
-					stopwatchTimeLabel.textProperty().bind(task.messageProperty());
-
-					final EventHandler<WorkerStateEvent> unbindLabel = new EventHandler<WorkerStateEvent>() {
-						public void handle(final WorkerStateEvent event) {
-							stopwatchTimeLabel.textProperty().unbind();
+					task.messageProperty().addListener(new ChangeListener<String>() {
+						public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+							stopwatchTimeLabel.setText(newValue);
 						}
-					};
-
-					task.setOnSucceeded(unbindLabel);
-					task.setOnFailed(unbindLabel);
-					task.setOnCancelled(unbindLabel);
+					});
 
 					final Thread thread = new Thread(task);
 					thread.setDaemon(true);
@@ -149,7 +145,11 @@ public class StopwatchController {
 
 	private void resetStopwatchTimeLabel() {
 		if (!stopwatchRunning) {
-			stopwatchTimeLabel.setText(dateFormatter.format(stopwatchValue));
+			Platform.runLater(new Runnable() {
+				public void run() {
+					stopwatchTimeLabel.setText(dateFormatter.format(stopwatchValue));
+				}
+			});
 		}
 	}
 

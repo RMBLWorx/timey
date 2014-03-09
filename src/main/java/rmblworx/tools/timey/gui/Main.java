@@ -22,7 +22,7 @@ public class Main extends Application {
 		try {
 			new ConfigStorage().loadConfig(CONFIG_FILENAME);
 
-			i18n = ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", Config.getInstance().getLocale());
+			i18n = new GuiHelper().getResourceBundle(Config.getInstance().getLocale());
 
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeyGui.fxml"), i18n);
 			final Parent root = (Parent) loader.load();
