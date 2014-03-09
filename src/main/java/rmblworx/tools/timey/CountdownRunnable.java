@@ -6,12 +6,11 @@ package rmblworx.tools.timey;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * Diese Thread-sichere Implementierung dient der Zeitmessung in Millisekunden.
+ * Diese Thread-sichere Implementierung setzt einen Countdown-Zähler um. Zeitnahme findet in Millisekunden statt.
  * 
  * @author mmatthies
  */
-public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
-
+public class CountdownRunnable extends TimeyTimeRunnable {
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in
@@ -20,23 +19,19 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 	 * @param passedTime
 	 *            Vergangene Zeit in Millisekunden.
 	 */
-	public TimerRunnable(final TimeDescriptor descriptor, final long passedTime) {
+	public CountdownRunnable(final TimeDescriptor descriptor, final long passedTime) {
 		super(descriptor, passedTime, System.currentTimeMillis());
 	}
 
 	/**
-	 * Berechnet die Stoppzeit und schreibt den Wert in Millisekunden in das
+	 * Berechnet und schreibt die noch verbleibende Countdown-Zeit in Millisekunden in das
 	 * Wertobjekt.
 	 */
 	@Override
 	protected void computeTime() {
-
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
-
-		this.timeDelta = currentTimeMillis - this.timeStarted;
-		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
-
-		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
+		this.timeDelta = (this.timeStarted - currentTimeMillis);
+		this.timeDescriptor.setMilliSeconds(this.timeStarted + this.timeDelta);
 	}
 }

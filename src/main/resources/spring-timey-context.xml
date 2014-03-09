@@ -8,7 +8,7 @@
 
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm"></bean>
 	<bean id="alarmClient" name="alarmClient" class="rmblworx.tools.timey.AlarmClient">
-	<constructor-arg ref="alarmReceiver" />
+		<constructor-arg ref="alarmReceiver" />
 	</bean>
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
 		<constructor-arg value="1" index="0" />
@@ -24,12 +24,19 @@
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
+	<bean id="countdownRunnable" name="countdownRunnable"
+		class="rmblworx.tools.timey.CountdownRunnable">
+		<constructor-arg ref="descriptor" index="0" />
+		<constructor-arg value="0" index="1" />
+	</bean>
 	<bean id="descriptor" name="descriptor"
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
 		<constructor-arg value="0"></constructor-arg>
 	</bean>
 	<bean id="timer" name="simpleTimer" class="rmblworx.tools.timey.SimpleTimer">
 		<constructor-arg ref="descriptor"></constructor-arg>
+	</bean>
+	<bean id="countdown" name="simpleCountdown" class="rmblworx.tools.timey.SimpleCountdown">
 	</bean>
 
 	<!-- ############################ Ende Beandeklaration ######################## -->
@@ -53,8 +60,9 @@
 
 	<aop:config proxy-target-class="true">
 		<!-- comment one of the advisor configuration -->
-<!-- 		<aop:advisor advice-ref="debugInterceptor" -->
-<!-- 			pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" /> -->
+		<!-- <aop:advisor advice-ref="debugInterceptor" -->
+		<!-- pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" 
+			/> -->
 		<aop:advisor advice-ref="debugInterceptorWithComposite"
 			pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" />
 	</aop:config>

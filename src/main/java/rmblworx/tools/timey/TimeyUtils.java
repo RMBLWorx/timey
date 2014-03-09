@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author mmatthies
@@ -86,6 +87,18 @@ public class TimeyUtils {
 		}
 
 		return result;
+	}
+	/**
+	 * Veranlasst die fuer die Zeitnahme verwendete Implementierung sich zu beenden. Es wird so lange gewartet bis sie
+	 * beendet wurde.
+	 */
+	public static void shutdownScheduler(ScheduledExecutorService scheduler) {
+		if(null != scheduler) {
+			scheduler.shutdownNow();
+		}
+		while (!scheduler.isTerminated()) {
+			// wir warten solange bis alle Threads beendet wurden
+		}
 	}
 
 	/**
