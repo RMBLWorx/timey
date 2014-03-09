@@ -1,4 +1,6 @@
 /*
+ * Modified by mmatthies.
+ * 
  * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,63 +30,63 @@ import org.slf4j.LoggerFactory;
  * @author Daniel Nydegger
  */
 public class TraceInterceptor
-    implements MethodInterceptor {
+implements MethodInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
 
-    @Override
-    public Object invoke(MethodInvocation invocation)
-        throws Throwable {
+	private String flattenArgument(Object argument) {
+		if (null == argument) {
+			return "null";
+		}
 
-        final String prefix = "invocation arguments of " + invocation.getMethod().getName() + " ";
+		if (argument instanceof Object[]) {
+			if (ArrayUtils.isEmpty((Object[]) argument)) {
+				return "no arguments";
+			}
+			return StringUtils.join((Object[]) argument, ", ");
+		}
+		return argument.toString();
+	}
 
-        final Object[] arguments = invocation.getArguments();
-        if (ArrayUtils.isEmpty(arguments)) {
-            logger.trace(prefix + "{no arguments}");
-        } else {
-            final StringBuilder flattenArguments = new StringBuilder();
-            flattenArguments.append("{");
-            for (int i = 0; i < arguments.length; i++) {
-                if (i > 0) {
-                    flattenArguments.append(" | ");
-                }
-                flattenArguments.append(flattenArgument(arguments[i]));
-            }
-            flattenArguments.append("}");
-            logger.trace(prefix + flattenArguments.toString());
+	@Override
+	public Object invoke(MethodInvocation invocation)
+			throws Throwable {
 
-        }
+		final String prefix = "invocation arguments of " + invocation.getMethod().getName() + " ";
 
-        Object invocationResult = null;
+		final Object[] arguments = invocation.getArguments();
+		if (ArrayUtils.isEmpty(arguments)) {
+			this.logger.trace(prefix + "{no arguments}");
+		} else {
+			final StringBuilder flattenArguments = new StringBuilder();
+			flattenArguments.append("{");
+			for (int i = 0; i < arguments.length; i++) {
+				if (i > 0) {
+					flattenArguments.append(" | ");
+				}
+				flattenArguments.append(this.flattenArgument(arguments[i]));
+			}
+			flattenArguments.append("}");
+			this.logger.trace(prefix + flattenArguments.toString());
 
-        try {
-            invocationResult = invocation.proceed();
-        } catch (final Throwable e) {
-            logger.trace("execption occured, no return value");
-            throw e;
-        }
-        finally {
+		}
 
-            final StringBuilder builder = new StringBuilder();
-            builder.append("invocation return value of ").append(invocation.getMethod().getName()).append(": {").append(
-                flattenArgument(invocationResult)).append("}");
-            logger.trace(builder.toString());
-        }
+		Object invocationResult = null;
 
-        return invocationResult;
-    }
+		try {
+			invocationResult = invocation.proceed();
+		} catch (final Throwable e) {
+			this.logger.trace("execption occured, no return value");
+			throw e;
+		}
+		finally {
 
-    private String flattenArgument(Object argument) {
-        if (null == argument) {
-            return "null";
-        }
+			final StringBuilder builder = new StringBuilder();
+			builder.append("invocation return value of ").append(invocation.getMethod().getName()).append(": {").append(
+					this.flattenArgument(invocationResult)).append("}");
+			this.logger.trace(builder.toString());
+		}
 
-        if (argument instanceof Object[]) {
-            if (ArrayUtils.isEmpty((Object[]) argument)) {
-                return "no arguments";
-            }
-            return StringUtils.join((Object[]) argument, ", ");
-        }
-        return argument.toString();
-    }
+		return invocationResult;
+	}
 }

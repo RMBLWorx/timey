@@ -29,11 +29,8 @@ public class Alarm implements IAlarm {
 	@Override
 	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
 
-
 		// TODO Write your action code here ...
 		System.out.println("setTime");
-
-
 
 		return descriptor;
 	}
@@ -44,10 +41,8 @@ public class Alarm implements IAlarm {
 	@Override
 	public Boolean turnOff() {
 
-
 		// TODO Write your action code here ...
 		System.out.println("TurnOff");
-
 
 		return Boolean.TRUE;
 	}
@@ -58,10 +53,8 @@ public class Alarm implements IAlarm {
 	@Override
 	public Boolean turnOn() {
 
-
 		// TODO Write your action code here ...
 		System.out.println("TurnOn");
-
 
 		return Boolean.TRUE;
 	}

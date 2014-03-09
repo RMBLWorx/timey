@@ -3,7 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-
 /**
  * PatternBox: "Client" implementation.
  * <ul>
@@ -16,13 +15,15 @@ package rmblworx.tools.timey;
 public class StopwatchClient {
 	/**
 	 * stores the Receiver instance of the Client.
-	 * */
+	 */
 	private final Stopwatch fReceiver;
 
 	/**
 	 * This construtor creates a Client instance and stores the given
 	 * Receiver.
-	 * @param receiver Referenz auf die Implementierung die dieser Client steuern soll.
+	 * 
+	 * @param receiver
+	 *            Referenz auf die Implementierung die dieser Client steuern soll.
 	 */
 	public StopwatchClient(final Stopwatch receiver) {
 		super();
@@ -32,16 +33,14 @@ public class StopwatchClient {
 	/**
 	 * This method creates a ConcreteCommand instance and specifies a
 	 * Receiver object.
+	 * 
 	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
 	public <T> T initStopwatchResetCommand() {
 
-
 		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
-
-
 
 		return invoker.execute();
 	}
@@ -49,6 +48,7 @@ public class StopwatchClient {
 	/**
 	 * This method creates a ConcreteCommand instance and specifies a
 	 * Receiver object.
+	 * 
 	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
 	public <T> T initStopwatchStartCommand() {
@@ -56,14 +56,13 @@ public class StopwatchClient {
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
 
-
-
 		return invoker.execute();
 	}
 
 	/**
 	 * This method creates a ConcreteCommand instance and specifies a
 	 * Receiver object.
+	 * 
 	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
 	 */
 	public <T> T initStopwatchStopCommand() {

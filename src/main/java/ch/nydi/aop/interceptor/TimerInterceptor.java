@@ -1,4 +1,6 @@
 /*
+ * Modified by mmatthies.
+ * 
  * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,32 +30,32 @@ import org.slf4j.LoggerFactory;
  * @author Daniel Nydegger
  */
 public class TimerInterceptor
-    implements MethodInterceptor {
+implements MethodInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(TraceInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(TraceInterceptor.class);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object invoke(MethodInvocation invocation)
-        throws Throwable {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object invoke(MethodInvocation invocation)
+			throws Throwable {
 
-        final Chronometer chronometer = new Chronometer();
+		final Chronometer chronometer = new Chronometer();
 
-        Object retVal = null;
+		Object retVal = null;
 
-        try {
-            retVal = invocation.proceed();
-        }
-        finally {
-            chronometer.stop();
-            final StringBuilder builder = new StringBuilder();
-            builder.append("duration of ").append(invocation.getMethod().getName()).append(" [ns]: ").append(
-                chronometer.getTime(TimeUnit.NANOSECONDS));
-            logger.debug(builder.toString());
-        }
+		try {
+			retVal = invocation.proceed();
+		}
+		finally {
+			chronometer.stop();
+			final StringBuilder builder = new StringBuilder();
+			builder.append("duration of ").append(invocation.getMethod().getName()).append(" [ns]: ").append(
+					chronometer.getTime(TimeUnit.NANOSECONDS));
+			this.logger.debug(builder.toString());
+		}
 
-        return retVal;
-    }
+		return retVal;
+	}
 }

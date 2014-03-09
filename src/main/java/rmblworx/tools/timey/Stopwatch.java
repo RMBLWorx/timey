@@ -30,6 +30,7 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	private ApplicationContext context;
 	/**
 	 * Gibt die Maszzahl fuer die Zeiteinheit an.
+	 * 
 	 * @see #timeUnit
 	 */
 	private final int delayPerThread;

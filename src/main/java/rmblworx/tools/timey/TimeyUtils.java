@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * @author mmatthies
- * 
  */
 public class TimeyUtils {
 	/**
@@ -27,16 +26,12 @@ public class TimeyUtils {
 	 * @throws IOException
 	 *             wenn beim durchsuchen der Verzeichnisse ein Fehler auftrat.
 	 * @throws IllegalArgumentException
-	 *             wenn die Zeichenkette {@code null} referenziert oder eine
-	 *             {@code Laenge == 0} aufweist.
+	 *             wenn die Zeichenkette {@code null} referenziert oder eine {@code Laenge == 0} aufweist.
 	 */
-	public static List<Path> getPathToJar(final String pattern) throws IOException,
-	IllegalArgumentException {
-
+	public static List<Path> getPathToJar(final String pattern) throws IOException, IllegalArgumentException {
 
 		if (isNullOrEmpty(pattern)) {
-			throw new IllegalArgumentException(
-					"Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
+			throw new IllegalArgumentException("Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
 		}
 
 		final String property = System.getProperty("user.dir");
@@ -46,8 +41,6 @@ public class TimeyUtils {
 
 		Files.walkFileTree(startDir, finder);
 		result = finder.getResult();
-
-
 
 		return result;
 	}
@@ -75,13 +68,11 @@ public class TimeyUtils {
 	}
 
 	/**
-	 * Prueft die Zeichenkette(n) ob sie {@code null} referenzieren oder die
-	 * {@code Laenge == 0} aufweisen.
+	 * Prueft die Zeichenkette(n) ob sie {@code null} referenzieren oder die {@code Laenge == 0} aufweisen.
 	 * 
 	 * @param string
 	 *            zu pruefende Zeichenkette.
-	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die
-	 *         {@code Laenge == 0} aufweist.
+	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die {@code Laenge == 0} aufweist.
 	 */
 	public static boolean isNullOrEmpty(final String... string) {
 
@@ -93,8 +84,6 @@ public class TimeyUtils {
 				break;
 			}
 		}
-
-
 
 		return result;
 	}

@@ -3,7 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
@@ -33,10 +32,7 @@ public class TurnOnCommand implements ICommand {
 	@Override
 	public <T> T execute() {
 
-
 		this.fReceiver.turnOn();
-
-
 
 		return (T) Boolean.TRUE;
 	}

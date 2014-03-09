@@ -50,13 +50,11 @@ public class TimerRunnable implements Runnable {
 	 */
 	public TimerRunnable(final TimeDescriptor descriptor, final long passedTime) {
 
-
 		this.timeDescriptor = descriptor;
 		this.timePassed = passedTime;
 		this.timeStarted = System.currentTimeMillis();
 		DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone(UTC));
 		DATE_FORMATTER.applyPattern(FORMAT_STRING);
-
 
 	}
 
@@ -66,14 +64,13 @@ public class TimerRunnable implements Runnable {
 	 */
 	private void computeTime() {
 
-
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
 
 		this.timeDelta = currentTimeMillis - this.timeStarted;
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
 
-		//		LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
+		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
 
 	@Override

@@ -3,7 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>

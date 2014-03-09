@@ -28,7 +28,7 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	private final ApplicationContext springContext;
 	private final StopwatchClient stopwatchClient;
 
-	public TimeyFacade(){
+	public TimeyFacade() {
 		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
 
 		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
@@ -36,8 +36,7 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	}
 
 	@Override
-	public  String getVersion() {
-
+	public String getVersion() {
 
 		File file;
 		JarFile jar;
@@ -66,58 +65,57 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 
 		LOG.debug("Version: " + versionNumber);
 
-
 		return versionNumber;
 	}
 
 	@Override
-	public  Boolean resetStopwatch() {
+	public Boolean resetStopwatch() {
 		return this.stopwatchClient.initStopwatchResetCommand();
 	}
 
 	@Override
-	public  TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		//		return this.alarmClient.initSetTimeCommand(descriptor);
+	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
+		// return this.alarmClient.initSetTimeCommand(descriptor);
 		return null;
 	}
 
 	@Override
-	public  TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
+	public TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public  Boolean startCountdown() {
+	public Boolean startCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public  TimeDescriptor startStopwatch() {
+	public TimeDescriptor startStopwatch() {
 		return this.stopwatchClient.initStopwatchStartCommand();
 	}
 
 	@Override
-	public  Boolean stopCountdown() {
+	public Boolean stopCountdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public  Boolean stopStopwatch() {
+	public Boolean stopStopwatch() {
 		return this.stopwatchClient.initStopwatchStopCommand();
 	}
 
 	@Override
-	public  Boolean turnOff() {
-		//		return this.alarmClient.initTurnOffCommand();
+	public Boolean turnOff() {
+		// return this.alarmClient.initTurnOffCommand();
 		return null;
 	}
 
 	@Override
-	public  Boolean turnOn() {
-		//		return this.alarmClient.initTurnOnCommand();
+	public Boolean turnOn() {
+		// return this.alarmClient.initTurnOnCommand();
 		return null;
 	}
 

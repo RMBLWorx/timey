@@ -3,7 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-
 /**
  * PatternBox: "Invoker" implementation.
  * <ul>
@@ -38,8 +37,6 @@ public class Switch {
 	 */
 	public <T> T execute() {
 
-
-
 		return (T) this.fCommand.execute();
 
 	}
@@ -49,9 +46,7 @@ public class Switch {
 	 */
 	public void storeCommand(final ICommand cmd) {
 
-
 		this.fCommand = cmd;
-
 
 	}
 

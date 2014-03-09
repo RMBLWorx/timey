@@ -3,7 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
@@ -17,7 +16,7 @@ package rmblworx.tools.timey;
 public class StopwatchResetCommand implements ICommand {
 	/**
 	 * stores the Receiver instance of the ConcreteCommand.
-	 * */
+	 */
 	private final Stopwatch fReceiver;
 
 	/**
