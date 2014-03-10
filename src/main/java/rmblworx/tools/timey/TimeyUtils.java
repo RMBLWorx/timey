@@ -1,44 +1,24 @@
 package rmblworx.tools.timey;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
+ * Helferklasse mit haeufig benoetigten Funktionen.
+ * 
  * @author mmatthies
  */
 public final class TimeyUtils {
 
+	private static final String LINUX = "linux";
+	private static final String MAC_OS_X = "mac os x";
+	private static final String SYSTEM_PROPERTY_OS_NAME = "os.name";
+	private static final String WINDOWS = "windows";
+
 	/**
-	 * Vom aktuellen Verzeichnis in welchem die Anwendung gerade ausgefuehrt
-	 * wird, liefert diese Hilfsmethode den Pfad zu jenen Dateien, die zum
-	 * uebergebenen Muster passen.
-	 * 
-	 * @param pattern
-	 *            das glob-Pattern - siehe hierzu {@link Finder}.
-	 * @return unveraenderliche Liste von {@code Path}-Objekten oder leere
-	 *         Liste.
-	 * @throws IOException
-	 *             wenn beim durchsuchen der Verzeichnisse ein Fehler auftrat.
+	 * @return
 	 */
-	public static List<Path> getPathToJar(final String pattern) throws IOException {
-		if (isNullOrEmpty(pattern)) {
-			throw new IllegalArgumentException("Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
-		}
-
-		final String property = System.getProperty("user.dir");
-		final Path startDir = Paths.get(property);
-		final Finder finder = new Finder(pattern);
-		List<Path> result = new LinkedList<Path>();
-
-		Files.walkFileTree(startDir, finder);
-		result = finder.getResult();
-
-		return result;
+	public static String getOsName() {
+		return System.getProperty(SYSTEM_PROPERTY_OS_NAME).toLowerCase();
 	}
 
 	/**
@@ -50,6 +30,16 @@ public final class TimeyUtils {
 	 */
 	public static boolean isEmpty(final String string) {
 		return string.length() < 1;
+	}
+
+	/**
+	 * Liefert die Antwort darauf, ob timey gerade auf einem Linux Betriebssystem ausgefuehrt wird.
+	 * 
+	 * @return true wenn Linux sonst false
+	 */
+	public static boolean isLinuxSystem() {
+		String osName = getOsName();
+		return osName.indexOf(LINUX) != -1;
 	}
 
 	/**
@@ -84,8 +74,31 @@ public final class TimeyUtils {
 	}
 
 	/**
+	 * Liefert die Antwort darauf, ob timey gerade auf einem OS X-Betriebssystem ausgefuehrt wird.
+	 * 
+	 * @return true wenn OS X sonst false
+	 */
+	public static boolean isOSXSystem() {
+		String osName = getOsName();
+		return osName.indexOf(MAC_OS_X) != -1;
+	}
+
+	/**
+	 * Liefert die Antwort darauf, ob timey gerade auf einem Windows-Betriebssystem ausgefuehrt wird.
+	 * 
+	 * @return true wenn Windows sonst false
+	 */
+	public static boolean isWindowsSystem() {
+		String osName = getOsName();
+		return osName.indexOf(WINDOWS) != -1;
+	}
+
+	/**
 	 * Veranlasst die fuer die Zeitnahme verwendete Implementierung sich zu beenden. Es wird so lange gewartet bis sie
 	 * beendet wurde.
+	 * 
+	 * @param scheduler
+	 *            Referenz auf den Scheduler.
 	 */
 	public static void shutdownScheduler(final ScheduledExecutorService scheduler) {
 		if (null != scheduler) {
@@ -101,5 +114,4 @@ public final class TimeyUtils {
 	 */
 	private TimeyUtils() {
 	}
-
 }

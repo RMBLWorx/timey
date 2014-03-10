@@ -29,7 +29,6 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
 	 */
 	private IAlarmTimestampService service;
-
 	/**
 	 * This construtor creates a Receiver instance.
 	 */
@@ -49,9 +48,7 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 		}
 	}
 
-	/**
-	 * This method performs an action.
-	 */
+
 	@Override
 	public Boolean isAlarmtimestampActivated(final TimeDescriptor descriptor) {
 		return this.service.isActivated(descriptor);
@@ -62,9 +59,6 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 		return this.service.delete(descriptor);
 	}
 
-	/**
-	 * This method performs an action.
-	 */
 	@Override
 	public Boolean setAlarmtimestamp(final TimeDescriptor descriptor) {
 		this.initService();
@@ -76,9 +70,6 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 		this.context = applicationContext;
 	}
 
-	/**
-	 * This method performs an action.
-	 */
 	@Override
 	public Boolean setStateOfAlarmtimestamp(final TimeDescriptor descriptor, final Boolean isActivated) {
 		return this.service.setState(descriptor, isActivated);

@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +24,9 @@ public class TimeDescriptorTest {
 	 */
 	private static final int EXPECTED_MILLISECONDS = 100;
 
+	@Autowired
+	private TimeDescriptor descriptor;
+
 	/**
 	 * @throws java.lang.Exception
 	 *             Exception.
@@ -37,6 +41,7 @@ public class TimeDescriptorTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		this.descriptor = null;
 	}
 
 	/**
@@ -44,9 +49,10 @@ public class TimeDescriptorTest {
 	 */
 	@Test
 	public final void testCorrectBehaviorOfTheVo() {
-		final TimeDescriptor td = new TimeDescriptor(EXPECTED_MILLISECONDS);
+		this.descriptor.setMilliSeconds(EXPECTED_MILLISECONDS);
+		long actualMilliseconds = this.descriptor.getMilliSeconds();
 
-		assertEquals("Test fehlgeschlagen: Millisekunden falsch!", EXPECTED_MILLISECONDS, td.getMilliSeconds());
+		assertEquals("Test fehlgeschlagen: Millisekunden falsch!", EXPECTED_MILLISECONDS, actualMilliseconds);
 	}
 
 }
