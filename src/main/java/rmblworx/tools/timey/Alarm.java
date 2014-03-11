@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -28,7 +25,6 @@ public class Alarm implements IAlarm {
 	 */
 	@Override
 	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-
 		// TODO Write your action code here ...
 		System.out.println("setTime");
 
@@ -40,7 +36,6 @@ public class Alarm implements IAlarm {
 	 */
 	@Override
 	public Boolean turnOff() {
-
 		// TODO Write your action code here ...
 		System.out.println("TurnOff");
 
@@ -52,7 +47,6 @@ public class Alarm implements IAlarm {
 	 */
 	@Override
 	public Boolean turnOn() {
-
 		// TODO Write your action code here ...
 		System.out.println("TurnOn");
 

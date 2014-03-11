@@ -2,7 +2,7 @@ package rmblworx.tools.timey.gui;
 
 import java.util.Locale;
 
-public class Config {
+public final class Config {
 
 	private static Config instance;
 
@@ -16,6 +16,9 @@ public class Config {
 		}
 
 		return instance;
+	}
+
+	private Config() {
 	}
 
 	public void setLocale(final Locale locale) {

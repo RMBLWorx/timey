@@ -1,7 +1,4 @@
-/**
- */
 package rmblworx.tools.timey.vo;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +10,7 @@ import org.slf4j.LoggerFactory;
  * @author mmatthies
  */
 public class TimeDescriptor {
+
 	/**
 	 * Logger.
 	 */
@@ -33,7 +31,6 @@ public class TimeDescriptor {
 	public TimeDescriptor(final long milliSeconds) {
 		//		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
-
 	}
 
 	/**
@@ -53,7 +50,8 @@ public class TimeDescriptor {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return "TimeDescriptor (ms): " + this.milliseconds;
 	}
+
 }

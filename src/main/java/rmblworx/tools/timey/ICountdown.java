@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -9,6 +6,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 interface ICountdown {
+
 	/**
 	 * Setzt die Zeit die heruntergezaehlt werden soll.
 	 * 

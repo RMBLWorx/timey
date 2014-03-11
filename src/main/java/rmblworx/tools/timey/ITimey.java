@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 /**
@@ -12,4 +9,5 @@ interface ITimey extends IAlarm, ICountdown, IStopwatch {
 	 * @return die aktuelle Version.
 	 */
 	String getVersion();
+
 }

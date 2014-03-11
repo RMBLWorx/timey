@@ -14,19 +14,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.base.Predicate;
 
 /**
- * GUI-Test für die Stoppuhr.
- * @see https://github.com/SmartBear/TestFX
+ * GUI-Tests für die Stoppuhr.
  * 
  * @author Christian Raue <christian.raue@gmail.com>
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 public class StopwatchControllerTest extends JavaFxGuiTest {
+
+	private Scene scene;
 
 	/**
 	 * {@inheritDoc}
@@ -35,13 +37,16 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		return "StopwatchGui.fxml";
 	}
 
+	@Before
+	public void setUp() {
+		scene = stage.getScene();
+	}
+
 	/**
 	 * Testet den Zustand der Schaltflächen je nach Zustand der Stoppuhr.
 	 */
 	@Test
 	public final void testStopwatchStartStopResetButtonStates() {
-		final Scene scene = stage.getScene();
-
 		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
 		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
 		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
@@ -105,8 +110,6 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 	 */
 	@Test
 	public final void testStopwatchTimeLabelMilliseconds() {
-		final Scene scene = stage.getScene();
-
 		final CheckBox stopwatchShowMillisecondsCheckbox = (CheckBox) scene.lookup("#stopwatchShowMillisecondsCheckbox");
 		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
 
@@ -141,8 +144,6 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		final long timeToRun = 50;
 		final long timeExpectedMin = 40;
 		final long timeExpectedMax = 70;
-
-		final Scene scene = stage.getScene();
 
 		// Stoppuhr starten
 		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
@@ -194,8 +195,6 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 	 */
 	@Test
 	public final void testStopwatchReset() {
-		final Scene scene = stage.getScene();
-
 		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
 		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
 		stopwatchResetButton.fire();
@@ -253,8 +252,6 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 	public final void testStopwatchResetWhileRunning() {
 		final long timeToRun = 50;
 		final long timeExpectedMax = 2 * timeToRun;
-
-		final Scene scene = stage.getScene();
 
 		// Stoppuhr starten
 		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");

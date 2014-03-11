@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -15,7 +12,8 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class AlarmClient {
-	/** stores the Receiver instance of the Client */
+
+	/** Stores the Receiver instance of the Client. */
 	private final Alarm fReceiver;
 
 	/**
@@ -31,7 +29,6 @@ public class AlarmClient {
 	 * object.
 	 */
 	public <T> T initSetTimeCommand(final TimeDescriptor td) {
-
 		final SetTimeCommand cmd = new SetTimeCommand(this.fReceiver, td);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
@@ -44,7 +41,6 @@ public class AlarmClient {
 	 * object.
 	 */
 	public <T> T initTurnOffCommand() {
-
 		final TurnOffCommand cmd = new TurnOffCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);
@@ -57,7 +53,6 @@ public class AlarmClient {
 	 * object.
 	 */
 	public <T> T initTurnOnCommand() {
-
 		final TurnOnCommand cmd = new TurnOnCommand(this.fReceiver);
 		final Switch invoker = new Switch();
 		invoker.storeCommand(cmd);

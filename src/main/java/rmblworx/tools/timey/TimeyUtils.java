@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import java.io.IOException;
@@ -14,7 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * @author mmatthies
  */
-public class TimeyUtils {
+public final class TimeyUtils {
+
 	/**
 	 * Vom aktuellen Verzeichnis in welchem die Anwendung gerade ausgefuehrt
 	 * wird, liefert diese Hilfsmethode den Pfad zu jenen Dateien, die zum
@@ -26,11 +24,8 @@ public class TimeyUtils {
 	 *         Liste.
 	 * @throws IOException
 	 *             wenn beim durchsuchen der Verzeichnisse ein Fehler auftrat.
-	 * @throws IllegalArgumentException
-	 *             wenn die Zeichenkette {@code null} referenziert oder eine {@code Laenge == 0} aufweist.
 	 */
-	public static List<Path> getPathToJar(final String pattern) throws IOException, IllegalArgumentException {
-
+	public static List<Path> getPathToJar(final String pattern) throws IOException {
 		if (isNullOrEmpty(pattern)) {
 			throw new IllegalArgumentException("Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
 		}
@@ -76,7 +71,6 @@ public class TimeyUtils {
 	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die {@code Laenge == 0} aufweist.
 	 */
 	public static boolean isNullOrEmpty(final String... string) {
-
 		boolean result = false;
 
 		for (String str : string) {
@@ -88,12 +82,13 @@ public class TimeyUtils {
 
 		return result;
 	}
+
 	/**
 	 * Veranlasst die fuer die Zeitnahme verwendete Implementierung sich zu beenden. Es wird so lange gewartet bis sie
 	 * beendet wurde.
 	 */
-	public static void shutdownScheduler(ScheduledExecutorService scheduler) {
-		if(null != scheduler) {
+	public static void shutdownScheduler(final ScheduledExecutorService scheduler) {
+		if (null != scheduler) {
 			scheduler.shutdownNow();
 			while (!scheduler.isTerminated()) {
 				// wir warten solange bis alle Threads beendet wurden
@@ -106,4 +101,5 @@ public class TimeyUtils {
 	 */
 	private TimeyUtils() {
 	}
+
 }

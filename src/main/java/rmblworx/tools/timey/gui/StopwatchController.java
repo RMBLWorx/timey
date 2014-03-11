@@ -77,7 +77,8 @@ public class StopwatchController {
 					};
 
 					task.messageProperty().addListener(new ChangeListener<String>() {
-						public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+						public void changed(final ObservableValue<? extends String> property, final String oldValue,
+								final String newValue) {
 							stopwatchTimeLabel.setText(newValue);
 						}
 					});

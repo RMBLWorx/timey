@@ -48,7 +48,7 @@ public class TimeyController {
 		if (SystemTray.isSupported()) {
 			Platform.setImplicitExit(false);
 			final SystemTray tray = SystemTray.getSystemTray();
-			final Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("clock.png"));
+			final Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
 
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
@@ -125,7 +125,8 @@ public class TimeyController {
 
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
-			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"), TrayIcon.MessageType.INFO);
+			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"),
+					TrayIcon.MessageType.INFO);
 			minimizedFirstTime = false;
 		}
 	}
