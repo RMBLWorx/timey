@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import rmblworx.tools.timey.gui.config.ConfigManager;
 
 public class TimeyController {
 
@@ -52,7 +53,7 @@ public class TimeyController {
 
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
-					if (Config.getInstance().isMinimizeToTray()) {
+					if (ConfigManager.getCurrentConfig().isMinimizeToTray()) {
 						hide(stage);
 					} else {
 						exit();
@@ -134,7 +135,7 @@ public class TimeyController {
 	private void hide(final Stage stage) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				if (SystemTray.isSupported() && Config.getInstance().isMinimizeToTray()) {
+				if (SystemTray.isSupported() && ConfigManager.getCurrentConfig().isMinimizeToTray()) {
 					stage.hide();
 					stage.setIconified(true);
 					showProgramIsMinimizedMessage();

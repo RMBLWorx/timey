@@ -1,0 +1,93 @@
+package rmblworx.tools.timey.gui.config;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Properties;
+
+/**
+ * Speichern/Laden der Konfiguration.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
+public class ConfigStorage {
+
+	private static final String PROP_LOCALE = "locale";
+	private static final String PROP_MINIMIZE_TO_TRAY = "minimizeToTray";
+	private static final String PROP_STOPWATCH_SHOW_MILLIS = "stopwatchShowMilliseconds";
+
+	/**
+	 * @param config zu speichernde Konfiguration
+	 * @param outputStream
+	 */
+	public final void saveConfig(final Config config, final OutputStream outputStream) {
+		final Properties props = getConfigAsProperties(config);
+
+		try {
+			props.storeToXML(outputStream, null);
+		} catch (final IOException e) {
+			System.err.println(e.getLocalizedMessage());
+		}
+	}
+
+	/**
+	 * @param inputStream
+	 * @return geladene Konfiguration
+	 */
+	public final Config loadConfig(final InputStream inputStream) {
+		try {
+			final Properties props = new Properties();
+			props.loadFromXML(inputStream);
+			return getPropertiesAsConfig(props);
+		} catch (final IOException e) {
+			System.err.println(e.getLocalizedMessage());
+			return ConfigManager.getDefaultConfig();
+		}
+	}
+
+	/**
+	 * @param config Konfiguration
+	 * @return Konfiguration als {@code Properties}-Objekt
+	 */
+	public final Properties getConfigAsProperties(final Config config) {
+		final Properties props = new Properties();
+		props.setProperty(PROP_LOCALE, config.getLocale().toString());
+		props.setProperty(PROP_MINIMIZE_TO_TRAY, Boolean.toString(config.isMinimizeToTray()));
+		props.setProperty(PROP_STOPWATCH_SHOW_MILLIS, Boolean.toString(config.isStopwatchShowMilliseconds()));
+
+		return props;
+	}
+
+	/**
+	 * @param props Konfiguration als {@code Properties}-Objekt
+	 * @return Konfiguration
+	 */
+	public final Config getPropertiesAsConfig(final Properties props) {
+		final Config config = ConfigManager.getDefaultConfig();
+
+		final String propLocale = props.getProperty(PROP_LOCALE);
+		if (propLocale != null) {
+			final Locale locale = new Locale(propLocale);
+			if (Arrays.asList(Config.AVAILABLE_LOCALES).contains(locale)) {
+				config.setLocale(locale);
+			}
+		}
+
+		final String propMinimizeToTray = props.getProperty(PROP_MINIMIZE_TO_TRAY);
+		if (propMinimizeToTray != null) {
+			config.setMinimizeToTray(Boolean.parseBoolean(propMinimizeToTray));
+		}
+
+		final String propStopwatchShowMilliseconds = props.getProperty(PROP_STOPWATCH_SHOW_MILLIS);
+		if (propStopwatchShowMilliseconds != null) {
+			config.setStopwatchShowMilliseconds(Boolean.parseBoolean(propStopwatchShowMilliseconds));
+		}
+
+		return config;
+	}
+
+}

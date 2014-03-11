@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.util.StringConverter;
+import rmblworx.tools.timey.gui.config.Config;
+import rmblworx.tools.timey.gui.config.ConfigManager;
 
 public class OptionsController {
 
@@ -36,12 +38,12 @@ public class OptionsController {
 				minimizeToTrayCheckbox.setDisable(true);
 				minimizeToTrayCheckbox.setSelected(false);
 			} else {
-				minimizeToTrayCheckbox.setSelected(Config.getInstance().isMinimizeToTray());
+				minimizeToTrayCheckbox.setSelected(ConfigManager.getCurrentConfig().isMinimizeToTray());
 			}
 
 			minimizeToTrayCheckbox.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
-					Config.getInstance().setMinimizeToTray(minimizeToTrayCheckbox.isSelected());
+					ConfigManager.getCurrentConfig().setMinimizeToTray(minimizeToTrayCheckbox.isSelected());
 				}
 			});
 		}
@@ -57,12 +59,12 @@ public class OptionsController {
 				}
 			});
 
-			languageChoice.getItems().setAll(Arrays.asList(Main.AVAILABLE_LOCALES));
-			languageChoice.setValue(Config.getInstance().getLocale());
+			languageChoice.getItems().setAll(Arrays.asList(Config.AVAILABLE_LOCALES));
+			languageChoice.setValue(ConfigManager.getCurrentConfig().getLocale());
 
 			languageChoice.valueProperty().addListener(new ChangeListener<Locale>() {
 				public void changed(final ObservableValue<? extends Locale> property, final Locale oldValue, final Locale newValue) {
-					Config.getInstance().setLocale(newValue);
+					ConfigManager.getCurrentConfig().setLocale(newValue);
 					Platform.runLater(new Runnable() {
 						public void run() {
 							new GuiHelper().showMessageDialog(resources.getString("messageDialog.languageChoice.title"),
