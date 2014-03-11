@@ -45,11 +45,11 @@ public class StopwatchController {
 
 	@FXML
 	void initialize() {
-		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
+		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
+		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
+		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";
+		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected";
+		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected";
 
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -58,12 +58,8 @@ public class StopwatchController {
 						return;
 					}
 
-					stopwatchRunning = true;
-					stopwatchStartButton.setVisible(false);
-					stopwatchStopButton.setVisible(true);
-
 					final Config config = Config.getInstance();
-					final TimeDescriptor td = facade.startStopwatch();
+					final TimeDescriptor td = startStopwatch();
 
 					final Task<Void> task = new Task<Void>() {
 						private static final long SLEEP_TIME_FINE_GRAINED = 5L;
@@ -101,10 +97,7 @@ public class StopwatchController {
 						return;
 					}
 
-					facade.stopStopwatch();
-					stopwatchRunning = false;
-					stopwatchStartButton.setVisible(true);
-					stopwatchStopButton.setVisible(false);
+					stopStopwatch();
 				}
 			});
 		}
@@ -115,6 +108,7 @@ public class StopwatchController {
 					facade.resetStopwatch();
 					stopwatchValue = 0L;
 					resetStopwatchTimeLabel();
+					stopwatchStartButton.requestFocus();
 				}
 			});
 		}
@@ -132,6 +126,23 @@ public class StopwatchController {
 				}
 			});
 		}
+	}
+
+	protected TimeDescriptor startStopwatch() {
+		stopwatchRunning = true;
+		stopwatchStartButton.setVisible(false);
+		stopwatchStopButton.setVisible(true);
+		stopwatchStopButton.requestFocus();
+
+		return facade.startStopwatch();
+	}
+
+	protected void stopStopwatch() {
+		facade.stopStopwatch();
+		stopwatchRunning = false;
+		stopwatchStartButton.setVisible(true);
+		stopwatchStartButton.requestFocus();
+		stopwatchStopButton.setVisible(false);
 	}
 
 	private void setupDateFormatter() {
