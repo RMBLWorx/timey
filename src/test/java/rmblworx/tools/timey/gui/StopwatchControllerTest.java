@@ -49,6 +49,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
 		assertFalse(stopwatchStartButton.isDisabled());
+		assertTrue(stopwatchStartButton.isFocused());
 
 		assertFalse(stopwatchStopButton.isVisible());
 		assertFalse(stopwatchStopButton.isDisabled());
@@ -65,6 +66,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 
 		assertTrue(stopwatchStopButton.isVisible());
 		assertFalse(stopwatchStopButton.isDisabled());
+		assertTrue(stopwatchStopButton.isFocused());
 
 		assertTrue(stopwatchResetButton.isVisible());
 		assertFalse(stopwatchResetButton.isDisabled());
@@ -75,6 +77,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
 		assertFalse(stopwatchStartButton.isDisabled());
+		assertTrue(stopwatchStartButton.isFocused());
 
 		assertFalse(stopwatchStopButton.isVisible());
 		assertFalse(stopwatchStopButton.isDisabled());
@@ -88,6 +91,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
 		assertFalse(stopwatchStartButton.isDisabled());
+		assertTrue(stopwatchStartButton.isFocused());
 
 		assertFalse(stopwatchStopButton.isVisible());
 		assertFalse(stopwatchStopButton.isDisabled());

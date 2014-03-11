@@ -108,6 +108,7 @@ public class StopwatchController {
 					facade.resetStopwatch();
 					stopwatchValue = 0L;
 					resetStopwatchTimeLabel();
+					stopwatchStartButton.requestFocus();
 				}
 			});
 		}
@@ -131,6 +132,7 @@ public class StopwatchController {
 		stopwatchRunning = true;
 		stopwatchStartButton.setVisible(false);
 		stopwatchStopButton.setVisible(true);
+		stopwatchStopButton.requestFocus();
 
 		return facade.startStopwatch();
 	}
@@ -139,6 +141,7 @@ public class StopwatchController {
 		facade.stopStopwatch();
 		stopwatchRunning = false;
 		stopwatchStartButton.setVisible(true);
+		stopwatchStartButton.requestFocus();
 		stopwatchStopButton.setVisible(false);
 	}
 
