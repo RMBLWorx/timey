@@ -95,9 +95,9 @@ public class TimeyUtils {
 	public static void shutdownScheduler(ScheduledExecutorService scheduler) {
 		if(null != scheduler) {
 			scheduler.shutdownNow();
-		}
-		while (!scheduler.isTerminated()) {
-			// wir warten solange bis alle Threads beendet wurden
+			while (!scheduler.isTerminated()) {
+				// wir warten solange bis alle Threads beendet wurden
+			}
 		}
 	}
 
