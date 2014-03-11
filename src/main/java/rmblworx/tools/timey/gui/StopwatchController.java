@@ -15,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import rmblworx.tools.timey.TimeyFacade;
+import rmblworx.tools.timey.gui.config.Config;
+import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 public class StopwatchController {
@@ -58,7 +60,7 @@ public class StopwatchController {
 						return;
 					}
 
-					final Config config = Config.getInstance();
+					final Config config = ConfigManager.getCurrentConfig();
 					final TimeDescriptor td = startStopwatch();
 
 					final Task<Void> task = new Task<Void>() {
@@ -115,13 +117,13 @@ public class StopwatchController {
 		}
 
 		if (stopwatchShowMillisecondsCheckbox != null) {
-			stopwatchShowMillisecondsCheckbox.setSelected(Config.getInstance().isStopwatchShowMilliseconds());
+			stopwatchShowMillisecondsCheckbox.setSelected(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds());
 			setupDateFormatter();
 			resetStopwatchTimeLabel();
 
 			stopwatchShowMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
-					Config.getInstance().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
+					ConfigManager.getCurrentConfig().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
 					setupDateFormatter();
 					resetStopwatchTimeLabel();
 				}
@@ -152,7 +154,7 @@ public class StopwatchController {
 			dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		}
 
-		dateFormatter.applyPattern(Config.getInstance().isStopwatchShowMilliseconds() ? "HH:mm:ss.SSS" : "HH:mm:ss");
+		dateFormatter.applyPattern(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds() ? "HH:mm:ss.SSS" : "HH:mm:ss");
 	}
 
 	private void resetStopwatchTimeLabel() {

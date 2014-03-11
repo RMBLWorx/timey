@@ -1,25 +1,21 @@
-package rmblworx.tools.timey.gui;
+package rmblworx.tools.timey.gui.config;
 
 import java.util.Locale;
 
-public final class Config {
+/**
+ * Konfiguration.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
+public class Config {
 
-	private static Config instance;
+	public static final Locale[] AVAILABLE_LOCALES = {Locale.GERMAN, Locale.ENGLISH};
 
 	private Locale locale = Locale.GERMAN;
 	private boolean minimizeToTray = false;
 	private boolean stopwatchShowMilliseconds = true;
-
-	public static Config getInstance() {
-		if (instance == null) {
-			instance = new Config();
-		}
-
-		return instance;
-	}
-
-	private Config() {
-	}
 
 	public void setLocale(final Locale locale) {
 		this.locale = locale;
