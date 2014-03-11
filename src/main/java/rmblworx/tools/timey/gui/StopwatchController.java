@@ -45,11 +45,11 @@ public class StopwatchController {
 
 	@FXML
 	void initialize() {
-		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
+		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
+		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
+		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";
+		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected";
+		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected";
 
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
