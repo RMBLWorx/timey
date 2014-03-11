@@ -58,12 +58,8 @@ public class StopwatchController {
 						return;
 					}
 
-					stopwatchRunning = true;
-					stopwatchStartButton.setVisible(false);
-					stopwatchStopButton.setVisible(true);
-
 					final Config config = Config.getInstance();
-					final TimeDescriptor td = facade.startStopwatch();
+					final TimeDescriptor td = startStopwatch();
 
 					final Task<Void> task = new Task<Void>() {
 						private static final long SLEEP_TIME_FINE_GRAINED = 5L;
@@ -101,10 +97,7 @@ public class StopwatchController {
 						return;
 					}
 
-					facade.stopStopwatch();
-					stopwatchRunning = false;
-					stopwatchStartButton.setVisible(true);
-					stopwatchStopButton.setVisible(false);
+					stopStopwatch();
 				}
 			});
 		}
@@ -132,6 +125,21 @@ public class StopwatchController {
 				}
 			});
 		}
+	}
+
+	protected TimeDescriptor startStopwatch() {
+		stopwatchRunning = true;
+		stopwatchStartButton.setVisible(false);
+		stopwatchStopButton.setVisible(true);
+
+		return facade.startStopwatch();
+	}
+
+	protected void stopStopwatch() {
+		facade.stopStopwatch();
+		stopwatchRunning = false;
+		stopwatchStartButton.setVisible(true);
+		stopwatchStopButton.setVisible(false);
 	}
 
 	private void setupDateFormatter() {
