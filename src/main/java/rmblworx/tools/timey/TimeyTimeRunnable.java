@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.locks.Lock;
@@ -13,6 +10,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 abstract class TimeyTimeRunnable implements Runnable {
+
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
 	 */
@@ -57,13 +55,12 @@ abstract class TimeyTimeRunnable implements Runnable {
 
 	@Override
 	public void run() {
-
 		this.lock.lock();
 		try {
 			this.computeTime();
 		} finally {
 			this.lock.unlock();
 		}
-
 	}
+
 }

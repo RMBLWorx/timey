@@ -30,7 +30,7 @@ public class Main extends Application {
 			stage.setScene(scene);
 			stage.setTitle(i18n.getString("application.title"));
 			stage.setResizable(false);
-			stage.getIcons().add(new Image(getClass().getResourceAsStream("clock.png")));
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("img/clock.png")));
 			stage.show();
 
 			final TimeyController timeyController = (TimeyController) loader.getController();

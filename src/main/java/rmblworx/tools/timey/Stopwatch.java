@@ -1,10 +1,7 @@
-/**
- */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -20,6 +17,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 class Stopwatch implements IStopwatch, ApplicationContextAware {
+
 	/**
 	 * Anzahl der Threads die Zeit messen sollen.
 	 */
@@ -69,21 +67,17 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) {
 		this.context = applicationContext;
 	}
 
 	@Override
 	public TimeDescriptor startStopwatch() {
-		TimeDescriptor result;
-
 		if (this.timer == null) {
 			this.timer = (ITimer) this.context.getBean("timer");
 		}
 
-		result = this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
-
-		return result;
+		return this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
 	}
 
 	@Override
@@ -94,4 +88,5 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 		return Boolean.TRUE;
 	}
+
 }

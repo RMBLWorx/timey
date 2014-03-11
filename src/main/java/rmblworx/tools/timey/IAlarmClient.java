@@ -8,18 +8,18 @@ interface IAlarmClient {
 	 * This method creates a ConcreteCommand instance and specifies a Receiver
 	 * object.
 	 */
-	public <T> T initSetTimeCommand(ITimeDescriptor td);
+	<T> T initSetTimeCommand(ITimeDescriptor td);
 
 	/**
 	 * This method creates a ConcreteCommand instance and specifies a Receiver
 	 * object.
 	 */
-	public <T> T initTurnOffCommand();
+	<T> T initTurnOffCommand();
 
 	/**
 	 * This method creates a ConcreteCommand instance and specifies a Receiver
 	 * object.
 	 */
-	public <T> T initTurnOnCommand();
+	<T> T initTurnOnCommand();
 
 }

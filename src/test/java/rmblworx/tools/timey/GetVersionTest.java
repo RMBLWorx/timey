@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import org.junit.After;
@@ -16,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class GetVersionTest {
+
 	private TimeyFacade facade;
 
 	/**
@@ -48,4 +46,5 @@ public class GetVersionTest {
 
 		// assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
 	}
+
 }

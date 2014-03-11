@@ -65,7 +65,8 @@ public class OptionsController {
 					Config.getInstance().setLocale(newValue);
 					Platform.runLater(new Runnable() {
 						public void run() {
-							new GuiHelper().showMessageDialog(resources.getString("messageDialog.languageChoice.title"), resources.getString("messageDialog.languageChoice.text"), resources);
+							new GuiHelper().showMessageDialog(resources.getString("messageDialog.languageChoice.title"),
+									resources.getString("messageDialog.languageChoice.text"), resources);
 						}
 					});
 				}

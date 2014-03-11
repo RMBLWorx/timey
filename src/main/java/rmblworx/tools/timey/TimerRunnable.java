@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -30,7 +27,6 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 	 */
 	@Override
 	protected void computeTime() {
-
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
 
@@ -39,4 +35,5 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 
 		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
+
 }

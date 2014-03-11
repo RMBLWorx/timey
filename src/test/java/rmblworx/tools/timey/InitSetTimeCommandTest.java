@@ -1,5 +1,3 @@
-/**
- */
 package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertEquals;
@@ -21,6 +19,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class InitSetTimeCommandTest {
+
 	/**
 	 * Empfaenger fuer das Alarm-Kommando.
 	 */
@@ -56,10 +55,11 @@ public class InitSetTimeCommandTest {
 	 */
 	@Test
 	public final void testInitSetTimeCommand() {
-		int expectedMilliseconds = 0;
+		final int expectedMilliseconds = 0;
 		final TimeDescriptor expectedDescriptor = new TimeDescriptor(expectedMilliseconds);
 		final TimeDescriptor actualDescriptor = this.client.initSetTimeCommand(expectedDescriptor);
 
 		assertEquals(expectedMilliseconds, actualDescriptor.getMilliSeconds());
 	}
+
 }
