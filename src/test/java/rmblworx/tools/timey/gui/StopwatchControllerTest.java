@@ -119,21 +119,27 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 
 		// Millisekunden-Anteil ausblenden
 		stopwatchShowMillisecondsCheckbox.fire();
-		waitUntil(stopwatchShowMillisecondsCheckbox, new Predicate<CheckBox>() {
-			public boolean apply(final CheckBox stopwatchShowMillisecondsCheckbox) {
-				return !stopwatchShowMillisecondsCheckbox.isSelected();
-			}
-		}, 1);
-		assertEquals("00:00:00", stopwatchTimeLabel.getText());
+		try {
+			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
+				public boolean apply(final Label stopwatchTimeLabel) {
+					return "00:00:00".equals(stopwatchTimeLabel.getText());
+				}
+			}, 1);
+		} catch (final RuntimeException e) {
+			fail(stopwatchTimeLabel.getText());
+		}
 
 		// Millisekunden-Anteil wieder ausblenden
 		stopwatchShowMillisecondsCheckbox.fire();
-		waitUntil(stopwatchShowMillisecondsCheckbox, new Predicate<CheckBox>() {
-			public boolean apply(final CheckBox stopwatchShowMillisecondsCheckbox) {
-				return stopwatchShowMillisecondsCheckbox.isSelected();
-			}
-		}, 1);
-		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
+		try {
+			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
+				public boolean apply(final Label stopwatchTimeLabel) {
+					return "00:00:00.000".equals(stopwatchTimeLabel.getText());
+				}
+			}, 1);
+		} catch (final RuntimeException e) {
+			fail(stopwatchTimeLabel.getText());
+		}
 	}
 
 	/**
