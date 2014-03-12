@@ -159,6 +159,14 @@ public class CountdownController {
 		// Inhalt auf gültigen Wertebereich beschränken
 		textProperty.addListener(new CountdownTimePartChangeListener(textProperty, maxValue));
 
+		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
+		countdownStartButton.setDisable(true);
+		textProperty.addListener(new ChangeListener<String>() {
+			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+				countdownStartButton.setDisable(getTimeFromInputFields() == 0);
+			}
+		});
+
 		// bei Verlassen des Feldes sicherstellen, dass Wert zweistellig
 		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
