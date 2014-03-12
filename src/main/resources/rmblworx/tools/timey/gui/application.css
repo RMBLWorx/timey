@@ -1,3 +1,8 @@
-#stopwatchTimeLabel {
+#stopwatchTimeLabel,
+#countdownTimeLabel,
+#countdownHoursField,
+#countdownMinutesField,
+#countdownSecondsField,
+.countdownTimeSeparator {
 	-fx-font-size: 30px;
 }

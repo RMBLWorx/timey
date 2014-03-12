@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.CountdownController">
+  <children>
+    <Label fx:id="countdownTimeLabel" layoutX="14.0" layoutY="16.0" text="00:00:00" visible="false" />
+    <AnchorPane fx:id="countdownTimeInputPane" layoutX="14.0" layoutY="14.0">
+      <children>
+        <TextField fx:id="countdownHoursField" alignment="CENTER" layoutX="0.0" layoutY="0.0" prefWidth="50.0" text="00" />
+        <Label layoutX="53.0" layoutY="3.0" styleClass="countdownTimeSeparator" text=":" />
+        <TextField fx:id="countdownMinutesField" alignment="CENTER" layoutX="66.0" layoutY="0.0" prefWidth="50.0" text="00" />
+        <Label layoutX="118.0" layoutY="3.0" styleClass="countdownTimeSeparator" text=":" />
+        <TextField fx:id="countdownSecondsField" alignment="CENTER" layoutX="131.0" layoutY="0.0" prefWidth="50.0" text="00" />
+        <Slider fx:id="countdownHoursSlider" blockIncrement="1.0" layoutX="1.0" layoutY="43.0" majorTickUnit="1.0" minHeight="14.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" />
+        <Slider fx:id="countdownMinutesSlider" blockIncrement="1.0" layoutX="66.0" layoutY="43.0" majorTickUnit="1.0" minHeight="14.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" />
+        <Slider fx:id="countdownSecondsSlider" blockIncrement="1.0" layoutX="131.0" layoutY="43.0" majorTickUnit="1.0" minHeight="14.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" />
+      </children>
+    </AnchorPane>
+    <Button fx:id="countdownStartButton" layoutX="14.0" layoutY="76.0" mnemonicParsing="false" prefWidth="55.0" text="%countdownStartButton.label" />
+    <Button fx:id="countdownStopButton" layoutX="14.0" layoutY="76.0" mnemonicParsing="false" prefWidth="55.0" text="%countdownStopButton.label" visible="false" />
+  </children>
+</AnchorPane>

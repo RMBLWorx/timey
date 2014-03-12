@@ -18,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import rmblworx.tools.timey.gui.config.ConfigManager;
@@ -37,6 +38,10 @@ public class TimeyController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				createTrayIcon(stage);
+
+				// TODO entfernen
+				// zweiten Tab aktivieren (nur zum manuellen Testen)
+				((TabPane) stage.getScene().lookup("#timeyTabs")).getSelectionModel().select(1);
 			}
 		});
 	}
