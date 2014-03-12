@@ -16,7 +16,7 @@ public class StopwatchClient {
 	/**
 	 * stores the Receiver instance of the Client.
 	 */
-	private final Stopwatch fReceiver;
+	private final IStopwatch fReceiver;
 
 	/**
 	 * This construtor creates a Client instance and stores the given
@@ -25,7 +25,7 @@ public class StopwatchClient {
 	 * @param receiver
 	 *            Referenz auf die Implementierung die dieser Client steuern soll.
 	 */
-	public StopwatchClient(final Stopwatch receiver) {
+	public StopwatchClient(final IStopwatch receiver) {
 		super();
 		this.fReceiver = receiver;
 	}
@@ -39,7 +39,7 @@ public class StopwatchClient {
 	public <T> T initStopwatchResetCommand() {
 
 		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
-		final Switch invoker = new Switch();
+		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -53,7 +53,7 @@ public class StopwatchClient {
 	 */
 	public <T> T initStopwatchStartCommand() {
 		final StopwatchStartCommand cmd = new StopwatchStartCommand(this.fReceiver);
-		final Switch invoker = new Switch();
+		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -67,7 +67,7 @@ public class StopwatchClient {
 	 */
 	public <T> T initStopwatchStopCommand() {
 		final StopwatchStopCommand cmd = new StopwatchStopCommand(this.fReceiver);
-		final Switch invoker = new Switch();
+		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();

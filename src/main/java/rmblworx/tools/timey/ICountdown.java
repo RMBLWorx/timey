@@ -14,16 +14,17 @@ interface ICountdown {
 	 * 
 	 * @param descriptor
 	 *            Werteobjekt das die Zeitangabe kapselt.
-	 * @return Werteobjekt mit den gesetzten Zeitwerten.
+	 * @return true wenn erfolgreich.
 	 */
-	TimeDescriptor setCountdownTime(TimeDescriptor descriptor);
+	Boolean setCountdownTime(TimeDescriptor descriptor);
 
 	/**
 	 * Startet den Countdown.
 	 * 
-	 * @return true wenn erfolgreich.
+	 * @return Werteobjekt mit den gesetzten Zeitwerten.Es handelt sich hierbei um das ueber {@link #setTime(TimeDescriptor)}
+	 *         uebergebene Objekt.
 	 */
-	Boolean startCountdown();
+	TimeDescriptor startCountdown();
 
 	/**
 	 * Stoppt bzw. unterbricht den Countdown.

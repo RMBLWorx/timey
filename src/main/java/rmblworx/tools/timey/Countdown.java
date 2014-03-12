@@ -19,25 +19,25 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-class Stopwatch implements IStopwatch, ApplicationContextAware {
+class Countdown implements ICountdown, ApplicationContextAware {
 	/**
 	 * Anzahl der Threads die Zeit messen sollen.
 	 */
 	private final byte amountOfThreads;
 	/**
-	 * Spring Context.
+	 * Spring-Kontext.
 	 */
 	private ApplicationContext context;
+	/**
+	 * Die genutzte Zeitmessimplementierung.
+	 */
+	private ICountdownTimer countdownTimer;
 	/**
 	 * Gibt die Maszzahl fuer die Zeiteinheit an.
 	 * 
 	 * @see #timeUnit
 	 */
 	private final int delayPerThread;
-	/**
-	 * Die genutzte Zeitmessimplementierung.
-	 */
-	private ITimer timer;
 	/**
 	 * Gibt die Zeiteinheit an in welchem der Intervall die gemessene Zeit geliefert wird.
 	 */
@@ -53,19 +53,19 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	 * @param unit
 	 *            Maszeinheit fuer den Intervall.
 	 */
-	public Stopwatch(final byte amount, final int delay, final TimeUnit unit) {
+	public Countdown(final byte amount, final int delay, final TimeUnit unit) {
 		this.amountOfThreads = amount;
 		this.delayPerThread = delay;
 		this.timeUnit = unit;
 	}
 
-	@Override
-	public Boolean resetStopwatch() {
-		if (this.timer != null) {
-			this.timer.resetStopwatch();
+	/**
+	 * Instanziiert nach Bedarf die Timerimplementierung.
+	 */
+	private void initCountdownTimer() {
+		if (this.countdownTimer == null) {
+			this.countdownTimer = (ICountdownTimer) this.context.getBean("simpleCountdown");
 		}
-
-		return Boolean.TRUE;
 	}
 
 	@Override
@@ -74,24 +74,20 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	}
 
 	@Override
-	public TimeDescriptor startStopwatch() {
-		TimeDescriptor result;
-
-		if (this.timer == null) {
-			this.timer = (ITimer) this.context.getBean("simpleTimer");
-		}
-
-		result = this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
-
-		return result;
+	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
+		this.initCountdownTimer();
+		return this.countdownTimer.setTime(descriptor);
 	}
 
 	@Override
-	public Boolean stopStopwatch() {
-		if (this.timer != null) {
-			this.timer.stopStopwatch();
-		}
+	public TimeDescriptor startCountdown() {
+		this.initCountdownTimer();
+		return this.countdownTimer.startCountdown(this.amountOfThreads, this.delayPerThread, this.timeUnit);
+	}
 
-		return Boolean.TRUE;
+	@Override
+	public Boolean stopCountdown() {
+		this.initCountdownTimer();
+		return this.countdownTimer.stopCountdown();
 	}
 }
