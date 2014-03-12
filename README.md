@@ -52,19 +52,18 @@ können.
 ## verwendete Technologien
 
 * Java 7
-* JavaFX 2.2 für GUI
+* JavaFX 2.2
 * Maven 3
 
+## verwendete Frameworks/Bibliotheken
 
-## verwendete externe Frameworks/ Bibliotheken
-
-* Spring-Framework 4.0.0-RELEASE (Spring-AOP, Spring-Context, Spring-Core, Spring-TX, Spring-Test)
-* Hibernate 3
-* Apache Commons Lang 2.6
-* SLF4J 1.7.6
+* Spring (Spring-AOP, Spring-Context, Spring-Core, Spring-TX, Spring-Test)
+* Hibernate
+* Apache Commons Lang
+* SLF4J
 * Log4j
-* JUnit 4.11
-* CGlib 3.1
-* AspectJWeaver 1.7.4
-
-
+* CGlib
+* AspectJWeaver
+* JUnit
+* TestFX
+* Mockito
