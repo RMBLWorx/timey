@@ -15,12 +15,12 @@ public class StopwatchResetCommand implements ICommand {
 	/**
 	 * Stores the Receiver instance of the ConcreteCommand.
 	 */
-	private final Stopwatch fReceiver;
+	private final IStopwatch fReceiver;
 
 	/**
 	 * Constructor.
 	 */
-	public StopwatchResetCommand(final Stopwatch receiver) {
+	public StopwatchResetCommand(final IStopwatch receiver) {
 		super();
 		this.fReceiver = receiver;
 	}
