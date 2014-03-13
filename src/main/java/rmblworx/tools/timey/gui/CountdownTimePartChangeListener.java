@@ -11,7 +11,6 @@ import javafx.beans.value.ObservableValue;
  */
 public class CountdownTimePartChangeListener implements ChangeListener<String> {
 
-	private static final int MAX_LENGTH = 2;
 	private static final long MIN_VALUE = 0L;
 
 	protected final StringProperty textProperty;
@@ -26,18 +25,18 @@ public class CountdownTimePartChangeListener implements ChangeListener<String> {
 	 * {@inheritDoc}
 	 */
 	public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
-		if (newValue == null || "".equals(newValue) || newValue.length() > MAX_LENGTH) {
+		try {
+			final long value = Long.parseLong(newValue);
+			if (value < MIN_VALUE) {
+				textProperty.setValue(String.format("%02d", MIN_VALUE));
+				return;
+			}
+			if (value > maxValue) {
+				textProperty.setValue(String.format("%02d", maxValue));
+				return;
+			}
+		} catch (final NumberFormatException e) {
 			textProperty.setValue(oldValue);
-			return;
-		}
-
-		final long value = Long.parseLong(newValue);
-		if (value < MIN_VALUE) {
-			textProperty.setValue(String.format("%02d", MIN_VALUE));
-			return;
-		}
-		if (value > maxValue) {
-			textProperty.setValue(String.format("%02d", maxValue));
 			return;
 		}
 

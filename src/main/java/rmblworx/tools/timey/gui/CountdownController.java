@@ -16,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import rmblworx.tools.timey.SimpleCountdown;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -153,11 +152,16 @@ public class CountdownController {
 	protected void bindTextInputListenersAndSlider(final TextField textField, final Slider slider, final long maxValue) {
 		final StringProperty textProperty = textField.textProperty();
 
-		// Eingaben auf Zahlen beschränken
-		textField.addEventFilter(KeyEvent.KEY_TYPED, new AllowOnlyNumericKeysKeyEventHandler());
-
 		// Inhalt auf gültigen Wertebereich beschränken
 		textProperty.addListener(new CountdownTimePartChangeListener(textProperty, maxValue));
+
+		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
+		countdownStartButton.setDisable(true);
+		textProperty.addListener(new ChangeListener<String>() {
+			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+				countdownStartButton.setDisable(getTimeFromInputFields() == 0);
+			}
+		});
 
 		// bei Verlassen des Feldes sicherstellen, dass Wert zweistellig
 		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
