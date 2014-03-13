@@ -1,9 +1,6 @@
 /* größere Schrift für Zeit in Stoppuhr und Countdown */
 #stopwatchTimeLabel,
 #countdownTimeLabel,
-#countdownHoursField,
-#countdownMinutesField,
-#countdownSecondsField,
-.countdownTimeSeparator {
+#countdownTimePicker {
 	-fx-font-size: 30px;
 }

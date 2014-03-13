@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TextField fx:id="hoursTextField" alignment="CENTER" prefWidth="50.0" text="00" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label styleClass="timePickerTimeSeparator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <TextField fx:id="minutesTextField" alignment="CENTER" prefWidth="50.0" text="00" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <Label styleClass="timePickerTimeSeparator" text=":" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+        <TextField fx:id="secondsTextField" alignment="CENTER" prefWidth="50.0" text="00" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+        <Slider fx:id="hoursSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Slider fx:id="minutesSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Slider fx:id="secondsSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" />
+        <RowConstraints prefHeight="2.0" vgrow="SOMETIMES" />
+        <RowConstraints vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+</fx:root>
