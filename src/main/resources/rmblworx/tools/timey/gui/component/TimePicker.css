@@ -1,0 +1,6 @@
+/* Slider darf nicht auf externe Schriftgrößenänderung reagieren */
+#hoursSlider,
+#minutesSlider,
+#secondsSlider {
+	-fx-font-size: 11px;
+}
