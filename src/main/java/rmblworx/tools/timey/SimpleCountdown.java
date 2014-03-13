@@ -28,13 +28,13 @@ public class SimpleCountdown implements ICountdown {
 	private long timePassed = 0;
 
 	@Override
-	public TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
+	public Boolean setCountdownTime(TimeDescriptor descriptor) {
 		this.timeDescriptor = descriptor;
-		return descriptor;
+		return Boolean.TRUE;
 	}
 
 	@Override
-	public Boolean startCountdown() {
+	public TimeDescriptor startCountdown() {
 		final int amountOfThreads = 1;
 		final int delayPerThread = 1;
 		final TimeUnit timeUnit = TimeUnit.SECONDS;
@@ -44,7 +44,7 @@ public class SimpleCountdown implements ICountdown {
 
 		this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
 
-		return !this.scheduler.isTerminated();
+		return this.timeDescriptor;
 	}
 
 	@Override
@@ -54,5 +54,4 @@ public class SimpleCountdown implements ICountdown {
 
 		return Boolean.TRUE;
 	}
-
 }

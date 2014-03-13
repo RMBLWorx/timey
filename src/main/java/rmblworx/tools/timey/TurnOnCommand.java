@@ -11,14 +11,13 @@ package rmblworx.tools.timey;
  * @author mmatthies
  */
 public class TurnOnCommand implements ICommand {
-
-	/** Stores the Receiver instance of the ConcreteCommand. */
-	private final Alarm fReceiver;
+	/** stores the Receiver instance of the ConcreteCommand */
+	private final IAlarm fReceiver;
 
 	/**
 	 * Constructor.
 	 */
-	public TurnOnCommand(final Alarm receiver) {
+	public TurnOnCommand(final IAlarm receiver) {
 		super();
 		this.fReceiver = receiver;
 	}
@@ -33,5 +32,4 @@ public class TurnOnCommand implements ICommand {
 
 		return (T) Boolean.TRUE;
 	}
-
 }

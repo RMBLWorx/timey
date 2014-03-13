@@ -1,23 +1,27 @@
+/**
+ * 
+ */
 package rmblworx.tools.timey;
 
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
- * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
+ *   <li>defines a binding between a Receiver object and an action.</li>
+ *   <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
  * </ul>
  * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
- * @author mmatthies
+ * @author "mmatthies"
  */
-public class StopwatchStopCommand implements ICommand {
+public class CountdownStopCommand implements ICommand {
+
 	/** stores the Receiver instance of the ConcreteCommand */
-	private final IStopwatch fReceiver;
+	private final ICountdown fReceiver;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 */
-	public StopwatchStopCommand(final IStopwatch receiver) {
+	public CountdownStopCommand(ICountdown receiver) {
 		super();
 		this.fReceiver = receiver;
 	}
@@ -28,7 +32,7 @@ public class StopwatchStopCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		this.fReceiver.stopStopwatch();
-		return (T) Boolean.TRUE;
+		return (T) this.fReceiver.stopCountdown();
 	}
+
 }

@@ -16,58 +16,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import rmblworx.tools.timey.SimpleCountdown;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
-/**
- * Controller für die Countdown-GUI.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
- */
 public class CountdownController {
 
-	/**
-	 * Fassade zur Steuerung des Countdowns.
-	 */
 	// private TimeyFacade facade = new TimeyFacade();
-	private SimpleCountdown countdown = new SimpleCountdown(); // TODO durch Fassade ersetzen
+	private SimpleCountdown countdown = new SimpleCountdown();
 
-	/**
-	 * Formatiert Zeitstempel als Zeit-Werte.
-	 */
-	private SimpleDateFormat timeFormatter;
-
-	/**
-	 * Formatiert Zeitstempel als Stunden-Werte.
-	 */
+	private SimpleDateFormat dateFormatter;
 	private SimpleDateFormat hoursFormatter;
-
-	/**
-	 * Formatiert Zeitstempel als Minuten-Werte.
-	 */
 	private SimpleDateFormat minutesFormatter;
-
-	/**
-	 * Formatiert Zeitstempel als Sekunden-Werte.
-	 */
 	private SimpleDateFormat secondsFormatter;
 
-	/**
-	 * Maximalwert für das Stunden-Textfeld.
-	 */
 	private static final long MAX_HOURS = 23L;
-
-	/**
-	 * Maximalwert für das Minuten-Textfeld.
-	 */
 	private static final long MAX_MINUTES = 59L;
-
-	/**
-	 * Maximalwert für das Sekunden-Textfeld.
-	 */
 	private static final long MAX_SECONDS = 59L;
 
 	@FXML
@@ -103,14 +68,7 @@ public class CountdownController {
 	@FXML
 	private AnchorPane countdownTimeInputPane;
 
-	/**
-	 * Ob der Countdown läuft.
-	 */
 	private boolean countdownRunning = false;
-
-	/**
-	 * Countdown-Zeit.
-	 */
 	private long countdownValue;
 
 	@FXML
@@ -142,7 +100,7 @@ public class CountdownController {
 						public Void call() throws InterruptedException {
 							while (countdownRunning) {
 								countdownValue = td.getMilliSeconds();
-								updateMessage(timeFormatter.format(countdownValue));
+								updateMessage(dateFormatter.format(countdownValue));
 								Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
 							}
 
@@ -189,28 +147,17 @@ public class CountdownController {
 			bindTextInputListenersAndSlider(countdownSecondsField, countdownSecondsSlider, MAX_SECONDS);
 		}
 
-		setupTimeFormatters();
+		setupDateFormatters();
 	}
 
-	/**
-	 * Verbindet ein Textfeld bidirektional mit einem Slider und sorgt für Validierung der Eingaben.
-	 * @param textField Textfeld
-	 * @param slider Slider
-	 * @param maxValue Maximalwert für das Textfeld
-	 */
 	protected void bindTextInputListenersAndSlider(final TextField textField, final Slider slider, final long maxValue) {
 		final StringProperty textProperty = textField.textProperty();
 
+		// Eingaben auf Zahlen beschränken
+		textField.addEventFilter(KeyEvent.KEY_TYPED, new AllowOnlyNumericKeysKeyEventHandler());
+
 		// Inhalt auf gültigen Wertebereich beschränken
 		textProperty.addListener(new CountdownTimePartChangeListener(textProperty, maxValue));
-
-		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
-		countdownStartButton.setDisable(true);
-		textProperty.addListener(new ChangeListener<String>() {
-			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
-				countdownStartButton.setDisable(getTimeFromInputFields() == 0);
-			}
-		});
 
 		// bei Verlassen des Feldes sicherstellen, dass Wert zweistellig
 		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -228,11 +175,7 @@ public class CountdownController {
 		}
 	}
 
-	/**
-	 * Startet den Countdown.
-	 * @param timeDescriptor Zeitobjekt
-	 */
-	protected void startCountdown(final TimeDescriptor timeDescriptor) {
+	protected void startCountdown(final TimeDescriptor td) {
 		countdownRunning = true;
 		countdownStartButton.setVisible(false);
 		countdownStopButton.setVisible(true);
@@ -241,13 +184,10 @@ public class CountdownController {
 
 		transferTimeFromInputToLabel();
 
-		countdown.setCountdownTime(timeDescriptor);
+		countdown.setCountdownTime(td);
 		countdown.startCountdown();
 	}
 
-	/**
-	 * Stoppt den Countdown.
-	 */
 	protected void stopCountdown() {
 		countdown.stopCountdown();
 		countdownRunning = false;
@@ -260,26 +200,19 @@ public class CountdownController {
 		enableTimeInput(true);
 	}
 
-	/**
-	 * Aktiviert bzw. deaktiviert alle nötigen Bedienelemente zur Eingabe einer Zeit.
-	 * @param enabled ob Felder aktiv sein sollen
-	 */
 	protected void enableTimeInput(final boolean enabled) {
 		countdownTimeLabel.setVisible(!enabled);
 		countdownTimeInputPane.setVisible(enabled);
 		countdownTimeInputPane.setDisable(!enabled);
 	}
 
-	/**
-	 * Initialisiert die Zeitformatierer.
-	 */
-	private void setupTimeFormatters() {
+	private void setupDateFormatters() {
 		final TimeZone timeZone = TimeZone.getTimeZone("UTC");
 
-		if (timeFormatter == null) {
-			timeFormatter = new SimpleDateFormat();
-			timeFormatter.setTimeZone(timeZone);
-			timeFormatter.applyPattern("HH:mm:ss");
+		if (dateFormatter == null) {
+			dateFormatter = new SimpleDateFormat();
+			dateFormatter.setTimeZone(timeZone);
+			dateFormatter.applyPattern("HH:mm:ss");
 		}
 
 		if (hoursFormatter == null) {
@@ -301,10 +234,6 @@ public class CountdownController {
 		}
 	}
 
-	/**
-	 * Liefert die durch die Textfelder beschriebene Zeit.
-	 * @return Zeit in ms
-	 */
 	protected long getTimeFromInputFields() {
 		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		cal.clear();
@@ -315,16 +244,10 @@ public class CountdownController {
 		return cal.getTime().getTime();
 	}
 
-	/**
-	 * Überträgt die Zeit von den Textfeldern auf das Label.
-	 */
 	protected void transferTimeFromInputToLabel() {
-		countdownTimeLabel.setText(timeFormatter.format(getTimeFromInputFields()));
+		countdownTimeLabel.setText(dateFormatter.format(getTimeFromInputFields()));
 	}
 
-	/**
-	 * Überträgt die Countdown-Zeit auf die Textfelder.
-	 */
 	protected void transferTimeToInput() {
 		countdownHoursField.setText(hoursFormatter.format(countdownValue));
 		countdownMinutesField.setText(minutesFormatter.format(countdownValue));
