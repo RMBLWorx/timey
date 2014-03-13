@@ -23,11 +23,25 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 
+/**
+ * Controller für die Timey-GUI.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
 public class TimeyController {
 
 	private Stage stage;
+
+	/**
+	 * Symbol im System-Tray.
+	 */
 	private TrayIcon trayIcon;
 
+	/**
+	 * Ob die Anwendung erstmalig minimiert wurde.
+	 */
 	private boolean minimizedFirstTime = true;
 
 	@FXML
@@ -50,6 +64,10 @@ public class TimeyController {
 		this.stage = stage;
 	}
 
+	/**
+	 * Erzeugt das Symbol im System-Tray.
+	 * @param stage
+	 */
 	private void createTrayIcon(final Stage stage) {
 		if (SystemTray.isSupported()) {
 			Platform.setImplicitExit(false);
@@ -129,6 +147,9 @@ public class TimeyController {
 		}
 	}
 
+	/**
+	 * Blendet beim erstmaligen Minimieren der Anwendung einen entsprechenden Hinweis ein.
+	 */
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
 			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"),
@@ -137,6 +158,10 @@ public class TimeyController {
 		}
 	}
 
+	/**
+	 * Blendet die Anwendung aus.
+	 * @param stage
+	 */
 	private void hide(final Stage stage) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -149,6 +174,10 @@ public class TimeyController {
 		});
 	}
 
+	/**
+	 * Blendet die Anwendung ein.
+	 * @param stage
+	 */
 	private void show(final Stage stage) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -159,6 +188,9 @@ public class TimeyController {
 		});
 	}
 
+	/**
+	 * Beendet die Anwendung.
+	 */
 	private void exit() {
 		Platform.exit();
 	}

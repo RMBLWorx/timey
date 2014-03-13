@@ -19,10 +19,24 @@ import rmblworx.tools.timey.gui.config.Config;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/**
+ * Controller für die Stoppuhr-GUI.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
 public class StopwatchController {
 
+	/**
+	 * Fassade zur Steuerung der Stoppuhr.
+	 */
 	private TimeyFacade facade = new TimeyFacade();
-	private SimpleDateFormat dateFormatter;
+
+	/**
+	 * Formatiert Zeitstempel als Zeit-Werte.
+	 */
+	private SimpleDateFormat timeFormatter;
 
 	@FXML
 	private ResourceBundle resources;
@@ -42,7 +56,14 @@ public class StopwatchController {
 	@FXML
 	private CheckBox stopwatchShowMillisecondsCheckbox;
 
+	/**
+	 * Ob die Stoppuhr läuft.
+	 */
 	private boolean stopwatchRunning = false;
+
+	/**
+	 * Stoppuhr-Zeit.
+	 */
 	private long stopwatchValue;
 
 	@FXML
@@ -70,7 +91,7 @@ public class StopwatchController {
 						public Void call() throws InterruptedException {
 							while (stopwatchRunning) {
 								stopwatchValue = td.getMilliSeconds();
-								updateMessage(dateFormatter.format(stopwatchValue));
+								updateMessage(timeFormatter.format(stopwatchValue));
 								Thread.sleep(config.isStopwatchShowMilliseconds() ? SLEEP_TIME_FINE_GRAINED : SLEEP_TIME_COARSE_GRAINED);
 							}
 
@@ -110,7 +131,7 @@ public class StopwatchController {
 				public void handle(final ActionEvent event) {
 					facade.resetStopwatch();
 					stopwatchValue = 0L;
-					resetStopwatchTimeLabel();
+					updateStopwatchTimeLabel();
 					stopwatchStartButton.requestFocus();
 				}
 			});
@@ -118,19 +139,23 @@ public class StopwatchController {
 
 		if (stopwatchShowMillisecondsCheckbox != null) {
 			stopwatchShowMillisecondsCheckbox.setSelected(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds());
-			setupDateFormatter();
-			resetStopwatchTimeLabel();
+			setupTimeFormatter();
+			updateStopwatchTimeLabel();
 
 			stopwatchShowMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
 					ConfigManager.getCurrentConfig().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
-					setupDateFormatter();
-					resetStopwatchTimeLabel();
+					setupTimeFormatter();
+					updateStopwatchTimeLabel();
 				}
 			});
 		}
 	}
 
+	/**
+	 * Startet die Stoppuhr.
+	 * @return Zeitobjekt
+	 */
 	protected TimeDescriptor startStopwatch() {
 		stopwatchRunning = true;
 		stopwatchStartButton.setVisible(false);
@@ -140,6 +165,9 @@ public class StopwatchController {
 		return facade.startStopwatch();
 	}
 
+	/**
+	 * Stoppt die Stoppuhr.
+	 */
 	protected void stopStopwatch() {
 		facade.stopStopwatch();
 		stopwatchRunning = false;
@@ -148,20 +176,26 @@ public class StopwatchController {
 		stopwatchStopButton.setVisible(false);
 	}
 
-	private void setupDateFormatter() {
-		if (dateFormatter == null) {
-			dateFormatter = new SimpleDateFormat();
-			dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+	/**
+	 * Initialisiert den Zeitformatierer bzw. aktualisiert dessen Format.
+	 */
+	private void setupTimeFormatter() {
+		if (timeFormatter == null) {
+			timeFormatter = new SimpleDateFormat();
+			timeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		}
 
-		dateFormatter.applyPattern(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds() ? "HH:mm:ss.SSS" : "HH:mm:ss");
+		timeFormatter.applyPattern(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds() ? "HH:mm:ss.SSS" : "HH:mm:ss");
 	}
 
-	private void resetStopwatchTimeLabel() {
+	/**
+	 * Aktualisiert die Anzeige der gemessenen Zeit, falls die Stoppuhr nicht läuft.
+	 */
+	private void updateStopwatchTimeLabel() {
 		if (!stopwatchRunning) {
 			Platform.runLater(new Runnable() {
 				public void run() {
-					stopwatchTimeLabel.setText(dateFormatter.format(stopwatchValue));
+					stopwatchTimeLabel.setText(timeFormatter.format(stopwatchValue));
 				}
 			});
 		}
