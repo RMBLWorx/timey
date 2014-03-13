@@ -11,7 +11,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public class SimpleCountdown implements ICountdown {
+public class SimpleCountdown implements ICountdownTimer {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -34,11 +34,7 @@ public class SimpleCountdown implements ICountdown {
 	}
 
 	@Override
-	public TimeDescriptor startCountdown() {
-		final int amountOfThreads = 1;
-		final int delayPerThread = 1;
-		final TimeUnit timeUnit = TimeUnit.SECONDS;
-
+	public TimeDescriptor startCountdown(int amountOfThreads, int delayPerThread, TimeUnit timeUnit) {
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
 		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
 

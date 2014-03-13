@@ -5,24 +5,18 @@ import java.util.concurrent.TimeUnit;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Stoppuhr-Objekts.
+ * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Countdown-Objekts.
  * @author mmatthies
  *
  */
 interface ICountdownTimer {
 
 	/**
-	 * Setzt den Countdown auf Null.
-	 * @return true wenn die Uhr erfolgreich auf Anfang gesetzt werden konnte sonst false.
-	 */
-	Boolean resetCountdown();
-
-	/**
 	 * Setzt den Startwert fuer den Countdown.
 	 * @param descriptor Referenz auf das Werteobjekt das die darzustellende Zeit kapselt.
 	 * @return true wenn die Ausgangszeit erfolgreich gesetzt werden konnte.
 	 */
-	Boolean setTime(TimeDescriptor descriptor);
+	Boolean setCountdownTime(TimeDescriptor descriptor);
 
 	/**
 	 * Startet den Countdown.
@@ -42,7 +36,7 @@ interface ICountdownTimer {
 	TimeDescriptor startCountdown(int amountOfThreads, int delayPerThread, TimeUnit timeUnit);
 
 	/**
-	 * Stoppt dden Countdown und beendet den/die gestarteten Threads.
+	 * Stoppt den Countdown und beendet den/die gestarteten Threads.
 	 * @return true wenn erfolgreich die Uhr angehalten werden konnte sonst false.
 	 */
 	Boolean stopCountdown();
