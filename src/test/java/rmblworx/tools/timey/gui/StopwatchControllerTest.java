@@ -166,7 +166,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
 
 		try {
-			final long timePassed = getDateFormatter().parse(stopwatchTimeLabel.getText()).getTime();
+			final long timePassed = getTimeFormatter().parse(stopwatchTimeLabel.getText()).getTime();
 			if (timePassed < timeExpectedMin || timePassed > timeExpectedMax) {
 				fail(String.format("%d is not between %d and %d.", timePassed, timeExpectedMin, timeExpectedMax));
 			}
@@ -185,7 +185,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 
 		// angezeigte gemessene Zeit muss im Toleranzbereich liegen
 		try {
-			final long timePassed = getDateFormatter().parse(stopwatchTimeLabel.getText()).getTime();
+			final long timePassed = getTimeFormatter().parse(stopwatchTimeLabel.getText()).getTime();
 			final long timeExpectedMinSecondRun = timeToRun + timeExpectedMin;
 			final long timeExpectedMaxSecondRun = timeToRun + timeExpectedMax;
 			if (timePassed < timeExpectedMinSecondRun || timePassed > timeExpectedMaxSecondRun) {
@@ -277,7 +277,7 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
 
 		try {
-			final long timePassed = getDateFormatter().parse(stopwatchTimeLabel.getText()).getTime();
+			final long timePassed = getTimeFormatter().parse(stopwatchTimeLabel.getText()).getTime();
 			if (timePassed > timeExpectedMax) {
 				fail(String.format("%d is not less than %d.", timePassed, timeExpectedMax));
 			}
@@ -290,7 +290,10 @@ public class StopwatchControllerTest extends JavaFxGuiTest {
 		stopwatchStopButton.fire();
 	}
 
-	protected SimpleDateFormat getDateFormatter() {
+	/**
+	 * @return Formatierer für Zeit-Werte
+	 */
+	protected SimpleDateFormat getTimeFormatter() {
 		final SimpleDateFormat dateFormatter = new SimpleDateFormat();
 		dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		dateFormatter.applyPattern("HH:mm:ss.SSS");
