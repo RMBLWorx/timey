@@ -12,7 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import rmblworx.tools.timey.SimpleCountdown;
+import rmblworx.tools.timey.TimeyFacade;
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -28,8 +28,7 @@ public class CountdownController {
 	/**
 	 * Fassade zur Steuerung des Countdowns.
 	 */
-	// private TimeyFacade facade = new TimeyFacade();
-	private SimpleCountdown countdown = new SimpleCountdown(); // TODO durch Fassade ersetzen
+	private TimeyFacade facade = new TimeyFacade();
 
 	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
@@ -143,15 +142,15 @@ public class CountdownController {
 
 		transferTimeFromInputToLabel();
 
-		countdown.setCountdownTime(timeDescriptor);
-		countdown.startCountdown();
+		facade.setCountdownTime(timeDescriptor);
+		facade.startCountdown();
 	}
 
 	/**
 	 * Stoppt den Countdown.
 	 */
 	protected void stopCountdown() {
-		countdown.stopCountdown();
+		facade.stopCountdown();
 		countdownRunning = false;
 
 		countdownTimePicker.setTime(countdownValue);
