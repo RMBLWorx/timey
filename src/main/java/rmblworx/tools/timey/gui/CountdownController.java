@@ -1,11 +1,9 @@
 package rmblworx.tools.timey.gui;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -14,26 +12,29 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import rmblworx.tools.timey.SimpleCountdown;
+import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/**
+ * Controller für die Countdown-GUI.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
 public class CountdownController {
 
+	/**
+	 * Fassade zur Steuerung des Countdowns.
+	 */
 	// private TimeyFacade facade = new TimeyFacade();
-	private SimpleCountdown countdown = new SimpleCountdown();
+	private SimpleCountdown countdown = new SimpleCountdown(); // TODO durch Fassade ersetzen
 
-	private SimpleDateFormat dateFormatter;
-	private SimpleDateFormat hoursFormatter;
-	private SimpleDateFormat minutesFormatter;
-	private SimpleDateFormat secondsFormatter;
-
-	private static final long MAX_HOURS = 23L;
-	private static final long MAX_MINUTES = 59L;
-	private static final long MAX_SECONDS = 59L;
+	/**
+	 * Formatiert Zeitstempel als Zeit-Werte.
+	 */
+	private SimpleDateFormat timeFormatter;
 
 	@FXML
 	private ResourceBundle resources;
@@ -45,44 +46,27 @@ public class CountdownController {
 	private Button countdownStopButton;
 
 	@FXML
-	private TextField countdownHoursField;
-
-	@FXML
-	private TextField countdownMinutesField;
-
-	@FXML
-	private TextField countdownSecondsField;
-
-	@FXML
-	private Slider countdownHoursSlider;
-
-	@FXML
-	private Slider countdownMinutesSlider;
-
-	@FXML
-	private Slider countdownSecondsSlider;
-
-	@FXML
 	private Label countdownTimeLabel;
 
 	@FXML
-	private AnchorPane countdownTimeInputPane;
+	private TimePicker countdownTimePicker;
 
+	/**
+	 * Ob der Countdown läuft.
+	 */
 	private boolean countdownRunning = false;
+
+	/**
+	 * Countdown-Zeit.
+	 */
 	private long countdownValue;
 
 	@FXML
 	void initialize() {
-		assert countdownHoursField != null : "fx:id='countdownHoursField' was not injected";
-		assert countdownMinutesField != null : "fx:id='countdownMinuteField' was not injected";
-		assert countdownSecondsField != null : "fx:id='countdownSecondsField' was not injected";
-		assert countdownHoursSlider != null : "fx:id='countdownHoursSlider' was not injected";
-		assert countdownMinutesSlider != null : "fx:id='countdownMinutesSlider' was not injected";
-		assert countdownSecondsSlider != null : "fx:id='countdownSecondsSlider' was not injected";
 		assert countdownStartButton != null : "fx:id='countdownStartButton' was not injected";
 		assert countdownStopButton != null : "fx:id='countdownStopButton' was not injected";
 		assert countdownTimeLabel != null : "fx:id='countdownTimeLabel' was not injected";
-		assert countdownTimeInputPane != null : "fx:id='countdownTimeInputPane' was not injected";
+		assert countdownTimePicker != null : "fx:id='countdownTimePicker' was not injected";
 
 		if (countdownStartButton != null) {
 			countdownStartButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -91,7 +75,7 @@ public class CountdownController {
 						return;
 					}
 
-					final TimeDescriptor td = new TimeDescriptor(getTimeFromInputFields());
+					final TimeDescriptor td = new TimeDescriptor(countdownTimePicker.getTime());
 					startCountdown(td);
 
 					final Task<Void> task = new Task<Void>() {
@@ -100,7 +84,7 @@ public class CountdownController {
 						public Void call() throws InterruptedException {
 							while (countdownRunning) {
 								countdownValue = td.getMilliSeconds();
-								updateMessage(dateFormatter.format(countdownValue));
+								updateMessage(timeFormatter.format(countdownValue));
 								Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
 							}
 
@@ -135,47 +119,22 @@ public class CountdownController {
 			});
 		}
 
-		if (countdownHoursField != null) {
-			bindTextInputListenersAndSlider(countdownHoursField, countdownHoursSlider, MAX_HOURS);
-		}
+		setupTimeFormatters();
 
-		if (countdownMinutesField != null) {
-			bindTextInputListenersAndSlider(countdownMinutesField, countdownMinutesSlider, MAX_MINUTES);
-		}
-
-		if (countdownSecondsField != null) {
-			bindTextInputListenersAndSlider(countdownSecondsField, countdownSecondsSlider, MAX_SECONDS);
-		}
-
-		setupDateFormatters();
-	}
-
-	protected void bindTextInputListenersAndSlider(final TextField textField, final Slider slider, final long maxValue) {
-		final StringProperty textProperty = textField.textProperty();
-
-		// Eingaben auf Zahlen beschränken
-		textField.addEventFilter(KeyEvent.KEY_TYPED, new AllowOnlyNumericKeysKeyEventHandler());
-
-		// Inhalt auf gültigen Wertebereich beschränken
-		textProperty.addListener(new CountdownTimePartChangeListener(textProperty, maxValue));
-
-		// bei Verlassen des Feldes sicherstellen, dass Wert zweistellig
-		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
-				if (Boolean.FALSE.equals(newValue)) {
-					textProperty.setValue(String.format("%02d", Long.parseLong(textProperty.get())));
-				}
+		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
+		countdownStartButton.setDisable(true);
+		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<Number>() {
+			public void changed(final ObservableValue<? extends Number> property, final Number oldValue, final Number newValue) {
+				countdownStartButton.setDisable(newValue.longValue() == 0L);
 			}
 		});
-
-		// Textfeld mit Slider koppeln
-		if (slider != null) {
-			slider.setMax(maxValue);
-			textProperty.bindBidirectional(slider.valueProperty(), new CountdownTimePartConverter());
-		}
 	}
 
-	protected void startCountdown(final TimeDescriptor td) {
+	/**
+	 * Startet den Countdown.
+	 * @param timeDescriptor Zeitobjekt
+	 */
+	protected void startCountdown(final TimeDescriptor timeDescriptor) {
 		countdownRunning = true;
 		countdownStartButton.setVisible(false);
 		countdownStopButton.setVisible(true);
@@ -184,15 +143,18 @@ public class CountdownController {
 
 		transferTimeFromInputToLabel();
 
-		countdown.setCountdownTime(td);
+		countdown.setCountdownTime(timeDescriptor);
 		countdown.startCountdown();
 	}
 
+	/**
+	 * Stoppt den Countdown.
+	 */
 	protected void stopCountdown() {
 		countdown.stopCountdown();
 		countdownRunning = false;
 
-		transferTimeToInput();
+		countdownTimePicker.setTime(countdownValue);
 
 		countdownStartButton.setVisible(true);
 		countdownStartButton.requestFocus();
@@ -200,58 +162,32 @@ public class CountdownController {
 		enableTimeInput(true);
 	}
 
+	/**
+	 * Aktiviert bzw. deaktiviert alle nötigen Bedienelemente zur Eingabe einer Zeit.
+	 * @param enabled ob Felder aktiv sein sollen
+	 */
 	protected void enableTimeInput(final boolean enabled) {
 		countdownTimeLabel.setVisible(!enabled);
-		countdownTimeInputPane.setVisible(enabled);
-		countdownTimeInputPane.setDisable(!enabled);
+		countdownTimePicker.setVisible(enabled);
+		countdownTimePicker.setDisable(!enabled);
 	}
 
-	private void setupDateFormatters() {
-		final TimeZone timeZone = TimeZone.getTimeZone("UTC");
-
-		if (dateFormatter == null) {
-			dateFormatter = new SimpleDateFormat();
-			dateFormatter.setTimeZone(timeZone);
-			dateFormatter.applyPattern("HH:mm:ss");
-		}
-
-		if (hoursFormatter == null) {
-			hoursFormatter = new SimpleDateFormat();
-			hoursFormatter.setTimeZone(timeZone);
-			hoursFormatter.applyPattern("HH");
-		}
-
-		if (minutesFormatter == null) {
-			minutesFormatter = new SimpleDateFormat();
-			minutesFormatter.setTimeZone(timeZone);
-			minutesFormatter.applyPattern("mm");
-		}
-
-		if (secondsFormatter == null) {
-			secondsFormatter = new SimpleDateFormat();
-			secondsFormatter.setTimeZone(timeZone);
-			secondsFormatter.applyPattern("ss");
+	/**
+	 * Initialisiert den Zeitformatierer.
+	 */
+	private void setupTimeFormatters() {
+		if (timeFormatter == null) {
+			timeFormatter = new SimpleDateFormat();
+			timeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+			timeFormatter.applyPattern("HH:mm:ss");
 		}
 	}
 
-	protected long getTimeFromInputFields() {
-		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		cal.clear();
-		cal.add(Calendar.HOUR_OF_DAY, Integer.parseInt(countdownHoursField.getText()));
-		cal.add(Calendar.MINUTE, Integer.parseInt(countdownMinutesField.getText()));
-		cal.add(Calendar.SECOND, Integer.parseInt(countdownSecondsField.getText()));
-
-		return cal.getTime().getTime();
-	}
-
+	/**
+	 * Überträgt die Zeit von den Textfeldern auf das Label.
+	 */
 	protected void transferTimeFromInputToLabel() {
-		countdownTimeLabel.setText(dateFormatter.format(getTimeFromInputFields()));
-	}
-
-	protected void transferTimeToInput() {
-		countdownHoursField.setText(hoursFormatter.format(countdownValue));
-		countdownMinutesField.setText(minutesFormatter.format(countdownValue));
-		countdownSecondsField.setText(secondsFormatter.format(countdownValue));
+		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime()));
 	}
 
 }
