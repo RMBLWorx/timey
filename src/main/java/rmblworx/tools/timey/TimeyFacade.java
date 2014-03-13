@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import java.io.File;
@@ -23,16 +20,36 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
+	/**
+	 * Logger.
+	 */
 	private static final Logger LOG = LoggerFactory.getLogger(TimeyFacade.class);
+	/**
+	 * Alarm-Klient.
+	 */
 	private final AlarmClient alarmClient;
+	/**
+	 * Countdown-Klient.
+	 */
+	private final CountdownClient countdownClient;
+	/**
+	 * Spring-Kontext.
+	 */
 	private final ApplicationContext springContext;
+	/**
+	 * Stoppuhr-Klient.
+	 */
 	private final StopwatchClient stopwatchClient;
 
+	/**
+	 * Standardkonstruktor.
+	 */
 	public TimeyFacade() {
 		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
 
 		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
+		this.countdownClient = (CountdownClient) this.springContext.getBean("countdownClient");
 	}
 
 	@Override
@@ -51,7 +68,7 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 				while (it.hasNext()) {
 					final Attributes.Name key = (Attributes.Name) it.next();
 					final String keyword = key.toString();
-					if (keyword.equals("Implementation-Version") || keyword.equals("Bundle-Version")) {
+					if ("Implementation-Version".equals(keyword) || "Bundle-Version".equals(keyword)) {
 						versionNumber = (String) attributes.get(key);
 						break;
 					}
@@ -78,15 +95,13 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	}
 
 	@Override
-	public TimeDescriptor setCountdownTime(final TimeDescriptor descriptor) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
+		return this.countdownClient.initSetCountdownTimeCommand(descriptor);
 	}
 
 	@Override
-	public Boolean startCountdown() {
-		// TODO Auto-generated method stub
-		return false;
+	public  TimeDescriptor startCountdown() {
+		return this.countdownClient.initCountdownStartCommand();
 	}
 
 	@Override
@@ -95,9 +110,8 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	}
 
 	@Override
-	public Boolean stopCountdown() {
-		// TODO Auto-generated method stub
-		return false;
+	public  Boolean stopCountdown() {
+		return this.countdownClient.initCountdownStopCommand();
 	}
 
 	@Override

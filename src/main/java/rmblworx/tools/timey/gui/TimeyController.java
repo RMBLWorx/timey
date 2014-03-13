@@ -18,14 +18,30 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import rmblworx.tools.timey.gui.config.ConfigManager;
 
+/**
+ * Controller für die Timey-GUI.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
 public class TimeyController {
 
 	private Stage stage;
+
+	/**
+	 * Symbol im System-Tray.
+	 */
 	private TrayIcon trayIcon;
 
+	/**
+	 * Ob die Anwendung erstmalig minimiert wurde.
+	 */
 	private boolean minimizedFirstTime = true;
 
 	@FXML
@@ -36,6 +52,10 @@ public class TimeyController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				createTrayIcon(stage);
+
+				// TODO entfernen
+				// zweiten Tab aktivieren (nur zum manuellen Testen)
+				((TabPane) stage.getScene().lookup("#timeyTabs")).getSelectionModel().select(1);
 			}
 		});
 	}
@@ -44,15 +64,19 @@ public class TimeyController {
 		this.stage = stage;
 	}
 
+	/**
+	 * Erzeugt das Symbol im System-Tray.
+	 * @param stage
+	 */
 	private void createTrayIcon(final Stage stage) {
 		if (SystemTray.isSupported()) {
 			Platform.setImplicitExit(false);
 			final SystemTray tray = SystemTray.getSystemTray();
-			final Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("clock.png"));
+			final Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
 
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
-					if (Config.getInstance().isMinimizeToTray()) {
+					if (ConfigManager.getCurrentConfig().isMinimizeToTray()) {
 						hide(stage);
 					} else {
 						exit();
@@ -123,17 +147,25 @@ public class TimeyController {
 		}
 	}
 
+	/**
+	 * Blendet beim erstmaligen Minimieren der Anwendung einen entsprechenden Hinweis ein.
+	 */
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
-			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"), TrayIcon.MessageType.INFO);
+			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"),
+					TrayIcon.MessageType.INFO);
 			minimizedFirstTime = false;
 		}
 	}
 
+	/**
+	 * Blendet die Anwendung aus.
+	 * @param stage
+	 */
 	private void hide(final Stage stage) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				if (SystemTray.isSupported() && Config.getInstance().isMinimizeToTray()) {
+				if (SystemTray.isSupported() && ConfigManager.getCurrentConfig().isMinimizeToTray()) {
 					stage.hide();
 					stage.setIconified(true);
 					showProgramIsMinimizedMessage();
@@ -142,6 +174,10 @@ public class TimeyController {
 		});
 	}
 
+	/**
+	 * Blendet die Anwendung ein.
+	 * @param stage
+	 */
 	private void show(final Stage stage) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -152,6 +188,9 @@ public class TimeyController {
 		});
 	}
 
+	/**
+	 * Beendet die Anwendung.
+	 */
 	private void exit() {
 		Platform.exit();
 	}

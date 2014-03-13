@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 /**
@@ -12,21 +9,21 @@ package rmblworx.tools.timey;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class Switch {
+public class Invoker {
 	/** stores the Command instance of the Invoker */
 	private ICommand fCommand;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
-	public Switch() {
+	public Invoker() {
 		super();
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	public Switch(final ICommand cmd) {
+	public Invoker(final ICommand cmd) {
 		super();
 		this.fCommand = cmd;
 	}

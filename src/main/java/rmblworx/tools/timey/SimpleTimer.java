@@ -1,5 +1,3 @@
-/**
- */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.Executors;
@@ -81,4 +79,5 @@ public class SimpleTimer implements ITimer {
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 		return Boolean.TRUE;
 	}
+
 }

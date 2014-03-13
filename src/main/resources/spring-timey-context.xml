@@ -8,22 +8,33 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<context:annotation-config />
-
+	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm"></bean>
-	<bean id="alarmClient" name="alarmClient" class="rmblworx.tools.timey.AlarmClient">
-		<constructor-arg ref="alarmReceiver" />
-	</bean>
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
 		<constructor-arg value="1" index="0" />
 		<constructor-arg value="1" index="1" />
 		<constructor-arg type="java.util.concurrent.TimeUnit"
 			value="MILLISECONDS" index="2" />
 	</bean>
+	<bean id="countdownReceiver" name="countdown" class="rmblworx.tools.timey.Countdown">
+		<constructor-arg value="1" index="0" />
+		<constructor-arg value="1" index="1" />
+		<constructor-arg type="java.util.concurrent.TimeUnit"
+			value="MILLISECONDS" index="2" />
+	</bean>
+	<!-- ###################### Client-Implementierungen ############################# -->
+	<bean id="alarmClient" name="alarmClient" class="rmblworx.tools.timey.AlarmClient">
+		<constructor-arg ref="alarmReceiver" />
+	</bean>
 	<bean id="stopwatchClient" name="stopwatchClient"
 		class="rmblworx.tools.timey.StopwatchClient">
 		<constructor-arg ref="stopwatchReceiver" />
 	</bean>
+	<bean id="countdownClient" name="countdownClient"
+		class="rmblworx.tools.timey.CountdownClient">
+		<constructor-arg ref="countdownReceiver" />
+	</bean>
+	<!-- ###################### sonstige-Implementierungen ############################# -->
 	<bean id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
@@ -33,14 +44,16 @@
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
+	<bean id="simpleTimer" name="simpleTimer" class="rmblworx.tools.timey.SimpleTimer">
+		<constructor-arg ref="descriptor"></constructor-arg>
+	</bean>
+	<bean id="simpleCountdown" name="simpleCountdown"
+		class="rmblworx.tools.timey.SimpleCountdown">
+	</bean>
+	<!-- ############################# Werteobjekte ################################## -->
 	<bean id="descriptor" name="descriptor"
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
 		<constructor-arg value="0"></constructor-arg>
-	</bean>
-	<bean id="timer" name="simpleTimer" class="rmblworx.tools.timey.SimpleTimer">
-		<constructor-arg ref="descriptor"></constructor-arg>
-	</bean>
-	<bean id="countdown" name="simpleCountdown" class="rmblworx.tools.timey.SimpleCountdown">
 	</bean>
 
 	<!-- <bean id="alarmService" name="alarmService" -->

@@ -15,12 +15,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import rmblworx.tools.timey.TimeyFacade;
+import rmblworx.tools.timey.gui.config.Config;
+import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/**
+ * Controller für die Stoppuhr-GUI.
+ * 
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
 public class StopwatchController {
 
+	/**
+	 * Fassade zur Steuerung der Stoppuhr.
+	 */
 	private TimeyFacade facade = new TimeyFacade();
-	private SimpleDateFormat dateFormatter;
+
+	/**
+	 * Formatiert Zeitstempel als Zeit-Werte.
+	 */
+	private SimpleDateFormat timeFormatter;
 
 	@FXML
 	private ResourceBundle resources;
@@ -40,16 +56,23 @@ public class StopwatchController {
 	@FXML
 	private CheckBox stopwatchShowMillisecondsCheckbox;
 
+	/**
+	 * Ob die Stoppuhr läuft.
+	 */
 	private boolean stopwatchRunning = false;
+
+	/**
+	 * Stoppuhr-Zeit.
+	 */
 	private long stopwatchValue;
 
 	@FXML
 	void initialize() {
-		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
+		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
+		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
+		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";
+		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected";
+		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected";
 
 		if (stopwatchStartButton != null) {
 			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -58,12 +81,8 @@ public class StopwatchController {
 						return;
 					}
 
-					stopwatchRunning = true;
-					stopwatchStartButton.setVisible(false);
-					stopwatchStopButton.setVisible(true);
-
-					final Config config = Config.getInstance();
-					final TimeDescriptor td = facade.startStopwatch();
+					final Config config = ConfigManager.getCurrentConfig();
+					final TimeDescriptor td = startStopwatch();
 
 					final Task<Void> task = new Task<Void>() {
 						private static final long SLEEP_TIME_FINE_GRAINED = 5L;
@@ -72,7 +91,7 @@ public class StopwatchController {
 						public Void call() throws InterruptedException {
 							while (stopwatchRunning) {
 								stopwatchValue = td.getMilliSeconds();
-								updateMessage(dateFormatter.format(stopwatchValue));
+								updateMessage(timeFormatter.format(stopwatchValue));
 								Thread.sleep(config.isStopwatchShowMilliseconds() ? SLEEP_TIME_FINE_GRAINED : SLEEP_TIME_COARSE_GRAINED);
 							}
 
@@ -81,7 +100,8 @@ public class StopwatchController {
 					};
 
 					task.messageProperty().addListener(new ChangeListener<String>() {
-						public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+						public void changed(final ObservableValue<? extends String> property, final String oldValue,
+								final String newValue) {
 							stopwatchTimeLabel.setText(newValue);
 						}
 					});
@@ -101,10 +121,7 @@ public class StopwatchController {
 						return;
 					}
 
-					facade.stopStopwatch();
-					stopwatchRunning = false;
-					stopwatchStartButton.setVisible(true);
-					stopwatchStopButton.setVisible(false);
+					stopStopwatch();
 				}
 			});
 		}
@@ -114,40 +131,71 @@ public class StopwatchController {
 				public void handle(final ActionEvent event) {
 					facade.resetStopwatch();
 					stopwatchValue = 0L;
-					resetStopwatchTimeLabel();
+					updateStopwatchTimeLabel();
+					stopwatchStartButton.requestFocus();
 				}
 			});
 		}
 
 		if (stopwatchShowMillisecondsCheckbox != null) {
-			stopwatchShowMillisecondsCheckbox.setSelected(Config.getInstance().isStopwatchShowMilliseconds());
-			setupDateFormatter();
-			resetStopwatchTimeLabel();
+			stopwatchShowMillisecondsCheckbox.setSelected(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds());
+			setupTimeFormatter();
+			updateStopwatchTimeLabel();
 
 			stopwatchShowMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(final ActionEvent event) {
-					Config.getInstance().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
-					setupDateFormatter();
-					resetStopwatchTimeLabel();
+					ConfigManager.getCurrentConfig().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
+					setupTimeFormatter();
+					updateStopwatchTimeLabel();
 				}
 			});
 		}
 	}
 
-	private void setupDateFormatter() {
-		if (dateFormatter == null) {
-			dateFormatter = new SimpleDateFormat();
-			dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-		}
+	/**
+	 * Startet die Stoppuhr.
+	 * @return Zeitobjekt
+	 */
+	protected TimeDescriptor startStopwatch() {
+		stopwatchRunning = true;
+		stopwatchStartButton.setVisible(false);
+		stopwatchStopButton.setVisible(true);
+		stopwatchStopButton.requestFocus();
 
-		dateFormatter.applyPattern(Config.getInstance().isStopwatchShowMilliseconds() ? "HH:mm:ss.SSS" : "HH:mm:ss");
+		return facade.startStopwatch();
 	}
 
-	private void resetStopwatchTimeLabel() {
+	/**
+	 * Stoppt die Stoppuhr.
+	 */
+	protected void stopStopwatch() {
+		facade.stopStopwatch();
+		stopwatchRunning = false;
+		stopwatchStartButton.setVisible(true);
+		stopwatchStartButton.requestFocus();
+		stopwatchStopButton.setVisible(false);
+	}
+
+	/**
+	 * Initialisiert den Zeitformatierer bzw. aktualisiert dessen Format.
+	 */
+	private void setupTimeFormatter() {
+		if (timeFormatter == null) {
+			timeFormatter = new SimpleDateFormat();
+			timeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+		}
+
+		timeFormatter.applyPattern(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds() ? "HH:mm:ss.SSS" : "HH:mm:ss");
+	}
+
+	/**
+	 * Aktualisiert die Anzeige der gemessenen Zeit, falls die Stoppuhr nicht läuft.
+	 */
+	private void updateStopwatchTimeLabel() {
 		if (!stopwatchRunning) {
 			Platform.runLater(new Runnable() {
 				public void run() {
-					stopwatchTimeLabel.setText(dateFormatter.format(stopwatchValue));
+					stopwatchTimeLabel.setText(timeFormatter.format(stopwatchValue));
 				}
 			});
 		}

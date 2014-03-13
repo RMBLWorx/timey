@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -9,21 +6,23 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 interface ICountdown {
+
 	/**
 	 * Setzt die Zeit die heruntergezaehlt werden soll.
 	 * 
 	 * @param descriptor
 	 *            Werteobjekt das die Zeitangabe kapselt.
-	 * @return Werteobjekt mit den gesetzten Zeitwerten.
+	 * @return true wenn erfolgreich.
 	 */
-	TimeDescriptor setCountdownTime(TimeDescriptor descriptor);
+	Boolean setCountdownTime(TimeDescriptor descriptor);
 
 	/**
 	 * Startet den Countdown.
 	 * 
-	 * @return true wenn erfolgreich.
+	 * @return Werteobjekt mit den gesetzten Zeitwerten.Es handelt sich hierbei um das ueber {@link #setTime(TimeDescriptor)}
+	 *         uebergebene Objekt.
 	 */
-	Boolean startCountdown();
+	TimeDescriptor startCountdown();
 
 	/**
 	 * Stoppt bzw. unterbricht den Countdown.

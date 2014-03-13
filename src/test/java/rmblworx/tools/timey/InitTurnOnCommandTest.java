@@ -1,5 +1,3 @@
-/**
- */
 package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertEquals;
@@ -17,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring-timey-context.xml"})
 public class InitTurnOnCommandTest {
+
 	/**
 	 * Empfaenger fuer das Alarm-Kommando.
 	 */
@@ -34,7 +33,6 @@ public class InitTurnOnCommandTest {
 	public final void setUp() throws Exception {
 		this.alarm = new Alarm();
 		this.client = new AlarmClient(this.alarm);
-
 	}
 
 	/**
@@ -45,7 +43,6 @@ public class InitTurnOnCommandTest {
 	public final void tearDown() throws Exception {
 		this.alarm = null;
 		this.client = null;
-
 	}
 
 	/**
@@ -56,6 +53,6 @@ public class InitTurnOnCommandTest {
 		final Boolean expectedValue = Boolean.TRUE;
 		final Boolean actual = this.client.initTurnOnCommand();
 		assertEquals(expectedValue, actual);
-
 	}
+
 }

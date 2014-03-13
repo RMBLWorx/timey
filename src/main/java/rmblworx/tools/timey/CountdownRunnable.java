@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -11,6 +8,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class CountdownRunnable extends TimeyTimeRunnable {
+
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in
@@ -31,7 +29,8 @@ public class CountdownRunnable extends TimeyTimeRunnable {
 	protected void computeTime() {
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
-		this.timeDelta = (this.timeStarted - currentTimeMillis);
+		this.timeDelta = this.timeStarted - currentTimeMillis;
 		this.timeDescriptor.setMilliSeconds(this.timeStarted + this.timeDelta);
 	}
+
 }

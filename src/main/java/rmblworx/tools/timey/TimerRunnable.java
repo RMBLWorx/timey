@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -36,4 +33,5 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
 		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
+
 }

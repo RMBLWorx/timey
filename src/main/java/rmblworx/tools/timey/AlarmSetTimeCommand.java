@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -15,15 +12,15 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class SetTimeCommand implements ICommand {
+public class AlarmSetTimeCommand implements ICommand {
 	/** stores the Receiver instance of the ConcreteCommand. */
-	private final Alarm fReceiver;
+	private final IAlarm fReceiver;
 	private final TimeDescriptor td;
 
 	/**
 	 * Constructor.
 	 */
-	public SetTimeCommand(final Alarm receiver, final TimeDescriptor td) {
+	public AlarmSetTimeCommand(final IAlarm receiver, final TimeDescriptor td) {
 		super();
 		this.fReceiver = receiver;
 		this.td = td;

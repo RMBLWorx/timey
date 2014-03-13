@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 /**
@@ -15,12 +12,12 @@ package rmblworx.tools.timey;
  */
 public class StopwatchStopCommand implements ICommand {
 	/** stores the Receiver instance of the ConcreteCommand */
-	private final Stopwatch fReceiver;
+	private final IStopwatch fReceiver;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	public StopwatchStopCommand(final Stopwatch receiver) {
+	public StopwatchStopCommand(final IStopwatch receiver) {
 		super();
 		this.fReceiver = receiver;
 	}

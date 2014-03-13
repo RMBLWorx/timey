@@ -1,5 +1,3 @@
-/**
- */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.Executors;
@@ -30,23 +28,23 @@ public class SimpleCountdown implements ICountdown {
 	private long timePassed = 0;
 
 	@Override
-	public TimeDescriptor setCountdownTime(TimeDescriptor descriptor) {
+	public Boolean setCountdownTime(TimeDescriptor descriptor) {
 		this.timeDescriptor = descriptor;
-		return descriptor;
+		return Boolean.TRUE;
 	}
 
 	@Override
-	public Boolean startCountdown() {
-		int amountOfThreads = 1;
-		int delayPerThread = 1;
-		TimeUnit timeUnit = TimeUnit.SECONDS;
+	public TimeDescriptor startCountdown() {
+		final int amountOfThreads = 1;
+		final int delayPerThread = 1;
+		final TimeUnit timeUnit = TimeUnit.SECONDS;
 
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
 		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
 
 		this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
 
-		return !this.scheduler.isTerminated();
+		return this.timeDescriptor;
 	}
 
 	@Override

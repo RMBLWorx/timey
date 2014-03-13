@@ -1,6 +1,3 @@
-/*
- */
-
 package rmblworx.tools.timey.vo;
 
 import static org.junit.Assert.assertEquals;
@@ -51,4 +48,5 @@ public class TimeDescriptorTest {
 
 		assertEquals("Test fehlgeschlagen: Millisekunden falsch!", EXPECTED_MILLISECONDS, td.getMilliSeconds());
 	}
+
 }
