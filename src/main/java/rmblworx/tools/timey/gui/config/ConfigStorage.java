@@ -16,9 +16,9 @@ import java.util.Properties;
  */
 public class ConfigStorage {
 
-	private static final String PROP_LOCALE = "locale";
-	private static final String PROP_MINIMIZE_TO_TRAY = "minimizeToTray";
-	private static final String PROP_STOPWATCH_SHOW_MILLIS = "stopwatchShowMilliseconds";
+	public static final String PROP_LOCALE = "locale";
+	public static final String PROP_MINIMIZE_TO_TRAY = "minimizeToTray";
+	public static final String PROP_STOPWATCH_SHOW_MILLIS = "stopwatchShowMilliseconds";
 
 	/**
 	 * @param config zu speichernde Konfiguration
@@ -39,12 +39,23 @@ public class ConfigStorage {
 	 * @return geladene Konfiguration
 	 */
 	public final Config loadConfig(final InputStream inputStream) {
+		return loadConfig(inputStream, false);
+	}
+
+	/**
+	 * @param inputStream
+	 * @param suppressErrors ob Fehlermeldungen unterdrückt werden sollen
+	 * @return geladene Konfiguration
+	 */
+	public final Config loadConfig(final InputStream inputStream, final boolean suppressErrors) {
 		try {
 			final Properties props = new Properties();
 			props.loadFromXML(inputStream);
 			return getPropertiesAsConfig(props);
 		} catch (final IOException e) {
-			System.err.println(e.getLocalizedMessage());
+			if (!suppressErrors) {
+				System.err.println("Error while trying to load the config file: " + e.getLocalizedMessage());
+			}
 			return ConfigManager.getDefaultConfig();
 		}
 	}
