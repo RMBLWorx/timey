@@ -10,13 +10,14 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import rmblworx.tools.timey.gui.CountdownTimePartChangeListener;
-import rmblworx.tools.timey.gui.CountdownTimePartConverter;
+import javafx.util.StringConverter;
 
 /**
  * JavaFX-Komponente zur Angabe einer Zeit bestehend aus Stunden, Minuten und Sekunden.
@@ -26,6 +27,11 @@ import rmblworx.tools.timey.gui.CountdownTimePartConverter;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 public class TimePicker extends AnchorPane {
+
+	/**
+	 * Minimalwert für Stunden, Minuten und Sekunden.
+	 */
+	private static final long MIN_VALUE = 0L;
 
 	/**
 	 * Maximalwert für Stunden.
@@ -155,30 +161,66 @@ public class TimePicker extends AnchorPane {
 	private void bindTextInputListenersAndSlider(final TextField textField, final Slider slider, final long maxValue) {
 		final StringProperty textProperty = textField.textProperty();
 
-		// Inhalt auf gültigen Wertebereich beschränken
-		textProperty.addListener(new CountdownTimePartChangeListener(textProperty, maxValue));
+		// Eingaben auf Zahlen beschränken
+		textField.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+			public void handle(final KeyEvent keyEvent) {
+				if (!"0123456789".contains(keyEvent.getCharacter())) {
+					keyEvent.consume();
+				}
+			}
+		});
+
+		textProperty.addListener(new ChangeListener<String>() {
+			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+				// Wert auf gültigen Bereich beschränken
+				try {
+					final long value = Long.parseLong(newValue);
+					if (value < MIN_VALUE) {
+						textProperty.setValue(getTwoDigitValue(MIN_VALUE));
+					} else if (value > maxValue) {
+						textProperty.setValue(getTwoDigitValue(maxValue));
+					} else {
+						textProperty.setValue(newValue);
+					}
+
+					// Änderung an Zeit-Property durchstellen
+					timeProperty.set(getTime());
+				} catch (final NumberFormatException e) {
+					// alten Wert wieder setzen (sinnvoll bei Änderung per Copy & Paste)
+					textProperty.setValue(oldValue);
+				}
+			}
+		});
 
 		// bei Verlassen des Feldes sicherstellen, dass Wert zweistellig
 		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
 				if (Boolean.FALSE.equals(newValue)) {
-					textProperty.setValue(String.format("%02d", Long.parseLong(textProperty.get())));
+					textProperty.setValue(getTwoDigitValue(Long.parseLong(textProperty.get())));
 				}
-			}
-		});
-
-		// Änderungen an Zeit-Property durchstellen
-		textProperty.addListener(new ChangeListener<String>() {
-			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
-				timeProperty.set(getTime());
 			}
 		});
 
 		// Textfeld mit Slider koppeln
 		if (slider != null) {
 			slider.setMax(maxValue);
-			textProperty.bindBidirectional(slider.valueProperty(), new CountdownTimePartConverter());
+			textProperty.bindBidirectional(slider.valueProperty(), new StringConverter<Number>() {
+				public String toString(final Number number) {
+					return getTwoDigitValue(number.longValue());
+				}
+				public Number fromString(final String string) {
+					return Long.parseLong(string);
+				}
+			});
 		}
+	}
+
+	/**
+	 * @param value Wert
+	 * @return zweistellig formatierter Wert
+	 */
+	private String getTwoDigitValue(final long value) {
+		return String.format("%02d", value);
 	}
 
 	/**

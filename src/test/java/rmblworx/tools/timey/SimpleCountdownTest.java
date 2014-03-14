@@ -2,6 +2,8 @@ package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +54,7 @@ public class SimpleCountdownTest {
 	public void testComputeTime() throws InterruptedException {
 		final long time = System.currentTimeMillis() + COUNTDOWN_START;
 
-		this.countdown.startCountdown();
+		this.countdown.startCountdown(1, 1, TimeUnit.MILLISECONDS);
 		Thread.sleep(TIME_TO_WAIT);
 		this.countdown.stopCountdown();
 		final long actualCountdownTime = this.descriptor.getMilliSeconds();

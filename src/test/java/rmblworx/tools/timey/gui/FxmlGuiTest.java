@@ -10,13 +10,13 @@ import javafx.scene.Parent;
 import org.loadui.testfx.GuiTest;
 
 /**
- * Basisklasse für GUI-Tests basierend auf {@link https://github.com/SmartBear/TestFX}.
+ * Basisklasse für FXML-basierte GUI-Tests mit {@link https://github.com/SmartBear/TestFX}.
  * 
  * @author Christian Raue <christian.raue@gmail.com>
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public abstract class JavaFxGuiTest extends GuiTest {
+public abstract class FxmlGuiTest extends GuiTest {
 
 	/**
 	 * @return Name der FXML-Datei zum Laden der GUI
@@ -24,7 +24,7 @@ public abstract class JavaFxGuiTest extends GuiTest {
 	protected abstract String getFxmlFilename();
 
 	/**
-	 * Lädt die GUI.
+	 * Lädt die GUI aus der FXML-Datei.
 	 * @return Elternknoten der GUI-Elemente
 	 */
 	protected final Parent getRootNode() {

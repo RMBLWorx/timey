@@ -76,7 +76,7 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	@Override
 	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
 		this.initCountdownTimer();
-		return this.countdownTimer.setTime(descriptor);
+		return this.countdownTimer.setCountdownTime(descriptor);
 	}
 
 	@Override
