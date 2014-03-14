@@ -32,6 +32,9 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  */
 public class TimeyController {
 
+	/**
+	 * Fenster der Anwendung.
+	 */
 	private Stage stage;
 
 	/**
@@ -50,13 +53,12 @@ public class TimeyController {
 	@FXML
 	private TabPane timeyTabs;
 
-	@FXML
-	void initialize() {
+	final void initialize() {
 		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
 
 		Platform.runLater(new Runnable() {
 			public void run() {
-				createTrayIcon(stage);
+				createTrayIcon();
 
 				// zuletzt geöffneten Tab aktivieren
 				timeyTabs.getSelectionModel().select(ConfigManager.getCurrentConfig().getActiveTab());
@@ -76,9 +78,8 @@ public class TimeyController {
 
 	/**
 	 * Erzeugt das Symbol im System-Tray.
-	 * @param stage
 	 */
-	private void createTrayIcon(final Stage stage) {
+	private void createTrayIcon() {
 		if (SystemTray.isSupported()) {
 			Platform.setImplicitExit(false);
 			final SystemTray tray = SystemTray.getSystemTray();
@@ -87,7 +88,7 @@ public class TimeyController {
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
 					if (ConfigManager.getCurrentConfig().isMinimizeToTray()) {
-						hide(stage);
+						hide();
 					} else {
 						exit();
 					}
@@ -97,7 +98,7 @@ public class TimeyController {
 			stage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
 				public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
 					if (Boolean.TRUE.equals(newValue)) {
-						hide(stage);
+						hide();
 					}
 				}
 			});
@@ -107,7 +108,7 @@ public class TimeyController {
 			final MenuItem showItem = new MenuItem(resources.getString("trayMenu.show.label"));
 			showItem.addActionListener(new ActionListener() {
 				public void actionPerformed(final ActionEvent event) {
-					show(stage);
+					show();
 				}
 			});
 			popup.add(showItem);
@@ -123,16 +124,16 @@ public class TimeyController {
 			trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
 			trayIcon.addActionListener(new ActionListener() {
 				public void actionPerformed(final ActionEvent event) {
-					show(stage);
+					show();
 				}
 			});
 			trayIcon.addMouseListener(new MouseListener() {
 				public void mouseClicked(final MouseEvent event) {
 					if (event.getButton() == MouseEvent.BUTTON1) {
 						if (stage.isIconified()) {
-							show(stage);
+							show();
 						} else {
-							hide(stage);
+							hide();
 						}
 					}
 				}
@@ -170,9 +171,8 @@ public class TimeyController {
 
 	/**
 	 * Blendet die Anwendung aus.
-	 * @param stage
 	 */
-	private void hide(final Stage stage) {
+	private void hide() {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				if (SystemTray.isSupported() && ConfigManager.getCurrentConfig().isMinimizeToTray()) {
@@ -186,9 +186,8 @@ public class TimeyController {
 
 	/**
 	 * Blendet die Anwendung ein.
-	 * @param stage
 	 */
-	private void show(final Stage stage) {
+	private void show() {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				stage.show();

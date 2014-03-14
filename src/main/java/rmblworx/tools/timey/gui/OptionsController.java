@@ -36,9 +36,9 @@ public class OptionsController {
 	private ComboBox<Locale> languageChoice;
 
 	@FXML
-	void initialize() {
-		assert minimizeToTrayCheckbox != null : "fx:id='minimizeToTrayCheckbox' was not injected: check your FXML file 'TimeyGui.fxml'.";
-		assert languageChoice != null : "fx:id='languageChoice' was not injected: check your FXML file 'TimeyGui.fxml'.";
+	final void initialize() {
+		assert minimizeToTrayCheckbox != null : "fx:id='minimizeToTrayCheckbox' was not injected";
+		assert languageChoice != null : "fx:id='languageChoice' was not injected";
 
 		if (minimizeToTrayCheckbox != null) {
 			if (!SystemTray.isSupported()) {

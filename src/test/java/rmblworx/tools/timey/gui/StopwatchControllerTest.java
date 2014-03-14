@@ -28,6 +28,9 @@ import com.google.common.base.Predicate;
  */
 public class StopwatchControllerTest extends FxmlGuiTest {
 
+	/**
+	 * Container für Elemente.
+	 */
 	private Scene scene;
 
 	/**
@@ -38,7 +41,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	}
 
 	@Before
-	public void setUp() {
+	public final void setUp() {
 		scene = stage.getScene();
 	}
 
@@ -293,7 +296,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	/**
 	 * @return Formatierer für Zeit-Werte
 	 */
-	protected SimpleDateFormat getTimeFormatter() {
+	private SimpleDateFormat getTimeFormatter() {
 		final SimpleDateFormat dateFormatter = new SimpleDateFormat();
 		dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		dateFormatter.applyPattern("HH:mm:ss.SSS");

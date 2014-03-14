@@ -32,6 +32,9 @@ public class TimePickerTest extends GuiTest {
 	 */
 	private static final long TIME_23_59_59 = 86399000L;
 
+	/**
+	 * Container für Elemente.
+	 */
 	private Scene scene;
 
 	/**
@@ -42,7 +45,7 @@ public class TimePickerTest extends GuiTest {
 	}
 
 	@Before
-	public void setUp() {
+	public final void setUp() {
 		scene = stage.getScene();
 	}
 

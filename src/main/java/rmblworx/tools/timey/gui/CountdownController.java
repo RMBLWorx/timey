@@ -61,7 +61,7 @@ public class CountdownController {
 	private long countdownValue;
 
 	@FXML
-	void initialize() {
+	final void initialize() {
 		assert countdownStartButton != null : "fx:id='countdownStartButton' was not injected";
 		assert countdownStopButton != null : "fx:id='countdownStopButton' was not injected";
 		assert countdownTimeLabel != null : "fx:id='countdownTimeLabel' was not injected";

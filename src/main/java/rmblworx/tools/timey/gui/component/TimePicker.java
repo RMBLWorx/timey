@@ -87,10 +87,10 @@ public class TimePicker extends AnchorPane {
 	private Slider secondsSlider;
 
 	public TimePicker() {
-        init();
+        createGui();
     }
 
-	private void init() {
+	private void createGui() {
 		try {
 			final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TimePicker.fxml"));
 			fxmlLoader.setRoot(this);
@@ -100,7 +100,10 @@ public class TimePicker extends AnchorPane {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+	}
 
+	@FXML
+	final void initialize() {
 		assert hoursTextField != null : "fx:id='hoursTextField' was not injected";
 		assert minutesTextField != null : "fx:id='minutesTextField' was not injected";
 		assert secondsTextField != null : "fx:id='secondsTextField' was not injected";
