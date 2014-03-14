@@ -31,6 +31,11 @@ public class Config {
 	 */
 	private boolean stopwatchShowMilliseconds = true;
 
+	/**
+	 * Aktiver Tab.
+	 */
+	private int activeTab = 0;
+
 	public void setLocale(final Locale locale) {
 		this.locale = locale;
 	}
@@ -53,6 +58,14 @@ public class Config {
 
 	public boolean isStopwatchShowMilliseconds() {
 		return stopwatchShowMilliseconds;
+	}
+
+	public int getActiveTab() {
+		return activeTab;
+	}
+
+	public void setActiveTab(final int activeTab) {
+		this.activeTab = activeTab;
 	}
 
 }
