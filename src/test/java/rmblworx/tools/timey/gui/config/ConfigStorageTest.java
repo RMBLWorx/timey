@@ -34,9 +34,9 @@ public class ConfigStorageTest {
 
 		// sicherstellen, dass gespeicherte Konfiguration korrekte Einträge enthält
 		final String content = out.toString();
-		assertTrue(content, content.contains("<entry key=\"locale\">de</entry>"));
-		assertTrue(content, content.contains("<entry key=\"minimizeToTray\">false</entry>"));
-		assertTrue(content, content.contains("<entry key=\"stopwatchShowMilliseconds\">true</entry>"));
+		assertTrue(content, content.contains(String.format("<entry key=\"%s\">de</entry>", ConfigStorage.PROP_LOCALE)));
+		assertTrue(content, content.contains(String.format("<entry key=\"%s\">false</entry>", ConfigStorage.PROP_MINIMIZE_TO_TRAY)));
+		assertTrue(content, content.contains(String.format("<entry key=\"%s\">true</entry>", ConfigStorage.PROP_STOPWATCH_SHOW_MILLIS)));
 	}
 
 	/**
@@ -54,7 +54,60 @@ public class ConfigStorageTest {
 
 		// gespeicherte Konfiguration laden, sollte dabei mit Standardwerten gefüllt werden
 		final ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-		final Config emptyConfig = new ConfigStorage().loadConfig(in);
+		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
+
+		// sicherstellen, dass geladene Konfiguration der Standardkonfiguration entspricht
+		assertEquals(getConfigAsString(ConfigManager.getDefaultConfig()), getConfigAsString(emptyConfig));
+	}
+
+	/**
+	 * Testet das Laden einer Konfiguration mit ungültige Werten.
+	 */
+	@Test
+	public final void testConfigWithInvalidValues() {
+		// ungültige Werte festlegen
+		final Properties props = new Properties();
+		props.put(ConfigStorage.PROP_LOCALE, "blabla");
+		props.put(ConfigStorage.PROP_MINIMIZE_TO_TRAY, "blabla");
+		props.put(ConfigStorage.PROP_STOPWATCH_SHOW_MILLIS, "blabla");
+
+		// Konfiguration speichern
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			props.storeToXML(out, null);
+		} catch (final IOException e) {
+			fail(e.getLocalizedMessage());
+		}
+
+		// gespeicherte Konfiguration laden, sollte dabei mit Standardwerten gefüllt werden
+		final ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
+
+		// erwartete Konfiguration
+		final Config expectedConfig = ConfigManager.getDefaultConfig();
+		expectedConfig.setMinimizeToTray(false);
+		expectedConfig.setStopwatchShowMilliseconds(false);
+
+		// sicherstellen, dass geladene Konfiguration der erwarteten Konfiguration entspricht
+		assertEquals(getConfigAsString(expectedConfig), getConfigAsString(emptyConfig));
+	}
+
+	/**
+	 * Testet das Laden einer ungültigen Konfiguration.
+	 */
+	@Test
+	public final void testInvalidConfig() {
+		// Konfiguration speichern
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			out.write("kein gültiges XML-Dokument".getBytes("UTF-8"));
+		} catch (final IOException e) {
+			fail(e.getLocalizedMessage());
+		}
+
+		// gespeicherte Konfiguration laden, sollte dabei mit Standardwerten gefüllt werden
+		final ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
 
 		// sicherstellen, dass geladene Konfiguration der Standardkonfiguration entspricht
 		assertEquals(getConfigAsString(ConfigManager.getDefaultConfig()), getConfigAsString(emptyConfig));
