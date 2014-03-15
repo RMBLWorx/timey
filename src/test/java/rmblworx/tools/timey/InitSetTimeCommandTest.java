@@ -51,13 +51,13 @@ public class InitSetTimeCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmClient #initSetTimeCommand(rmblworx.tools.timey.vo.TimeDescriptor)} .
+	 * {@link rmblworx.tools.timey.AlarmClient #initSetAlarmtimestampCommand(rmblworx.tools.timey.vo.TimeDescriptor)} .
 	 */
 	@Test
 	public final void testInitSetTimeCommand() {
 		final int expectedMilliseconds = 0;
 		final TimeDescriptor expectedDescriptor = new TimeDescriptor(expectedMilliseconds);
-		final TimeDescriptor actualDescriptor = this.client.initSetTimeCommand(expectedDescriptor);
+		final TimeDescriptor actualDescriptor = this.client.initSetAlarmtimestampCommand(expectedDescriptor);
 
 		assertEquals(expectedMilliseconds, actualDescriptor.getMilliSeconds());
 	}

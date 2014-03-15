@@ -24,20 +24,23 @@
 		<cglib.version>3.1</cglib.version>
 		<aspectjweaver.version>1.7.4</aspectjweaver.version>
 		<testfx.version>3.1.2</testfx.version>
+		<hibernate.core.version>3.6.10.Final</hibernate.core.version>
+		<h2.version>1.3.175</h2.version>
+		<commons-dbcp.version>1.4</commons-dbcp.version>
 	</properties>
 
 	<dependencies>
+		<!-- Dependencies fuer die Persistenz -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
+			<version>${commons-dbcp.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.3.175</version>
+			<version>${h2.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
@@ -46,29 +49,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>3.6.10.Final</version>
-		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.hibernate</groupId> -->
-		<!-- <artifactId>hibernate-core</artifactId> -->
-		<!-- <version>4.3.0.Final</version> -->
-		<!-- </dependency> -->
-		<dependency>
-			<groupId>org.javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.18.1-GA</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.28</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-dbcp</artifactId>
-			<version>7.0.47</version>
+			<version>${hibernate.core.version}</version>
 		</dependency>
 		<!-- logging per AOP dependencies -->
 		<dependency>

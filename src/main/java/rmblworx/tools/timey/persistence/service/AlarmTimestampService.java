@@ -1,64 +1,59 @@
-/**
- * 
- */
 package rmblworx.tools.timey.persistence.service;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import rmblworx.tools.timey.persistence.dao.TimeyDao;
+import rmblworx.tools.timey.persistence.dao.IAlarmTimestampDao;
 import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
+ * Serviceimplementierung zur Persistierung von {@link AlarmTimestamp Alarmzeitpunkt}en.
+ * 
  * @author mmatthies
- *
  */
 @Service
 @Transactional
 public class AlarmTimestampService implements IAlarmTimestampService {
 
 	/**
-	 * Referenz auf das Dao.
+	 * Referenz auf das Datenzugriffsobjekt.
 	 */
 	@Autowired
-	private TimeyDao dao;
+	private IAlarmTimestampDao dao;
 
 	@Override
-	public void activate(Long id, Boolean isActivated) {
-		this.dao.setIsActivated(id, isActivated);
+	public Boolean create(final TimeDescriptor descriptor) {
+		return this.getDao().createAlarmTimestamp(descriptor);
 	}
-
 
 	@Override
-	public Boolean create(final AlarmTimestamp entity) {
-		return this.getDao().createAlarmTimestamp(entity);
+	public Boolean delete(final TimeDescriptor descriptor) {
+		return this.getDao().deleteAlarmTimestamp(descriptor);
 	}
-
 
 	@Override
-	public Boolean delete(final Long id) {
-		return this.getDao().deleteAlarmTimestamp(id);
+	public List<TimeDescriptor> getAll() {
+		return this.getDao().findAll();
 	}
-
-
-	@Override
-	public AlarmTimestamp findById(final Long id) {
-		return this.getDao().findById(id);
-	}
-
 
 	/**
-	 * @return Referenz auf das Dao.
+	 * @return Referenz auf das Datenzugriffsobjekt.
 	 */
-	private TimeyDao getDao() {
+	private IAlarmTimestampDao getDao() {
 		return this.dao;
 	}
 
-
 	@Override
-	public Boolean update(AlarmTimestamp entity) {
-		return this.getDao().updateAlarmTimestamp(entity);
+	public Boolean isActivated(final TimeDescriptor descriptor) {
+		return this.dao.isActivated(descriptor);
 	}
 
+	@Override
+	public Boolean setState(final TimeDescriptor descriptor, final Boolean isActivated) {
+		return this.dao.setIsActivated(descriptor, isActivated);
+	}
 }

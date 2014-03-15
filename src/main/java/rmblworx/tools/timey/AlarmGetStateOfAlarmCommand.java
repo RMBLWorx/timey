@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -10,37 +13,35 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * </ul>
  * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
- * @author mmatthies
+ * @author "mmatthies"
  */
-public class AlarmSetTimeCommand implements ICommand {
+public class AlarmGetStateOfAlarmCommand implements ICommand {
+
 	/** stores the Receiver instance of the ConcreteCommand. */
 	private final IAlarm fReceiver;
 	/**
 	 * Beschreibung des Alarmzeitpunktes.
 	 */
-	private final TimeDescriptor td;
+	private final TimeDescriptor timeDescriptor;
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * @param receiver Empfaengerimplmentierung.
-	 * @param td Beschreibung des Alarmzeitpunktes.
+	 * @param receiver Empfaengerimplementierung
+	 * @param descriptor Beschreibung des Alarmzeitpunktes
 	 */
-	public AlarmSetTimeCommand(final IAlarm receiver, final TimeDescriptor td) {
+	public AlarmGetStateOfAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor) {
 		super();
 		this.fReceiver = receiver;
-		this.td = td;
+		this.timeDescriptor = descriptor;
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding method
-	 * of the Receiver instance.
-	 * 
+	 * This method executes the command by invoking the corresponding
+	 * method of the Receiver instance.
 	 */
 	@Override
 	public <T> T execute() {
-		this.fReceiver.setAlarmtimestamp(this.td);
-
-		return (T) this.td;
+		return (T) this.fReceiver.isAlarmtimestampActivated(this.timeDescriptor);
 	}
 
 }

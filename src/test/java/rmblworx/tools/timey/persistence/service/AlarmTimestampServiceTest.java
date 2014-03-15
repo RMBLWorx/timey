@@ -3,9 +3,11 @@
  */
 package rmblworx.tools.timey.persistence.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * @author mmatthies
@@ -24,131 +26,86 @@ import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
 @ContextConfiguration(locations = { "/spring-timey-context.xml" })
 public class AlarmTimestampServiceTest {
 
-	private long currentTimeMillis;
-	private AlarmTimestamp expectedEntity;
-	private Timestamp expectedTimestamp;
+	private static final int EXPECTED_MILLISECONDS = 1000;
+	private static final String KEIN_ALARMZEITPUNKT_ERZEUGT = "Kein Alarmzeitpunkt erzeugt!";
+	private static final String NOT_NULL_MSG = "Es wurde kein null zurueckgegeben!";
+	private TimeDescriptor expectedTimeDescriptor;
 
 	@Autowired
 	private IAlarmTimestampService service;
 
 	@Before
 	public void setUp() throws Exception {
-		this.currentTimeMillis = System.currentTimeMillis();
-		this.expectedTimestamp = new Timestamp(this.currentTimeMillis);
-		this.expectedEntity = new AlarmTimestamp();
+		this.expectedTimeDescriptor = new TimeDescriptor(EXPECTED_MILLISECONDS);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.expectedEntity = null;
-		this.expectedTimestamp = null;
-		this.currentTimeMillis = 0;
+		this.expectedTimeDescriptor = null;
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service. IAlarmTimestampService#create(rmblworx.tools.timey.persistence.model.AlarmTimestamp)}
-	 * .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service. IAlarmTimestampService#create(TimeDescriptor)} .
 	 */
 	@Test
 	public void testCreate() {
+		boolean found = false;
 
-		this.expectedEntity.setAlarmTimestamp(this.expectedTimestamp);
-		this.expectedEntity.setIsActivated(Boolean.TRUE);
-		this.service.create(this.expectedEntity);
-		final AlarmTimestamp actualEntity = this.service.findById(this.expectedEntity.getId());
+		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(this.expectedTimeDescriptor));
+		final List<TimeDescriptor> actualList = this.service.getAll();
+		for (TimeDescriptor timeDescriptor : actualList) {
+			if (timeDescriptor.getMilliSeconds() == EXPECTED_MILLISECONDS) {
+				found = true;
+			}
+		}
+		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, found);
 
-		assertEquals(this.expectedEntity.getId(), actualEntity.getId());
-		assertEquals(this.expectedEntity.getAlarmTimestamp(), actualEntity.getAlarmTimestamp());
-		assertEquals(this.expectedEntity.getIsActivated(), actualEntity.getIsActivated());
-
-		this.service.delete(this.expectedEntity.getId());
+		this.service.delete(this.expectedTimeDescriptor);
 	}
+
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(Long)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(TimeDescriptor)} .
 	 */
 	@Test
 	public void testDeleteAlarmTimestamp() {
 
-		this.expectedEntity.setAlarmTimestamp(this.expectedTimestamp);
-		this.expectedEntity.setIsActivated(Boolean.TRUE);
-		this.service.create(this.expectedEntity);
-
-		Long id = this.expectedEntity.getId();
-		this.service.delete(this.expectedEntity.getId());
-
-		assertEquals(null, this.service.findById(id));
+		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(this.expectedTimeDescriptor));
+		assertTrue(this.service.delete(this.expectedTimeDescriptor));
+		final List<TimeDescriptor> actualList = this.service.getAll();
+		for (TimeDescriptor timeDescriptor : actualList) {
+			if (timeDescriptor.getMilliSeconds() == this.expectedTimeDescriptor.getMilliSeconds()) {
+				fail("Alarmzeitpunkt wurde nicht geloescht!");
+			}
+		}
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(Long)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(TimeDescriptor)} .
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testDeleteAlarmTimestampShouldFailBecauseIdNull() {
-		this.service.delete(null);
+	@Test
+	public void testDeleteAlarmTimestampShouldFailBecauseDescriptorIsNull() {
+		assertNull(NOT_NULL_MSG, this.service.delete(null));
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#activate(Long, Boolean)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#setState(Long, Boolean)} .
 	 */
 	@Test
 	public void testSetIsActivated() {
+		final Boolean expectedState = Boolean.TRUE;
+		this.service.create(this.expectedTimeDescriptor);
+		this.service.setState(this.expectedTimeDescriptor, expectedState);
+		assertTrue(this.service.isActivated(this.expectedTimeDescriptor));
 
-		this.expectedEntity.setAlarmTimestamp(this.expectedTimestamp);
-		this.expectedEntity.setIsActivated(Boolean.TRUE);
-		this.service.create(this.expectedEntity);
-		AlarmTimestamp actualEntity = this.service.findById(this.expectedEntity.getId());
-
-		assertEquals(this.expectedEntity.getIsActivated(), actualEntity.getIsActivated());
-
-		this.service.activate(actualEntity.getId(), Boolean.FALSE);
-		actualEntity = this.service.findById(actualEntity.getId());
-
-		assertEquals(Boolean.FALSE, actualEntity.getIsActivated());
-
-		this.service.delete(this.expectedEntity.getId());
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#activate(Long, Boolean)} .
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetIsActivatedShouldFailBecauseIdNull() {
-		this.service.activate(null, Boolean.FALSE);
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#activate(Long, Boolean)} .
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetIsActivatedShouldFailBecauseIsActivatedIsNull() {
-		this.service.activate(this.expectedEntity.getId(), null);
+		this.service.delete(this.expectedTimeDescriptor);
 	}
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#update(AlarmTimestamp)}
-	 * .
+	 * {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#setState(TimeDescriptor, Boolean)} .
 	 */
 	@Test
-	public void testUpdate() {
-
-		this.expectedEntity.setAlarmTimestamp(this.expectedTimestamp);
-		this.expectedEntity.setIsActivated(Boolean.TRUE);
-		this.service.create(this.expectedEntity);
-		final AlarmTimestamp actualEntity = this.service.findById(this.expectedEntity.getId());
-
-		final Timestamp newTimestamp = new Timestamp(System.currentTimeMillis());
-		final Long actualId = actualEntity.getId();
-		actualEntity.setAlarmTimestamp(newTimestamp);
-		actualEntity.setIsActivated(Boolean.FALSE);
-		this.service.update(actualEntity);
-		this.service.findById(actualEntity.getId());
-
-		assertEquals(actualEntity.getId(), actualId);
-		assertEquals(actualEntity.getAlarmTimestamp(), newTimestamp);
-		assertEquals(actualEntity.getIsActivated(), Boolean.FALSE);
-
-		this.service.delete(this.expectedEntity.getId());
+	public void testSetIsActivatedShouldFailBecauseDescriptorIsNull() {
+		assertNull(NOT_NULL_MSG, this.service.setState(null, Boolean.FALSE));
 	}
 }

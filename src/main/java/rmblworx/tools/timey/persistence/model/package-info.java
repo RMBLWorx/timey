@@ -2,7 +2,7 @@
  * 
  */
 /**
- * Enthaelt die Entitaeten die in timey zu persistierenden Daten verwendet werden.
+ * Enthaelt die in timey zu persistierenden Entitaeten.
  * @author mmatthies
  */
 package rmblworx.tools.timey.persistence.model;
