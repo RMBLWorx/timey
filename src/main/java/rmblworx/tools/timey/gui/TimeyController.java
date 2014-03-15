@@ -48,14 +48,24 @@ public class TimeyController {
 	private ResourceBundle resources;
 
 	@FXML
+	private TabPane timeyTabs;
+
+	@FXML
 	void initialize() {
+		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
+
 		Platform.runLater(new Runnable() {
 			public void run() {
 				createTrayIcon(stage);
 
-				// TODO entfernen
-				// zweiten Tab aktivieren (nur zum manuellen Testen)
-				((TabPane) stage.getScene().lookup("#timeyTabs")).getSelectionModel().select(1);
+				// zuletzt geöffneten Tab aktivieren
+				timeyTabs.getSelectionModel().select(ConfigManager.getCurrentConfig().getActiveTab());
+
+				timeyTabs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+					public void changed(final ObservableValue<? extends Number> property, final Number oldValue, final Number newValue) {
+						ConfigManager.getCurrentConfig().setActiveTab(newValue.intValue());
+					}
+				});
 			}
 		});
 	}

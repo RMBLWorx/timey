@@ -19,6 +19,7 @@ public class ConfigStorage {
 	public static final String PROP_LOCALE = "locale";
 	public static final String PROP_MINIMIZE_TO_TRAY = "minimizeToTray";
 	public static final String PROP_STOPWATCH_SHOW_MILLIS = "stopwatchShowMilliseconds";
+	public static final String PROP_ACTIVE_TAB = "activeTab";
 
 	/**
 	 * @param config zu speichernde Konfiguration
@@ -69,6 +70,7 @@ public class ConfigStorage {
 		props.setProperty(PROP_LOCALE, config.getLocale().toString());
 		props.setProperty(PROP_MINIMIZE_TO_TRAY, Boolean.toString(config.isMinimizeToTray()));
 		props.setProperty(PROP_STOPWATCH_SHOW_MILLIS, Boolean.toString(config.isStopwatchShowMilliseconds()));
+		props.setProperty(PROP_ACTIVE_TAB, Integer.toString(config.getActiveTab()));
 
 		return props;
 	}
@@ -96,6 +98,12 @@ public class ConfigStorage {
 		final String propStopwatchShowMilliseconds = props.getProperty(PROP_STOPWATCH_SHOW_MILLIS);
 		if (propStopwatchShowMilliseconds != null) {
 			config.setStopwatchShowMilliseconds(Boolean.parseBoolean(propStopwatchShowMilliseconds));
+		}
+
+		try {
+			config.setActiveTab(Integer.parseInt(props.getProperty(PROP_ACTIVE_TAB)));
+		} catch (final NumberFormatException e) {
+			// ignorieren
 		}
 
 		return config;

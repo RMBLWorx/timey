@@ -37,6 +37,7 @@ public class ConfigStorageTest {
 		assertTrue(content, content.contains(String.format("<entry key=\"%s\">de</entry>", ConfigStorage.PROP_LOCALE)));
 		assertTrue(content, content.contains(String.format("<entry key=\"%s\">false</entry>", ConfigStorage.PROP_MINIMIZE_TO_TRAY)));
 		assertTrue(content, content.contains(String.format("<entry key=\"%s\">true</entry>", ConfigStorage.PROP_STOPWATCH_SHOW_MILLIS)));
+		assertTrue(content, content.contains(String.format("<entry key=\"%s\">0</entry>", ConfigStorage.PROP_ACTIVE_TAB)));
 	}
 
 	/**
@@ -70,6 +71,7 @@ public class ConfigStorageTest {
 		props.put(ConfigStorage.PROP_LOCALE, "blabla");
 		props.put(ConfigStorage.PROP_MINIMIZE_TO_TRAY, "blabla");
 		props.put(ConfigStorage.PROP_STOPWATCH_SHOW_MILLIS, "blabla");
+		props.put(ConfigStorage.PROP_ACTIVE_TAB, "blabla");
 
 		// Konfiguration speichern
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
