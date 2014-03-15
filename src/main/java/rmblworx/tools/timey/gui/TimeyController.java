@@ -57,18 +57,18 @@ public class TimeyController {
 	final void initialize() {
 		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
 
+		// zuletzt geöffneten Tab aktivieren
+		timeyTabs.getSelectionModel().select(ConfigManager.getCurrentConfig().getActiveTab());
+
+		timeyTabs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			public void changed(final ObservableValue<? extends Number> property, final Number oldValue, final Number newValue) {
+				ConfigManager.getCurrentConfig().setActiveTab(newValue.intValue());
+			}
+		});
+
 		Platform.runLater(new Runnable() {
 			public void run() {
 				createTrayIcon();
-
-				// zuletzt geöffneten Tab aktivieren
-				timeyTabs.getSelectionModel().select(ConfigManager.getCurrentConfig().getActiveTab());
-
-				timeyTabs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-					public void changed(final ObservableValue<? extends Number> property, final Number oldValue, final Number newValue) {
-						ConfigManager.getCurrentConfig().setActiveTab(newValue.intValue());
-					}
-				});
 			}
 		});
 	}

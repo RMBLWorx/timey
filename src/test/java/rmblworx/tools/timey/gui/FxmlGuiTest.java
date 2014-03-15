@@ -38,6 +38,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
 			final Parent root = (Parent) loader.load();
 			controller = loader.getController();
+			controllerLoaded();
 			return root;
 		} catch (final IOException e) {
 			e.printStackTrace();
@@ -46,9 +47,15 @@ public abstract class FxmlGuiTest extends GuiTest {
 	}
 
 	/**
+	 * Wird aufgerufen, sobald der Controller geladen wurde.
+	 */
+	protected void controllerLoaded() {
+	}
+
+	/**
 	 * @return mit der GUI verbundener Controller
 	 */
-	protected Object getController() {
+	protected final Object getController() {
 		return controller;
 	}
 
