@@ -42,5 +42,4 @@ public class Invoker {
 	public void storeCommand(final ICommand cmd) {
 		this.fCommand = cmd;
 	}
-
 }

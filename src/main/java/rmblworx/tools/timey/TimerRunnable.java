@@ -8,7 +8,6 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
-
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in
@@ -32,7 +31,6 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 
 		this.timeDelta = currentTimeMillis - this.timeStarted;
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
-
 		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
 

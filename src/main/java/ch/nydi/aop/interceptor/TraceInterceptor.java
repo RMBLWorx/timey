@@ -29,8 +29,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Daniel Nydegger
  */
-public class TraceInterceptor
-implements MethodInterceptor {
+public class TraceInterceptor implements MethodInterceptor {
 
 	private final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
 
@@ -68,7 +67,6 @@ implements MethodInterceptor {
 			}
 			flattenArguments.append("}");
 			this.logger.trace(prefix + flattenArguments.toString());
-
 		}
 
 		Object invocationResult = null;
@@ -80,7 +78,6 @@ implements MethodInterceptor {
 			throw e;
 		}
 		finally {
-
 			final StringBuilder builder = new StringBuilder();
 			builder.append("invocation return value of ").append(invocation.getMethod().getName()).append(": {").append(
 					this.flattenArgument(invocationResult)).append("}");

@@ -1,5 +1,12 @@
 package rmblworx.tools.timey;
 
+import java.util.List;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -11,7 +18,17 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class Alarm implements IAlarm {
+public class Alarm implements IAlarm, ApplicationContextAware {
+
+	/**
+	 * Spring-Kontext.
+	 */
+	private ApplicationContext context;
+
+	/**
+	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
+	 */
+	private IAlarmTimestampService service;
 
 	/**
 	 * This construtor creates a Receiver instance.
@@ -20,37 +37,50 @@ public class Alarm implements IAlarm {
 		super();
 	}
 
-	/**
-	 * This method performs an action.
-	 */
 	@Override
-	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		// TODO Write your action code here ...
-		System.out.println("setTime");
+	public List<TimeDescriptor> getAllAlarmtimestamps() {
+		this.initService();
+		return this.service.getAll();
+	}
 
-		return descriptor;
+	private void initService() {
+		if (this.service == null) {
+			this.service = (IAlarmTimestampService) this.context.getBean("alarmTimestampService");
+		}
 	}
 
 	/**
 	 * This method performs an action.
 	 */
 	@Override
-	public Boolean turnOff() {
-		// TODO Write your action code here ...
-		System.out.println("TurnOff");
+	public Boolean isAlarmtimestampActivated(final TimeDescriptor descriptor) {
+		return this.service.isActivated(descriptor);
+	}
 
-		return Boolean.TRUE;
+	@Override
+	public Boolean removeAlarmtimestamp(TimeDescriptor descriptor) {
+		return this.service.delete(descriptor);
 	}
 
 	/**
 	 * This method performs an action.
 	 */
 	@Override
-	public Boolean turnOn() {
-		// TODO Write your action code here ...
-		System.out.println("TurnOn");
-
-		return Boolean.TRUE;
+	public Boolean setAlarmtimestamp(final TimeDescriptor descriptor) {
+		this.initService();
+		return this.service.create(descriptor);
 	}
 
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.context = applicationContext;
+	}
+
+	/**
+	 * This method performs an action.
+	 */
+	@Override
+	public Boolean setStateOfAlarmtimestamp(final TimeDescriptor descriptor, final Boolean isActivated) {
+		return this.service.setState(descriptor, isActivated);
+	}
 }

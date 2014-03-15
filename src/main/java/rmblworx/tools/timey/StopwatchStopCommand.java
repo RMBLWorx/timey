@@ -29,6 +29,7 @@ public class StopwatchStopCommand implements ICommand {
 	@Override
 	public <T> T execute() {
 		this.fReceiver.stopStopwatch();
+
 		return (T) Boolean.TRUE;
 	}
 }

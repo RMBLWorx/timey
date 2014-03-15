@@ -3,6 +3,7 @@ package rmblworx.tools.timey;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -19,7 +20,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
+public final class TimeyFacade implements ITimey {
 	/**
 	 * Logger.
 	 */
@@ -50,6 +51,11 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
 		this.countdownClient = (CountdownClient) this.springContext.getBean("countdownClient");
+	}
+
+	@Override
+	public List<TimeDescriptor> getAllAlarmtimestamps() {
+		return this.alarmClient.initGetAllAlarmtimestamps();
 	}
 
 	@Override
@@ -85,19 +91,33 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	}
 
 	@Override
+	public Boolean isAlarmtimestampActivated(final TimeDescriptor descriptor) {
+		return this.alarmClient.initAlarmGetStateOfAlarmCommand(descriptor);
+	}
+
+	@Override
+	public Boolean removeAlarmtimestamp(final TimeDescriptor descriptor) {
+		return this.alarmClient.initAlarmDeleteAlarm(descriptor);
+	}
+
+	@Override
 	public Boolean resetStopwatch() {
 		return this.stopwatchClient.initStopwatchResetCommand();
 	}
 
 	@Override
-	public TimeDescriptor setAlarmTime(final TimeDescriptor descriptor) {
-		// return this.alarmClient.initSetTimeCommand(descriptor);
-		return null;
+	public Boolean setAlarmtimestamp(final TimeDescriptor descriptor) {
+		return this.alarmClient.initSetAlarmtimestampCommand(descriptor);
 	}
 
 	@Override
 	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
 		return this.countdownClient.initSetCountdownTimeCommand(descriptor);
+	}
+
+	@Override
+	public Boolean setStateOfAlarmtimestamp(final TimeDescriptor descriptor, final Boolean isActivated) {
+		return this.alarmClient.initAlarmSetStateOfAlarmCommand(descriptor, isActivated);
 	}
 
 	@Override
@@ -119,17 +139,4 @@ public class TimeyFacade implements ITimey, IAlarm, ICountdown, IStopwatch {
 	public Boolean stopStopwatch() {
 		return this.stopwatchClient.initStopwatchStopCommand();
 	}
-
-	@Override
-	public Boolean turnOff() {
-		// return this.alarmClient.initTurnOffCommand();
-		return null;
-	}
-
-	@Override
-	public Boolean turnOn() {
-		// return this.alarmClient.initTurnOnCommand();
-		return null;
-	}
-
 }
