@@ -53,6 +53,7 @@ public class TimeyController {
 	@FXML
 	private TabPane timeyTabs;
 
+	@FXML
 	final void initialize() {
 		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
 
