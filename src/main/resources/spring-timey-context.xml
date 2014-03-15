@@ -58,7 +58,7 @@
 
 	<!-- Service-Deklarationen -->
 	<bean id="alarmTimestampService" name="alarmTimestampService"
-	class="rmblworx.tools.timey.persistence.service.AlarmTimestampService">
+		class="rmblworx.tools.timey.persistence.service.AlarmTimestampService">
 	</bean>
 	<!-- DAO-Deklarationen -->
 	<bean id="alarmTimestampDao" name="alarmTimestampDao"
@@ -71,7 +71,7 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:tcp://localhost/alarmdb;AUTO_SERVER=TRUE" />
+		<property name="url" value="jdbc:h2:alarmdb" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="initialSize" value="5" />
