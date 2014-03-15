@@ -67,7 +67,7 @@ public class StopwatchController {
 	private long stopwatchValue;
 
 	@FXML
-	void initialize() {
+	final void initialize() {
 		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
 		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
 		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";

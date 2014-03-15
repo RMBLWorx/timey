@@ -12,39 +12,54 @@ import javafx.stage.Stage;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.gui.config.FileConfigStorage;
 
+/**
+ * @author Christian Raue <christian.raue@gmail.com>
+ * @copyright 2014 Christian Raue
+ * @license http://opensource.org/licenses/mit-license.php MIT License
+ */
 public class Main extends Application {
 
+	/**
+	 * Dateiname der Konfigurationsdatei (kann auch Pfad enthalten).
+	 */
 	private static final String CONFIG_FILENAME = "Timey.config.xml";
 
-	private ResourceBundle i18n;
-
-	public void start(final Stage stage) {
+	/**
+	 * Startet die Anwendung.
+	 * @param stage Fenster der Anwendung
+	 */
+	public final void start(final Stage stage) {
 		try {
 			ConfigManager.setCurrentConfig(new FileConfigStorage().loadFromFile(CONFIG_FILENAME));
 
-			i18n = new GuiHelper().getResourceBundle(ConfigManager.getCurrentConfig().getLocale());
-
-			final FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeyGui.fxml"), i18n);
+			final ResourceBundle resources = new GuiHelper().getResourceBundle(ConfigManager.getCurrentConfig().getLocale());
+			final FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeyGui.fxml"), resources);
 			final Parent root = (Parent) loader.load();
-			final Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.setTitle(i18n.getString("application.title"));
+			stage.setScene(new Scene(root));
+			stage.setTitle(resources.getString("application.title"));
 			stage.setResizable(false);
 			stage.getIcons().add(new Image(getClass().getResourceAsStream("img/clock.png")));
 			stage.show();
 
-			final TimeyController timeyController = (TimeyController) loader.getController();
+			final TimeyController timeyController = loader.getController();
 			timeyController.setStage(stage);
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void stop() throws Exception {
+	/**
+	 * Beendet die Anwendung.
+	 */
+	public final void stop() {
 		new FileConfigStorage().saveToFile(ConfigManager.getCurrentConfig(), CONFIG_FILENAME);
 		System.exit(0);
 	}
 
+	/**
+	 * Einstiegspunkt der Anwendung.
+	 * @param args Parameter
+	 */
 	public static void main(final String[] args) {
 		launch(args);
 	}

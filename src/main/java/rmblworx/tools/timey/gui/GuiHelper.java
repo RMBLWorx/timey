@@ -53,8 +53,7 @@ public class GuiHelper {
 				}
 			});
 
-			final Scene scene = new Scene(root);
-			stage.setScene(scene);
+			stage.setScene(new Scene(root));
 			stage.setTitle(title);
 			stage.setResizable(false);
 			stage.initModality(Modality.APPLICATION_MODAL);
