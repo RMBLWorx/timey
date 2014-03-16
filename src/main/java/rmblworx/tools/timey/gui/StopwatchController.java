@@ -14,7 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import rmblworx.tools.timey.TimeyFacade;
+import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.gui.config.Config;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -31,7 +31,7 @@ public class StopwatchController {
 	/**
 	 * Fassade zur Steuerung der Stoppuhr.
 	 */
-	private TimeyFacade facade = new TimeyFacade();
+	private final ITimey facade = FacadeManager.getFacade();
 
 	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
