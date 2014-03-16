@@ -4,3 +4,25 @@
 #countdownTimePicker {
 	-fx-font-size: 30px;
 }
+
+/* kein Gitternetz für leere Zellen */
+.table-row-cell:empty {
+	-fx-background-color: transparent;
+}
+.table-row-cell:empty .table-cell {
+	-fx-border-width: 0;
+}
+
+/* kein blauer Rahmen für fokussierte Tabelle */
+.table-view:focused {
+	-fx-background-color: transparent, -fx-box-border, -fx-control-inner-background;
+}
+
+/* inaktive Alarme in Tabelle einfärben */
+.table-view .table-row-cell.alarm-disabled .table-cell {
+	-fx-text-fill: gray;
+}
+.table-view .table-row-cell.alarm-disabled:focused .table-cell {
+	-fx-background-color: red;
+	-fx-text-fill: -fx-selection-bar-text;
+}

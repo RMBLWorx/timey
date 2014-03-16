@@ -19,6 +19,11 @@ import org.loadui.testfx.GuiTest;
 public abstract class FxmlGuiTest extends GuiTest {
 
 	/**
+	 * Mit der GUI verbundener Controller.
+	 */
+	private Object controller;
+
+	/**
 	 * @return Name der FXML-Datei zum Laden der GUI
 	 */
 	protected abstract String getFxmlFilename();
@@ -30,11 +35,21 @@ public abstract class FxmlGuiTest extends GuiTest {
 	protected final Parent getRootNode() {
 		final ResourceBundle i18n = new GuiHelper().getResourceBundle(Locale.GERMAN);
 		try {
-			return FXMLLoader.load(getClass().getResource(getFxmlFilename()), i18n);
+			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
+			final Parent root = (Parent) loader.load();
+			controller = loader.getController();
+			return root;
 		} catch (final IOException e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * @return mit der GUI verbundener Controller
+	 */
+	protected Object getController() {
+		return controller;
 	}
 
 }
