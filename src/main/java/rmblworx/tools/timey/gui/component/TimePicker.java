@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -51,7 +51,12 @@ public class TimePicker extends AnchorPane {
 	/**
 	 * Zeit als Property.
 	 */
-	private final LongProperty timeProperty = new SimpleLongProperty(0L);
+	private final ObjectProperty<Calendar> timeProperty = new SimpleObjectProperty<Calendar>();
+
+	/**
+	 * Zeitzone.
+	 */
+	private TimeZone timeZone = TimeZone.getDefault();
 
 	/**
 	 * Formatiert Zeitstempel als Stunden-Werte.
@@ -87,6 +92,11 @@ public class TimePicker extends AnchorPane {
 	private Slider secondsSlider;
 
 	public TimePicker() {
+		// Zeit auf 0 setzen
+		final Calendar cal = Calendar.getInstance(timeZone);
+		cal.clear();
+		timeProperty.set(cal);
+
         createGui();
     }
 
@@ -129,30 +139,37 @@ public class TimePicker extends AnchorPane {
 	/**
 	 * @param time Zeit in ms
 	 */
-	public void setTime(final long time) {
-		hoursTextField.setText(hoursFormatter.format(time));
-		minutesTextField.setText(minutesFormatter.format(time));
-		secondsTextField.setText(secondsFormatter.format(time));
+	public void setTime(final Calendar time) {
+		hoursTextField.setText(hoursFormatter.format(time.getTime()));
+		minutesTextField.setText(minutesFormatter.format(time.getTime()));
+		secondsTextField.setText(secondsFormatter.format(time.getTime()));
 	}
 
 	/**
 	 * @return Zeit in ms
 	 */
-	public long getTime() {
-		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+	public Calendar getTime() {
+		final Calendar cal = Calendar.getInstance(timeZone);
 		cal.clear();
 		cal.add(Calendar.HOUR_OF_DAY, Integer.parseInt(hoursTextField.getText()));
 		cal.add(Calendar.MINUTE, Integer.parseInt(minutesTextField.getText()));
 		cal.add(Calendar.SECOND, Integer.parseInt(secondsTextField.getText()));
 
-		return cal.getTime().getTime();
+		return cal;
 	}
 
 	/**
 	 * @return Zeit als Property
 	 */
-	public LongProperty getTimeProperty() {
+	public ObjectProperty<Calendar> getTimeProperty() {
 		return timeProperty;
+	}
+
+	/**
+	 * @param timeZone Zeitzone
+	 */
+	public void setTimeZone(final TimeZone timeZone) {
+		this.timeZone = timeZone;
 	}
 
 	/**
@@ -230,8 +247,6 @@ public class TimePicker extends AnchorPane {
 	 * Initialisiert die Zeitformatierer.
 	 */
 	private void setupTimeFormatters() {
-		final TimeZone timeZone = TimeZone.getTimeZone("UTC");
-
 		if (hoursFormatter == null) {
 			hoursFormatter = new SimpleDateFormat();
 			hoursFormatter.setTimeZone(timeZone);
