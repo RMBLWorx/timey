@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import org.junit.BeforeClass;
 import org.loadui.testfx.GuiTest;
 
 /**
@@ -22,6 +23,14 @@ public abstract class FxmlGuiTest extends GuiTest {
 	 * Mit der GUI verbundener Controller.
 	 */
 	private Object controller;
+
+	/**
+	 * Zeitaufwendiges Laden der Fassade einmalig vor allen Tests, um Timing-Probleme beim Start der einzelnen Tests zu vermeiden.
+	 */
+	@BeforeClass
+	public static final void loadFacade() {
+		FacadeManager.getFacade();
+	}
 
 	/**
 	 * @return Name der FXML-Datei zum Laden der GUI

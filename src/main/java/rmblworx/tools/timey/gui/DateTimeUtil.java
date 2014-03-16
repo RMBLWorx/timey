@@ -48,49 +48,47 @@ public final class DateTimeUtil {
 		return time;
 	}
 
+	/**
+	 * Konvertiert einen Datum/Zeit-String in ein Kalender-Objekt.
+	 * @param string Datum/Zeit-Wert
+	 * @return Kalender mit entsprechendem Datum/Zeit-Wert
+	 */
 	public static Calendar getCalendarForString(final String string) {
 		return getCalendarForString(string, TimeZone.getDefault());
 	}
 
+	/**
+	 * Konvertiert einen Datum/Zeit-String in ein Kalender-Objekt.
+	 * @param string Datum/Zeit-Wert
+	 * @param timeZone Zeitzone
+	 * @return Kalender mit entsprechendem Datum/Zeit-Wert
+	 */
 	public static Calendar getCalendarForString(final String string, final TimeZone timeZone) {
-		try {
-			return getCalendarForDateTimeString(string, timeZone);
-		} catch (final RuntimeException e1) {
+		final String[] patterns = {
+			"dd.MM.yyyy HH:mm:ss",
+			"dd.MM.yyyy",
+			"HH:mm:ss",
+		};
+
+		final SimpleDateFormat dateFormat = new SimpleDateFormat();
+		dateFormat.setTimeZone(timeZone);
+
+		for (final String pattern : patterns) {
+			dateFormat.applyPattern(pattern);
+
 			try {
-				return getCalendarForDateString(string, timeZone);
-			} catch (final RuntimeException e2) {
-				try {
-					return getCalendarForTimeString(string, timeZone);
-				} catch (final RuntimeException e3) {
-					throw new RuntimeException(e3);
-				}
+				final Date dateTime = dateFormat.parse(string);
+
+				// wird nur aufgerufen, sobald keine Gefahr einer ParseException mehr besteht
+				final Calendar result = Calendar.getInstance(timeZone);
+				result.setTime(dateTime);
+				return result;
+			} catch (final ParseException e) {
+				continue;
 			}
 		}
-	}
 
-	public static Calendar getCalendarForDateTimeString(final String dateTimeString, final TimeZone timeZone) {
-		return parseString(dateTimeString, timeZone, "dd.MM.yyyy HH:mm:ss");
-	}
-
-	public static Calendar getCalendarForDateString(final String dateString, final TimeZone timeZone) {
-		return parseString(dateString, timeZone, "dd.MM.yyyy");
-	}
-
-	public static Calendar getCalendarForTimeString(final String timeString, final TimeZone timeZone) {
-		return parseString(timeString, timeZone, "HH:mm:ss");
-	}
-
-	private static Calendar parseString(final String string, final TimeZone timeZone, final String format) {
-		try {
-			final SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-			dateFormat.setTimeZone(timeZone);
-			final Date dateTime = dateFormat.parse(string);
-			final Calendar calDate = Calendar.getInstance(timeZone);
-			calDate.setTime(dateTime);
-			return calDate;
-		} catch (final ParseException e) {
-			throw new RuntimeException(e);
-		}
+		throw new RuntimeException(String.format("Unparseable date/time: %s", string));
 	}
 
 	/**

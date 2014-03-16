@@ -1,7 +1,7 @@
 package rmblworx.tools.timey.gui.config;
 
 /**
- * Verwaltung der Konfiguration.
+ * Verwaltung der Konfiguration per Singleton.
  * 
  * @author Christian Raue <christian.raue@gmail.com>
  * @copyright 2014 Christian Raue
@@ -24,18 +24,18 @@ public final class ConfigManager {
 	/**
 	 * @return aktive Konfiguration
 	 */
-	public static Config getCurrentConfig() {
+	public static synchronized Config getCurrentConfig() {
 		if (currentConfig == null) {
-			currentConfig = getDefaultConfig();
+			currentConfig = getNewDefaultConfig();
 		}
 
 		return currentConfig;
 	}
 
 	/**
-	 * @return Standardkonfiguration
+	 * @return neue Instanz der Standardkonfiguration
 	 */
-	public static Config getDefaultConfig() {
+	public static Config getNewDefaultConfig() {
 		return new Config();
 	}
 

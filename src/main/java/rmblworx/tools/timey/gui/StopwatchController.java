@@ -65,7 +65,7 @@ public class StopwatchController {
 	private long stopwatchValue;
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
 		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
 		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";
@@ -155,7 +155,7 @@ public class StopwatchController {
 	 * Startet die Stoppuhr.
 	 * @return Zeitobjekt
 	 */
-	protected TimeDescriptor startStopwatch() {
+	private TimeDescriptor startStopwatch() {
 		stopwatchRunning = true;
 		stopwatchStartButton.setVisible(false);
 		stopwatchStopButton.setVisible(true);
@@ -167,7 +167,7 @@ public class StopwatchController {
 	/**
 	 * Stoppt die Stoppuhr.
 	 */
-	protected void stopStopwatch() {
+	private void stopStopwatch() {
 		facade.stopStopwatch();
 		stopwatchRunning = false;
 		stopwatchStartButton.setVisible(true);

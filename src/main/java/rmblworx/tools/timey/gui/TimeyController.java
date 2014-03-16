@@ -54,7 +54,7 @@ public class TimeyController {
 	private TabPane timeyTabs;
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
 
 		Platform.runLater(new Runnable() {

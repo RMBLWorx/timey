@@ -15,7 +15,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.base.Predicate;
@@ -39,12 +38,6 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	 */
 	protected final String getFxmlFilename() {
 		return "StopwatchGui.fxml";
-	}
-
-	@BeforeClass
-	public static final void setUpClass() {
-		// Zeitaufwendiges Laden der Fassade einmalig vor allen Tests, um Timing-Probleme beim Starten der einzelnen Tests zu vermeiden.
-		FacadeManager.getFacade();
 	}
 
 	@Before
@@ -307,9 +300,8 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	 * @return Formatierer für Zeit-Werte
 	 */
 	private SimpleDateFormat getTimeFormatter() {
-		final SimpleDateFormat dateFormatter = new SimpleDateFormat();
+		final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SSS");
 		dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-		dateFormatter.applyPattern("HH:mm:ss.SSS");
 
 		return dateFormatter;
 	}

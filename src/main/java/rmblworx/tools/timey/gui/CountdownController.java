@@ -65,7 +65,7 @@ public class CountdownController {
 	private long countdownValue;
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert countdownStartButton != null : "fx:id='countdownStartButton' was not injected";
 		assert countdownStopButton != null : "fx:id='countdownStopButton' was not injected";
 		assert countdownTimeLabel != null : "fx:id='countdownTimeLabel' was not injected";
@@ -137,7 +137,7 @@ public class CountdownController {
 	 * Startet den Countdown.
 	 * @param timeDescriptor Zeitobjekt
 	 */
-	protected void startCountdown(final TimeDescriptor timeDescriptor) {
+	private void startCountdown(final TimeDescriptor timeDescriptor) {
 		countdownRunning = true;
 		countdownStartButton.setVisible(false);
 		countdownStopButton.setVisible(true);
@@ -153,7 +153,7 @@ public class CountdownController {
 	/**
 	 * Stoppt den Countdown.
 	 */
-	protected void stopCountdown() {
+	private void stopCountdown() {
 		facade.stopCountdown();
 		countdownRunning = false;
 
@@ -171,7 +171,7 @@ public class CountdownController {
 	 * Aktiviert bzw. deaktiviert alle nötigen Bedienelemente zur Eingabe einer Zeit.
 	 * @param enabled ob Felder aktiv sein sollen
 	 */
-	protected void enableTimeInput(final boolean enabled) {
+	private void enableTimeInput(final boolean enabled) {
 		countdownTimeLabel.setVisible(!enabled);
 		countdownTimePicker.setVisible(enabled);
 		countdownTimePicker.setDisable(!enabled);
@@ -182,16 +182,15 @@ public class CountdownController {
 	 */
 	private void setupTimeFormatters() {
 		if (timeFormatter == null) {
-			timeFormatter = new SimpleDateFormat();
+			timeFormatter = new SimpleDateFormat("HH:mm:ss");
 			timeFormatter.setTimeZone(TIMEZONE);
-			timeFormatter.applyPattern("HH:mm:ss");
 		}
 	}
 
 	/**
 	 * Überträgt die Zeit von den Textfeldern auf das Label.
 	 */
-	protected void transferTimeFromInputToLabel() {
+	private void transferTimeFromInputToLabel() {
 		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getTime()));
 	}
 

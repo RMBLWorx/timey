@@ -113,7 +113,7 @@ public class TimePicker extends AnchorPane {
 	}
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert hoursTextField != null : "fx:id='hoursTextField' was not injected";
 		assert minutesTextField != null : "fx:id='minutesTextField' was not injected";
 		assert secondsTextField != null : "fx:id='secondsTextField' was not injected";
@@ -248,21 +248,18 @@ public class TimePicker extends AnchorPane {
 	 */
 	private void setupTimeFormatters() {
 		if (hoursFormatter == null) {
-			hoursFormatter = new SimpleDateFormat();
+			hoursFormatter = new SimpleDateFormat("HH");
 			hoursFormatter.setTimeZone(timeZone);
-			hoursFormatter.applyPattern("HH");
 		}
 
 		if (minutesFormatter == null) {
-			minutesFormatter = new SimpleDateFormat();
+			minutesFormatter = new SimpleDateFormat("mm");
 			minutesFormatter.setTimeZone(timeZone);
-			minutesFormatter.applyPattern("mm");
 		}
 
 		if (secondsFormatter == null) {
-			secondsFormatter = new SimpleDateFormat();
+			secondsFormatter = new SimpleDateFormat("ss");
 			secondsFormatter.setTimeZone(timeZone);
-			secondsFormatter.applyPattern("ss");
 		}
 	}
 

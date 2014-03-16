@@ -57,7 +57,7 @@ public class ConfigStorage {
 			if (!suppressErrors) {
 				System.err.println("Error while trying to load the config file: " + e.getLocalizedMessage());
 			}
-			return ConfigManager.getDefaultConfig();
+			return ConfigManager.getNewDefaultConfig();
 		}
 	}
 
@@ -80,7 +80,7 @@ public class ConfigStorage {
 	 * @return Konfiguration
 	 */
 	public final Config getPropertiesAsConfig(final Properties props) {
-		final Config config = ConfigManager.getDefaultConfig();
+		final Config config = ConfigManager.getNewDefaultConfig();
 
 		final String propLocale = props.getProperty(PROP_LOCALE);
 		if (propLocale != null) {

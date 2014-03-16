@@ -4,7 +4,7 @@ import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.TimeyFacade;
 
 /**
- * Verwaltung der Fassade.
+ * Verwaltung der Fassade per Singleton.
  * 
  * @author Christian Raue <christian.raue@gmail.com>
  * @copyright 2014 Christian Raue
@@ -13,12 +13,12 @@ import rmblworx.tools.timey.TimeyFacade;
 public final class FacadeManager {
 
 	/**
-	 * Instanz der Fassade.
+	 * Einzige Instanz der Fassade.
 	 */
 	private static ITimey instance;
 
 	/**
-	 * @return Instanz der Fassade
+	 * @return einzige Instanz der Fassade
 	 */
 	public static synchronized ITimey getFacade() {
 		if (instance == null) {
