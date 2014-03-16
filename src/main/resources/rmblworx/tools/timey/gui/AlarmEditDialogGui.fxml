@@ -8,7 +8,7 @@
 <?import rmblworx.tools.timey.gui.component.*?>
 <?import rmblworx.tools.timey.gui.component.TimePicker?>
 <?scenebuilder-classpath-element ../../../../../../../target/classes?>
-<?scenebuilder-classpath-element R:/maven-repository/org/jfxtras/jfxtras-labs/2.2-r5/jfxtras-labs-2.2-r5.jar?>
+<?scenebuilder-classpath-element ../../../../../../../target/libs/jfxtras-labs-2.2-r5.jar?>
 <?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmEditDialogController">
