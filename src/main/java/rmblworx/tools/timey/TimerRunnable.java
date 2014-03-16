@@ -34,4 +34,14 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
 
+	@Override
+	public void run() {
+		this.lock.lock();
+		try {
+			this.computeTime();
+		} finally {
+			this.lock.unlock();
+		}
+	}
+
 }
