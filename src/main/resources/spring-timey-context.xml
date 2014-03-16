@@ -9,12 +9,15 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
-	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm"></bean>
+	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm">
+		<constructor-arg ref="alarmTimestampService" index="0" />
+	</bean>
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
-		<constructor-arg value="1" index="0" />
+		<constructor-arg ref="simpleTimer" index="0" />
 		<constructor-arg value="1" index="1" />
+		<constructor-arg value="1" index="2" />
 		<constructor-arg type="java.util.concurrent.TimeUnit"
-			value="MILLISECONDS" index="2" />
+			value="MILLISECONDS" index="3" />
 	</bean>
 	<bean id="countdownReceiver" name="countdown" class="rmblworx.tools.timey.Countdown">
 		<constructor-arg value="1" index="0" />

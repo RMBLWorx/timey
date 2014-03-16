@@ -2,9 +2,6 @@ package rmblworx.tools.timey;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -16,16 +13,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-class Stopwatch implements IStopwatch, ApplicationContextAware {
+class Stopwatch implements IStopwatch {
 
 	/**
 	 * Anzahl der Threads die Zeit messen sollen.
 	 */
 	private final byte amountOfThreads;
-	/**
-	 * Spring Context.
-	 */
-	private ApplicationContext context;
 	/**
 	 * Gibt die Maszzahl fuer die Zeiteinheit an.
 	 * 
@@ -35,7 +28,7 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	/**
 	 * Die genutzte Zeitmessimplementierung.
 	 */
-	private ITimer timer;
+	private final ITimer timer;
 	/**
 	 * Gibt die Zeiteinheit an in welchem der Intervall die gemessene Zeit geliefert wird.
 	 */
@@ -43,7 +36,7 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 
 	/**
 	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
-	 * 
+	 * @param timer Implementierung einer Stoppuhr
 	 * @param amount
 	 *            Anzahl der Zeitmessungs-Threads
 	 * @param delay
@@ -51,10 +44,11 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	 * @param unit
 	 *            Maszeinheit fuer den Intervall.
 	 */
-	public Stopwatch(final byte amount, final int delay, final TimeUnit unit) {
+	public Stopwatch(final ITimer timer, final byte amount, final int delay, final TimeUnit unit) {
 		this.amountOfThreads = amount;
 		this.delayPerThread = delay;
 		this.timeUnit = unit;
+		this.timer = timer;
 	}
 
 	@Override
@@ -67,16 +61,7 @@ class Stopwatch implements IStopwatch, ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) {
-		this.context = applicationContext;
-	}
-
-	@Override
 	public TimeDescriptor startStopwatch() {
-		if (this.timer == null) {
-			this.timer = (ITimer) this.context.getBean("simpleTimer");
-		}
-
 		return this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
 	}
 
