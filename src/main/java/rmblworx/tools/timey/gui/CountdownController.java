@@ -13,7 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import rmblworx.tools.timey.TimeyFacade;
+import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -34,7 +34,7 @@ public class CountdownController {
 	/**
 	 * Fassade zur Steuerung des Countdowns.
 	 */
-	private TimeyFacade facade = new TimeyFacade();
+	private final ITimey facade = FacadeManager.getFacade();
 
 	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
