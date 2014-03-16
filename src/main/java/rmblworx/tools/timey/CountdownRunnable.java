@@ -8,7 +8,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class CountdownRunnable extends TimeyTimeRunnable {
-
+	/**
+	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
+	 */
+	private final long timeCountdown;
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in
@@ -19,6 +22,7 @@ public class CountdownRunnable extends TimeyTimeRunnable {
 	 */
 	public CountdownRunnable(final TimeDescriptor descriptor, final long passedTime) {
 		super(descriptor, passedTime, System.currentTimeMillis());
+		this.timeCountdown = descriptor.getMilliSeconds();
 	}
 
 	/**
@@ -30,7 +34,21 @@ public class CountdownRunnable extends TimeyTimeRunnable {
 		this.timeDelta = 0;
 		final long currentTimeMillis = System.currentTimeMillis();
 		this.timeDelta = this.timeStarted - currentTimeMillis;
-		this.timeDescriptor.setMilliSeconds(this.timeStarted + this.timeDelta);
+		this.timeDescriptor.setMilliSeconds(this.timeCountdown + this.timeDelta);
+	}
+
+	@Override
+	public void run() {
+		this.lock.lock();
+		try {
+			if (this.timeDescriptor.getMilliSeconds() > 0) {
+				this.computeTime();
+			}else{
+				//TODO: Event werfen damit GUI Bescheid weisz das Countdown fertig auf 0
+			}
+		} finally {
+			this.lock.unlock();
+		}
 	}
 
 }

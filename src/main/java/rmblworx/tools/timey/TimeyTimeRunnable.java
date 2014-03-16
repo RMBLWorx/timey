@@ -52,15 +52,4 @@ abstract class TimeyTimeRunnable implements Runnable {
 	 * Welche Berechnungen diese Methode durchfuehrt, haengt von der jeweiligen Implementierung ab.
 	 */
 	protected abstract void computeTime();
-
-	@Override
-	public void run() {
-		this.lock.lock();
-		try {
-			this.computeTime();
-		} finally {
-			this.lock.unlock();
-		}
-	}
-
 }
