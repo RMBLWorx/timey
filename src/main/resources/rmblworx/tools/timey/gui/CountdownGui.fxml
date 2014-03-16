@@ -12,7 +12,7 @@
   <children>
     <Label fx:id="countdownTimeLabel" layoutX="14.0" layoutY="16.0" text="00:00:00" visible="false" />
     <TimePicker fx:id="countdownTimePicker" layoutX="14.0" layoutY="14.0" />
-    <Button fx:id="countdownStartButton" layoutX="14.0" layoutY="76.0" mnemonicParsing="false" prefWidth="55.0" text="%countdownStartButton.label" />
-    <Button fx:id="countdownStopButton" layoutX="14.0" layoutY="76.0" mnemonicParsing="false" prefWidth="55.0" text="%countdownStopButton.label" visible="false" />
+    <Button fx:id="countdownStartButton" layoutX="14.0" layoutY="76.0" mnemonicParsing="false" onAction="#handleStartButtonClick" prefWidth="55.0" text="%countdownStartButton.label" />
+    <Button fx:id="countdownStopButton" layoutX="14.0" layoutY="76.0" mnemonicParsing="false" onAction="#handleStopButtonClick" prefWidth="55.0" text="%countdownStopButton.label" visible="false" />
   </children>
 </AnchorPane>

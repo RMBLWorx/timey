@@ -8,8 +8,6 @@ import java.util.TimeZone;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -73,57 +71,6 @@ public class CountdownController {
 		assert countdownTimeLabel != null : "fx:id='countdownTimeLabel' was not injected";
 		assert countdownTimePicker != null : "fx:id='countdownTimePicker' was not injected";
 
-		if (countdownStartButton != null) {
-			countdownStartButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					if (countdownRunning) {
-						return;
-					}
-
-					final TimeDescriptor td = new TimeDescriptor(countdownTimePicker.getTime().getTimeInMillis());
-					startCountdown(td);
-
-					final Task<Void> task = new Task<Void>() {
-						private static final long SLEEP_TIME_COARSE_GRAINED = 1000L;
-
-						public Void call() throws InterruptedException {
-							while (countdownRunning) {
-								countdownValue = td.getMilliSeconds();
-								updateMessage(timeFormatter.format(countdownValue));
-								Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
-							}
-
-							return null;
-						}
-					};
-
-					task.messageProperty().addListener(new ChangeListener<String>() {
-						public void changed(final ObservableValue<? extends String> property, final String oldValue,
-								final String newValue) {
-							countdownTimeLabel.setText(newValue);
-						}
-					});
-
-					final Thread thread = new Thread(task);
-					thread.setDaemon(true);
-					thread.setPriority(Thread.MIN_PRIORITY);
-					thread.start();
-				}
-			});
-		}
-
-		if (countdownStopButton != null) {
-			countdownStopButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					if (!countdownRunning) {
-						return;
-					}
-
-					stopCountdown();
-				}
-			});
-		}
-
 		countdownTimePicker.setTimeZone(TIMEZONE);
 		setupTimeFormatters();
 
@@ -134,6 +81,56 @@ public class CountdownController {
 				countdownStartButton.setDisable(newValue.getTimeInMillis() == 0L);
 			}
 		});
+	}
+
+	/**
+	 * Aktion bei Klick auf Start-Schaltfläche.
+	 */
+	@FXML
+	private void handleStartButtonClick() {
+		if (countdownRunning) {
+			return;
+		}
+
+		final TimeDescriptor td = new TimeDescriptor(countdownTimePicker.getTime().getTimeInMillis());
+		startCountdown(td);
+
+		final Task<Void> task = new Task<Void>() {
+			private static final long SLEEP_TIME_COARSE_GRAINED = 1000L;
+
+			public Void call() throws InterruptedException {
+				while (countdownRunning) {
+					countdownValue = td.getMilliSeconds();
+					updateMessage(timeFormatter.format(countdownValue));
+					Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
+				}
+
+				return null;
+			}
+		};
+
+		task.messageProperty().addListener(new ChangeListener<String>() {
+			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+				countdownTimeLabel.setText(newValue);
+			}
+		});
+
+		final Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.setPriority(Thread.MIN_PRIORITY);
+		thread.start();
+	}
+
+	/**
+	 * Aktion bei Klick auf Stop-Schaltfläche.
+	 */
+	@FXML
+	private void handleStopButtonClick() {
+		if (!countdownRunning) {
+			return;
+		}
+
+		stopCountdown();
 	}
 
 	/**

@@ -8,8 +8,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -74,82 +72,83 @@ public class StopwatchController {
 		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected";
 		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected";
 
-		if (stopwatchStartButton != null) {
-			stopwatchStartButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					if (stopwatchRunning) {
-						return;
-					}
-
-					final Config config = ConfigManager.getCurrentConfig();
-					final TimeDescriptor td = startStopwatch();
-
-					final Task<Void> task = new Task<Void>() {
-						private static final long SLEEP_TIME_FINE_GRAINED = 5L;
-						private static final long SLEEP_TIME_COARSE_GRAINED = 1000L;
-
-						public Void call() throws InterruptedException {
-							while (stopwatchRunning) {
-								stopwatchValue = td.getMilliSeconds();
-								updateMessage(timeFormatter.format(stopwatchValue));
-								Thread.sleep(config.isStopwatchShowMilliseconds() ? SLEEP_TIME_FINE_GRAINED : SLEEP_TIME_COARSE_GRAINED);
-							}
-
-							return null;
-						}
-					};
-
-					task.messageProperty().addListener(new ChangeListener<String>() {
-						public void changed(final ObservableValue<? extends String> property, final String oldValue,
-								final String newValue) {
-							stopwatchTimeLabel.setText(newValue);
-						}
-					});
-
-					final Thread thread = new Thread(task);
-					thread.setDaemon(true);
-					thread.setPriority(Thread.MIN_PRIORITY);
-					thread.start();
-				}
-			});
-		}
-
-		if (stopwatchStopButton != null) {
-			stopwatchStopButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					if (!stopwatchRunning) {
-						return;
-					}
-
-					stopStopwatch();
-				}
-			});
-		}
-
-		if (stopwatchResetButton != null) {
-			stopwatchResetButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					facade.resetStopwatch();
-					stopwatchValue = 0L;
-					updateStopwatchTimeLabel();
-					stopwatchStartButton.requestFocus();
-				}
-			});
-		}
-
 		if (stopwatchShowMillisecondsCheckbox != null) {
 			stopwatchShowMillisecondsCheckbox.setSelected(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds());
 			setupTimeFormatter();
 			updateStopwatchTimeLabel();
-
-			stopwatchShowMillisecondsCheckbox.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					ConfigManager.getCurrentConfig().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
-					setupTimeFormatter();
-					updateStopwatchTimeLabel();
-				}
-			});
 		}
+	}
+
+	/**
+	 * Aktion bei Klick auf Start-Schaltfläche.
+	 */
+	@FXML
+	private void handleStartButtonClick() {
+		if (stopwatchRunning) {
+			return;
+		}
+
+		final Config config = ConfigManager.getCurrentConfig();
+		final TimeDescriptor td = startStopwatch();
+
+		final Task<Void> task = new Task<Void>() {
+			private static final long SLEEP_TIME_FINE_GRAINED = 5L;
+			private static final long SLEEP_TIME_COARSE_GRAINED = 1000L;
+
+			public Void call() throws InterruptedException {
+				while (stopwatchRunning) {
+					stopwatchValue = td.getMilliSeconds();
+					updateMessage(timeFormatter.format(stopwatchValue));
+					Thread.sleep(config.isStopwatchShowMilliseconds() ? SLEEP_TIME_FINE_GRAINED : SLEEP_TIME_COARSE_GRAINED);
+				}
+
+				return null;
+			}
+		};
+
+		task.messageProperty().addListener(new ChangeListener<String>() {
+			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+				stopwatchTimeLabel.setText(newValue);
+			}
+		});
+
+		final Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.setPriority(Thread.MIN_PRIORITY);
+		thread.start();
+	}
+
+	/**
+	 * Aktion bei Klick auf Stop-Schaltfläche.
+	 */
+	@FXML
+	private void handleStopButtonClick() {
+		if (!stopwatchRunning) {
+			return;
+		}
+
+		stopStopwatch();
+	}
+
+	/**
+	 * Aktion bei Klick auf Zurücksetzen-Schaltfläche.
+	 */
+	@FXML
+	private void handleResetButtonClick() {
+		facade.resetStopwatch();
+		stopwatchValue = 0L;
+		updateStopwatchTimeLabel();
+		stopwatchStartButton.requestFocus();
+	}
+
+	/**
+	 * Aktion bei Klick auf Millisekunden-Checkbox.
+	 */
+	@FXML
+	private void handleShowMillisecondsCheckboxClick() {
+		ConfigManager.getCurrentConfig().setStopwatchShowMilliseconds(stopwatchShowMillisecondsCheckbox.isSelected());
+		setupTimeFormatter();
+		updateStopwatchTimeLabel();
 	}
 
 	/**
