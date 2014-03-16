@@ -3,6 +3,7 @@ package rmblworx.tools.timey.gui.component;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,6 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 
+import rmblworx.tools.timey.gui.DateTimeUtil;
+
 import com.google.common.base.Predicate;
 
 /**
@@ -26,11 +29,6 @@ import com.google.common.base.Predicate;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 public class TimePickerTest extends GuiTest {
-
-	/**
-	 * Zeit "23:59:59" in ms.
-	 */
-	private static final long TIME_23_59_59 = 86399000L;
 
 	/**
 	 * Container für Elemente.
@@ -200,15 +198,16 @@ public class TimePickerTest extends GuiTest {
 		final TimePicker timePicker = (TimePicker) scene.getRoot();
 
 		final List<TimePartsAndTimeValue> testCases = new Vector<TimePartsAndTimeValue>();
-		testCases.add(new TimePartsAndTimeValue("23", "59", "59", TIME_23_59_59));
-		testCases.add(new TimePartsAndTimeValue("00", "00", "00", 0L));
+		testCases.add(new TimePartsAndTimeValue("23", "59", "59", "23:59:59"));
+		testCases.add(new TimePartsAndTimeValue("00", "00", "00", "00:00:00"));
 
 		for (final TimePartsAndTimeValue testCase : testCases) {
-			timePicker.setTime(testCase.time);
+			final Calendar time = DateTimeUtil.getCalendarForString(testCase.timeString);
+			timePicker.setTime(time);
 			assertEquals(testCase.hours, hoursTextField.getText());
 			assertEquals(testCase.minutes, minutesTextField.getText());
 			assertEquals(testCase.seconds, secondsTextField.getText());
-			assertEquals(testCase.time, timePicker.getTimeProperty().get());
+			assertEquals(time.getTime(), timePicker.getTimeProperty().get().getTime());
 		}
 	}
 
@@ -224,15 +223,16 @@ public class TimePickerTest extends GuiTest {
 		final TimePicker timePicker = (TimePicker) scene.getRoot();
 
 		final List<TimePartsAndTimeValue> testCases = new Vector<TimePartsAndTimeValue>();
-		testCases.add(new TimePartsAndTimeValue("23", "59", "59", TIME_23_59_59));
-		testCases.add(new TimePartsAndTimeValue("00", "00", "00", 0L));
+		testCases.add(new TimePartsAndTimeValue("23", "59", "59", "23:59:59"));
+		testCases.add(new TimePartsAndTimeValue("00", "00", "00", "00:00:00"));
 
 		for (final TimePartsAndTimeValue testCase : testCases) {
+			final Calendar time = DateTimeUtil.getCalendarForString(testCase.timeString);
 			hoursTextField.setText(testCase.hours);
 			minutesTextField.setText(testCase.minutes);
 			secondsTextField.setText(testCase.seconds);
-			assertEquals(testCase.time, timePicker.getTime());
-			assertEquals(testCase.time, timePicker.getTimeProperty().get());
+			assertEquals(time.getTimeInMillis(), timePicker.getTime().getTimeInMillis());
+			assertEquals(time.getTimeInMillis(), timePicker.getTimeProperty().get().getTimeInMillis());
 		}
 	}
 
@@ -283,13 +283,13 @@ public class TimePickerTest extends GuiTest {
 		public final String hours;
 		public final String minutes;
 		public final String seconds;
-		public final long time;
+		public final String timeString;
 
-		public TimePartsAndTimeValue(final String hours, final String minutes, final String seconds, final long time) {
+		public TimePartsAndTimeValue(final String hours, final String minutes, final String seconds, final String timeString) {
 			this.hours = hours;
 			this.minutes = minutes;
 			this.seconds = seconds;
-			this.time = time;
+			this.timeString = timeString;
 		}
 
 	}

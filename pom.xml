@@ -106,6 +106,11 @@
 			<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
 			<scope>system</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jfxtras</groupId>
+			<artifactId>jfxtras-labs</artifactId>
+			<version>2.2-r5</version>
+		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -158,6 +163,31 @@
 						</archive>
 					</configuration>
 				</plugin>
+				<!-- copy-dependencies in Eclipse aktivieren, http://stackoverflow.com/a/8752807 -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -175,6 +205,23 @@
 						</fileset>
 					</filesets>
 				</configuration>
+			</plugin>
+			<!-- Maven-Abhängigkeiten in target-Ordner kopieren. Hauptsächlich um dem Scene Builder Drittanbieter-Komponenten bekannt zu
+			machen, ohne absolute Pfade in FXML-Dateien verwenden zu müssen.. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/libs</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>

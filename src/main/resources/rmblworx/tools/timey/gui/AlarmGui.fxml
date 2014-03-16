@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmController">
+  <children>
+    <GridPane id="GridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TableView fx:id="alarmTable" onMouseClicked="#handleTableClick" GridPane.columnIndex="0" GridPane.rowIndex="0">
+          <columns>
+            <TableColumn editable="false" prefWidth="120.0" resizable="false" text="%alarmDateTimeColumn.label" fx:id="alarmDateTimeColumn" />
+            <TableColumn editable="false" prefWidth="150.0" resizable="false" text="%alarmDescriptionColumn.label" fx:id="alarmDescriptionColumn" />
+          </columns>
+        </TableView>
+        <GridPane id="GridPane" GridPane.columnIndex="0" GridPane.rowIndex="1">
+          <children>
+            <Button fx:id="alarmAddButton" mnemonicParsing="false" onAction="#handleAddButtonAction" text="%alarmAddButton.label" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+            <Button fx:id="alarmEditButton" mnemonicParsing="false" onAction="#handleEditButtonAction" text="%alarmEditButton.label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+            <Button fx:id="alarmDeleteButton" mnemonicParsing="false" onAction="#handleDeleteButtonAction" text="%alarmDeleteButton.label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+          </columnConstraints>
+          <padding>
+            <Insets bottom="10.0" top="10.0" />
+          </padding>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+</AnchorPane>

@@ -1,6 +1,7 @@
 package rmblworx.tools.timey.gui;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -24,6 +25,11 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 public class CountdownController {
+
+	/**
+	 * Zeitzone.
+	 */
+	private static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
 
 	/**
 	 * Fassade zur Steuerung des Countdowns.
@@ -74,7 +80,7 @@ public class CountdownController {
 						return;
 					}
 
-					final TimeDescriptor td = new TimeDescriptor(countdownTimePicker.getTime());
+					final TimeDescriptor td = new TimeDescriptor(countdownTimePicker.getTime().getTimeInMillis());
 					startCountdown(td);
 
 					final Task<Void> task = new Task<Void>() {
@@ -118,13 +124,14 @@ public class CountdownController {
 			});
 		}
 
+		countdownTimePicker.setTimeZone(TIMEZONE);
 		setupTimeFormatters();
 
 		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
 		countdownStartButton.setDisable(true);
-		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<Number>() {
-			public void changed(final ObservableValue<? extends Number> property, final Number oldValue, final Number newValue) {
-				countdownStartButton.setDisable(newValue.longValue() == 0L);
+		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<Calendar>() {
+			public void changed(final ObservableValue<? extends Calendar> property, final Calendar oldValue, final Calendar newValue) {
+				countdownStartButton.setDisable(newValue.getTimeInMillis() == 0L);
 			}
 		});
 	}
@@ -153,7 +160,9 @@ public class CountdownController {
 		facade.stopCountdown();
 		countdownRunning = false;
 
-		countdownTimePicker.setTime(countdownValue);
+		final Calendar cal = Calendar.getInstance(TIMEZONE);
+		cal.setTimeInMillis(countdownValue);
+		countdownTimePicker.setTime(cal);
 
 		countdownStartButton.setVisible(true);
 		countdownStartButton.requestFocus();
@@ -177,7 +186,7 @@ public class CountdownController {
 	private void setupTimeFormatters() {
 		if (timeFormatter == null) {
 			timeFormatter = new SimpleDateFormat();
-			timeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+			timeFormatter.setTimeZone(TIMEZONE);
 			timeFormatter.applyPattern("HH:mm:ss");
 		}
 	}
@@ -186,7 +195,7 @@ public class CountdownController {
 	 * Überträgt die Zeit von den Textfeldern auf das Label.
 	 */
 	protected void transferTimeFromInputToLabel() {
-		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime()));
+		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getTime()));
 	}
 
 }

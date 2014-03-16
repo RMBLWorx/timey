@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import jfxtras.labs.scene.control.*?>
+<?import jfxtras.labs.scene.control.CalendarTextField?>
+<?import rmblworx.tools.timey.gui.component.*?>
+<?import rmblworx.tools.timey.gui.component.TimePicker?>
+<?scenebuilder-classpath-element ../../../../../../../target/classes?>
+<?scenebuilder-classpath-element ../../../../../../../target/libs/jfxtras-labs-2.2-r5.jar?>
+<?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmEditDialogController">
+  <children>
+    <AnchorPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <children>
+        <CheckBox fx:id="alarmEnabledCheckbox" layoutX="0.0" layoutY="1.0" mnemonicParsing="false" text="aktiv" />
+        <Label layoutX="0.0" layoutY="27.0" text="%alarmEdit.date.label" />
+        <CalendarTextField fx:id="alarmDatePicker" layoutX="0.0" layoutY="44.0" />
+        <Label layoutX="0.0" layoutY="73.0" text="%alarmEdit.time.label" />
+        <TimePicker fx:id="alarmTimePicker" layoutX="0.0" layoutY="90.0" />
+        <Label layoutX="0.0" layoutY="133.0" text="%alarmDescriptionColumn.label" />
+        <TextField fx:id="alarmDescriptionTextField" layoutX="0.0" layoutY="147.0" prefWidth="200.0" />
+        <GridPane layoutY="177.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+          <children>
+            <Button fx:id="alarmSaveButton" mnemonicParsing="false" onAction="#handleSaveButtonClick" text="%alarmEdit.saveButton.label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Button fx:id="alarmCancelButton" mnemonicParsing="false" onAction="#handleCancelButtonClick" text="%alarmEdit.cancelButton.label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints prefHeight="-1.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>

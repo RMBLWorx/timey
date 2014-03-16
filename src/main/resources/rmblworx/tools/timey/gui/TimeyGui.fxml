@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.TimeyController">
   <children>
-    <TabPane fx:id="timeyTabs" layoutX="0.0" layoutY="0.0" prefHeight="230.0" prefWidth="289.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane fx:id="timeyTabs" layoutX="0.0" layoutY="0.0" prefHeight="-1" prefWidth="-1" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="%tab.stopwatch.label">
           <content>
@@ -22,7 +22,7 @@
         </Tab>
         <Tab text="%tab.alarm.label">
           <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <fx:include source="AlarmGui.fxml" />
           </content>
         </Tab>
         <Tab text="%tab.options.label">
