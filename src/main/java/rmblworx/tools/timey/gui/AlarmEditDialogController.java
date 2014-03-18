@@ -60,7 +60,7 @@ public class AlarmEditDialogController {
 	private TextField alarmDescriptionTextField;
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert alarmEnabledCheckbox != null : "fx:id='alarmEnabledCheckbox' was not injected";
 		assert alarmDatePicker != null : "fx:id='alarmDatePicker' was not injected";
 		assert alarmTimePicker != null : "fx:id='alarmTimePicker' was not injected";
@@ -170,10 +170,7 @@ public class AlarmEditDialogController {
 	 */
 	private void setupDateFormatter() {
 		if (dateFormatter == null) {
-			dateFormatter = new SimpleDateFormat();
-//			dateFormatter = SimpleDateFormat.getDateInstance();
-//			dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-			dateFormatter.applyPattern("dd.MM.yyyy");
+			dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 		}
 	}
 

@@ -39,7 +39,7 @@ public class FileConfigStorage extends ConfigStorage {
 	 */
 	public final Config loadFromFile(final String filename) {
 		if (!new File(filename).isFile()) {
-			return ConfigManager.getDefaultConfig();
+			return ConfigManager.getNewDefaultConfig();
 		}
 
 		InputStream in = null;
@@ -48,7 +48,7 @@ public class FileConfigStorage extends ConfigStorage {
 			return loadConfig(in);
 		} catch (final IOException e) {
 			System.err.println(e.getLocalizedMessage());
-			return ConfigManager.getDefaultConfig();
+			return ConfigManager.getNewDefaultConfig();
 		} finally {
 			closeStream(in);
 		}

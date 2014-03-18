@@ -34,7 +34,7 @@ public class OptionsController {
 	private ComboBox<Locale> languageChoice;
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert minimizeToTrayCheckbox != null : "fx:id='minimizeToTrayCheckbox' was not injected";
 		assert languageChoice != null : "fx:id='languageChoice' was not injected";
 

@@ -26,7 +26,7 @@ public class ConfigStorageTest {
 	@Test
 	public final void testSaveDefaultConfig() {
 		// Standardkonfiguration erzeugen
-		final Config config = ConfigManager.getDefaultConfig();
+		final Config config = ConfigManager.getNewDefaultConfig();
 
 		// Konfiguration speichern
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -58,7 +58,7 @@ public class ConfigStorageTest {
 		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
 
 		// sicherstellen, dass geladene Konfiguration der Standardkonfiguration entspricht
-		assertEquals(getConfigAsString(ConfigManager.getDefaultConfig()), getConfigAsString(emptyConfig));
+		assertEquals(getConfigAsString(ConfigManager.getNewDefaultConfig()), getConfigAsString(emptyConfig));
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class ConfigStorageTest {
 		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
 
 		// erwartete Konfiguration
-		final Config expectedConfig = ConfigManager.getDefaultConfig();
+		final Config expectedConfig = ConfigManager.getNewDefaultConfig();
 		expectedConfig.setMinimizeToTray(false);
 		expectedConfig.setStopwatchShowMilliseconds(false);
 
@@ -112,7 +112,7 @@ public class ConfigStorageTest {
 		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
 
 		// sicherstellen, dass geladene Konfiguration der Standardkonfiguration entspricht
-		assertEquals(getConfigAsString(ConfigManager.getDefaultConfig()), getConfigAsString(emptyConfig));
+		assertEquals(getConfigAsString(ConfigManager.getNewDefaultConfig()), getConfigAsString(emptyConfig));
 	}
 
 	/**

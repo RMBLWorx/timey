@@ -61,7 +61,7 @@ public class AlarmController {
 	private Button alarmDeleteButton;
 
 	@FXML
-	final void initialize() {
+	private void initialize() {
 		assert alarmTable != null : "fx:id='alarmTable' was not injected";
 		assert alarmDateTimeColumn != null : "fx:id='alarmDateTimeColumn' was not injected";
 		assert alarmDescriptionColumn != null : "fx:id='alarmDescriptionColumn' was not injected";
@@ -271,8 +271,7 @@ public class AlarmController {
 	 */
 	private void setupDateTimeFormatter() {
 		if (dateTimeFormatter == null) {
-			dateTimeFormatter = new SimpleDateFormat();
-			dateTimeFormatter.applyPattern("dd.MM.yyyy HH:mm:ss");
+			dateTimeFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		}
 	}
 
