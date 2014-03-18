@@ -8,8 +8,6 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -47,12 +45,6 @@ public class OptionsController {
 			} else {
 				minimizeToTrayCheckbox.setSelected(ConfigManager.getCurrentConfig().isMinimizeToTray());
 			}
-
-			minimizeToTrayCheckbox.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					ConfigManager.getCurrentConfig().setMinimizeToTray(minimizeToTrayCheckbox.isSelected());
-				}
-			});
 		}
 
 		if (languageChoice != null) {
@@ -81,6 +73,14 @@ public class OptionsController {
 				}
 			});
 		}
+	}
+
+	/**
+	 * Aktion bei Klick auf Tray-Checkbox.
+	 */
+	@FXML
+	private void handleMinimizeToTrayCheckboxClick() {
+		ConfigManager.getCurrentConfig().setMinimizeToTray(minimizeToTrayCheckbox.isSelected());
 	}
 
 }
