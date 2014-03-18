@@ -15,6 +15,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.base.Predicate;
@@ -40,9 +41,18 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		return "StopwatchGui.fxml";
 	}
 
+	@BeforeClass
+	public static final void setUpClass() {
+		// Zeitaufwendiges Laden der Fassade einmalig vor allen Tests, um Timing-Probleme beim Starten der einzelnen Tests zu vermeiden.
+		FacadeManager.getFacade();
+	}
+
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
+
+		// Stoppuhr vor jedem Test zurücksetzen, um Nebeneffekte zu vermeiden.
+		FacadeManager.getFacade().resetStopwatch();
 	}
 
 	/**
