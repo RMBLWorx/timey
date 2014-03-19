@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -142,9 +143,9 @@ public class CountdownController {
 		countdownStartButton.setVisible(false);
 		countdownStopButton.setVisible(true);
 		countdownStopButton.requestFocus();
-		enableTimeInput(false);
 
 		transferTimeFromInputToLabel();
+		enableTimeInput(false);
 
 		facade.setCountdownTime(timeDescriptor);
 		facade.startCountdown();
@@ -158,7 +159,7 @@ public class CountdownController {
 		countdownRunning = false;
 
 		final Calendar cal = Calendar.getInstance(TIMEZONE);
-		cal.setTimeInMillis(countdownValue);
+		cal.setTimeInMillis(countdownValue - TimeZone.getDefault().getDSTSavings()); // TODO WTF?
 		countdownTimePicker.setTime(cal);
 
 		countdownStartButton.setVisible(true);
@@ -191,7 +192,11 @@ public class CountdownController {
 	 * Überträgt die Zeit von den Textfeldern auf das Label.
 	 */
 	private void transferTimeFromInputToLabel() {
-		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getTime()));
+		Platform.runLater(new Runnable() {
+			public void run() {
+				countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getTime()));
+			}
+		});
 	}
 
 }
