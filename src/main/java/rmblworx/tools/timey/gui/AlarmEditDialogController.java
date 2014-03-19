@@ -17,7 +17,7 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import jfxtras.labs.scene.control.CalendarTextField;
+import jfxtras.scene.control.CalendarTextField;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.MutableDateTime;
@@ -146,7 +146,7 @@ public class AlarmEditDialogController extends Controller {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				alarmEnabledCheckbox.setSelected(alarm.isEnabled());
-				alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar());
+				alarmDatePicker.setCalendar(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar());
 				alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
 				alarmDescriptionTextField.setText(alarm.getDescription());
 				ringtone.set(alarm.getSound());
@@ -237,7 +237,7 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	private LocalDateTime getDateTimeFromPickers() {
 		final MutableDateTime mdt = new MutableDateTime(0);
-		mdt.add(alarmDatePicker.getValue().getTimeInMillis());
+		mdt.add(alarmDatePicker.getCalendar().getTimeInMillis());
 		mdt.add(alarmTimePicker.getTime().getMillisOfDay());
 
 		return mdt.toDateTime().toLocalDateTime();
@@ -249,12 +249,12 @@ public class AlarmEditDialogController extends Controller {
 	private boolean isInputValid() {
 		final StringBuilder errors = new StringBuilder();
 
-		if (alarmDatePicker.getValue() == null) {
+		if (alarmDatePicker.getCalendar() == null) {
 			errors.append(resources.getString("alarmEdit.date.empty"));
 			errors.append('\n');
 		}
 
-		if (alarmDatePicker.getValue() != null) {
+		if (alarmDatePicker.getCalendar() != null) {
 			final LocalDateTime selectedDateTime = getDateTimeFromPickers();
 
 			if (alarmEnabledCheckbox.isSelected() && selectedDateTime.isBefore(new LocalDateTime())) {

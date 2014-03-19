@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
@@ -139,6 +140,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 * Testet Starten und Stoppen per Tastatur unter Berücksichtigung der korrekten Fokussierung.
 	 */
 	@Test
+	@Ignore("Betätigen einer fokussierten Schaltfläche per Enter-Taste mit JavaFX 8 nicht mehr möglich")
 	public final void testStartStopPerKeyboard() {
 		// Sekunden-Feld fokussieren
 		click(scene.lookup("#secondsTextField"));

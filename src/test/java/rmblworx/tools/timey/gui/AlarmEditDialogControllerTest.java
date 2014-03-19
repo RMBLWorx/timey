@@ -19,7 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import jfxtras.labs.scene.control.CalendarTextField;
+import jfxtras.scene.control.CalendarTextField;
 
 import org.joda.time.LocalDateTime;
 import org.junit.Before;
@@ -92,7 +92,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// sicherstellen, dass Formularfelder korrekt gefüllt sind
 		assertTrue(alarmEnabledCheckbox.isSelected());
-		assertEquals(DateTimeUtil.getLocalDateForString("24.12.2014").toDate(), alarmDatePicker.getValue().getTime());
+		assertEquals(DateTimeUtil.getLocalDateForString("24.12.2014").toDate(), alarmDatePicker.getCalendar().getTime());
 		assertEquals(DateTimeUtil.getLocalTimeForString("12:00:00"), alarmTimePicker.getTime());
 		assertEquals("12", hoursTextField.getText());
 		assertEquals("Test", alarmDescriptionTextField.getText());
@@ -122,7 +122,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		click(alarmEnabledCheckbox);
 
 		// Datum setzen
-		alarmDatePicker.setValue(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
+		alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
 
 		// Zeit setzen
 		alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
@@ -167,7 +167,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// Datum leeren
-		alarmDatePicker.setValue(null);
+		alarmDatePicker.setCalendar(null);
 
 		final GuiHelper guiHelper = mock(GuiHelper.class);
 		controller.setGuiHelper(guiHelper);
@@ -262,7 +262,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		click(alarmEnabledCheckbox);
 
 		// Datum setzen
-		alarmDatePicker.setValue(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
+		alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
 
 		// Zeit setzen
 		alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));

@@ -4,12 +4,12 @@
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import jfxtras.labs.scene.control.*?>
-<?import jfxtras.labs.scene.control.CalendarTextField?>
+<?import jfxtras.scene.control.*?>
+<?import jfxtras.scene.control.CalendarTextField?>
 <?import rmblworx.tools.timey.gui.component.*?>
 <?import rmblworx.tools.timey.gui.component.TimePicker?>
 <?scenebuilder-classpath-element ../../../../../../../target/classes?>
-<?scenebuilder-classpath-element ../../../../../../../target/distribution/lib/jfxtras-labs-2.2-r5.jar?>
+<?scenebuilder-classpath-element ../../../../../../../target/distribution/lib/jfxtras-labs-8.0-r1.jar?>
 <?scenebuilder-preview-i18n-resource Timey_i18n.properties?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmEditDialogController">
