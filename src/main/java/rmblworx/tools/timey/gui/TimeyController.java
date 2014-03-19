@@ -30,17 +30,12 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class TimeyController {
+public class TimeyController extends Controller {
 
 	/**
 	 * Fenster der Anwendung.
 	 */
 	private Stage stage;
-
-	/**
-	 * Symbol im System-Tray.
-	 */
-	private TrayIcon trayIcon;
 
 	/**
 	 * Ob die Anwendung erstmalig minimiert wurde.
@@ -54,8 +49,29 @@ public class TimeyController {
 	private TabPane timeyTabs;
 
 	@FXML
+	private StopwatchController stopwatchController;
+
+	@FXML
+	private CountdownController countdownController;
+
+	@FXML
+	private AlarmController alarmController;
+
+	@FXML
+	private OptionsController optionsController;
+
+	@FXML
 	private void initialize() {
 		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
+		assert stopwatchController != null : "controller for fx:id='stopwatch' was not injected";
+		assert countdownController != null : "controller for fx:id='countdown' was not injected";
+		assert alarmController != null : "controller for fx:id='alarm' was not injected";
+		assert optionsController != null : "controller for fx:id='options' was not injected";
+
+		addEmbeddedController(stopwatchController);
+		addEmbeddedController(countdownController);
+		addEmbeddedController(alarmController);
+		addEmbeddedController(optionsController);
 
 		// zuletzt geöffneten Tab aktivieren
 		timeyTabs.getSelectionModel().select(ConfigManager.getCurrentConfig().getActiveTab());
@@ -122,7 +138,7 @@ public class TimeyController {
 			});
 			popup.add(closeItem);
 
-			trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
+			final TrayIcon trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
 			trayIcon.addActionListener(new ActionListener() {
 				public void actionPerformed(final ActionEvent event) {
 					show();
@@ -153,6 +169,7 @@ public class TimeyController {
 			});
 			try {
 				tray.add(trayIcon);
+				getGuiHelper().setTrayIcon(trayIcon);
 			} catch (final AWTException e) {
 				e.printStackTrace();
 			}
@@ -164,8 +181,8 @@ public class TimeyController {
 	 */
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
-			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"),
-					TrayIcon.MessageType.INFO);
+			getGuiHelper().showTrayMessage(resources.getString("trayMenu.appMinimized.caption"),
+					resources.getString("trayMenu.appMinimized.text"));
 			minimizedFirstTime = false;
 		}
 	}

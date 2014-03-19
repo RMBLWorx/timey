@@ -23,7 +23,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class CountdownController {
+public class CountdownController extends Controller {
 
 	/**
 	 * Zeitzone.
@@ -103,6 +103,11 @@ public class CountdownController {
 				while (countdownRunning) {
 					countdownValue = td.getMilliSeconds();
 					updateMessage(timeFormatter.format(countdownValue));
+
+					if (countdownValue == 0) {
+						break;
+					}
+
 					Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
 				}
 
@@ -113,6 +118,11 @@ public class CountdownController {
 		task.messageProperty().addListener(new ChangeListener<String>() {
 			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
 				countdownTimeLabel.setText(newValue);
+
+				// TODO auf Ereignis umstellen
+				if ("00:00:00".equals(newValue)) {
+					getGuiHelper().showTrayMessageWithFallbackToDialog("Countdown abgelaufen", "Der Countdown ist abgelaufen.", resources);
+				}
 			}
 		});
 

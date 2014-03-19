@@ -32,7 +32,8 @@ public class Main extends Application {
 		try {
 			ConfigManager.setCurrentConfig(new FileConfigStorage().loadFromFile(CONFIG_FILENAME));
 
-			final ResourceBundle resources = new GuiHelper().getResourceBundle(ConfigManager.getCurrentConfig().getLocale());
+			final GuiHelper guiHelper = new GuiHelper();
+			final ResourceBundle resources = guiHelper.getResourceBundle(ConfigManager.getCurrentConfig().getLocale());
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeyGui.fxml"), resources);
 			final Parent root = (Parent) loader.load();
 			stage.setScene(new Scene(root));
@@ -42,6 +43,7 @@ public class Main extends Application {
 			stage.show();
 
 			final TimeyController timeyController = loader.getController();
+			timeyController.setGuiHelper(guiHelper);
 			timeyController.setStage(stage);
 		} catch (final IOException e) {
 			e.printStackTrace();

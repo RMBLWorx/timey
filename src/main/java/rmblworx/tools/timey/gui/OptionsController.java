@@ -22,7 +22,7 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class OptionsController {
+public class OptionsController extends Controller {
 
 	@FXML
 	private ResourceBundle resources;
@@ -66,7 +66,7 @@ public class OptionsController {
 					ConfigManager.getCurrentConfig().setLocale(newValue);
 					Platform.runLater(new Runnable() {
 						public void run() {
-							new GuiHelper().showMessageDialog(resources.getString("messageDialog.languageChoice.title"),
+							getGuiHelper().showDialogMessage(resources.getString("messageDialog.languageChoice.title"),
 									resources.getString("messageDialog.languageChoice.text"), resources);
 						}
 					});
