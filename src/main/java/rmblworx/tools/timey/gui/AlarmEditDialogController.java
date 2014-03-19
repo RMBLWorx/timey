@@ -22,7 +22,7 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class AlarmEditDialogController {
+public class AlarmEditDialogController extends Controller {
 
 	/**
 	 * Formatiert Zeitstempel als Datum-Werte.

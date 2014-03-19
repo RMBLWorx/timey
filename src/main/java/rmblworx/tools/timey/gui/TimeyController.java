@@ -30,7 +30,7 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class TimeyController {
+public class TimeyController extends Controller {
 
 	/**
 	 * Fenster der Anwendung.
@@ -54,8 +54,29 @@ public class TimeyController {
 	private TabPane timeyTabs;
 
 	@FXML
+	private StopwatchController stopwatchController;
+
+	@FXML
+	private CountdownController countdownController;
+
+	@FXML
+	private AlarmController alarmController;
+
+	@FXML
+	private OptionsController optionsController;
+
+	@FXML
 	private void initialize() {
 		assert timeyTabs != null : "fx:id='timeyTabs' was not injected";
+		assert stopwatchController != null : "controller for fx:id='stopwatch' was not injected";
+		assert countdownController != null : "controller for fx:id='countdown' was not injected";
+		assert alarmController != null : "controller for fx:id='alarm' was not injected";
+		assert optionsController != null : "controller for fx:id='options' was not injected";
+
+		addEmbeddedController(stopwatchController);
+		addEmbeddedController(countdownController);
+		addEmbeddedController(alarmController);
+		addEmbeddedController(optionsController);
 
 		Platform.runLater(new Runnable() {
 			public void run() {

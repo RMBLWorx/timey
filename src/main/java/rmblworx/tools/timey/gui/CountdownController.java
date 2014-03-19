@@ -22,7 +22,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class CountdownController {
+public class CountdownController extends Controller {
 
 	/**
 	 * Zeitzone.

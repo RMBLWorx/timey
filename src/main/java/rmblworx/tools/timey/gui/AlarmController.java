@@ -35,7 +35,7 @@ import javafx.util.Callback;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class AlarmController {
+public class AlarmController extends Controller {
 
 	/**
 	 * Formatiert Zeitstempel als Datum/Zeit-Werte.
@@ -226,6 +226,7 @@ public class AlarmController {
 //			dialogStage.initOwner(primaryStage);
 
 			final AlarmEditDialogController controller = loader.getController();
+			controller.setGuiHelper(getGuiHelper());
 			controller.setDialogStage(dialogStage);
 			controller.setAlarm(alarm);
 
