@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.verify;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
+import org.loadui.testfx.utils.FXTestUtils;
 import org.mockito.ArgumentMatcher;
 
 import rmblworx.tools.timey.vo.AlarmDescriptor;
@@ -78,7 +80,12 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertTrue(alarmDeleteButton.isDisabled());
 
 		// zweiten Alarm auswählen
-		alarmTable.getSelectionModel().select(alarm2);
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmTable.getSelectionModel().select(alarm2);
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
@@ -104,7 +111,12 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertTrue(alarmDeleteButton.isDisabled());
 
 		// ersten Alarm auswählen
-		alarmTable.getSelectionModel().select(alarm1);
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmTable.getSelectionModel().select(alarm1);
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Alarm löschen
 		click(alarmDeleteButton);

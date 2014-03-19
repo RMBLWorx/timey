@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -71,7 +72,12 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertFalse(countdownStopButton.isDisabled());
 
 		// Zeit setzen
-		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+		Platform.runLater(new Runnable() {
+			public void run() {
+				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -102,7 +108,12 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertFalse(countdownStopButton.isDisabled());
 
 		// Zeit wieder auf 0 setzen
-		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
+		Platform.runLater(new Runnable() {
+			public void run() {
+				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -115,7 +126,12 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	@Test
 	public final void testTimeConversionBetweenPickerAndLabel() {
 		// Zeit setzen
-		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+		Platform.runLater(new Runnable() {
+			public void run() {
+				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Countdown starten
 		click(countdownStartButton);
@@ -146,7 +162,11 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		click(scene.lookup("#secondsTextField"));
 
 		// Zeit auf 0 setzen
-		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
+		Platform.runLater(new Runnable() {
+			public void run() {
+				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
+			}
+		});
 		FXTestUtils.awaitEvents();
 
 		// bei Zeit = 0 darf sich Countdown nicht starten lassen
@@ -154,7 +174,11 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		verify(getController().getGuiHelper().getFacade(), never()).startCountdown();
 
 		// Zeit setzen
-		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+		Platform.runLater(new Runnable() {
+			public void run() {
+				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+			}
+		});
 		FXTestUtils.awaitEvents();
 
 		// Countdown starten

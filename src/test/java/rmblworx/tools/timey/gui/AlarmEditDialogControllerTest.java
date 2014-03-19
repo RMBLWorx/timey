@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -121,14 +122,19 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// deaktivieren
 		click(alarmEnabledCheckbox);
 
-		// Datum setzen
-		alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
+		Platform.runLater(new Runnable() {
+			public void run() {
+				// Datum setzen
+				alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
 
-		// Zeit setzen
-		alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
+				// Zeit setzen
+				alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
 
-		// Beschreibung setzen
-		alarmDescriptionTextField.setText("Test");
+				// Beschreibung setzen
+				alarmDescriptionTextField.setText("Test");
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Sound setzen
 		controller.setRingtone("Sound");
@@ -167,7 +173,12 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// Datum leeren
-		alarmDatePicker.setCalendar(null);
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmDatePicker.setCalendar(null);
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		final GuiHelper guiHelper = mock(GuiHelper.class);
 		controller.setGuiHelper(guiHelper);
@@ -261,14 +272,19 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// deaktivieren
 		click(alarmEnabledCheckbox);
 
-		// Datum setzen
-		alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
+		Platform.runLater(new Runnable() {
+			public void run() {
+				// Datum setzen
+				alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
 
-		// Zeit setzen
-		alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
+				// Zeit setzen
+				alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
 
-		// Beschreibung setzen
-		alarmDescriptionTextField.setText("Test");
+				// Beschreibung setzen
+				alarmDescriptionTextField.setText("Test");
+			}
+		});
+		FXTestUtils.awaitEvents();
 
 		// Sound setzen
 		controller.setRingtone("Sound");
