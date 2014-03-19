@@ -1,5 +1,6 @@
 package rmblworx.tools.timey.gui;
 
+import java.awt.TrayIcon;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -25,11 +26,57 @@ import javafx.stage.StageStyle;
 public class GuiHelper {
 
 	/**
+	 * Symbol im System-Tray.
+	 */
+	private TrayIcon trayIcon;
+
+	public final void setTrayIcon(final TrayIcon trayIcon) {
+		this.trayIcon = trayIcon;
+	}
+
+	/**
 	 * @param locale Sprache
 	 * @return ResourceBundle für die jeweilige Sprache
 	 */
 	public final ResourceBundle getResourceBundle(final Locale locale) {
 		return ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", locale);
+	}
+
+	/**
+	 * Zeigt einen Hinweis im System-Tray oder, falls dieser nicht verfügbar ist, in einem modalen Dialog an.
+	 * @param caption Titel
+	 * @param text Text
+	 * @param i18n ResourceBundle
+	 */
+	public final void showTrayMessageWithFallbackToDialog(final String caption, final String text, final ResourceBundle i18n) {
+		if (trayIcon != null) {
+			showTrayMessage(caption, text);
+		} else {
+			showDialogMessage(caption, text, i18n);
+		}
+	}
+
+	/**
+	 * Zeigt einen Hinweis in einem modalen Dialog an.
+	 * @param caption Titel
+	 * @param text Text
+	 * @param i18n ResourceBundle
+	 */
+	public final void showDialogMessage(final String caption, final String text, final ResourceBundle i18n) {
+		showMessageDialog(caption, text, i18n);
+	}
+
+	/**
+	 * Zeigt einen Hinweis im System-Tray an.
+	 * @param caption Titel
+	 * @param text Text
+	 */
+	public final void showTrayMessage(final String caption, final String text) {
+		if (trayIcon == null) {
+			throw new RuntimeException("There's no system tray icon.");
+		}
+
+		trayIcon.displayMessage(caption, text, TrayIcon.MessageType.INFO);
 	}
 
 	/**

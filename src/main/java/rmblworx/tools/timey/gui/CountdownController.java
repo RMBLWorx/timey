@@ -102,6 +102,11 @@ public class CountdownController extends Controller {
 				while (countdownRunning) {
 					countdownValue = td.getMilliSeconds();
 					updateMessage(timeFormatter.format(countdownValue));
+
+					if (countdownValue == 0) {
+						break;
+					}
+
 					Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
 				}
 
@@ -112,6 +117,11 @@ public class CountdownController extends Controller {
 		task.messageProperty().addListener(new ChangeListener<String>() {
 			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
 				countdownTimeLabel.setText(newValue);
+
+				// TODO auf Ereignis umstellen
+				if ("00:00:00".equals(newValue)) {
+					getGuiHelper().showTrayMessageWithFallbackToDialog("Countdown abgelaufen", "Der Countdown ist abgelaufen.", resources);
+				}
 			}
 		});
 

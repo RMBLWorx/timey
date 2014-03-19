@@ -38,11 +38,6 @@ public class TimeyController extends Controller {
 	private Stage stage;
 
 	/**
-	 * Symbol im System-Tray.
-	 */
-	private TrayIcon trayIcon;
-
-	/**
 	 * Ob die Anwendung erstmalig minimiert wurde.
 	 */
 	private boolean minimizedFirstTime = true;
@@ -143,7 +138,7 @@ public class TimeyController extends Controller {
 			});
 			popup.add(closeItem);
 
-			trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
+			final TrayIcon trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
 			trayIcon.addActionListener(new ActionListener() {
 				public void actionPerformed(final ActionEvent event) {
 					show();
@@ -174,6 +169,7 @@ public class TimeyController extends Controller {
 			});
 			try {
 				tray.add(trayIcon);
+				getGuiHelper().setTrayIcon(trayIcon);
 			} catch (final AWTException e) {
 				e.printStackTrace();
 			}
@@ -185,8 +181,8 @@ public class TimeyController extends Controller {
 	 */
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
-			trayIcon.displayMessage(resources.getString("trayMenu.appMinimized.caption"), resources.getString("trayMenu.appMinimized.text"),
-					TrayIcon.MessageType.INFO);
+			getGuiHelper().showTrayMessage(resources.getString("trayMenu.appMinimized.caption"),
+					resources.getString("trayMenu.appMinimized.text"));
 			minimizedFirstTime = false;
 		}
 	}

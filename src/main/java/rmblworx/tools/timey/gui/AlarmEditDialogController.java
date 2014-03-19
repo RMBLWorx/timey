@@ -158,7 +158,7 @@ public class AlarmEditDialogController extends Controller {
 
 		if (errors.length() > 0) {
 			// Fehlermeldungen anzeigen
-			new GuiHelper().showMessageDialog(resources.getString("messageDialog.error.title"), errors.toString(), resources);
+			getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"), errors.toString(), resources);
 			return false;
 		}
 
