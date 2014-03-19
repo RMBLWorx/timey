@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 
 # http://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-GUI-(e.g.-a-Web-browser)
 before_install:
