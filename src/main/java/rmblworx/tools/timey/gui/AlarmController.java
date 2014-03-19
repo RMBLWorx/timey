@@ -215,7 +215,7 @@ public class AlarmController extends Controller {
 	 */
 	private boolean showAlarmEditDialog(final Alarm alarm) {
 		try {
-			final FXMLLoader loader = new FXMLLoader(getClass().getResource("AlarmEditDialogGui.fxml"), resources);
+			final FXMLLoader loader = new FXMLLoader(getClass().getResource("AlarmEditDialog.fxml"), resources);
 			final Parent root = (Parent) loader.load();
 			final Stage dialogStage = new Stage(StageStyle.UTILITY);
 			dialogStage.setScene(new Scene(root));

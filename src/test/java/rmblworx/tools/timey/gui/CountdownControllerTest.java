@@ -38,7 +38,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 	 * {@inheritDoc}
 	 */
 	protected final String getFxmlFilename() {
-		return "CountdownGui.fxml";
+		return "Countdown.fxml";
 	}
 
 	@Before
