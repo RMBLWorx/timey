@@ -1,5 +1,7 @@
 package rmblworx.tools.timey.gui;
 
+import static org.mockito.Mockito.mock;
+
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -10,7 +12,6 @@ import javafx.scene.Parent;
 import org.loadui.testfx.GuiTest;
 
 import rmblworx.tools.timey.ITimey;
-import rmblworx.tools.timey.TimeyFacade;
 
 /**
  * Basisklasse für FXML-basierte GUI-Tests mit {@link https://github.com/SmartBear/TestFX}.
@@ -56,7 +57,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 	 * @return Fassade für Tests
 	 */
 	protected ITimey getMockedFacade() {
-		return new TimeyFacade(); // TODO tatsächlich durch Mock ersetzen
+		return mock(ITimey.class);
 	}
 
 	/**

@@ -3,12 +3,7 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
+import static org.mockito.Mockito.when;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -16,8 +11,9 @@ import javafx.scene.control.Label;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.loadui.testfx.utils.FXTestUtils;
 
-import com.google.common.base.Predicate;
+import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * GUI-Tests für die Stoppuhr.
@@ -43,9 +39,6 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
-
-		// Stoppuhr vor jedem Test zurücksetzen, um Nebeneffekte zu vermeiden.
-		getController().getGuiHelper().getFacade().resetStopwatch();
 	}
 
 	/**
@@ -70,6 +63,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 
 		// Stoppuhr starten
 		stopwatchStartButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(stopwatchStartButton.isVisible());
@@ -84,6 +78,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 
 		// Stoppuhr stoppen
 		stopwatchStopButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
@@ -98,6 +93,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 
 		// Stoppuhr zurücksetzen
 		stopwatchResetButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
@@ -125,27 +121,13 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 
 		// Millisekunden-Anteil ausblenden
 		stopwatchShowMillisecondsCheckbox.fire();
-		try {
-			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label stopwatchTimeLabel) {
-					return "00:00:00".equals(stopwatchTimeLabel.getText());
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail(stopwatchTimeLabel.getText());
-		}
+		FXTestUtils.awaitEvents();
+		assertEquals("00:00:00", stopwatchTimeLabel.getText());
 
 		// Millisekunden-Anteil wieder ausblenden
 		stopwatchShowMillisecondsCheckbox.fire();
-		try {
-			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label stopwatchTimeLabel) {
-					return "00:00:00.000".equals(stopwatchTimeLabel.getText());
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail(stopwatchTimeLabel.getText());
-		}
+		FXTestUtils.awaitEvents();
+		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 	}
 
 	/**
@@ -153,53 +135,33 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	 */
 	@Test
 	public final void testStopwatchStartStopTimeMeasured() {
-		final long timeToRun = 50;
-		final long timeExpectedMin = 40;
-		final long timeExpectedMax = 70;
-
-		// Stoppuhr starten
 		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
-		stopwatchStartButton.fire();
-
-		// warten
-		sleep(timeToRun);
-
-		// Stoppuhr stoppen
 		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
-		stopwatchStopButton.fire();
-
-		// angezeigte gemessene Zeit muss im Toleranzbereich liegen
 		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
 
-		try {
-			final long timePassed = getTimeFormatter().parse(stopwatchTimeLabel.getText()).getTime();
-			if (timePassed < timeExpectedMin || timePassed > timeExpectedMax) {
-				fail(String.format("%d is not between %d and %d.", timePassed, timeExpectedMin, timeExpectedMax));
-			}
-		} catch (final ParseException e) {
-			fail(e.getLocalizedMessage());
-		}
+		// Stoppuhr starten
+		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
+		stopwatchStartButton.fire();
+		FXTestUtils.awaitEvents();
+
+		// Stoppuhr stoppen
+		stopwatchStopButton.fire();
+		FXTestUtils.awaitEvents();
+
+		// gemessene Zeit muss angezeigt sein
+		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
 
 		// Stoppuhr wieder starten, um zweite (additive) Messung zu berücksichtigen
+		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(200));
 		stopwatchStartButton.fire();
-
-		// warten
-		sleep(timeToRun);
+		FXTestUtils.awaitEvents();
 
 		// Stoppuhr wieder stoppen
 		stopwatchStopButton.fire();
+		FXTestUtils.awaitEvents();
 
-		// angezeigte gemessene Zeit muss im Toleranzbereich liegen
-		try {
-			final long timePassed = getTimeFormatter().parse(stopwatchTimeLabel.getText()).getTime();
-			final long timeExpectedMinSecondRun = timeToRun + timeExpectedMin;
-			final long timeExpectedMaxSecondRun = timeToRun + timeExpectedMax;
-			if (timePassed < timeExpectedMinSecondRun || timePassed > timeExpectedMaxSecondRun) {
-				fail(String.format("%d is not between %d and %d.", timePassed, timeExpectedMinSecondRun, timeExpectedMaxSecondRun));
-			}
-		} catch (final ParseException e) {
-			fail(e.getLocalizedMessage());
-		}
+		// gemessene Zeit muss angezeigt sein
+		assertEquals("00:00:00.200", stopwatchTimeLabel.getText());
 	}
 
 	/**
@@ -207,54 +169,36 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	 */
 	@Test
 	public final void testStopwatchReset() {
-		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
+		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
+		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
 		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
+		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
+
+		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
 		stopwatchResetButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// angezeigte Zeit muss zurückgesetzt sein
-		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
-		try {
-			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label stopwatchTimeLabel) {
-					return "00:00:00.000".equals(stopwatchTimeLabel.getText());
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail(stopwatchTimeLabel.getText());
-		}
+		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 
 		// Stoppuhr starten
-		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
+		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(9876));
 		stopwatchStartButton.fire();
+		FXTestUtils.awaitEvents();
 
-		// warten, bis gemessene Zeit angezeigt wird
-		try {
-			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label stopwatchTimeLabel) {
-					return !"00:00:00.000".equals(stopwatchTimeLabel.getText());
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail(stopwatchTimeLabel.getText());
-		}
+		// gemessene Zeit muss angezeigt sein
+		assertEquals("00:00:09.876", stopwatchTimeLabel.getText());
 
 		// Stoppuhr stoppen
-		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
 		stopwatchStopButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// Stoppuhr zurücksetzen
 		stopwatchResetButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// angezeigte Zeit muss zurückgesetzt sein
-		try {
-			waitUntil(stopwatchTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label stopwatchTimeLabel) {
-					return "00:00:00.000".equals(stopwatchTimeLabel.getText());
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail(stopwatchTimeLabel.getText());
-		}
+		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 	}
 
 	/**
@@ -262,48 +206,26 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 	 */
 	@Test
 	public final void testStopwatchResetWhileRunning() {
-		final long timeToRun = 50;
-		final long timeExpectedMax = 2 * timeToRun;
-
-		// Stoppuhr starten
 		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
-		stopwatchStartButton.fire();
-
-		// warten
-		sleep(timeToRun);
-
-		// Stoppuhr zurücksetzen
+		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
 		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
-		stopwatchResetButton.fire();
-
-		// warten
-		sleep(timeToRun);
-
-		// angezeigte gemessene Zeit muss im Toleranzbereich liegen
 		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
 
-		try {
-			final long timePassed = getTimeFormatter().parse(stopwatchTimeLabel.getText()).getTime();
-			if (timePassed > timeExpectedMax) {
-				fail(String.format("%d is not less than %d.", timePassed, timeExpectedMax));
-			}
-		} catch (final ParseException e) {
-			fail(e.getLocalizedMessage());
-		}
+		// Stoppuhr starten
+		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
+		stopwatchStartButton.fire();
+		FXTestUtils.awaitEvents();
+
+		// Stoppuhr zurücksetzen
+		stopwatchResetButton.fire();
+		FXTestUtils.awaitEvents();
+
+		// gemessene Zeit muss angezeigt sein
+		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
 
 		// Stoppuhr stoppen
-		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
 		stopwatchStopButton.fire();
-	}
-
-	/**
-	 * @return Formatierer für Zeit-Werte
-	 */
-	private SimpleDateFormat getTimeFormatter() {
-		final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SSS");
-		dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-		return dateFormatter;
+		FXTestUtils.awaitEvents();
 	}
 
 }

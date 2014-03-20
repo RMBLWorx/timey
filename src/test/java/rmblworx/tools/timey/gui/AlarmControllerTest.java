@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 
@@ -16,8 +15,7 @@ import javafx.scene.control.TableView;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.base.Predicate;
+import org.loadui.testfx.utils.FXTestUtils;
 
 /**
  * GUI-Tests für die Alarm-Funktionalität.
@@ -78,15 +76,11 @@ public class AlarmControllerTest extends FxmlGuiTest {
 
 		// Alarm löschen
 		alarmDeleteButton.fire();
-		try {
-			waitUntil(alarmTable, new Predicate<TableView<Alarm>>() {
-				public boolean apply(final TableView<Alarm> alarmTable) {
-					return !alarmTable.getItems().contains(alarm2);
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail();
-		}
+		FXTestUtils.awaitEvents();
+
+		// sicherstellen, dass zweiter Alarm gelöscht ist, erster aber nicht
+		assertTrue(tableData.contains(alarm1));
+		assertFalse(tableData.contains(alarm2));
 
 		// sicherstellen, dass kein anderer Alarm ausgewählt ist
 		assertNull(alarmTable.getSelectionModel().getSelectedItem());
@@ -100,15 +94,10 @@ public class AlarmControllerTest extends FxmlGuiTest {
 
 		// Alarm löschen
 		alarmDeleteButton.fire();
-		try {
-			waitUntil(alarmTable, new Predicate<TableView<Alarm>>() {
-				public boolean apply(final TableView<Alarm> alarmTable) {
-					return alarmTable.getItems().isEmpty();
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail();
-		}
+		FXTestUtils.awaitEvents();
+
+		// sicherstellen, dass keine Alarme mehr existieren
+		assertTrue(tableData.isEmpty());
 
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
