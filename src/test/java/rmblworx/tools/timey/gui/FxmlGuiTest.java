@@ -7,8 +7,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-import org.junit.BeforeClass;
 import org.loadui.testfx.GuiTest;
+
+import rmblworx.tools.timey.ITimey;
+import rmblworx.tools.timey.TimeyFacade;
 
 /**
  * Basisklasse für FXML-basierte GUI-Tests mit {@link https://github.com/SmartBear/TestFX}.
@@ -25,14 +27,6 @@ public abstract class FxmlGuiTest extends GuiTest {
 	private Controller controller;
 
 	/**
-	 * Zeitaufwendiges Laden der Fassade einmalig vor allen Tests, um Timing-Probleme beim Start der einzelnen Tests zu vermeiden.
-	 */
-	@BeforeClass
-	public static final void loadFacade() {
-		FacadeManager.getFacade();
-	}
-
-	/**
 	 * @return Name der FXML-Datei zum Laden der GUI
 	 */
 	protected abstract String getFxmlFilename();
@@ -43,6 +37,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 	 */
 	protected final Parent getRootNode() {
 		final GuiHelper guiHelper = new GuiHelper();
+		guiHelper.setFacade(getMockedFacade());
 		final ResourceBundle i18n = guiHelper.getResourceBundle(Locale.GERMAN);
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
@@ -55,6 +50,13 @@ public abstract class FxmlGuiTest extends GuiTest {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * @return Fassade für Tests
+	 */
+	protected ITimey getMockedFacade() {
+		return new TimeyFacade(); // TODO tatsächlich durch Mock ersetzen
 	}
 
 	/**

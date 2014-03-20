@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import rmblworx.tools.timey.ITimey;
 
 /**
  * Hilfsmethoden zum Umgang mit der GUI.
@@ -26,9 +27,22 @@ import javafx.stage.StageStyle;
 public class GuiHelper {
 
 	/**
+	 * Fassade.
+	 */
+	private ITimey facade;
+
+	/**
 	 * Symbol im System-Tray.
 	 */
 	private TrayIcon trayIcon;
+
+	public final void setFacade(final ITimey facade) {
+		this.facade = facade;
+	}
+
+	public final ITimey getFacade() {
+		return facade;
+	}
 
 	public final void setTrayIcon(final TrayIcon trayIcon) {
 		this.trayIcon = trayIcon;

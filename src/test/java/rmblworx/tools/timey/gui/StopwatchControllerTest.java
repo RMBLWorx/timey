@@ -45,7 +45,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		scene = stage.getScene();
 
 		// Stoppuhr vor jedem Test zurücksetzen, um Nebeneffekte zu vermeiden.
-		FacadeManager.getFacade().resetStopwatch();
+		getController().getGuiHelper().getFacade().resetStopwatch();
 	}
 
 	/**

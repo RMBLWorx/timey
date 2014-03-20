@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import rmblworx.tools.timey.TimeyFacade;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.gui.config.FileConfigStorage;
 
@@ -33,6 +34,7 @@ public class Main extends Application {
 			ConfigManager.setCurrentConfig(new FileConfigStorage().loadFromFile(CONFIG_FILENAME));
 
 			final GuiHelper guiHelper = new GuiHelper();
+			guiHelper.setFacade(new TimeyFacade());
 			final ResourceBundle resources = guiHelper.getResourceBundle(ConfigManager.getCurrentConfig().getLocale());
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource("Timey.fxml"), resources);
 			final Parent root = (Parent) loader.load();
