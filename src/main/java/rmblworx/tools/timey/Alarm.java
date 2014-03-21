@@ -28,6 +28,9 @@ public class Alarm implements IAlarm {
 	 *            Von dieser Klasse zu verwendende Serviceimplementierung
 	 */
 	public Alarm(final IAlarmTimestampService service) {
+		if (service == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.service = service;
 	}
 

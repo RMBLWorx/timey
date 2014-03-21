@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring-timey-context.xml"})
+@ContextConfiguration(locations = { "/spring-timey-context.xml" })
 public class TimeDescriptorTest {
 
 	/**
@@ -53,6 +53,14 @@ public class TimeDescriptorTest {
 		long actualMilliseconds = this.descriptor.getMilliSeconds();
 
 		assertEquals("Test fehlgeschlagen: Millisekunden falsch!", EXPECTED_MILLISECONDS, actualMilliseconds);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.vo.TimeDescriptor#setMilliSeconds(long)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseValueLessThanZero() {
+		this.descriptor.setMilliSeconds(-1);
 	}
 
 }

@@ -64,4 +64,22 @@ public class AlarmGetStateOfAlarmCommandTest {
 		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, TimeDescriptor)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseReceiverIsNull() {
+		this.command = new AlarmGetStateOfAlarmCommand(null, this.descriptor);
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, TimeDescriptor)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseDescriptorIsNull() {
+		this.command = new AlarmGetStateOfAlarmCommand(this.mockedReceiver, null);
+	}
+
 }

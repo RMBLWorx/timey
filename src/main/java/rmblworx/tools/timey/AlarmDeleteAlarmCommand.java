@@ -28,6 +28,9 @@ public class AlarmDeleteAlarmCommand implements ICommand {
 	 */
 	public AlarmDeleteAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor) {
 		super();
+		if (receiver == null || descriptor == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 		this.timeDescriptor = descriptor;
 	}

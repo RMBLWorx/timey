@@ -36,7 +36,9 @@ class Stopwatch implements IStopwatch {
 
 	/**
 	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
-	 * @param timer Implementierung einer Stoppuhr
+	 * 
+	 * @param timer
+	 *            Implementierung einer Stoppuhr
 	 * @param amount
 	 *            Anzahl der Zeitmessungs-Threads
 	 * @param delay
@@ -45,6 +47,9 @@ class Stopwatch implements IStopwatch {
 	 *            Maszeinheit fuer den Intervall.
 	 */
 	public Stopwatch(final ITimer timer, final byte amount, final int delay, final TimeUnit unit) {
+		if (timer == null || amount < 1 || delay < 1 || unit == null) {
+			throw new IllegalArgumentException("Values less than one or references on null are not permittted!");
+		}
 		this.amountOfThreads = amount;
 		this.delayPerThread = delay;
 		this.timeUnit = unit;

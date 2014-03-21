@@ -41,9 +41,20 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 		this.command = null;
 	}
 
+	/**
+	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#execute()}.
+	 */
 	@Test
 	public final void testExecute() {
 		when(this.mockedReceiver.getAllAlarmtimestamps()).thenReturn(this.list);
 		assertNotNull("null zurueckgegeben!", this.invoker.execute());
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#AlarmGetAllAlarmtimestampsCommand(IAlarm)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseReceiverIsNull() {
+		this.command = new AlarmGetAllAlarmtimestampsCommand(null);
 	}
 }

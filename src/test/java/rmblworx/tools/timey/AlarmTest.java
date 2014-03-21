@@ -165,4 +165,12 @@ public class AlarmTest {
 		assertTrue(this.effectiveDelegate.setStateOfAlarmtimestamp(this.descriptor, false));
 		assertFalse("Deaktivierung fehlgeschlagen!", this.effectiveDelegate.isAlarmtimestampActivated(this.descriptor));
 	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmTimestampService)} .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseServiceIsNull() {
+		this.effectiveDelegate = new Alarm(null);
+	}
 }

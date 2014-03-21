@@ -31,6 +31,9 @@ public class AlarmGetStateOfAlarmCommand implements ICommand {
 	 */
 	public AlarmGetStateOfAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor) {
 		super();
+		if (receiver == null || descriptor == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 		this.timeDescriptor = descriptor;
 	}

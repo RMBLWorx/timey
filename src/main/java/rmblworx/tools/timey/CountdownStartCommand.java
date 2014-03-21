@@ -24,6 +24,9 @@ public class CountdownStartCommand implements ICommand {
 	 */
 	public CountdownStartCommand(final ICountdown receiver) {
 		super();
+		if (receiver == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 	}
 

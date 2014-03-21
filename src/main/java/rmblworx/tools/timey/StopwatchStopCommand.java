@@ -19,6 +19,9 @@ public class StopwatchStopCommand implements ICommand {
 	 */
 	public StopwatchStopCommand(final IStopwatch receiver) {
 		super();
+		if (receiver == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 	}
 

@@ -76,6 +76,9 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	@Override
 	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
 		this.initCountdownTimer();
+		if (descriptor == null) {
+			throw new IllegalArgumentException("Null not permitted!");
+		}
 		return this.countdownTimer.setCountdownTime(descriptor);
 	}
 

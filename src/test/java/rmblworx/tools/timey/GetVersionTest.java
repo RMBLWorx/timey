@@ -2,11 +2,6 @@ package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,31 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring-timey-context.xml" })
 public class GetVersionTest {
-
 	private static final Logger LOG = LoggerFactory.getLogger(GetVersionTest.class);
-	private static final String MVN_PACKAGE_DSKIP_TESTS_TRUE = "mvn package -DskipTests=true";
-	private TimeyFacade facade;
 
-	/**
-	 * 
-	 */
-	private void executeProcess() {
-		String line;
-		try {
-			LOG.debug("Baue jar-Archiv. Umgebungsvariable muss dazu fuer Maven 3 gesetzt sein!!!\nAuszufuehrendes Kommando: "
-					+ MVN_PACKAGE_DSKIP_TESTS_TRUE);
-			Process process = Runtime.getRuntime().exec(MVN_PACKAGE_DSKIP_TESTS_TRUE);
-			Reader reader = new InputStreamReader(process.getInputStream());
-			BufferedReader in = new BufferedReader(reader);
-			while ((line = in.readLine()) != null) {
-				System.out.println(line);
-			}
-			in.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	private TimeyFacade facade;
 
 	/**
 	 * @throws java.lang.Exception
@@ -78,8 +51,8 @@ public class GetVersionTest {
 			LOG.debug("Linux erkannt...");
 		} else if (TimeyUtils.isOSXSystem()) {
 			LOG.debug("OS X erkannt...");
-			this.executeProcess();
 		}
+		TestHelper.executeMavenPackageWithoutRunningTestsProcess();
 
 		/*
 		 * Da die jar erst nach erfolgreichem maven build existiert, besteht
@@ -88,7 +61,8 @@ public class GetVersionTest {
 		 * auszufuehren um im Anschluss daran den Versionstest durchfuehren zu können. .
 		 */
 
-		assertNotNull("Test failure because no version retrieved.", this.facade.getVersion("timey*.jar"));
+		assertNotNull("Test fehlgeschlagen da keine Version zurueckgeliefert wurde.",
+				this.facade.getVersion("timey.jar"));
 	}
 
 }

@@ -60,6 +60,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 		when(this.mockedReceiver.setStateOfAlarmtimestamp(this.descriptor, this.isActivated)).thenReturn(Boolean.TRUE);
 		assertTrue("Falsches Ergebnis!", (Boolean) this.invoker.execute());
 	}
+
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
 	 */
@@ -68,6 +69,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 		when(this.mockedReceiver.setStateOfAlarmtimestamp(this.descriptor, this.isActivated)).thenReturn(null);
 		assertNull("Falsches Ergebnis!", null);
 	}
+
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
 	 */
@@ -75,5 +77,35 @@ public class AlarmSetStateOfAlarmCommandTest {
 	public final void testExecuteShouldReturnFalseBecauseCouldNotBeSet() {
 		when(this.mockedReceiver.setStateOfAlarmtimestamp(this.descriptor, this.isActivated)).thenReturn(Boolean.FALSE);
 		assertFalse("Falsches Ergebnis!", (Boolean) this.invoker.execute());
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
+	 * .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {
+		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, null, Boolean.TRUE);
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
+	 * .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseReceiverReferencesNull() {
+		this.command = new AlarmSetStateOfAlarmCommand(null, this.descriptor, Boolean.TRUE);
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
+	 * .
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseIsActivatedReferencesNull() {
+		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, this.descriptor, null);
 	}
 }

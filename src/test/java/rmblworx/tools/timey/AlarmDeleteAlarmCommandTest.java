@@ -3,8 +3,6 @@
  */
 package rmblworx.tools.timey;
 
-
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -32,6 +30,7 @@ public class AlarmDeleteAlarmCommandTest {
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -59,22 +58,42 @@ public class AlarmDeleteAlarmCommandTest {
 	@Test
 	public final void testExecuteOnExistingTimestamp() {
 		when(this.mockedReceiver.removeAlarmtimestamp(this.descriptor)).thenReturn(Boolean.TRUE);
-		assertTrue("Falscher Rueckgabewert!",(Boolean)this.invoker.execute());
+		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
+
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteOnNonExistingTimestamp() {
 		when(this.mockedReceiver.removeAlarmtimestamp(null)).thenReturn(Boolean.FALSE);
-		assertFalse("Falscher Rueckgabewert!",(Boolean)this.invoker.execute());
+		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
+
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteOnTimestampCantBeDeleted() {
 		when(this.mockedReceiver.removeAlarmtimestamp(this.descriptor)).thenReturn(null);
-		assertNull("Falscher Rueckgabewert!",this.invoker.execute());
+		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, TimeDescriptor)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseReceiverIsNull() {
+		this.command = new AlarmDeleteAlarmCommand(null, this.descriptor);
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, TimeDescriptor)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testShouldFailBecauseTimeDescriptorIsNull() {
+		this.command = new AlarmDeleteAlarmCommand(this.mockedReceiver, null);
 	}
 }

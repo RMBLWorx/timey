@@ -9,13 +9,26 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public final class TimeyUtils {
 
+	/**
+	 * Linux-Kennung.
+	 */
 	private static final String LINUX = "linux";
+	/**
+	 * OS X-Kennung.
+	 */
 	private static final String MAC_OS_X = "mac os x";
+	/**
+	 * Konstante fuer das Property zum erfragen des Betriebsystems.
+	 */
 	private static final String SYSTEM_PROPERTY_OS_NAME = "os.name";
+	/**
+	 * Windows-Kennung.
+	 */
 	private static final String WINDOWS = "windows";
 
 	/**
-	 * @return
+	 * Liefert den Namen des Betriebsystems.
+	 * @return Namenkuerzel des OS.
 	 */
 	public static String getOsName() {
 		return System.getProperty(SYSTEM_PROPERTY_OS_NAME).toLowerCase();
@@ -38,7 +51,7 @@ public final class TimeyUtils {
 	 * @return true wenn Linux sonst false
 	 */
 	public static boolean isLinuxSystem() {
-		String osName = getOsName();
+		final String osName = getOsName();
 		return osName.indexOf(LINUX) != -1;
 	}
 
@@ -79,7 +92,7 @@ public final class TimeyUtils {
 	 * @return true wenn OS X sonst false
 	 */
 	public static boolean isOSXSystem() {
-		String osName = getOsName();
+		final String osName = getOsName();
 		return osName.indexOf(MAC_OS_X) != -1;
 	}
 
@@ -89,7 +102,7 @@ public final class TimeyUtils {
 	 * @return true wenn Windows sonst false
 	 */
 	public static boolean isWindowsSystem() {
-		String osName = getOsName();
+		final String osName = getOsName();
 		return osName.indexOf(WINDOWS) != -1;
 	}
 

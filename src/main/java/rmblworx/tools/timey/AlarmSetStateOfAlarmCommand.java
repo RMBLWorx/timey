@@ -40,6 +40,9 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	 */
 	public AlarmSetStateOfAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor, final Boolean isActivated) {
 		super();
+		if (receiver == null || descriptor == null || isActivated == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 		this.timeDescriptor = descriptor;
 		this.isActivated = isActivated;
