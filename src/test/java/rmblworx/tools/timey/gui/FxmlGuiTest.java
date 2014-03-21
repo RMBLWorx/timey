@@ -22,7 +22,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 	/**
 	 * Mit der GUI verbundener Controller.
 	 */
-	private Object controller;
+	private Controller controller;
 
 	/**
 	 * Zeitaufwendiges Laden der Fassade einmalig vor allen Tests, um Timing-Probleme beim Start der einzelnen Tests zu vermeiden.
@@ -42,11 +42,13 @@ public abstract class FxmlGuiTest extends GuiTest {
 	 * @return Elternknoten der GUI-Elemente
 	 */
 	protected final Parent getRootNode() {
-		final ResourceBundle i18n = new GuiHelper().getResourceBundle(Locale.GERMAN);
+		final GuiHelper guiHelper = new GuiHelper();
+		final ResourceBundle i18n = guiHelper.getResourceBundle(Locale.GERMAN);
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
 			final Parent root = (Parent) loader.load();
 			controller = loader.getController();
+			controller.setGuiHelper(guiHelper);
 			controllerLoaded();
 			return root;
 		} catch (final IOException e) {
@@ -64,7 +66,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 	/**
 	 * @return mit der GUI verbundener Controller
 	 */
-	protected final Object getController() {
+	protected final Controller getController() {
 		return controller;
 	}
 
