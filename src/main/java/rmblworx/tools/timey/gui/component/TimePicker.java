@@ -216,7 +216,11 @@ public class TimePicker extends AnchorPane {
 		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
 				if (Boolean.FALSE.equals(newValue)) {
-					textProperty.setValue(getTwoDigitValue(Long.parseLong(textProperty.get())));
+					try {
+						textProperty.setValue(getTwoDigitValue(Long.parseLong(textProperty.get())));
+					} catch (final NumberFormatException e) {
+						textProperty.setValue(getTwoDigitValue(MIN_VALUE));
+					}
 				}
 			}
 		});
