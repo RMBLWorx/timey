@@ -4,7 +4,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
+<?scenebuilder-preview-i18n-resource Timey_i18n.properties?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmController">
   <children>

@@ -4,7 +4,7 @@
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?scenebuilder-preview-i18n-resource TimeyGui_i18n.properties?>
+<?scenebuilder-preview-i18n-resource Timey_i18n.properties?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.TimeyController">
   <children>
@@ -12,22 +12,22 @@
       <tabs>
         <Tab text="%tab.stopwatch.label">
           <content>
-            <fx:include source="StopwatchGui.fxml" fx:id="stopwatch" />
+            <fx:include source="Stopwatch.fxml" fx:id="stopwatch" />
           </content>
         </Tab>
         <Tab text="%tab.countdown.label">
           <content>
-            <fx:include source="CountdownGui.fxml" fx:id="countdown" />
+            <fx:include source="Countdown.fxml" fx:id="countdown" />
           </content>
         </Tab>
         <Tab text="%tab.alarm.label">
           <content>
-            <fx:include source="AlarmGui.fxml" fx:id="alarm" />
+            <fx:include source="Alarm.fxml" fx:id="alarm" />
           </content>
         </Tab>
         <Tab text="%tab.options.label">
           <content>
-            <fx:include source="OptionsGui.fxml" fx:id="options" />
+            <fx:include source="Options.fxml" fx:id="options" />
           </content>
         </Tab>
       </tabs>

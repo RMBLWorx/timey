@@ -39,7 +39,7 @@ public class GuiHelper {
 	 * @return ResourceBundle für die jeweilige Sprache
 	 */
 	public final ResourceBundle getResourceBundle(final Locale locale) {
-		return ResourceBundle.getBundle(getClass().getPackage().getName() + ".TimeyGui_i18n", locale);
+		return ResourceBundle.getBundle(getClass().getPackage().getName() + ".Timey_i18n", locale);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class GuiHelper {
 	public final void showMessageDialog(final String title, final String text, final ResourceBundle i18n) {
 		try {
 			final Stage stage = new Stage(StageStyle.UTILITY);
-			final Parent root = FXMLLoader.load(getClass().getResource("MessageDialogGui.fxml"), i18n);
+			final Parent root = FXMLLoader.load(getClass().getResource("MessageDialog.fxml"), i18n);
 
 			final Label message = (Label) root.lookup("#message");
 			message.setText(text);

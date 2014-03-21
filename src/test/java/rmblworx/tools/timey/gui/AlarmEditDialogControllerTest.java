@@ -36,7 +36,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiTest {
 	 * {@inheritDoc}
 	 */
 	protected final String getFxmlFilename() {
-		return "AlarmEditDialogGui.fxml";
+		return "AlarmEditDialog.fxml";
 	}
 
 	@Before

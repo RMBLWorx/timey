@@ -34,7 +34,7 @@ public class Main extends Application {
 
 			final GuiHelper guiHelper = new GuiHelper();
 			final ResourceBundle resources = guiHelper.getResourceBundle(ConfigManager.getCurrentConfig().getLocale());
-			final FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeyGui.fxml"), resources);
+			final FXMLLoader loader = new FXMLLoader(getClass().getResource("Timey.fxml"), resources);
 			final Parent root = (Parent) loader.load();
 			stage.setScene(new Scene(root));
 			stage.setTitle(resources.getString("application.title"));

@@ -19,7 +19,7 @@ public class TimeyControllerTest extends FxmlGuiTest {
 	 * {@inheritDoc}
 	 */
 	protected final String getFxmlFilename() {
-		return "TimeyGui.fxml";
+		return "Timey.fxml";
 	}
 
 	/**

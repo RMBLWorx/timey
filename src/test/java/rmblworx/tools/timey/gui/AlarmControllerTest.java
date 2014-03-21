@@ -37,7 +37,7 @@ public class AlarmControllerTest extends FxmlGuiTest {
 	 * {@inheritDoc}
 	 */
 	protected final String getFxmlFilename() {
-		return "AlarmGui.fxml";
+		return "Alarm.fxml";
 	}
 
 	@Before
