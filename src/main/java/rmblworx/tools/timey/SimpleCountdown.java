@@ -29,12 +29,18 @@ public class SimpleCountdown implements ICountdownTimer {
 
 	@Override
 	public Boolean setCountdownTime(TimeDescriptor descriptor) {
+		if (descriptor == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.timeDescriptor = descriptor;
 		return Boolean.TRUE;
 	}
 
 	@Override
 	public TimeDescriptor startCountdown(int amountOfThreads, int delayPerThread, TimeUnit timeUnit) {
+		if (amountOfThreads < 1 || delayPerThread < 1 || timeUnit == null) {
+			throw new IllegalArgumentException("Null References or values less than one are not permitted!");
+		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
 		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
 

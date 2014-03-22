@@ -47,8 +47,8 @@ public class SimpleCountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownRunnable#computeTime()}.
-	 * @throws InterruptedException wenn dieser Thread nicht schlafen gelegt werden konnte.
+	 * @throws InterruptedException
+	 *             wenn dieser Thread nicht schlafen gelegt werden konnte.
 	 */
 	@Test
 	public void testComputeTime() throws InterruptedException {
@@ -60,6 +60,38 @@ public class SimpleCountdownTest {
 		final long actualCountdownTime = this.descriptor.getMilliSeconds();
 
 		assertTrue(this.descriptor.getMilliSeconds() + "", actualCountdownTime < time);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#setCountdownTime(TimeDescriptor)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testShouldFailBecauseTimeDescriptorIsNull() {
+		this.countdown.setCountdownTime(null);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testShouldFailBecauseAmountOfThreadsLessThanOne() {
+		this.countdown.startCountdown(0, 1, TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testShouldFailBecauseDelayLessThanOne() {
+		this.countdown.startCountdown(1, 0, TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testShouldFailBecauseTimeUnitIsNull() {
+		this.countdown.startCountdown(1, 1, null);
 	}
 
 }

@@ -1,12 +1,6 @@
 package rmblworx.tools.timey;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +15,13 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public final class TimeyFacade implements ITimey {
+
 	/**
 	 * Logger.
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(TimeyFacade.class);
 	/**
-	 * Alarm-Klient.
+	 * Referenz auf den Alarm-Klienten.
 	 */
 	private final AlarmClient alarmClient;
 	/**
@@ -34,11 +29,17 @@ public final class TimeyFacade implements ITimey {
 	 */
 	private final CountdownClient countdownClient;
 	/**
-	 * Spring-Kontext.
+	 * Referenz auf die Implementierung zur Erkennung der Programmversion.
+	 */
+	private final JarVersionDetector jarVersionDetector;
+
+	/**
+	 * Referenz auf den Spring Context.
 	 */
 	private final ApplicationContext springContext;
 	/**
 	 * Stoppuhr-Klient.
+	 * Referenz auf den Stoppuhr-Klienten.
 	 */
 	private final StopwatchClient stopwatchClient;
 
@@ -51,6 +52,7 @@ public final class TimeyFacade implements ITimey {
 		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
 		this.countdownClient = (CountdownClient) this.springContext.getBean("countdownClient");
+		this.jarVersionDetector = (JarVersionDetector) this.springContext.getBean("jarVersionDetector");
 	}
 
 	@Override
@@ -59,35 +61,8 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public String getVersion() {
-		File file;
-		JarFile jar;
-		String versionNumber = "";
-
-		try {
-			file = TimeyUtils.getPathToJar("timey*.jar").get(0).toFile();
-			jar = new java.util.jar.JarFile(file);
-			final Manifest manifest = jar.getManifest();
-			final Attributes attributes = manifest.getMainAttributes();
-			if (attributes != null) {
-				final Iterator<Object> it = attributes.keySet().iterator();
-				while (it.hasNext()) {
-					final Attributes.Name key = (Attributes.Name) it.next();
-					final String keyword = key.toString();
-					if ("Implementation-Version".equals(keyword) || "Bundle-Version".equals(keyword)) {
-						versionNumber = (String) attributes.get(key);
-						break;
-					}
-				}
-			}
-			jar.close();
-		} catch (final IOException e) {
-			LOG.error("Die timey-Jar Datei konnte nicht gefunden und somit die Version nicht ermittelt werden!");
-		}
-
-		LOG.debug("Version: " + versionNumber);
-
-		return versionNumber;
+	public String getVersion(final String globPattern) throws Exception, IllegalArgumentException {
+		return this.jarVersionDetector.detectJarVersion(globPattern);
 	}
 
 	@Override

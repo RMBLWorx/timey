@@ -24,8 +24,11 @@ public class CountdownSetTimeCommand implements ICommand {
 	/**
 	 * Constructor
 	 */
-	public CountdownSetTimeCommand(ICountdown receiver, TimeDescriptor descriptor) {
+	public CountdownSetTimeCommand(final ICountdown receiver, final TimeDescriptor descriptor) {
 		super();
+		if (receiver == null || descriptor == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 		this.timeDescriptor = descriptor;
 	}

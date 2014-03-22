@@ -24,6 +24,9 @@ public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
 	 */
 	public AlarmGetAllAlarmtimestampsCommand(final IAlarm receiver) {
 		super();
+		if (receiver == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 	}
 

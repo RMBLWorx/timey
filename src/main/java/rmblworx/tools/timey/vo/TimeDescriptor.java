@@ -29,7 +29,7 @@ public class TimeDescriptor {
 	 *            negative Werte statt.
 	 */
 	public TimeDescriptor(final long milliSeconds) {
-		//		LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
+		// LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
 	}
 
@@ -46,6 +46,9 @@ public class TimeDescriptor {
 	 *            zu setzende Zeit in Millisekunden
 	 */
 	public void setMilliSeconds(final long currentTimeMillis) {
+		if (currentTimeMillis < 0) {
+			throw new IllegalArgumentException("Values less than zero are not permitted!");
+		}
 		this.milliseconds = currentTimeMillis;
 	}
 

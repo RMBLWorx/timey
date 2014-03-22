@@ -99,6 +99,14 @@ public class AlarmTimestampServiceTest {
 
 		this.service.delete(this.expectedTimeDescriptor);
 	}
+	/**
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#isActivated(TimeDescriptor)} .
+	 */
+	@Test
+	public void testIsActivatedShouldReturnNullBecauseTimestampIsNotPresent() {
+		assertNull(this.service.isActivated(this.expectedTimeDescriptor));
+		assertNull(this.service.isActivated(null));
+	}
 
 	/**
 	 * Test method for

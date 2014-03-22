@@ -2,10 +2,6 @@ package rmblworx.tools.timey;
 
 import java.util.List;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
 import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -18,67 +14,46 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
-public class Alarm implements IAlarm, ApplicationContextAware {
-
-	/**
-	 * Spring-Kontext.
-	 */
-	private ApplicationContext context;
+public class Alarm implements IAlarm {
 
 	/**
 	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
 	 */
-	private IAlarmTimestampService service;
+	private final IAlarmTimestampService service;
 
 	/**
-	 * This construtor creates a Receiver instance.
+	 * Erweiterter Konstruktor.
+	 * 
+	 * @param service
+	 *            Von dieser Klasse zu verwendende Serviceimplementierung
 	 */
-	public Alarm() {
-		super();
+	public Alarm(final IAlarmTimestampService service) {
+		if (service == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
+		this.service = service;
 	}
 
 	@Override
 	public List<TimeDescriptor> getAllAlarmtimestamps() {
-		this.initService();
 		return this.service.getAll();
 	}
 
-	private void initService() {
-		if (this.service == null) {
-			this.service = (IAlarmTimestampService) this.context.getBean("alarmTimestampService");
-		}
-	}
-
-	/**
-	 * This method performs an action.
-	 */
 	@Override
 	public Boolean isAlarmtimestampActivated(final TimeDescriptor descriptor) {
 		return this.service.isActivated(descriptor);
 	}
 
 	@Override
-	public Boolean removeAlarmtimestamp(TimeDescriptor descriptor) {
+	public Boolean removeAlarmtimestamp(final TimeDescriptor descriptor) {
 		return this.service.delete(descriptor);
 	}
 
-	/**
-	 * This method performs an action.
-	 */
 	@Override
 	public Boolean setAlarmtimestamp(final TimeDescriptor descriptor) {
-		this.initService();
 		return this.service.create(descriptor);
 	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
-
-	/**
-	 * This method performs an action.
-	 */
 	@Override
 	public Boolean setStateOfAlarmtimestamp(final TimeDescriptor descriptor, final Boolean isActivated) {
 		return this.service.setState(descriptor, isActivated);

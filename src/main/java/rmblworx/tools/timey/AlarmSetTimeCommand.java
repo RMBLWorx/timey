@@ -18,17 +18,20 @@ public class AlarmSetTimeCommand implements ICommand {
 	/**
 	 * Beschreibung des Alarmzeitpunktes.
 	 */
-	private final TimeDescriptor td;
+	private final TimeDescriptor timeDescriptor;
 
 	/**
 	 * Erweiterter Konstruktor.
 	 * @param receiver Empfaengerimplmentierung.
-	 * @param td Beschreibung des Alarmzeitpunktes.
+	 * @param descriptor Beschreibung des Alarmzeitpunktes.
 	 */
-	public AlarmSetTimeCommand(final IAlarm receiver, final TimeDescriptor td) {
+	public AlarmSetTimeCommand(final IAlarm receiver, final TimeDescriptor descriptor) {
 		super();
+		if (receiver == null || descriptor == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
-		this.td = td;
+		this.timeDescriptor = descriptor;
 	}
 
 	/**
@@ -38,9 +41,6 @@ public class AlarmSetTimeCommand implements ICommand {
 	 */
 	@Override
 	public <T> T execute() {
-		this.fReceiver.setAlarmtimestamp(this.td);
-
-		return (T) this.td;
+		return	(T)	this.fReceiver.setAlarmtimestamp(this.timeDescriptor);
 	}
-
 }

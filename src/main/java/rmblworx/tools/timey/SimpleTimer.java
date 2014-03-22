@@ -36,13 +36,16 @@ public class SimpleTimer implements ITimer {
 	 *            auf @code{null} statt!
 	 */
 	public SimpleTimer(final TimeDescriptor descriptor) {
+		if (descriptor == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.timeDescriptor = descriptor;
 	}
 
 	@Override
 	public Boolean resetStopwatch() {
 		boolean isRunningAtTheMoment = false;
-		if (!this.scheduler.isTerminated()) {
+		if (this.scheduler != null && !this.scheduler.isTerminated()) {
 			isRunningAtTheMoment = true;
 		}
 		this.stopStopwatch();
@@ -51,7 +54,7 @@ public class SimpleTimer implements ITimer {
 		if (isRunningAtTheMoment) {
 			this.startStopwatch(1, 1, TimeUnit.MILLISECONDS);
 		}
-		return Boolean.TRUE;
+		return isRunningAtTheMoment;
 	}
 
 	/*
@@ -60,6 +63,9 @@ public class SimpleTimer implements ITimer {
 	 */
 	@Override
 	public TimeDescriptor startStopwatch(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
+		if (amountOfThreads < 1 || delayPerThread < 1 || timeUnit == null) {
+			throw new IllegalArgumentException("Values less than one or references on null are not permitted!");
+		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
 		final TimerRunnable timer = new TimerRunnable(this.timeDescriptor, this.timePassed);
 		// TimerRunnable t = (TimerRunnable) this.applicationContext.getBean("timerRunnable");

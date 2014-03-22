@@ -6,8 +6,8 @@ package rmblworx.tools.timey;
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
- *   <li>defines a binding between a Receiver object and an action.</li>
- *   <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
+ * <li>defines a binding between a Receiver object and an action.</li>
+ * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
  * </ul>
  * 
  * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
@@ -23,6 +23,9 @@ public class CountdownStopCommand implements ICommand {
 	 */
 	public CountdownStopCommand(ICountdown receiver) {
 		super();
+		if (receiver == null) {
+			throw new IllegalArgumentException("References on null are not permitted!");
+		}
 		this.fReceiver = receiver;
 	}
 
