@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.awt.SystemTray;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * GUI-Tests für das Hauptfenster.
@@ -13,6 +14,7 @@ import org.junit.Test;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
+@Category(TimeyGuiTest.class)
 public class TimeyControllerTest extends FxmlGuiTest {
 
 	/**

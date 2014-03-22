@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -22,6 +23,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
+@Category(TimeyGuiTest.class)
 public class StopwatchControllerTest extends FxmlGuiTest {
 
 	/**
