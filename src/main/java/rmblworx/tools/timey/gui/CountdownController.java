@@ -31,11 +31,6 @@ public class CountdownController extends Controller {
 	private static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
 
 	/**
-	 * Fassade zur Steuerung des Countdowns.
-	 */
-	private final ITimey facade = FacadeManager.getFacade();
-
-	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
 	 */
 	private SimpleDateFormat timeFormatter;
@@ -157,6 +152,7 @@ public class CountdownController extends Controller {
 		transferTimeFromInputToLabel();
 		enableTimeInput(false);
 
+		final ITimey facade = getGuiHelper().getFacade();
 		facade.setCountdownTime(timeDescriptor);
 		facade.startCountdown();
 	}
@@ -165,7 +161,7 @@ public class CountdownController extends Controller {
 	 * Stoppt den Countdown.
 	 */
 	private void stopCountdown() {
-		facade.stopCountdown();
+		getGuiHelper().getFacade().stopCountdown();
 		countdownRunning = false;
 
 		final Calendar cal = Calendar.getInstance(TIMEZONE);

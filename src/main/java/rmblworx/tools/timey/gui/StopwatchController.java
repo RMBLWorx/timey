@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.gui.config.Config;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -25,11 +24,6 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 public class StopwatchController extends Controller {
-
-	/**
-	 * Fassade zur Steuerung der Stoppuhr.
-	 */
-	private final ITimey facade = FacadeManager.getFacade();
 
 	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
@@ -135,7 +129,7 @@ public class StopwatchController extends Controller {
 	 */
 	@FXML
 	private void handleResetButtonClick() {
-		facade.resetStopwatch();
+		getGuiHelper().getFacade().resetStopwatch();
 		stopwatchValue = 0L;
 		updateStopwatchTimeLabel();
 		stopwatchStartButton.requestFocus();
@@ -161,14 +155,14 @@ public class StopwatchController extends Controller {
 		stopwatchStopButton.setVisible(true);
 		stopwatchStopButton.requestFocus();
 
-		return facade.startStopwatch();
+		return getGuiHelper().getFacade().startStopwatch();
 	}
 
 	/**
 	 * Stoppt die Stoppuhr.
 	 */
 	private void stopStopwatch() {
-		facade.stopStopwatch();
+		getGuiHelper().getFacade().stopStopwatch();
 		stopwatchRunning = false;
 		stopwatchStartButton.setVisible(true);
 		stopwatchStartButton.requestFocus();

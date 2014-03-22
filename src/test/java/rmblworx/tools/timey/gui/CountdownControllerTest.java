@@ -1,22 +1,15 @@
 package rmblworx.tools.timey.gui;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.base.Predicate;
+import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.gui.component.TimePicker;
 
@@ -72,6 +65,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 
 		// Countdown starten
 		countdownStartButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(countdownStartButton.isVisible());
@@ -83,6 +77,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 
 		// Countdown stoppen
 		countdownStopButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -110,67 +105,28 @@ public class CountdownControllerTest extends FxmlGuiTest {
 		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
 		final Label countdownTimeLabel = (Label) scene.lookup("#countdownTimeLabel");
 
-		final Calendar countdownTime = DateTimeUtil.getCalendarForString("00:00:10");
-		final long timeLeftMax = 10000;
-		final long timeLeftMin = 8000;
-
 		// Zeit setzen
-		countdownTimePicker.setTime(countdownTime);
+		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:10"));
 
 		// Countdown starten
 		countdownStartButton.fire();
-		try {
-			waitUntil(countdownTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label countdownTimeLabel) {
-					return countdownTimeLabel.isVisible();
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail("label is not visible");
-		}
+		FXTestUtils.awaitEvents();
 
-		try {
-			final long timeLeft = getTimeFormatter().parse(countdownTimeLabel.getText()).getTime();
-			if (timeLeft < timeLeftMin || timeLeft > timeLeftMax) {
-				fail(String.format("%d is not between %d and %d.", timeLeft, timeLeftMin, timeLeftMax));
-			}
-		} catch (final ParseException e) {
-			fail(e.getLocalizedMessage());
-		}
+		// verbleibende Zeit muss angezeigt sein
+		assertEquals("00:00:10", countdownTimeLabel.getText());
 
 		assertFalse(countdownTimePicker.isVisible());
 		assertTrue(countdownTimeLabel.isVisible());
 
 		// Countdown stoppen
 		countdownStopButton.fire();
-		try {
-			waitUntil(countdownTimeLabel, new Predicate<Label>() {
-				public boolean apply(final Label countdownTimeLabel) {
-					return !countdownTimeLabel.isVisible();
-				}
-			}, 1);
-		} catch (final RuntimeException e) {
-			fail("label is still visible");
-		}
+		FXTestUtils.awaitEvents();
 
-		// verbleibende Zeit muss im Toleranzbereich liegen
-		final long timeLeft = countdownTimePicker.getTime().getTimeInMillis();
-		if (timeLeft < timeLeftMin || timeLeft > timeLeftMax) {
-			fail(String.format("%d is not between %d and %d.", timeLeft, timeLeftMin, timeLeftMax));
-		}
+		// verbleibende Zeit muss stimmen
+		assertEquals(10000, countdownTimePicker.getTime().getTimeInMillis());
 
 		assertTrue(countdownTimePicker.isVisible());
 		assertFalse(countdownTimeLabel.isVisible());
-	}
-
-	/**
-	 * @return Formatierer für Zeit-Werte
-	 */
-	private SimpleDateFormat getTimeFormatter() {
-		final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss");
-		dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-		return dateFormatter;
 	}
 
 }
