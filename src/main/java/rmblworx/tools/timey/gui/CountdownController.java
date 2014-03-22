@@ -56,7 +56,7 @@ public class CountdownController extends Controller {
 	private boolean countdownRunning = false;
 
 	/**
-	 * Countdown-Zeit.
+	 * Countdown-Zeit in ms.
 	 */
 	private long countdownValue;
 
@@ -92,18 +92,18 @@ public class CountdownController extends Controller {
 		startCountdown(td);
 
 		final Task<Void> task = new Task<Void>() {
-			private static final long SLEEP_TIME_COARSE_GRAINED = 1000L;
+			private static final long SLEEP_TIME = 100L;
 
 			public Void call() throws InterruptedException {
 				while (countdownRunning) {
 					countdownValue = td.getMilliSeconds();
-					updateMessage(timeFormatter.format(countdownValue));
+					updateMessage(timeFormatter.format(getMillisRoundedToWholeSeconds(countdownValue)));
 
 					if (countdownValue == 0) {
 						break;
 					}
 
-					Thread.sleep(SLEEP_TIME_COARSE_GRAINED);
+					Thread.sleep(SLEEP_TIME);
 				}
 
 				return null;
@@ -165,7 +165,7 @@ public class CountdownController extends Controller {
 		countdownRunning = false;
 
 		final Calendar cal = Calendar.getInstance(TIMEZONE);
-		cal.setTimeInMillis(countdownValue - TimeZone.getDefault().getDSTSavings()); // TODO WTF?
+		cal.setTimeInMillis(getMillisRoundedToWholeSeconds(countdownValue - TimeZone.getDefault().getDSTSavings())); // TODO WTF?
 		countdownTimePicker.setTime(cal);
 
 		countdownStartButton.setVisible(true);
@@ -192,6 +192,15 @@ public class CountdownController extends Controller {
 			timeFormatter = new SimpleDateFormat("HH:mm:ss");
 			timeFormatter.setTimeZone(TIMEZONE);
 		}
+	}
+
+	/**
+	 * @param time Zeit in ms
+	 * @return Zeit in ms (aufgerundet auf ganze Sekunden)
+	 */
+	private long getMillisRoundedToWholeSeconds(final long time) {
+		final double milli = 1000D;
+		return new Double(Math.ceil(time / milli) * milli).longValue();
 	}
 
 	/**
