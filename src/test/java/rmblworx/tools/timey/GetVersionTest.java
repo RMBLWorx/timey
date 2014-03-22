@@ -44,7 +44,7 @@ public class GetVersionTest {
 		 * der Test hier zwar aufgeführt aber gezielt auskommentiert.
 		 */
 
-		// assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
+		//		assertNotNull("Test failure because no version retrieved.", this.facade.getVersion());
 	}
 
 }
