@@ -25,7 +25,7 @@ final class TestHelper {
 	/**
 	 * Beschreibt den Maven Befehl um zu paketieren ohne die Tests auszufuehren.
 	 */
-	private static final String MVN_INSTALL_DSKIP_TESTS_TRUE = "mvn install -B -DskipTests=true";
+	private static final String MVN_INSTALL_DSKIP_TESTS_TRUE = "mvn -q install -B -DskipTests=true";
 
 	/**
 	 * Stoesst einen Prozess auf der Kommandozeile an, welcher die timey-Jar erzeugt ohne die Tests auszufuehren.
