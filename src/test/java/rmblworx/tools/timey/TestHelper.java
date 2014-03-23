@@ -29,25 +29,21 @@ final class TestHelper {
 
 	/**
 	 * Stoesst einen Prozess auf der Kommandozeile an, welcher die timey-Jar erzeugt ohne die Tests auszufuehren.
+	 * @throws IOException
 	 */
-	public static void executeMavenPackageWithoutRunningTestsProcess() {
+	public static void executeMavenPackageWithoutRunningTestsProcess() throws IOException {
 		String line;
-		try {
-			LOG.debug("Baue jar-Archiv. Umgebungsvariable muss dazu fuer Maven 3 gesetzt sein!!!\nAuszufuehrendes Kommando: "
-					+ MVN_INSTALL_DSKIP_TESTS_TRUE);
-			final Process process = Runtime.getRuntime().exec(MVN_INSTALL_DSKIP_TESTS_TRUE);
-			final Reader reader = new InputStreamReader(process.getInputStream());
-			final BufferedReader in = new BufferedReader(reader);
-			while ((line = in.readLine()) != null) {
-				System.out.println(line);
-			}
-			in.close();
-			reader.close();
-			process.destroy();
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		LOG.debug("Baue jar-Archiv. Umgebungsvariable muss dazu fuer Maven 3 gesetzt sein!!!\nAuszufuehrendes Kommando: "
+				+ MVN_INSTALL_DSKIP_TESTS_TRUE);
+		final Process process = Runtime.getRuntime().exec(MVN_INSTALL_DSKIP_TESTS_TRUE);
+		final Reader reader = new InputStreamReader(process.getInputStream());
+		final BufferedReader in = new BufferedReader(reader);
+		while ((line = in.readLine()) != null) {
+			System.out.println(line);
 		}
+		in.close();
+		reader.close();
+		process.destroy();
 	}
 
 	/**
