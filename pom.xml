@@ -31,7 +31,9 @@
 		<mockito.version>1.9.5</mockito.version>
 		<application.dist>${project.build.directory}/distribution</application.dist>
 		<maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
+		<maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
 		<timey.main.class>rmblworx.tools.timey.gui.Main</timey.main.class>
+		<timey.gui-test-marker.class>rmblworx.tools.timey.gui.TimeyGuiTest</timey.gui-test-marker.class>
 	</properties>
 
 	<dependencies>
@@ -136,6 +138,23 @@
 			<version>${mockito.version}</version>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>gui-tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration combine.self="override">
+							<groups>${timey.gui-test-marker.class}</groups>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<pluginManagement>
@@ -286,6 +305,14 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<excludedGroups>${timey.gui-test-marker.class}</excludedGroups>
+				</configuration>
 			</plugin>
 			<plugin>
 				<!-- Quelle zum bauen des ausfuehrbaren und signierten Jar-Archivs (17.03.2014-21:03): 
