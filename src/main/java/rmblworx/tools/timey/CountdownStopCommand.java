@@ -3,6 +3,8 @@
  */
 package rmblworx.tools.timey;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+
 /**
  * PatternBox: "ConcreteCommand" implementation.
  * <ul>
@@ -24,7 +26,7 @@ public class CountdownStopCommand implements ICommand {
 	public CountdownStopCommand(ICountdown receiver) {
 		super();
 		if (receiver == null) {
-			throw new IllegalArgumentException("References on null are not permitted!");
+			throw new NullArgumentException();
 		}
 		this.fReceiver = receiver;
 	}

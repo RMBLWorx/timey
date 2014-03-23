@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -65,7 +67,7 @@ public class SimpleCountdownTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#setCountdownTime(TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public void testShouldFailBecauseTimeDescriptorIsNull() {
 		this.countdown.setCountdownTime(null);
 	}
@@ -73,7 +75,7 @@ public class SimpleCountdownTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public void testShouldFailBecauseAmountOfThreadsLessThanOne() {
 		this.countdown.startCountdown(0, 1, TimeUnit.MILLISECONDS);
 	}
@@ -81,7 +83,7 @@ public class SimpleCountdownTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public void testShouldFailBecauseDelayLessThanOne() {
 		this.countdown.startCountdown(1, 0, TimeUnit.MILLISECONDS);
 	}
@@ -89,7 +91,7 @@ public class SimpleCountdownTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public void testShouldFailBecauseTimeUnitIsNull() {
 		this.countdown.startCountdown(1, 1, null);
 	}

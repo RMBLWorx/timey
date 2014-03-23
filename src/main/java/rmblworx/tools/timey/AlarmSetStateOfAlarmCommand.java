@@ -3,6 +3,7 @@
  */
 package rmblworx.tools.timey;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -41,7 +42,7 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	public AlarmSetStateOfAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor, final Boolean isActivated) {
 		super();
 		if (receiver == null || descriptor == null || isActivated == null) {
-			throw new IllegalArgumentException("References on null are not permitted!");
+			throw new NullArgumentException();
 		}
 		this.fReceiver = receiver;
 		this.timeDescriptor = descriptor;

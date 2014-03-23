@@ -4,6 +4,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -37,7 +39,7 @@ public class SimpleTimer implements ITimer {
 	 */
 	public SimpleTimer(final TimeDescriptor descriptor) {
 		if (descriptor == null) {
-			throw new IllegalArgumentException("References on null are not permitted!");
+			throw new NullArgumentException();
 		}
 		this.timeDescriptor = descriptor;
 	}
@@ -63,8 +65,10 @@ public class SimpleTimer implements ITimer {
 	 */
 	@Override
 	public TimeDescriptor startStopwatch(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
-		if (amountOfThreads < 1 || delayPerThread < 1 || timeUnit == null) {
-			throw new IllegalArgumentException("Values less than one or references on null are not permitted!");
+		if (amountOfThreads < 1 || delayPerThread < 1) {
+			throw new ValueMinimumArgumentException();
+		} else if (timeUnit == null){
+			throw new NullArgumentException();
 		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
 		final TimerRunnable timer = new TimerRunnable(this.timeDescriptor, this.timePassed);

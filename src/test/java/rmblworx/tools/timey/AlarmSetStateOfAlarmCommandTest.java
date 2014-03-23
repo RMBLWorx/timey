@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -84,7 +85,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {
 		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, null, Boolean.TRUE);
 	}
@@ -94,7 +95,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverReferencesNull() {
 		this.command = new AlarmSetStateOfAlarmCommand(null, this.descriptor, Boolean.TRUE);
 	}
@@ -104,7 +105,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseIsActivatedReferencesNull() {
 		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, this.descriptor, null);
 	}

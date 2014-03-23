@@ -14,6 +14,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -45,7 +47,7 @@ public class SimpleTimerTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#SimpleTimer(rmblworx.tools.timey.vo.TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {
 		this.timer = new SimpleTimer(null);
 	}
@@ -70,7 +72,7 @@ public class SimpleTimerTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseAmountOfThreadsIsLessThanOne() {
 		this.timer.startStopwatch(0, 1, TimeUnit.NANOSECONDS);
 	}
@@ -78,7 +80,7 @@ public class SimpleTimerTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseDelayIsLessThanOne() {
 		this.timer.startStopwatch(1, 0, TimeUnit.NANOSECONDS);
 	}
@@ -86,7 +88,7 @@ public class SimpleTimerTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeUnitIsNull() {
 		this.timer.startStopwatch(1, 1, null);
 	}

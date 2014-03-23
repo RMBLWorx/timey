@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -169,7 +170,7 @@ public class AlarmTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmTimestampService)} .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseServiceIsNull() {
 		this.effectiveDelegate = new Alarm(null);
 	}

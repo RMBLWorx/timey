@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -58,7 +59,7 @@ public class CountdownStartCommandTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.CountdownStartCommand#CountdownStartCommand(ICountdown)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testExecuteShouldFailBecauseReceiverIsNull() {
 		this.command = new CountdownStartCommand(null);
 	}

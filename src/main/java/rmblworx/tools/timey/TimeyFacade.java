@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import rmblworx.tools.timey.exception.EmptyArgumentException;
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -61,7 +63,7 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public String getVersion(final String globPattern) throws Exception, IllegalArgumentException {
+	public String getVersion(final String globPattern) throws IllegalStateException, EmptyArgumentException, NullArgumentException {
 		return this.jarVersionDetector.detectJarVersion(globPattern);
 	}
 

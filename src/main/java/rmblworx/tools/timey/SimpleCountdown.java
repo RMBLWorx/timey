@@ -4,6 +4,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -28,9 +30,9 @@ public class SimpleCountdown implements ICountdownTimer {
 	private long timePassed = 0;
 
 	@Override
-	public Boolean setCountdownTime(TimeDescriptor descriptor) {
+	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
 		if (descriptor == null) {
-			throw new IllegalArgumentException("References on null are not permitted!");
+			throw new NullArgumentException();
 		}
 		this.timeDescriptor = descriptor;
 		return Boolean.TRUE;
@@ -38,8 +40,10 @@ public class SimpleCountdown implements ICountdownTimer {
 
 	@Override
 	public TimeDescriptor startCountdown(int amountOfThreads, int delayPerThread, TimeUnit timeUnit) {
-		if (amountOfThreads < 1 || delayPerThread < 1 || timeUnit == null) {
-			throw new IllegalArgumentException("Null References or values less than one are not permitted!");
+		if (amountOfThreads < 1 || delayPerThread < 1) {
+			throw new ValueMinimumArgumentException();
+		} else if (timeUnit == null) {
+			throw new NullArgumentException();
 		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
 		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);

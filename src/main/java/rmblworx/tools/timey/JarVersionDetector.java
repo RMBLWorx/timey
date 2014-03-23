@@ -26,6 +26,9 @@ import java.util.jar.Manifest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import rmblworx.tools.timey.exception.EmptyArgumentException;
+import rmblworx.tools.timey.exception.NullArgumentException;
+
 /**
  * Diese Implementierung ermöglicht das Auslesen der Attribute Bundle-Version und/oder Implementation-Version aus dem
  * Manifest einer zu findenden Jar-Datei. Gesucht wird hierbei im Verzeichnis in welchem timey ausgefuehrt wird.
@@ -131,14 +134,16 @@ public class JarVersionDetector {
 	 *            Name des jar-Archivs inklusive Dateiendung. Die Uebergabe in Form eines glob-Pattern ist ebenso
 	 *            moeglich.
 	 * @return Die Versionsnummer aus dem Manifest des Jar-Archivs. Wird keine Datei gefunden eine leere Zeichenkette.
-	 * @throws IllegalStateException
-	 *             wenn es mehr als ein jar-Archiv geben sollte ist eine eindeutige Versionsbenennung nicht moeglich.
-	 * @throws IllegalArgumentException
-	 *             wenn die Laenge der Zeichenkette kleiner 1 oder wenn {@code null} adressiert wird.
+	 * @throws EmptyArgumentException
+	 *             wenn die Laenge der Zeichenkette kleiner 1.
+	 * @throws NullArgumentException
+	 *             oder wenn {@code null} adressiert wird.
 	 */
-	public final String detectJarVersion(final String jarFilename) throws IllegalStateException, IllegalArgumentException {
-		if (jarFilename == null || jarFilename.length() < 1) {
-			throw new IllegalArgumentException("Zeichenkette der Laenge < 1 oder null Referenzen nicht zulaessig!");
+	public final String detectJarVersion(final String jarFilename) throws EmptyArgumentException, NullArgumentException {
+		if (jarFilename == null) {
+			throw new NullArgumentException();
+		} else if (jarFilename.length() < 1) {
+			throw new EmptyArgumentException();
 		}
 		final List<String> result = new LinkedList<String>();
 		File file;
@@ -190,11 +195,18 @@ public class JarVersionDetector {
 	 *         Liste.
 	 * @throws IOException
 	 *             wenn beim durchsuchen der Verzeichnisse ein Fehler auftrat.
+	 * @throws EmptyArgumentException
+	 *             wenn die Laenge der Zeichenkette kleiner 1.
+	 * @throws NullArgumentException
+	 *             oder wenn {@code null} adressiert wird.
 	 */
-	private List<Path> getPathToJar(final String pattern) throws IOException {
+	private List<Path> getPathToJar(final String pattern) throws IOException, EmptyArgumentException,
+			NullArgumentException {
 
-		if (pattern == null || pattern.length() < 1) {
-			throw new IllegalArgumentException("Null referenzierende oder leere Zeichenketten sind nicht zulaessig!");
+		if (pattern == null) {
+			throw new NullArgumentException();
+		} else if (pattern.length() < 1) {
+			throw new EmptyArgumentException();
 		}
 
 		final String property = System.getProperty("user.dir");
