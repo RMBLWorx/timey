@@ -141,15 +141,13 @@
 
 	<profiles>
 		<profile>
-			<id>gui-tests</id>
+			<id>all-tests</id>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration combine.self="override">
-							<groups>${timey.gui-test-marker.class}</groups>
-						</configuration>
+						<configuration combine.self="override" />
 					</plugin>
 				</plugins>
 			</build>
