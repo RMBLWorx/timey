@@ -23,7 +23,7 @@ public class Main extends Application {
 	/**
 	 * Dateiname der Konfigurationsdatei (kann auch Pfad enthalten).
 	 */
-	private static final String CONFIG_FILENAME = "Timey.config.xml";
+	private static final String CONFIG_FILENAME = "timey.config.xml";
 
 	/**
 	 * Startet die Anwendung.
