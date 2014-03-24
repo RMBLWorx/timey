@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 public class AlarmGetStateOfAlarmCommandTest {
@@ -68,7 +69,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
 		this.command = new AlarmGetStateOfAlarmCommand(null, this.descriptor);
 	}
@@ -77,7 +78,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseDescriptorIsNull() {
 		this.command = new AlarmGetStateOfAlarmCommand(this.mockedReceiver, null);
 	}

@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 public class CountdownSetTimeCommandTest {
@@ -64,7 +65,7 @@ public class CountdownSetTimeCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.CountdownSetTimeCommand#CountdownSetTimeCommand(ICountdown, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
 		this.command = new CountdownSetTimeCommand(null, this.descriptor);
 	}
@@ -73,7 +74,7 @@ public class CountdownSetTimeCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.CountdownSetTimeCommand#CountdownSetTimeCommand(ICountdown, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {
 		this.command = new CountdownSetTimeCommand(this.mockedReceiver, null);
 	}

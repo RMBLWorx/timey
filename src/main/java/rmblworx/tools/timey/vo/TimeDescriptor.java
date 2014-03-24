@@ -3,6 +3,8 @@ package rmblworx.tools.timey.vo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
+
 /**
  * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
  * Countdown, den Alarm und die Stopuhr benoetigt wird.
@@ -47,7 +49,7 @@ public class TimeDescriptor {
 	 */
 	public void setMilliSeconds(final long currentTimeMillis) {
 		if (currentTimeMillis < 0) {
-			throw new IllegalArgumentException("Values less than zero are not permitted!");
+			throw new ValueMinimumArgumentException("Values less than zero are not permitted!");
 		}
 		this.milliseconds = currentTimeMillis;
 	}

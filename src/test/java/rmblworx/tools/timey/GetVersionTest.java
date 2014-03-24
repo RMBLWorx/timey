@@ -1,5 +1,6 @@
 package rmblworx.tools.timey;
 
+
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -12,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import rmblworx.tools.timey.exception.EmptyArgumentException;
+import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
  * @author mmatthies
@@ -43,10 +47,12 @@ public class GetVersionTest {
 	 * Test method for {@link rmblworx.tools.timey.TimeyFacade#getVersion()}.
 	 * 
 	 * @throws Exception
-	 * @throws IllegalArgumentException
+	 * @throws IllegalStateException
+	 * @throws NullArgumentException
+	 * @throws EmptyArgumentException
 	 */
 	@Test
-	public final void testGetVersion() throws IllegalArgumentException, Exception {
+	public final void testGetVersion() throws IllegalStateException, NullArgumentException, EmptyArgumentException {
 		if (TimeyUtils.isWindowsSystem()) {
 			LOG.debug("Windows erkannt...");
 		} else if (TimeyUtils.isLinuxSystem()) {

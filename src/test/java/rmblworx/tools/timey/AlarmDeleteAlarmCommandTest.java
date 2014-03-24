@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -83,7 +84,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
 		this.command = new AlarmDeleteAlarmCommand(null, this.descriptor);
 	}
@@ -92,7 +93,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {
 		this.command = new AlarmDeleteAlarmCommand(this.mockedReceiver, null);
 	}

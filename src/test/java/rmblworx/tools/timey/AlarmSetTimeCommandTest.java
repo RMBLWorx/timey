@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -79,7 +80,7 @@ public class AlarmSetTimeCommandTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverReferencesNull() {
 		this.command = new AlarmSetTimeCommand(null, this.descriptor);
 	}
@@ -87,7 +88,7 @@ public class AlarmSetTimeCommandTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, TimeDescriptor)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {
 		this.command = new AlarmSetTimeCommand(this.mockedReceiver, null);
 	}

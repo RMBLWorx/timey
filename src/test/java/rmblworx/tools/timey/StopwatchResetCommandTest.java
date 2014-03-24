@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -61,7 +62,7 @@ public class StopwatchResetCommandTest {
 	 * Test method for
 	 * {@link rmblworx.tools.timey.StopwatchResetCommand#StopwatchResetCommand(rmblworx.tools.timey.IStopwatch)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
 		this.command = new StopwatchResetCommand(null);
 	}

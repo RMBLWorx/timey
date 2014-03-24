@@ -3,6 +3,7 @@
  */
 package rmblworx.tools.timey;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -27,7 +28,7 @@ public class CountdownSetTimeCommand implements ICommand {
 	public CountdownSetTimeCommand(final ICountdown receiver, final TimeDescriptor descriptor) {
 		super();
 		if (receiver == null || descriptor == null) {
-			throw new IllegalArgumentException("References on null are not permitted!");
+			throw new NullArgumentException();
 		}
 		this.fReceiver = receiver;
 		this.timeDescriptor = descriptor;

@@ -2,6 +2,7 @@ package rmblworx.tools.timey;
 
 import java.util.List;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -29,7 +30,7 @@ public class Alarm implements IAlarm {
 	 */
 	public Alarm(final IAlarmTimestampService service) {
 		if (service == null) {
-			throw new IllegalArgumentException("References on null are not permitted!");
+			throw new NullArgumentException();
 		}
 		this.service = service;
 	}

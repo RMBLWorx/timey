@@ -8,6 +8,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -77,7 +78,7 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
 		this.initCountdownTimer();
 		if (descriptor == null) {
-			throw new IllegalArgumentException("Null not permitted!");
+			throw new NullArgumentException();
 		}
 		return this.countdownTimer.setCountdownTime(descriptor);
 	}

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
+
 /**
  * Testklasse die das Wertobjekt zum kapseln der Zeitwerte testet.
  * 
@@ -58,7 +60,7 @@ public class TimeDescriptorTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.vo.TimeDescriptor#setMilliSeconds(long)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseValueLessThanZero() {
 		this.descriptor.setMilliSeconds(-1);
 	}

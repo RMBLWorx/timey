@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 public class AlarmGetAllAlarmtimestampsCommandTest {
@@ -53,7 +54,7 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#AlarmGetAllAlarmtimestampsCommand(IAlarm)}.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
 		this.command = new AlarmGetAllAlarmtimestampsCommand(null);
 	}

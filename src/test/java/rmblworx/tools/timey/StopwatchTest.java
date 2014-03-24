@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -50,7 +52,7 @@ public class StopwatchTest {
 	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testStopwatchShouldFailBecauseTimerIsNull() {
 		this.stopwatch = new Stopwatch(null, (byte) 1, 1, TimeUnit.MILLISECONDS);
 	}
@@ -60,7 +62,7 @@ public class StopwatchTest {
 	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testStopwatchShouldFailBecauseAmountOfThreadsIsLessThanOne() {
 		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 0, 1, TimeUnit.MILLISECONDS);
 	}
@@ -70,7 +72,7 @@ public class StopwatchTest {
 	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testStopwatchShouldFailBecauseDelayIsLessThanOne() {
 		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 1, 0, TimeUnit.MILLISECONDS);
 	}
@@ -80,7 +82,7 @@ public class StopwatchTest {
 	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullArgumentException.class)
 	public final void testStopwatchShouldFailBecauseTimeUnitIsNull() {
 		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 1, 1, null);
 	}

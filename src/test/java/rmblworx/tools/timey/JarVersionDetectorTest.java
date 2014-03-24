@@ -15,6 +15,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import rmblworx.tools.timey.exception.EmptyArgumentException;
+import rmblworx.tools.timey.exception.NullArgumentException;
+
 /**
  * @author mmatthies
  */
@@ -65,7 +68,7 @@ public class JarVersionDetectorTest {
 			return; // Test überspringen
 		}
 
-		assertNotNull(this.jarVersionDetector.detectJarVersion("timey*.jar"));
+		assertNotNull(this.jarVersionDetector.detectJarVersion("timey.jar"));
 	}
 
 	/**
@@ -80,7 +83,7 @@ public class JarVersionDetectorTest {
 		try {
 			this.jarVersionDetector.detectJarVersion(null);
 			fail();
-		} catch (final IllegalArgumentException e) {
+		} catch (final NullArgumentException e) {
 			// Test OK
 		}
 	}
@@ -97,7 +100,7 @@ public class JarVersionDetectorTest {
 		try {
 			this.jarVersionDetector.detectJarVersion("");
 			fail();
-		} catch (final IllegalArgumentException e) {
+		} catch (final EmptyArgumentException e) {
 			// Test OK
 		}
 	}

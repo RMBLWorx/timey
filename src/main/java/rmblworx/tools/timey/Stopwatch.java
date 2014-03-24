@@ -2,6 +2,8 @@ package rmblworx.tools.timey;
 
 import java.util.concurrent.TimeUnit;
 
+import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -47,8 +49,10 @@ class Stopwatch implements IStopwatch {
 	 *            Maszeinheit fuer den Intervall.
 	 */
 	public Stopwatch(final ITimer timer, final byte amount, final int delay, final TimeUnit unit) {
-		if (timer == null || amount < 1 || delay < 1 || unit == null) {
-			throw new IllegalArgumentException("Values less than one or references on null are not permittted!");
+		if (amount < 1 || delay < 1) {
+			throw new ValueMinimumArgumentException();
+		} else if (timer == null || unit == null) {
+			throw new NullArgumentException();
 		}
 		this.amountOfThreads = amount;
 		this.delayPerThread = delay;
