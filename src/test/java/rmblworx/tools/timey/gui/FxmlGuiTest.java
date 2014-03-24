@@ -38,7 +38,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 	 */
 	protected final Parent getRootNode() {
 		final GuiHelper guiHelper = new GuiHelper();
-		guiHelper.setFacade(getMockedFacade());
+		guiHelper.setFacade(mock(ITimey.class)); // Fassade für Tests mocken
 		final ResourceBundle i18n = guiHelper.getResourceBundle(Locale.GERMAN);
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
@@ -51,13 +51,6 @@ public abstract class FxmlGuiTest extends GuiTest {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	/**
-	 * @return Fassade für Tests
-	 */
-	protected ITimey getMockedFacade() {
-		return mock(ITimey.class);
 	}
 
 	/**
