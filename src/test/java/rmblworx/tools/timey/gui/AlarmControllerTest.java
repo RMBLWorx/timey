@@ -26,7 +26,7 @@ import org.loadui.testfx.utils.FXTestUtils;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class AlarmControllerTest extends FxmlGuiTest {
+public class AlarmControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * Container für Elemente.

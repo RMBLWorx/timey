@@ -15,7 +15,7 @@ import org.junit.experimental.categories.Category;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class TimeyControllerTest extends FxmlGuiTest {
+public class TimeyControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * {@inheritDoc}

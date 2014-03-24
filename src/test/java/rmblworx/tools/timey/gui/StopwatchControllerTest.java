@@ -24,7 +24,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class StopwatchControllerTest extends FxmlGuiTest {
+public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * Container für Elemente.

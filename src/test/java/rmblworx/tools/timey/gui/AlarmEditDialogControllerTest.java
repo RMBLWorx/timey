@@ -27,7 +27,7 @@ import rmblworx.tools.timey.gui.component.TimePicker;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class AlarmEditDialogControllerTest extends FxmlGuiTest {
+public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * Container für Elemente.

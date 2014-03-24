@@ -26,7 +26,7 @@ import rmblworx.tools.timey.gui.component.TimePicker;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class CountdownControllerTest extends FxmlGuiTest {
+public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * Container für Elemente.
