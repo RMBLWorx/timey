@@ -76,8 +76,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertFalse(countdownStartButton.isDisabled());
 
 		// Countdown starten
-		countdownStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(countdownStartButton);
 		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Zustand der Schaltflächen testen
@@ -89,8 +88,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertTrue(countdownStopButton.isFocused());
 
 		// Countdown stoppen
-		countdownStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(countdownStopButton);
 		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 
 		// Zustand der Schaltflächen testen
@@ -118,8 +116,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
 
 		// Countdown starten
-		countdownStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(countdownStartButton);
 
 		// verbleibende Zeit muss angezeigt sein
 		assertEquals("00:00:10", countdownTimeLabel.getText());
@@ -128,8 +125,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertTrue(countdownTimeLabel.isVisible());
 
 		// Countdown stoppen
-		countdownStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(countdownStopButton);
 
 		// verbleibende Zeit muss stimmen
 		assertEquals(10000, countdownTimePicker.getTime().getMillisOfDay());

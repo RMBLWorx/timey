@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
-import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -186,13 +185,11 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 
 		// Millisekunden-Anteil ausblenden
-		stopwatchShowMillisecondsCheckbox.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchShowMillisecondsCheckbox);
 		assertEquals("00:00:00", stopwatchTimeLabel.getText());
 
 		// Millisekunden-Anteil wieder einblenden
-		stopwatchShowMillisecondsCheckbox.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchShowMillisecondsCheckbox);
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 	}
 
@@ -203,24 +200,20 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	public final void testStopwatchStartStopTimeMeasured() {
 		// Stoppuhr starten
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
-		stopwatchStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStartButton);
 
 		// Stoppuhr stoppen
-		stopwatchStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStopButton);
 
 		// gemessene Zeit muss angezeigt sein
 		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
 
 		// Stoppuhr wieder starten, um zweite (additive) Messung zu berücksichtigen
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(200));
-		stopwatchStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStartButton);
 
 		// Stoppuhr wieder stoppen
-		stopwatchStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStopButton);
 
 		// gemessene Zeit muss angezeigt sein
 		assertEquals("00:00:00.200", stopwatchTimeLabel.getText());
@@ -232,8 +225,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	@Test
 	public final void testStopwatchReset() {
 		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
-		stopwatchResetButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchResetButton);
 		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
 
 		// angezeigte Zeit muss zurückgesetzt sein
@@ -241,19 +233,16 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Stoppuhr starten
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(9876));
-		stopwatchStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStartButton);
 
 		// gemessene Zeit muss angezeigt sein
 		assertEquals("00:00:09.876", stopwatchTimeLabel.getText());
 
 		// Stoppuhr stoppen
-		stopwatchStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStopButton);
 
 		// Stoppuhr zurücksetzen
-		stopwatchResetButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchResetButton);
 
 		// angezeigte Zeit muss zurückgesetzt sein
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
@@ -266,21 +255,18 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	public final void testStopwatchResetWhileRunning() {
 		// Stoppuhr starten
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
-		stopwatchStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStartButton);
 		verify(getController().getGuiHelper().getFacade()).startStopwatch();
 
 		// Stoppuhr zurücksetzen
-		stopwatchResetButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchResetButton);
 		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
 
 		// gemessene Zeit muss angezeigt sein
 		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
 
 		// Stoppuhr stoppen
-		stopwatchStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStopButton);
 		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
 	}
 
@@ -290,18 +276,15 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	@Test
 	public final void testStopwatchResetWhileRunningWithSplitTime() {
 		// Stoppuhr starten
-		stopwatchStartButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStartButton);
 		verify(getController().getGuiHelper().getFacade()).startStopwatch();
 
 		// Zwischenzeit aktivieren
-		stopwatchSplitTimeButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchSplitTimeButton);
 		verify(getController().getGuiHelper().getFacade()).toggleTimeModeInStopwatch();
 
 		// Stoppuhr zurücksetzen
-		stopwatchResetButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchResetButton);
 		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
 
 		// Zustand der Schaltflächen testen
@@ -316,8 +299,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 		assertFalse(stopwatchResetButton.isDisabled());
 
 		// Stoppuhr stoppen
-		stopwatchStopButton.fire();
-		FXTestUtils.awaitEvents();
+		click(stopwatchStopButton);
 		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
 	}
 
