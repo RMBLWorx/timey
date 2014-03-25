@@ -2,6 +2,7 @@ package rmblworx.tools.timey;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.BeansException;
@@ -32,6 +33,7 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 	 * Die bereits vergangene Zeit in Millisekunden.
 	 */
 	private long timePassed = 0;
+	private ScheduledFuture<?> countdownFuture;
 	/**
 	 * Referenz auf den Event-Dispatcher.
 	 */
@@ -66,16 +68,19 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 			throw new NullArgumentException();
 		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		// final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
-		final CountdownRunnable countdown = (CountdownRunnable) this.springContext.getBean("countdownRunnable");
-		this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
+		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
+
+		countdownFuture = this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
 	}
 
 	@Override
 	public Boolean stopCountdown() {
-		TimeyUtils.shutdownScheduler(this.scheduler);
+		if (this.scheduler != null) {
+			final TaskStopper stopRunnable = new TaskStopper(scheduler, countdownFuture);
+			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
+		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 
 		return Boolean.TRUE;
