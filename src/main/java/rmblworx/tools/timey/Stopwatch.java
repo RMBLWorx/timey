@@ -7,12 +7,8 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "Receiver" implementation.
- * <ul>
- * <li>knows how to perform the operations associated with carrying out a request. Any class may serve as a Receiver.</li>
- * </ul>
+ * Diese Implementierung dient der Steuerung der Stoppuhr.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 class Stopwatch implements IStopwatch {
@@ -37,7 +33,7 @@ class Stopwatch implements IStopwatch {
 	private final TimeUnit timeUnit;
 
 	/**
-	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
+	 * Konstruktor welcher eine Instanz von diesem Receiver erzeugt.
 	 * 
 	 * @param timer
 	 *            Implementierung einer Stoppuhr
@@ -82,5 +78,4 @@ class Stopwatch implements IStopwatch {
 
 		return Boolean.TRUE;
 	}
-
 }

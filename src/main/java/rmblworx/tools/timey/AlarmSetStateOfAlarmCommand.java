@@ -1,24 +1,18 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "ConcreteCommand" implementation.
- * <ul>
- * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
- * </ul>
+ * Kommando zum Aktivieren eines Alarmzeitpunktes.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author "mmatthies"
  */
 public class AlarmSetStateOfAlarmCommand implements ICommand {
 
-	/** stores the Receiver instance of the ConcreteCommand */
+	/**
+	 * Speichert die Empfaenger-Instanz.
+	 */
 	private final IAlarm fReceiver;
 	/**
 	 * Status des Alarmzeitpunktes.
@@ -40,7 +34,6 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	 *            Aussage ob der Alarmzeitpunkt aktiviert sein soll
 	 */
 	public AlarmSetStateOfAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor, final Boolean isActivated) {
-		super();
 		if (receiver == null || descriptor == null || isActivated == null) {
 			throw new NullArgumentException();
 		}
@@ -50,11 +43,10 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding
-	 * method of the Receiver instance.
+	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
 	@Override
-	public <T> T execute() {
-		return (T) this.fReceiver.setStateOfAlarmtimestamp(this.timeDescriptor, this.isActivated);
+	public Boolean execute() {
+		return this.fReceiver.setStateOfAlarmtimestamp(this.timeDescriptor, this.isActivated);
 	}
 }

@@ -1,5 +1,3 @@
-/**
- */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.TimeUnit;
@@ -12,12 +10,8 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "Receiver" implementation.
- * <ul>
- * <li>knows how to perform the operations associated with carrying out a request. Any class may serve as a Receiver.</li>
- * </ul>
+ * Ermoeglicht die Zeitmessung in Form eines Countdowns.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 class Countdown implements ICountdown, ApplicationContextAware {

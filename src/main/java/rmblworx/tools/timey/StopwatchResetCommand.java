@@ -3,27 +3,24 @@ package rmblworx.tools.timey;
 import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
- * PatternBox: "ConcreteCommand" implementation.
- * <ul>
- * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
- * </ul>
+ * Kommando zum Zuruecksetzen der Stoppuhr.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 public class StopwatchResetCommand implements ICommand {
 
 	/**
-	 * Stores the Receiver instance of the ConcreteCommand.
+	 * Speichert die Empfaenger-Instanz.
 	 */
 	private final IStopwatch fReceiver;
 
 	/**
-	 * Constructor.
+	 * Konstruktor.
+	 * 
+	 * @param receiver
+	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
 	 */
 	public StopwatchResetCommand(final IStopwatch receiver) {
-		super();
 		if (receiver == null) {
 			throw new NullArgumentException();
 		}
@@ -31,16 +28,10 @@ public class StopwatchResetCommand implements ICommand {
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding method
-	 * of the Receiver instance.
-	 * 
-	 * @return
+	 * @return true wenn erfolgreich zurueckgesetzt werden konnte sonst false
 	 */
 	@Override
-	public <T> T execute() {
-		this.fReceiver.resetStopwatch();
-
-		return (T) Boolean.TRUE;
+	public Boolean execute() {
+		return this.fReceiver.resetStopwatch();
 	}
-
 }

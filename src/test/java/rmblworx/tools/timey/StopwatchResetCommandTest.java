@@ -5,6 +5,7 @@ package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 import org.junit.After;
 import org.junit.Before;
@@ -72,6 +73,7 @@ public class StopwatchResetCommandTest {
 	 */
 	@Test
 	public final void testExecute() {
+		when(this.mockedReceiver.resetStopwatch()).thenReturn(Boolean.TRUE);
 		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 }

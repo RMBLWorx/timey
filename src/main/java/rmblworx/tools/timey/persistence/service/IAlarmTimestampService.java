@@ -2,7 +2,6 @@ package rmblworx.tools.timey.persistence.service;
 
 import java.util.List;
 
-import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**

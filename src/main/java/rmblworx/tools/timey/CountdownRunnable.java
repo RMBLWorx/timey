@@ -12,6 +12,7 @@ public class CountdownRunnable extends TimeyTimeRunnable {
 	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
 	 */
 	private final long timeCountdown;
+
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in
@@ -41,11 +42,7 @@ public class CountdownRunnable extends TimeyTimeRunnable {
 	public void run() {
 		this.lock.lock();
 		try {
-			if (this.timeDescriptor.getMilliSeconds() > 0) {
-				this.computeTime();
-			}else{
-				//TODO: Event werfen damit GUI Bescheid weisz das Countdown fertig auf 0
-			}
+			this.computeTime();
 		} finally {
 			this.lock.unlock();
 		}

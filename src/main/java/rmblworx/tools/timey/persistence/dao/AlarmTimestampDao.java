@@ -71,7 +71,7 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public Boolean deleteAlarmTimestamp(final TimeDescriptor descriptor) {
 		Boolean result = Boolean.FALSE;
-		if (null != descriptor){
+		if (null != descriptor) {
 			final List<AlarmTimestamp> allTimestamps = this.getAll();
 			try {
 				for (AlarmTimestamp alarmTimestamp : allTimestamps) {

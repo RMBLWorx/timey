@@ -1,35 +1,28 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "Client" implementation.
- * <ul>
- *   <li>creates a ConcreteCommand object and sets its receiver.</li>
- * </ul>
+ * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author "mmatthies"
  */
 public class CountdownClient {
 
-	/** stores the Receiver instance of the Client. */
+	/** Speichert die Empfaenger Instanz des Klient. */
 	private final ICountdown fReceiver;
 
 	/**
-	 * This construtor creates a Client instance and stores the given Receiver.
-	 * @param receiver Empfaenger-Referenz.
+	 * Erzeugt eine Klient-Instanz und speichert die uebergebene Empfaengerimplementierung.
+	 * 
+	 * @param receiver
+	 *            Empfaenger-Referenz.
 	 */
 	public CountdownClient(final ICountdown receiver) {
-		super();
 		this.fReceiver = receiver;
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver object.
 	 * @return Werteobjekt das die Countdownzeit kapselt.
 	 */
 	public TimeDescriptor initCountdownStartCommand() {
@@ -39,8 +32,8 @@ public class CountdownClient {
 
 		return invoker.execute();
 	}
+
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver object.
 	 * @return true wenn erfolgreich sonst false.
 	 */
 	public Boolean initCountdownStopCommand() {
@@ -50,9 +43,10 @@ public class CountdownClient {
 
 		return invoker.execute();
 	}
+
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver object.
-	 * @param descriptor Werteobjekt das die Countdownzeit kapselt.
+	 * @param descriptor
+	 *            Werteobjekt das die Countdownzeit kapselt.
 	 * @return true wenn erfolgreich sonst false.
 	 */
 	public Boolean initSetCountdownTimeCommand(final TimeDescriptor descriptor) {

@@ -7,12 +7,8 @@ import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "Receiver" implementation.
- * <ul>
- * <li>knows how to perform the operations associated with carrying out a request. Any class may serve as a Receiver.</li>
- * </ul>
+ * Diese Implementierung dient der Steuerung des Alarmsystems.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 public class Alarm implements IAlarm {

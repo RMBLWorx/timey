@@ -3,27 +3,32 @@ package rmblworx.tools.timey;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "Client" implementation.
- * <ul>
- * <li>creates a ConcreteCommand object and sets its receiver.</li>
- * </ul>
+ * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 public class AlarmClient {
-	/** stores the Receiver instance of the Client. */
+	/**
+	 * Speichert die Empfaenger-Instanz.
+	 */
 	private final IAlarm fReceiver;
 
 	/**
-	 * This construtor creates a Client instance and stores the given Receiver.
+	 * Konstruktor.
+	 * 
+	 * @param receiver
+	 *            Referenz auf die Empfaenger-Instanz.
 	 */
 	public AlarmClient(final IAlarm receiver) {
-		super();
 		this.fReceiver = receiver;
 	}
 
-	public Boolean initAlarmDeleteAlarm(TimeDescriptor descriptor) {
+	/**
+	 * @param descriptor
+	 *            zu löschender Alarmzeitpunkt
+	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
+	 */
+	public Boolean initAlarmDeleteAlarm(final TimeDescriptor descriptor) {
 		final AlarmDeleteAlarmCommand cmd = new AlarmDeleteAlarmCommand(this.fReceiver, descriptor);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
@@ -32,7 +37,12 @@ public class AlarmClient {
 
 	}
 
-	public Boolean initAlarmGetStateOfAlarmCommand(TimeDescriptor descriptor) {
+	/**
+	 * @param descriptor
+	 *            Referenz auf das Zeitobjekt
+	 * @return true oder false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
+	 */
+	public Boolean initAlarmGetStateOfAlarmCommand(final TimeDescriptor descriptor) {
 		final AlarmGetStateOfAlarmCommand cmd = new AlarmGetStateOfAlarmCommand(this.fReceiver, descriptor);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);

@@ -1,16 +1,15 @@
 package rmblworx.tools.timey;
 
 /**
- * PatternBox: "Invoker" implementation.
- * <ul>
- * <li>asks the command to carry out the request.</li>
- * </ul>
+ * Aufruferimplementierung die das uebergebene Kommando ausfuehrt.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 public class Invoker {
-	/** stores the Command instance of the Invoker */
+
+	/**
+	 * Referenz auf die Komandoimplementierung.
+	 */
 	private ICommand fCommand;
 
 	/**
@@ -21,7 +20,10 @@ public class Invoker {
 	}
 
 	/**
-	 * Constructor.
+	 * Konstruktor.
+	 * 
+	 * @param cmd
+	 *            Referenz der auszufuehrenden Kommandoimplementierung.
 	 */
 	public Invoker(final ICommand cmd) {
 		super();
@@ -29,17 +31,22 @@ public class Invoker {
 	}
 
 	/**
-	 * This method performs the actions associated with the ConcreteCommand
-	 * instance.
+	 * @return den durch das jeweilige Kommando definierte Rueckgabewert.
+	 * @param <T>
+	 *            generischer Rueckgabetyp. Was konkret geliefert wird, legt die Implementierung des Kommandos fest.
 	 */
-	public <T> T execute() {
+	@SuppressWarnings("unchecked")
+	public final <T> T execute() {
 		return (T) this.fCommand.execute();
 	}
 
 	/**
-	 * This method stores a ConcreteCommand instance.
+	 * Setzt die Referenz der Kommandoimplementierung.
+	 * 
+	 * @param cmd
+	 *            Referenz auf die Kommandoimplemetierung
 	 */
-	public void storeCommand(final ICommand cmd) {
+	public final void storeCommand(final ICommand cmd) {
 		this.fCommand = cmd;
 	}
 }

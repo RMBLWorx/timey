@@ -3,6 +3,8 @@ package rmblworx.tools.timey;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
+ * Schnittstellenbeschreibung des Countdown-Systems.
+ * 
  * @author mmatthies
  */
 interface ICountdown {
@@ -19,8 +21,8 @@ interface ICountdown {
 	/**
 	 * Startet den Countdown.
 	 * 
-	 * @return Werteobjekt mit den gesetzten Zeitwerten.Es handelt sich hierbei um das ueber {@link #setTime(TimeDescriptor)}
-	 *         uebergebene Objekt.
+	 * @return Werteobjekt mit den gesetzten Zeitwerten.Es handelt sich hierbei um das ueber
+	 *         {@link #setTime(TimeDescriptor)} uebergebene Objekt.
 	 */
 	TimeDescriptor startCountdown();
 
@@ -30,5 +32,4 @@ interface ICountdown {
 	 * @return true wenn erfolgreich.
 	 */
 	Boolean stopCountdown();
-
 }

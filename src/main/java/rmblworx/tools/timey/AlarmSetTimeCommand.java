@@ -4,17 +4,15 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "ConcreteCommand" implementation.
- * <ul>
- * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
- * </ul>
+ * Kommando zum Setzen der Alarmzeit.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 public class AlarmSetTimeCommand implements ICommand {
-	/** stores the Receiver instance of the ConcreteCommand. */
+
+	/**
+	 * Speichert die Empfaenger-Instanz.
+	 */
 	private final IAlarm fReceiver;
 	/**
 	 * Beschreibung des Alarmzeitpunktes.
@@ -23,11 +21,13 @@ public class AlarmSetTimeCommand implements ICommand {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * @param receiver Empfaengerimplmentierung.
-	 * @param descriptor Beschreibung des Alarmzeitpunktes.
+	 * 
+	 * @param receiver
+	 *            Empfaengerimplmentierung.
+	 * @param descriptor
+	 *            Beschreibung des Alarmzeitpunktes.
 	 */
 	public AlarmSetTimeCommand(final IAlarm receiver, final TimeDescriptor descriptor) {
-		super();
 		if (receiver == null || descriptor == null) {
 			throw new NullArgumentException();
 		}
@@ -36,12 +36,10 @@ public class AlarmSetTimeCommand implements ICommand {
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding method
-	 * of the Receiver instance.
-	 * 
+	 * @return true wenn erfolgreich sonst false
 	 */
 	@Override
-	public <T> T execute() {
-		return	(T)	this.fReceiver.setAlarmtimestamp(this.timeDescriptor);
+	public Boolean execute() {
+		return this.fReceiver.setAlarmtimestamp(this.timeDescriptor);
 	}
 }

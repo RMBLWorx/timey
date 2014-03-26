@@ -1,38 +1,29 @@
 package rmblworx.tools.timey;
 
 /**
- * PatternBox: "Client" implementation.
- * <ul>
- * <li>creates a ConcreteCommand object and sets its receiver.</li>
- * </ul>
+ * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 public class StopwatchClient {
 
 	/**
-	 * stores the Receiver instance of the Client.
+	 * Referenz auf die Empfaengerimplementierung.
 	 */
 	private final IStopwatch fReceiver;
 
 	/**
-	 * This construtor creates a Client instance and stores the given
-	 * Receiver.
+	 * Erzeugt eine Instanz dieses Klients und speichert die Referenz auf die Empfaengerimplementierung.
 	 * 
 	 * @param receiver
-	 *            Referenz auf die Implementierung die dieser Client steuern soll.
+	 *            Referenz auf die Implementierung die dieser Client den Kommandos uebergeben soll.
 	 */
 	public StopwatchClient(final IStopwatch receiver) {
-		super();
 		this.fReceiver = receiver;
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a
-	 * Receiver object.
-	 * 
-	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
+	 * @return true wenn erfolgreich sonst false
 	 */
 	public <T> T initStopwatchResetCommand() {
 		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
@@ -43,10 +34,7 @@ public class StopwatchClient {
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a
-	 * Receiver object.
-	 * 
-	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
+	 * @return Zeitwertobjekt das die gemessene Zeit kapselt.
 	 */
 	public <T> T initStopwatchStartCommand() {
 		final StopwatchStartCommand cmd = new StopwatchStartCommand(this.fReceiver);
@@ -57,10 +45,7 @@ public class StopwatchClient {
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a
-	 * Receiver object.
-	 * 
-	 * @return Das Ergebnis wird vom implementierten Kommando festgelegt.
+	 * @return true wenn erfolgreich gestoppt sonst false
 	 */
 	public <T> T initStopwatchStopCommand() {
 		final StopwatchStopCommand cmd = new StopwatchStopCommand(this.fReceiver);

@@ -1,31 +1,27 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-
+import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "ConcreteCommand" implementation.
- * <ul>
- *   <li>defines a binding between a Receiver object and an action.</li>
- *   <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
- * </ul>
+ * Diese Kommandoimplementierung ermoeglicht das Starten eines Countdowns.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author "mmatthies"
  */
 public class CountdownStartCommand implements ICommand {
 
-	/** stores the Receiver instance of the ConcreteCommand */
+	/**
+	 * Referenz der Empfaengerimplementierung.
+	 */
 	private final ICountdown fReceiver;
 
 	/**
-	 * Constructor
+	 * Konstruktor.
+	 * 
+	 * @param receiver
+	 *            Referenz der Empfaengerimplementierung
 	 */
 	public CountdownStartCommand(final ICountdown receiver) {
-		super();
 		if (receiver == null) {
 			throw new NullArgumentException();
 		}
@@ -33,12 +29,10 @@ public class CountdownStartCommand implements ICommand {
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding
-	 * method of the Receiver instance.
+	 * @return Referenz auf das Zeitbeschreibungsobjekt welches die noch verbleibende Zeit uebermittelt.
 	 */
 	@Override
-	public <T>T execute() {
-		return (T) this.fReceiver.startCountdown();
+	public TimeDescriptor execute() {
+		return this.fReceiver.startCountdown();
 	}
-
 }
