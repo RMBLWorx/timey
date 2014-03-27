@@ -48,9 +48,12 @@ public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationC
 	public void run() {
 		this.lock.lock();
 		try {
-			this.computeTime();
+			if (this.timeDescriptor.getMilliSeconds() > 0) {
+				this.computeTime();
 			} else {
+				this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 				this.eventDispatcher.dispatchEvent(new CountdownExpiredEvent());
+			}
 		} finally {
 			this.lock.unlock();
 		}
@@ -59,6 +62,5 @@ public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationC
 	@Override
 	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
-		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 }
