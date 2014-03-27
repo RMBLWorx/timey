@@ -22,7 +22,7 @@ public class TimeyEventDispatcher {
 		this.listener.remove(timeyEventListener);
 	}
 
-	private synchronized void dispatchEvent(TimeyEvent timeyEvent) {
+	protected synchronized void dispatchEvent(TimeyEvent timeyEvent) {
 		Iterator<TimeyEventListener> it = this.listener.iterator();
 		while (it.hasNext()) {
 			it.next().handleEvent(timeyEvent);

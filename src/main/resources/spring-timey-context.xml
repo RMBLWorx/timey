@@ -52,6 +52,7 @@
 	</bean>
 	<bean id="simpleCountdown" name="simpleCountdown"
 		class="rmblworx.tools.timey.SimpleCountdown">
+		<constructor-arg ref="timeyEventDispatcher" />
 	</bean>
 	<bean id="jarVersionDetector" name="jarVersionDetector"
 		class="rmblworx.tools.timey.JarVersionDetector" scope="singleton">

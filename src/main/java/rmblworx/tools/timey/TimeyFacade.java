@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -53,8 +54,12 @@ public final class TimeyFacade implements ITimey {
 	 * Standardkonstruktor.
 	 */
 	public TimeyFacade() {
-		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
-
+		try {
+			this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
+		} catch (final BeansException e) {
+			LOG.error(e.getMessage());
+			throw e;
+		}
 		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
 		this.countdownClient = (CountdownClient) this.springContext.getBean("countdownClient");
