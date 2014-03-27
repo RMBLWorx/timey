@@ -17,7 +17,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public class SimpleCountdown implements ICountdownTimer, TimeyEventListener {
+public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -36,10 +36,13 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener {
 	 * Referenz auf den Event-Dispatcher.
 	 */
 	private TimeyEventDispatcher dispatcher;
+	private ApplicationContext springContext;
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * @param timeyEventDispatcher Referenz auf den Event-Dispatcher
+	 * 
+	 * @param timeyEventDispatcher
+	 *            Referenz auf den Event-Dispatcher
 	 */
 	public SimpleCountdown(final TimeyEventDispatcher timeyEventDispatcher) {
 		this.dispatcher = timeyEventDispatcher;
@@ -63,8 +66,8 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener {
 			throw new NullArgumentException();
 		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
-
+		// final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
+		final CountdownRunnable countdown = (CountdownRunnable) this.springContext.getBean("countdownRunnable");
 		this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
@@ -83,5 +86,10 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener {
 		if (timeyEvent instanceof CountdownExpiredEvent) {
 			this.stopCountdown();
 		}
+	}
+
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
 	}
 }
