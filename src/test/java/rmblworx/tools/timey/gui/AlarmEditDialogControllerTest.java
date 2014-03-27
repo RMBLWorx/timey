@@ -16,6 +16,7 @@ import jfxtras.labs.scene.control.CalendarTextField;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.gui.component.TimePicker;
 
@@ -104,9 +105,9 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Speichern-Schaltfläche betätigen
 		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 		alarmSaveButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// TODO auf Schließen des Dialogs warten
-		sleep(50); // TODO anders lösen
 
 		// TODO sicherstellen, dass Dialog geschlossen wurde
 		// assertFalse(stage.isShowing());
@@ -157,9 +158,9 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Abbrechen-Schaltfläche betätigen
 		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 		alarmCancelButton.fire();
+		FXTestUtils.awaitEvents();
 
 		// TODO auf Schließen des Dialogs warten
-		sleep(50); // TODO anders lösen
 
 		// TODO sicherstellen, dass Dialog geschlossen wurde
 		// assertFalse(stage.isShowing());
