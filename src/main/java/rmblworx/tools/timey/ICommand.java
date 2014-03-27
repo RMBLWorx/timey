@@ -1,22 +1,18 @@
 package rmblworx.tools.timey;
 
 /**
- * PatternBox: "Command" implementation.
- * <ul>
- * <li>declares an interface for executing an operation.</li>
- * </ul>
+ * Sehr allgemein gehaltene Schnittstellenbeschreibung fuer Kommandoimplementierungen.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author mmatthies
  */
 interface ICommand {
 
 	/**
-	 * This abstract method must be implemented by the ConcreteCommand
-	 * implementation.
+	 * Ist von der konkreten Implementierung umzusetzen.
 	 * 
 	 * @param <T>
+	 *            wird von der jeweiligen konkreten Implementierung vorgegeben.
+	 * @return T wird von der jeweiligen konkreten Implementierung vorgegeben.
 	 */
 	<T> T execute();
-
 }

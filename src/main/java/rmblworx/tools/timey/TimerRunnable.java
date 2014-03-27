@@ -31,7 +31,6 @@ public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 
 		this.timeDelta = currentTimeMillis - this.timeStarted;
 		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
-		// LOG.debug("current (UTC): " + DATE_FORMATTER.format(currentTimeMillis));
 	}
 
 	@Override

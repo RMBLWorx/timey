@@ -1,31 +1,29 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
+import java.util.List;
+
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * PatternBox: "ConcreteCommand" implementation.
- * <ul>
- *   <li>defines a binding between a Receiver object and an action.</li>
- *   <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
- * </ul>
+ * Kommando ermoeglicht das Abrufen aller erfassten Alarmzeitpunkte.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author "mmatthies"
  */
 public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
 
-	/** stores the Receiver instance of the ConcreteCommand. */
+	/**
+	 * Speichert die Empfaenger-Instanz.
+	 */
 	private final IAlarm fReceiver;
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * @param receiver Empfaengerimplementierung
+	 * 
+	 * @param receiver
+	 *            Empfaengerimplementierung
 	 */
 	public AlarmGetAllAlarmtimestampsCommand(final IAlarm receiver) {
-		super();
 		if (receiver == null) {
 			throw new NullArgumentException();
 		}
@@ -33,12 +31,10 @@ public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding
-	 * method of the Receiver instance.
+	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
 	@Override
-	public <T> T execute() {
-		return (T) this.fReceiver.getAllAlarmtimestamps();
+	public List<TimeDescriptor> execute() {
+		return this.fReceiver.getAllAlarmtimestamps();
 	}
-
 }

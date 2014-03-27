@@ -1,30 +1,26 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
- * PatternBox: "ConcreteCommand" implementation.
- * <ul>
- * <li>defines a binding between a Receiver object and an action.</li>
- * <li>implements Execute by invoking the corresponding operation(s) on Receiver.</li>
- * </ul>
+ * Kommandoimplementierung zum stoppen eines Countdowns.
  * 
- * @author Dirk Ehms, <a href="http://www.patternbox.com">www.patternbox.com</a>
  * @author "mmatthies"
  */
 public class CountdownStopCommand implements ICommand {
 
-	/** stores the Receiver instance of the ConcreteCommand */
+	/**
+	 * Referenz der Empfaengerimplementierung.
+	 */
 	private final ICountdown fReceiver;
 
 	/**
-	 * Constructor
+	 * Konstruktor.
+	 * 
+	 * @param receiver
+	 *            Referenz der Empfaengerimplementierung
 	 */
-	public CountdownStopCommand(ICountdown receiver) {
-		super();
+	public CountdownStopCommand(final ICountdown receiver) {
 		if (receiver == null) {
 			throw new NullArgumentException();
 		}
@@ -32,12 +28,10 @@ public class CountdownStopCommand implements ICommand {
 	}
 
 	/**
-	 * This method executes the command by invoking the corresponding
-	 * method of the Receiver instance.
+	 * @return true wenn der Countdown gestoppt werden konnte sonst false
 	 */
 	@Override
-	public <T> T execute() {
-		return (T) this.fReceiver.stopCountdown();
+	public Boolean execute() {
+		return this.fReceiver.stopCountdown();
 	}
-
 }

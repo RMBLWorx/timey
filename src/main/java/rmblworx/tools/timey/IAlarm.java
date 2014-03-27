@@ -55,5 +55,4 @@ interface IAlarm {
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
 	Boolean setStateOfAlarmtimestamp(TimeDescriptor descriptor, Boolean isActivated);
-
 }

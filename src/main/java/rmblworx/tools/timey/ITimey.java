@@ -4,6 +4,8 @@ import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
+ * Schnittstellenbeschreibung des timey-Systems.
+ * 
  * @author mmatthies
  */
 public interface ITimey extends IAlarm, ICountdown, IStopwatch {
@@ -11,10 +13,15 @@ public interface ITimey extends IAlarm, ICountdown, IStopwatch {
 	/**
 	 * Liefert die Version von timey.
 	 * 
+	 * @param globPattern
+	 *            Pattern zur Beschreibung des zu suchenden Jar-Archivs.
 	 * @return die aktuelle Version.
-	 * @throws Exception wenn es mehr als ein jar-Archiv geben sollte ist eine eindeutige Versionsbenennung nicht moeglich.
-	 * @throws NullArgumentException wenn {@code null} adressiert wird
-	 * @throws EmptyArgumentException wenn die Laenge der Zeichenkette kleiner 1 oder
+	 * @throws IllegalStateException
+	 *             wenn es mehr als ein jar-Archiv geben sollte ist eine eindeutige Versionsbenennung nicht moeglich.
+	 * @throws NullArgumentException
+	 *             wenn {@code null} adressiert wird
+	 * @throws EmptyArgumentException
+	 *             wenn die Laenge der Zeichenkette kleiner Eins
 	 */
-	String getVersion(String globPattern) throws Exception, NullArgumentException, EmptyArgumentException;
+	String getVersion(String globPattern) throws IllegalStateException, NullArgumentException, EmptyArgumentException;
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import rmblworx.tools.timey.persistence.dao.IAlarmTimestampDao;
-import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
