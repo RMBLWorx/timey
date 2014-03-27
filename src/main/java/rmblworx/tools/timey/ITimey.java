@@ -24,4 +24,12 @@ public interface ITimey extends IAlarm, ICountdown, IStopwatch {
 	 *             wenn die Laenge der Zeichenkette kleiner Eins
 	 */
 	String getVersion(String globPattern) throws IllegalStateException, NullArgumentException, EmptyArgumentException;
+
+	/**
+	 * Registriert den uebergebenen Event-Listener.
+	 * 
+	 * @param timeyEventListener
+	 *            zu benachrichtigender Event-Listener
+	 */
+	void addEventListener(TimeyEventListener timeyEventListener);
 }

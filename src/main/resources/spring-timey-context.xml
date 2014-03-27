@@ -56,6 +56,10 @@
 	<bean id="jarVersionDetector" name="jarVersionDetector"
 		class="rmblworx.tools.timey.JarVersionDetector" scope="singleton">
 	</bean>
+
+	<bean id="timeyEventDispatcher" name="timeyEventDispatcher"
+		class="rmblworx.tools.timey.TimeyEventDispatcher" scope="singleton">
+	</bean>
 	<!-- ############################# Werteobjekte ################################## -->
 	<bean id="descriptor" name="descriptor"
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
