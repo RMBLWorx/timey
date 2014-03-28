@@ -38,7 +38,7 @@
 		<constructor-arg ref="countdownReceiver" />
 	</bean>
 	<!-- ###################### sonstige-Implementierungen ############################# -->
-	<bean id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
+	<bean scope="prototype" id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>

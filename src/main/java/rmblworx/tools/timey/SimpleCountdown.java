@@ -33,11 +33,17 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 	 * Die bereits vergangene Zeit in Millisekunden.
 	 */
 	private long timePassed = 0;
+	/**
+	 * Referenz auf das Future-Objekt der aktuellen Zeitmessung.
+	 */
 	private ScheduledFuture<?> countdownFuture;
 	/**
 	 * Referenz auf den Event-Dispatcher.
 	 */
 	private TimeyEventDispatcher dispatcher;
+	/**
+	 * Spring-Kontext.
+	 */
 	private ApplicationContext springContext;
 
 	/**
