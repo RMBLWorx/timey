@@ -42,7 +42,7 @@
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
-	<bean id="countdownRunnable" name="countdownRunnable"
+	<bean scope="prototype" id="countdownRunnable" name="countdownRunnable"
 		class="rmblworx.tools.timey.CountdownRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />

@@ -61,14 +61,15 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 	}
 
 	@Override
-	public TimeDescriptor startCountdown(int amountOfThreads, int delayPerThread, TimeUnit timeUnit) {
+	public TimeDescriptor startCountdown(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
 		if (amountOfThreads < 1 || delayPerThread < 1) {
 			throw new ValueMinimumArgumentException();
 		} else if (timeUnit == null) {
 			throw new NullArgumentException();
 		}
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		final CountdownRunnable countdown = new CountdownRunnable(this.timeDescriptor, this.timePassed);
+		final CountdownRunnable countdown = (CountdownRunnable) this.springContext.getBean("countdownRunnable",
+				this.timeDescriptor, Long.valueOf(this.timePassed));
 
 		countdownFuture = this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
 
@@ -77,7 +78,7 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 
 	@Override
 	public Boolean stopCountdown() {
-		if (this.scheduler != null) {
+		if (this.scheduler != null && !this.scheduler.isTerminated()) {
 			final TaskStopper stopRunnable = new TaskStopper(scheduler, countdownFuture);
 			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
 		}
