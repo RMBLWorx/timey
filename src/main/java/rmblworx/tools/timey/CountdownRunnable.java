@@ -4,6 +4,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import rmblworx.tools.timey.event.CountdownExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEventDispatcher;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**

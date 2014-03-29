@@ -12,10 +12,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import rmblworx.tools.timey.CountdownExpiredEvent;
 import rmblworx.tools.timey.ITimey;
-import rmblworx.tools.timey.TimeyEvent;
-import rmblworx.tools.timey.TimeyEventListener;
+import rmblworx.tools.timey.event.CountdownExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
+import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 

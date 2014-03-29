@@ -59,7 +59,7 @@
 	</bean>
 
 	<bean id="timeyEventDispatcher" name="timeyEventDispatcher"
-		class="rmblworx.tools.timey.TimeyEventDispatcher" scope="singleton">
+		class="rmblworx.tools.timey.event.TimeyEventDispatcher" scope="singleton">
 	</bean>
 	<!-- ############################# Werteobjekte ################################## -->
 	<bean id="descriptor" name="descriptor"
