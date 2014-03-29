@@ -11,8 +11,13 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
@@ -21,7 +26,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 /**
  * @author mmatthies
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring-timey-context.xml" })
 public class SimpleTimerTest {
+	@Autowired
+	ApplicationContext springContext;
+	@Autowired
 	private SimpleTimer timer;
 	@Mock
 	private TimeDescriptor mockedDescriptor;
@@ -33,6 +43,7 @@ public class SimpleTimerTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.timer = new SimpleTimer(this.mockedDescriptor);
+		this.timer.setApplicationContext(springContext);
 	}
 
 	/**

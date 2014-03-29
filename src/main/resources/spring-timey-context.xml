@@ -38,11 +38,11 @@
 		<constructor-arg ref="countdownReceiver" />
 	</bean>
 	<!-- ###################### sonstige-Implementierungen ############################# -->
-	<bean id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
+	<bean scope="prototype" id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
-	<bean id="countdownRunnable" name="countdownRunnable"
+	<bean scope="prototype" id="countdownRunnable" name="countdownRunnable"
 		class="rmblworx.tools.timey.CountdownRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
@@ -52,9 +52,14 @@
 	</bean>
 	<bean id="simpleCountdown" name="simpleCountdown"
 		class="rmblworx.tools.timey.SimpleCountdown">
+		<constructor-arg ref="timeyEventDispatcher" />
 	</bean>
 	<bean id="jarVersionDetector" name="jarVersionDetector"
 		class="rmblworx.tools.timey.JarVersionDetector" scope="singleton">
+	</bean>
+
+	<bean id="timeyEventDispatcher" name="timeyEventDispatcher"
+		class="rmblworx.tools.timey.event.TimeyEventDispatcher" scope="singleton">
 	</bean>
 	<!-- ############################# Werteobjekte ################################## -->
 	<bean id="descriptor" name="descriptor"

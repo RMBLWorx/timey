@@ -13,6 +13,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import rmblworx.tools.timey.ITimey;
+import rmblworx.tools.timey.event.CountdownExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
+import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -23,7 +26,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class CountdownController extends Controller {
+public class CountdownController extends Controller implements TimeyEventListener {
 
 	/**
 	 * Zeitzone.
@@ -77,6 +80,13 @@ public class CountdownController extends Controller {
 				countdownStartButton.setDisable(newValue.getTimeInMillis() == 0L);
 			}
 		});
+
+		final TimeyEventListener eventListener = this;
+		Platform.runLater(new Runnable() {
+			public void run() {
+				getGuiHelper().getFacade().addEventListener(eventListener);
+			}
+		});
 	}
 
 	/**
@@ -113,11 +123,6 @@ public class CountdownController extends Controller {
 		task.messageProperty().addListener(new ChangeListener<String>() {
 			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
 				countdownTimeLabel.setText(newValue);
-
-				// TODO auf Ereignis umstellen
-				if ("00:00:00".equals(newValue)) {
-					getGuiHelper().showTrayMessageWithFallbackToDialog("Countdown abgelaufen", "Der Countdown ist abgelaufen.", resources);
-				}
 			}
 		});
 
@@ -136,7 +141,7 @@ public class CountdownController extends Controller {
 			return;
 		}
 
-		stopCountdown();
+		stopCountdown(false);
 	}
 
 	/**
@@ -159,9 +164,15 @@ public class CountdownController extends Controller {
 
 	/**
 	 * Stoppt den Countdown.
+	 * @param countdownExpired Ob der Countdown abgelaufen ist.
 	 */
-	private void stopCountdown() {
-		getGuiHelper().getFacade().stopCountdown();
+	private void stopCountdown(final boolean countdownExpired) {
+		if (countdownExpired) {
+			countdownValue = 0;
+		} else {
+			getGuiHelper().getFacade().stopCountdown();
+		}
+
 		countdownRunning = false;
 
 		final Calendar cal = Calendar.getInstance(TIMEZONE);
@@ -212,6 +223,16 @@ public class CountdownController extends Controller {
 				countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getTime()));
 			}
 		});
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void handleEvent(final TimeyEvent event) {
+		if (event instanceof CountdownExpiredEvent) {
+			stopCountdown(true);
+			getGuiHelper().showTrayMessageWithFallbackToDialog("Countdown abgelaufen", "Der Countdown ist abgelaufen.", resources);
+		}
 	}
 
 }

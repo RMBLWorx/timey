@@ -1,5 +1,11 @@
 package rmblworx.tools.timey;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import rmblworx.tools.timey.event.CountdownExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEventDispatcher;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -7,11 +13,14 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public class CountdownRunnable extends TimeyTimeRunnable {
+public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextAware {
 	/**
 	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
 	 */
 	private final long timeCountdown;
+	private ApplicationContext springContext;
+	private TimeyEventDispatcher eventDispatcher;
+	private boolean wasEventFired = false;
 
 	/**
 	 * @param descriptor
@@ -40,12 +49,25 @@ public class CountdownRunnable extends TimeyTimeRunnable {
 
 	@Override
 	public void run() {
+		Thread.currentThread().setName("timey-Countdown");
 		this.lock.lock();
 		try {
-			this.computeTime();
+			if (this.timeDescriptor.getMilliSeconds() > 0) {
+				this.computeTime();
+			} else {
+				if (!this.wasEventFired) {
+					this.eventDispatcher.dispatchEvent(new CountdownExpiredEvent());
+					this.wasEventFired = true;
+				}
+			}
 		} finally {
 			this.lock.unlock();
 		}
 	}
 
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
+		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
+	}
 }

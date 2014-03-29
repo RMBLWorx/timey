@@ -2,7 +2,12 @@ package rmblworx.tools.timey;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
@@ -13,7 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * 
  * @author mmatthies
  */
-public class SimpleTimer implements ITimer {
+public class SimpleTimer implements ITimer, ApplicationContextAware {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -28,6 +33,14 @@ public class SimpleTimer implements ITimer {
 	 * Die bereits vergangene Zeit in Millisekunden.
 	 */
 	private long timePassed = 0;
+	/**
+	 * Referenz auf das Future-Objekt der aktuellen Zeitmessung.
+	 */
+	private ScheduledFuture<?> timerFuture;
+	/**
+	 * Spring-Kontext.
+	 */
+	private ApplicationContext springContext;
 
 	/**
 	 * Konstruktor. Erfordert die Referenz auf das Werteobjekt, welches den
@@ -49,8 +62,8 @@ public class SimpleTimer implements ITimer {
 		boolean isRunningAtTheMoment = false;
 		if (this.scheduler != null && !this.scheduler.isTerminated()) {
 			isRunningAtTheMoment = true;
+			this.stopStopwatch();
 		}
-		this.stopStopwatch();
 		this.timePassed = 0;
 		this.timeDescriptor.setMilliSeconds(0);
 		if (isRunningAtTheMoment) {
@@ -70,11 +83,10 @@ public class SimpleTimer implements ITimer {
 		} else if (timeUnit == null){
 			throw new NullArgumentException();
 		}
-		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		final TimerRunnable timer = new TimerRunnable(this.timeDescriptor, this.timePassed);
-		// TimerRunnable t = (TimerRunnable) this.applicationContext.getBean("timerRunnable");
+		final TimerRunnable timer = (TimerRunnable) this.springContext.getBean("timerRunnable", this.timeDescriptor, this.timePassed);
 
-		this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
+		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
+		timerFuture = this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
 	}
@@ -85,9 +97,16 @@ public class SimpleTimer implements ITimer {
 	 */
 	@Override
 	public Boolean stopStopwatch() {
-		TimeyUtils.shutdownScheduler(this.scheduler);
+		if (this.scheduler != null) {
+			final TaskStopper stopRunnable = new TaskStopper(scheduler, timerFuture);
+			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
+		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 		return Boolean.TRUE;
 	}
 
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
+	}
 }

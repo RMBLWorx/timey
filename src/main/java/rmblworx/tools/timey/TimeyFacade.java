@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import rmblworx.tools.timey.event.TimeyEventDispatcher;
+import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -44,17 +47,26 @@ public final class TimeyFacade implements ITimey {
 	 * Referenz auf den Stoppuhr-Klienten.
 	 */
 	private final StopwatchClient stopwatchClient;
+	/**
+	 * Verwaltet die sich registrierenden Listener und erzeugt die Events.
+	 */
+	private final TimeyEventDispatcher eventDispatcher;
 
 	/**
 	 * Standardkonstruktor.
 	 */
 	public TimeyFacade() {
-		this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
-
+		try {
+			this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
+		} catch (final BeansException e) {
+			LOG.error(e.getMessage());
+			throw e;
+		}
 		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 		this.stopwatchClient = (StopwatchClient) this.springContext.getBean("stopwatchClient");
 		this.countdownClient = (CountdownClient) this.springContext.getBean("countdownClient");
 		this.jarVersionDetector = (JarVersionDetector) this.springContext.getBean("jarVersionDetector");
+		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 
 	@Override
@@ -63,7 +75,8 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public String getVersion(final String globPattern) throws IllegalStateException, EmptyArgumentException, NullArgumentException {
+	public String getVersion(final String globPattern) throws IllegalStateException, EmptyArgumentException,
+			NullArgumentException {
 		return this.jarVersionDetector.detectJarVersion(globPattern);
 	}
 
@@ -98,7 +111,7 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public  TimeDescriptor startCountdown() {
+	public TimeDescriptor startCountdown() {
 		return this.countdownClient.initCountdownStartCommand();
 	}
 
@@ -108,12 +121,17 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public  Boolean stopCountdown() {
+	public Boolean stopCountdown() {
 		return this.countdownClient.initCountdownStopCommand();
 	}
 
 	@Override
 	public Boolean stopStopwatch() {
 		return this.stopwatchClient.initStopwatchStopCommand();
+	}
+
+	@Override
+	public void addEventListener(final TimeyEventListener timeyEventListener) {
+		this.eventDispatcher.addEventListener(timeyEventListener);
 	}
 }
