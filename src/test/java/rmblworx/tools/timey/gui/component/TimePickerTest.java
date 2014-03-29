@@ -136,22 +136,25 @@ public class TimePickerTest extends GuiTest {
 		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
 
 		final List<TextFieldInputAndValue> testCases = new Vector<TextFieldInputAndValue>();
-		// zu kurz Eingabe
-		testCases.add(new TextFieldInputAndValue(hoursTextField, "1", "01"));
-		testCases.add(new TextFieldInputAndValue(minutesTextField, "1", "01"));
-		testCases.add(new TextFieldInputAndValue(secondsTextField, "1", "01"));
+		// zu kurze Eingabe
+		testCases.add(new TextFieldInputAndValue(hoursTextField, "1", "01", true));
+		testCases.add(new TextFieldInputAndValue(minutesTextField, "1", "01", true));
+		testCases.add(new TextFieldInputAndValue(secondsTextField, "1", "01", true));
 		// zu lange Eingabe
-		testCases.add(new TextFieldInputAndValue(hoursTextField, "111", "23"));
-		testCases.add(new TextFieldInputAndValue(minutesTextField, "111", "59"));
-		testCases.add(new TextFieldInputAndValue(secondsTextField, "111", "59"));
+		testCases.add(new TextFieldInputAndValue(hoursTextField, "111", "23", true));
+		testCases.add(new TextFieldInputAndValue(minutesTextField, "111", "59", true));
+		testCases.add(new TextFieldInputAndValue(secondsTextField, "111", "59", true));
+		testCases.add(new TextFieldInputAndValue(hoursTextField, "011", "11", false));
+		testCases.add(new TextFieldInputAndValue(minutesTextField, "011", "11", false));
+		testCases.add(new TextFieldInputAndValue(secondsTextField, "011", "11", false));
 		// überschrittener Maximalwert
-		testCases.add(new TextFieldInputAndValue(hoursTextField, "99", "23"));
-		testCases.add(new TextFieldInputAndValue(minutesTextField, "99", "59"));
-		testCases.add(new TextFieldInputAndValue(secondsTextField, "99", "59"));
+		testCases.add(new TextFieldInputAndValue(hoursTextField, "99", "23", true));
+		testCases.add(new TextFieldInputAndValue(minutesTextField, "99", "59", true));
+		testCases.add(new TextFieldInputAndValue(secondsTextField, "99", "59", true));
 		// keine Zahl
-		testCases.add(new TextFieldInputAndValue(hoursTextField, "x", "00"));
-		testCases.add(new TextFieldInputAndValue(minutesTextField, "x", "00"));
-		testCases.add(new TextFieldInputAndValue(secondsTextField, "x", "00"));
+		testCases.add(new TextFieldInputAndValue(hoursTextField, "x", "00", true));
+		testCases.add(new TextFieldInputAndValue(minutesTextField, "x", "00", true));
+		testCases.add(new TextFieldInputAndValue(secondsTextField, "x", "00", true));
 
 		final List<InputMode> inputModes = new Vector<InputMode>();
 		inputModes.add(InputMode.TYPE);
@@ -171,7 +174,9 @@ public class TimePickerTest extends GuiTest {
 					default:
 						fail("unbekannter Modus");
 				}
-				type(KeyCode.TAB); // Feld muss Fokus wieder verlieren
+				if (testCase.loseFocusAfterwards) {
+					type(KeyCode.TAB); // Feld muss Fokus wieder verlieren
+				}
 				try {
 					waitUntil(testCase.textField, new Predicate<TextField>() {
 						public boolean apply(final TextField textField) {
@@ -272,11 +277,14 @@ public class TimePickerTest extends GuiTest {
 		public final TextField textField;
 		public final String input;
 		public final String value;
+		public final boolean loseFocusAfterwards;
 
-		public TextFieldInputAndValue(final TextField textField, final String input, final String value) {
+		public TextFieldInputAndValue(final TextField textField, final String input, final String value,
+				final boolean loseFocusAfterwards) {
 			this.textField = textField;
 			this.input = input;
 			this.value = value;
+			this.loseFocusAfterwards = loseFocusAfterwards;
 		}
 
 	}
