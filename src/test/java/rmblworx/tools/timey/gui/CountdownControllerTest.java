@@ -3,9 +3,13 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +72,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 		// Countdown starten
 		countdownStartButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade(), times(1)).startCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(countdownStartButton.isVisible());
@@ -80,6 +85,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 		// Countdown stoppen
 		countdownStopButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade(), times(1)).stopCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -129,6 +135,29 @@ public class CountdownControllerTest extends FxmlGuiTest {
 
 		assertTrue(countdownTimePicker.isVisible());
 		assertFalse(countdownTimeLabel.isVisible());
+	}
+
+	/**
+	 * Testet Starten und Stoppen per Tastatur unter Berücksichtigung der korrekten Fokussierung.
+	 */
+	@Test
+	public final void testStartStopPerKeyboard() {
+		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
+
+		// bei Zeit = 0 darf sich Countdown nicht starten lassen
+		type(KeyCode.ENTER);
+		verify(getController().getGuiHelper().getFacade(), never()).startCountdown();
+
+		// Zeit setzen
+		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:10"));
+
+		// Countdown starten
+		type(KeyCode.ENTER);
+		verify(getController().getGuiHelper().getFacade(), times(1)).startCountdown();
+
+		// Countdown stoppen
+		type(KeyCode.ENTER);
+		verify(getController().getGuiHelper().getFacade(), times(1)).stopCountdown();
 	}
 
 }
