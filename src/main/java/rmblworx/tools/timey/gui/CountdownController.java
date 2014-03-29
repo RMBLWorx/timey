@@ -94,19 +94,45 @@ public class CountdownController extends Controller implements TimeyEventListene
 	 */
 	@FXML
 	private void handleStartButtonClick() {
+		startCountdown();
+	}
+
+	/**
+	 * Aktion bei Klick auf Stop-Schaltfläche.
+	 */
+	@FXML
+	private void handleStopButtonClick() {
+		stopCountdown(false);
+	}
+
+	/**
+	 * Startet den Countdown.
+	 */
+	private void startCountdown() {
 		if (countdownRunning) {
 			return;
 		}
 
-		final TimeDescriptor td = new TimeDescriptor(countdownTimePicker.getTime().getTimeInMillis());
-		startCountdown(td);
+		final TimeDescriptor timeDescriptor = new TimeDescriptor(countdownTimePicker.getTime().getTimeInMillis());
+
+		countdownRunning = true;
+		countdownStartButton.setVisible(false);
+		countdownStopButton.setVisible(true);
+		countdownStopButton.requestFocus();
+
+		transferTimeFromInputToLabel();
+		enableTimeInput(false);
+
+		final ITimey facade = getGuiHelper().getFacade();
+		facade.setCountdownTime(timeDescriptor);
+		facade.startCountdown();
 
 		final Task<Void> task = new Task<Void>() {
 			private static final long SLEEP_TIME = 100L;
 
 			public Void call() throws InterruptedException {
 				while (countdownRunning) {
-					countdownValue = td.getMilliSeconds();
+					countdownValue = timeDescriptor.getMilliSeconds();
 					updateMessage(timeFormatter.format(getMillisRoundedToWholeSeconds(countdownValue)));
 
 					if (countdownValue == 0) {
@@ -133,40 +159,14 @@ public class CountdownController extends Controller implements TimeyEventListene
 	}
 
 	/**
-	 * Aktion bei Klick auf Stop-Schaltfläche.
-	 */
-	@FXML
-	private void handleStopButtonClick() {
-		if (!countdownRunning) {
-			return;
-		}
-
-		stopCountdown(false);
-	}
-
-	/**
-	 * Startet den Countdown.
-	 * @param timeDescriptor Zeitobjekt
-	 */
-	private void startCountdown(final TimeDescriptor timeDescriptor) {
-		countdownRunning = true;
-		countdownStartButton.setVisible(false);
-		countdownStopButton.setVisible(true);
-		countdownStopButton.requestFocus();
-
-		transferTimeFromInputToLabel();
-		enableTimeInput(false);
-
-		final ITimey facade = getGuiHelper().getFacade();
-		facade.setCountdownTime(timeDescriptor);
-		facade.startCountdown();
-	}
-
-	/**
 	 * Stoppt den Countdown.
 	 * @param countdownExpired Ob der Countdown abgelaufen ist.
 	 */
 	private void stopCountdown(final boolean countdownExpired) {
+		if (!countdownRunning) {
+			return;
+		}
+
 		if (countdownExpired) {
 			countdownValue = 0;
 		} else {
