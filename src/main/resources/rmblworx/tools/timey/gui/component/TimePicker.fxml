@@ -13,9 +13,9 @@
         <TextField fx:id="minutesTextField" alignment="CENTER" prefWidth="50.0" text="00" GridPane.columnIndex="2" GridPane.rowIndex="0" />
         <Label styleClass="timePickerTimeSeparator" text=":" GridPane.columnIndex="3" GridPane.rowIndex="0" />
         <TextField fx:id="secondsTextField" alignment="CENTER" prefWidth="50.0" text="00" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-        <Slider fx:id="hoursSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Slider fx:id="minutesSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-        <Slider fx:id="secondsSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+        <Slider fx:id="hoursSlider" blockIncrement="1.0" focusTraversable="false" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Slider fx:id="minutesSlider" blockIncrement="1.0" focusTraversable="false" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Slider fx:id="secondsSlider" blockIncrement="1.0" focusTraversable="false" majorTickUnit="1.0" minorTickCount="1" orientation="HORIZONTAL" prefHeight="14.0" prefWidth="50.0" snapToTicks="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
       </children>
       <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
