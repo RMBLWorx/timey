@@ -199,6 +199,8 @@ public class TimePicker extends AnchorPane {
 						textProperty.setValue(getTwoDigitValue(MIN_VALUE));
 					} else if (value > maxValue) {
 						textProperty.setValue(getTwoDigitValue(maxValue));
+					} else if (newValue.length() > 2) {
+						textProperty.setValue(getTwoDigitValue(value));
 					} else {
 						textProperty.setValue(newValue);
 					}
