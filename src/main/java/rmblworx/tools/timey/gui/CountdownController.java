@@ -125,7 +125,13 @@ public class CountdownController extends Controller implements TimeyEventListene
 			return;
 		}
 
-		final TimeDescriptor timeDescriptor = new TimeDescriptor(countdownTimePicker.getTime().getTimeInMillis());
+		final long millis = countdownTimePicker.getTime().getTimeInMillis();
+
+		if (millis == 0L) {
+			return;
+		}
+
+		final TimeDescriptor timeDescriptor = new TimeDescriptor(millis);
 
 		countdownRunning = true;
 		countdownStartButton.setVisible(false);
