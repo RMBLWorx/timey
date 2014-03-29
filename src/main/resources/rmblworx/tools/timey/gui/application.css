@@ -1,3 +1,9 @@
+/* einheitliche Schrift auf allen Systemen */
+.root {
+	-fx-font-family: "Helvetica, Arial, sans-serif";
+	-fx-font-size: 11pt;
+}
+
 /* größere Schrift für Zeit in Stoppuhr und Countdown */
 #stopwatchTimeLabel,
 #countdownTimeLabel,
