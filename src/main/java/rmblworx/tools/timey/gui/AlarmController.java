@@ -228,6 +228,7 @@ public class AlarmController extends Controller {
 			final AlarmEditDialogController controller = loader.getController();
 			controller.setGuiHelper(getGuiHelper());
 			controller.setDialogStage(dialogStage);
+			controller.setExistingAlarms(alarmTable.getItems());
 			controller.setAlarm(alarm);
 
 			dialogStage.showAndWait();
