@@ -9,9 +9,12 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.event.CountdownExpiredEvent;
 import rmblworx.tools.timey.event.TimeyEvent;
@@ -85,6 +88,15 @@ public class CountdownController extends Controller implements TimeyEventListene
 		Platform.runLater(new Runnable() {
 			public void run() {
 				getGuiHelper().getFacade().addEventListener(eventListener);
+			}
+		});
+
+		countdownTimePicker.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(final KeyEvent keyEvent) {
+				if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED && keyEvent.getCode() == KeyCode.ENTER) {
+					keyEvent.consume();
+					startCountdown();
+				}
 			}
 		});
 	}
