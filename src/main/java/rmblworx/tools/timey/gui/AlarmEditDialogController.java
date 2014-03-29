@@ -2,6 +2,7 @@ package rmblworx.tools.timey.gui;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -33,6 +34,11 @@ public class AlarmEditDialogController extends Controller {
 	 * Fenster des Dialogs.
 	 */
 	private Stage dialogStage;
+
+	/**
+	 * Bereits existierende Alarme.
+	 */
+	private List<Alarm> existingAlarms;
 
 	/**
 	 * Der zu bearbeitende Alarm.
@@ -84,6 +90,13 @@ public class AlarmEditDialogController extends Controller {
 	}
 
 	/**
+	 * @param existingAlarms bereits existierende Alarme
+	 */
+	public void setExistingAlarms(final List<Alarm> existingAlarms) {
+		this.existingAlarms = existingAlarms;
+	}
+
+	/**
 	 * Setzt den Alarm und überträgt dessen Werte auf die Steuerelemente.
 	 * @param alarm Alarm
 	 */
@@ -112,13 +125,7 @@ public class AlarmEditDialogController extends Controller {
 			public void run() {
 				if (isInputValid()) {
 					alarm.setEnabled(alarmEnabledCheckbox.isSelected());
-
-					final Calendar dateTime = (Calendar) alarmDatePicker.getValue().clone();
-					dateTime.setTimeInMillis(DateTimeUtil.getDatePart(alarmDatePicker.getValue()).getTimeInMillis()
-							+ dateTime.getTimeZone().getDSTSavings()
-							+ DateTimeUtil.getTimePart(alarmTimePicker.getTime()).getTimeInMillis());
-					alarm.setDateTime(dateTime);
-
+					alarm.setDateTime(getDateTimeFromPickers());
 					alarm.setDescription(alarmDescriptionTextField.getText());
 
 					changed = true;
@@ -146,6 +153,18 @@ public class AlarmEditDialogController extends Controller {
 	}
 
 	/**
+	 * @return kombinierter Zeitstempel aus DatePicker und TimePicker
+	 */
+	private Calendar getDateTimeFromPickers() {
+		final Calendar dateTime = (Calendar) alarmDatePicker.getValue().clone();
+		dateTime.setTimeInMillis(DateTimeUtil.getDatePart(alarmDatePicker.getValue()).getTimeInMillis()
+				+ dateTime.getTimeZone().getDSTSavings()
+				+ DateTimeUtil.getTimePart(alarmTimePicker.getTime()).getTimeInMillis());
+
+		return dateTime;
+	}
+
+	/**
 	 * @return ob die Daten gültig sind
 	 */
 	private boolean isInputValid() {
@@ -154,6 +173,16 @@ public class AlarmEditDialogController extends Controller {
 		if (alarmDatePicker.getValue() == null) {
 			errors.append(resources.getString("alarmEdit.date.empty"));
 			errors.append("\n");
+		}
+
+		if (existingAlarms != null) {
+			for (final Alarm existingAlarm : existingAlarms) {
+				if (alarm != existingAlarm && getDateTimeFromPickers().getTime().equals(existingAlarm.getDateTime().getTime())) {
+					errors.append(resources.getString("alarmEdit.otherAlarmWithSameTimestampAlreadyExists"));
+					errors.append("\n");
+					break;
+				}
+			}
 		}
 
 		if (errors.length() > 0) {
