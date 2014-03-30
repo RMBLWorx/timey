@@ -149,7 +149,7 @@ public class AlarmController extends Controller {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				final Alarm alarm = new Alarm();
-				if (showAlarmEditDialog(alarm)) {
+				if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.add"))) {
 					alarmTable.getItems().add(alarm);
 				}
 			}
@@ -202,24 +202,25 @@ public class AlarmController extends Controller {
 	private void editAlarm() {
 		final Alarm alarm = alarmTable.getSelectionModel().getSelectedItem();
 		if (alarm != null) {
-			if (showAlarmEditDialog(alarm)) {
+			if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.edit"))) {
 				refreshTable();
 			}
 		}
 	}
 
 	/**
-	 * Öffnet den Dialog zum Bearbeiten eines Alarms.
+	 * Öffnet den Dialog zum Hinzufügen/Bearbeiten eines Alarms.
 	 * @param alarm Alarm
+	 * @param title Titel des Fensters
 	 * @return ob der Alarm geändert wurde
 	 */
-	private boolean showAlarmEditDialog(final Alarm alarm) {
+	private boolean showAlarmEditDialog(final Alarm alarm, final String title) {
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource("AlarmEditDialog.fxml"), resources);
 			final Parent root = (Parent) loader.load();
 			final Stage dialogStage = new Stage(StageStyle.UTILITY);
 			dialogStage.setScene(new Scene(root));
-			dialogStage.setTitle(resources.getString("alarmEdit.title"));
+			dialogStage.setTitle(title);
 			dialogStage.setResizable(false);
 			dialogStage.initModality(Modality.APPLICATION_MODAL);
 //			dialogStage.initModality(Modality.WINDOW_MODAL);
