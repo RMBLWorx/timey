@@ -32,3 +32,19 @@
 	-fx-background-color: red;
 	-fx-text-fill: -fx-selection-bar-text;
 }
+
+/* Symbol für Sound-Abspiel-Schaltfläche */
+.button.play-sound {
+	-fx-background-image: url('img/sound.png');
+	-fx-background-size: 16px 16px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center center;
+}
+
+/* Symbol für Sound-Löschen-Schaltfläche */
+.button.no-sound {
+	-fx-background-image: url('img/sound_mute.png');
+	-fx-background-size: 16px 16px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center center;
+}

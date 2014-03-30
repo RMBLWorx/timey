@@ -1,14 +1,21 @@
 package rmblworx.tools.timey.gui;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import jfxtras.labs.scene.control.CalendarTextField;
@@ -31,6 +38,11 @@ public class AlarmEditDialogController extends Controller {
 	private SimpleDateFormat dateFormatter;
 
 	/**
+	 * Spielt Sounds ab.
+	 */
+	private AudioPlayer audioPlayer = new AudioPlayer();
+
+	/**
 	 * Fenster des Dialogs.
 	 */
 	private Stage dialogStage;
@@ -44,6 +56,11 @@ public class AlarmEditDialogController extends Controller {
 	 * Der zu bearbeitende Alarm.
 	 */
 	private Alarm alarm;
+
+	/**
+	 * Der gewählte Klingelton.
+	 */
+	private SimpleStringProperty ringtone = new SimpleStringProperty("");
 
 	/**
 	 * Ob der Alarm geändert wurde.
@@ -66,11 +83,23 @@ public class AlarmEditDialogController extends Controller {
 	private TextField alarmDescriptionTextField;
 
 	@FXML
+	private Button alarmSelectSoundButton;
+
+	@FXML
+	private Button alarmNoSoundButton;
+
+	@FXML
+	private Button alarmPlaySoundButton;
+
+	@FXML
 	private void initialize() {
 		assert alarmEnabledCheckbox != null : "fx:id='alarmEnabledCheckbox' was not injected";
 		assert alarmDatePicker != null : "fx:id='alarmDatePicker' was not injected";
 		assert alarmTimePicker != null : "fx:id='alarmTimePicker' was not injected";
 		assert alarmDescriptionTextField != null : "fx:id='alarmDescriptionTextField' was not injected";
+		assert alarmSelectSoundButton != null : "fx:id='alarmSelectSoundButton' was not injected";
+		assert alarmNoSoundButton != null : "fx:id='alarmNoSoundButton' was not injected";
+		assert alarmPlaySoundButton != null : "fx:id='alarmPlaySoundButton' was not injected";
 
 		setupDateFormatter();
 
@@ -83,6 +112,21 @@ public class AlarmEditDialogController extends Controller {
 				return null;
 			}
 		});
+
+		ringtone.addListener(new ChangeListener<String>() {
+			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
+				alarmSelectSoundButton.setText(newValue != null ? newValue : resources.getString("sound.noSoundSelected.text"));
+				alarmSelectSoundButton.setTooltip(newValue != null ? new Tooltip(newValue) : null);
+				alarmNoSoundButton.setDisable(newValue == null);
+				alarmPlaySoundButton.setDisable(newValue == null);
+			}
+		});
+
+		ringtone.set(null);
+	}
+
+	public void setAudioPlayer(final AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
 	}
 
 	public void setDialogStage(final Stage dialogStage) {
@@ -107,6 +151,15 @@ public class AlarmEditDialogController extends Controller {
 		alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()));
 		alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
 		alarmDescriptionTextField.setText(alarm.getDescription());
+		ringtone.set(alarm.getSound());
+	}
+
+	public void setRingtone(final String aRingtone) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				ringtone.set(aRingtone);
+			}
+		});
 	}
 
 	/**
@@ -114,6 +167,62 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	public final boolean isChanged() {
 		return changed;
+	}
+
+	/**
+	 * Aktion bei Klick auf Sound-Auswahl-Schaltfläche.
+	 */
+	@FXML
+	private void handleSelectSoundButtonClick() {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				final FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle(resources.getString("sound.selectSound.title"));
+				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+				fileChooser.getExtensionFilters().addAll(
+					new FileChooser.ExtensionFilter("Sound", "*.aac", "*.aif", "*.aiff", "*.m3u8", "*.m4a", "*.mp3", "*.wav")
+				);
+
+				final File file = fileChooser.showOpenDialog(dialogStage);
+				if (file != null) {
+					ringtone.set(file.getPath());
+				}
+			}
+		});
+	}
+
+	/**
+	 * Aktion bei Klick auf Sound-Löschen-Schaltfläche.
+	 */
+	@FXML
+	private void handleNoSoundButtonClick() {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				ringtone.set(null);
+			}
+		});
+	}
+
+	/**
+	 * Aktion bei Klick auf Sound-Abspielen-Schaltfläche.
+	 */
+	@FXML
+	private void handlePlaySoundButtonClick() {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				audioPlayer.playInThread(ringtone.get(), new Thread.UncaughtExceptionHandler() {
+					public void uncaughtException(final Thread thread, final Throwable exception) {
+						Platform.runLater(new Runnable() {
+							public void run() {
+								getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"),
+										String.format(resources.getString("sound.play.error"), exception.getLocalizedMessage()),
+										resources);
+							}
+						});
+					}
+				});
+			}
+		});
 	}
 
 	/**
@@ -127,6 +236,7 @@ public class AlarmEditDialogController extends Controller {
 					alarm.setEnabled(alarmEnabledCheckbox.isSelected());
 					alarm.setDateTime(getDateTimeFromPickers());
 					alarm.setDescription(alarmDescriptionTextField.getText());
+					alarm.setSound(ringtone.get());
 
 					changed = true;
 

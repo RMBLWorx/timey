@@ -21,6 +21,7 @@ public class Alarm {
 	private final BooleanProperty enabled;
 	private final ObjectProperty<Calendar> dateTime;
 	private final StringProperty description;
+	private final StringProperty sound;
 
 	/**
 	 * Initialisiert den Alarm mit der aktuellen Systemzeit.
@@ -30,13 +31,18 @@ public class Alarm {
 	}
 
 	public Alarm(final Calendar dateTime, final String description) {
-		this(dateTime, description, true);
+		this(dateTime, description, null, true);
 	}
 
 	public Alarm(final Calendar dateTime, final String description, final boolean enabled) {
+		this(dateTime, description, null, enabled);
+	}
+
+	public Alarm(final Calendar dateTime, final String description, final String sound, final boolean enabled) {
 		this.enabled = new SimpleBooleanProperty(enabled);
 		this.dateTime = new SimpleObjectProperty<Calendar>(dateTime);
 		this.description = new SimpleStringProperty(description);
+		this.sound = new SimpleStringProperty(sound);
 	}
 
 	public void setEnabled(final boolean enabled) {
@@ -61,6 +67,14 @@ public class Alarm {
 
 	public String getDescription() {
 		return description.get();
+	}
+
+	public void setSound(final String sound) {
+		this.sound.set(sound);
+	}
+
+	public String getSound() {
+		return sound.get();
 	}
 
 }
