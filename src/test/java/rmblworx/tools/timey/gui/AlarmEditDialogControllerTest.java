@@ -7,11 +7,15 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.Vector;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -158,6 +162,52 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	}
 
 	/**
+	 * Testet Anzeige bzw. Ausbleiben der Fehlermeldung bei Alarm mit identischem Zeitstempel.
+	 */
+	@Test
+	public final void testErrorOtherAlarmWithSameTimestampAlreadyExists() {
+		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
+		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
+
+		/*
+		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
+		 * Verfügung steht.
+		 */
+		// controller.setDialogStage(stage);
+
+		final List<DataErrors> testCases = new Vector<DataErrors>();
+		// Anlegen eines Alarms mit identischem Zeitstempel
+		testCases.add(new DataErrors(1, "Ein anderer Alarm mit demselben Zeitpunkt existiert bereits.\n",
+				Arrays.asList(new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm1")),
+				new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm2")));
+		// Anlegen eines Alarms mit unterschiedlichem Zeitstempel
+		testCases.add(new DataErrors(0, null,
+				Arrays.asList(new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm1")),
+				new Alarm(DateTimeUtil.getCalendarForString("11.11.2000"), "Alarm2")));
+		// Bearbeiten eines Alarms ohne Änderung des Zeitstempels
+		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm1"); // genau ein Objekt
+		testCases.add(new DataErrors(0, null,
+				Arrays.asList(alarm),
+				alarm));
+
+		for (final DataErrors testCase : testCases) {
+			controller.setExistingAlarms(testCase.existingAlarms);
+			controller.setAlarm(testCase.alarm);
+
+			final GuiHelper guiHelper = mock(GuiHelper.class);
+			controller.setGuiHelper(guiHelper);
+
+			// Speichern-Schaltfläche betätigen
+			alarmSaveButton.fire();
+			FXTestUtils.awaitEvents();
+
+			// sicherstellen, dass Fehlermeldung erscheint bzw. nicht
+			verify(guiHelper, times(testCase.numberOfCalls)).showDialogMessage(anyString(),
+					testCase.errorMessage == null ? anyString() : eq(testCase.errorMessage), isA(ResourceBundle.class));
+		}
+	}
+
+	/**
 	 * Testet das Verwerfen der Änderungen.
 	 */
 	@Test
@@ -206,6 +256,22 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		assertTrue(alarm.isEnabled());
 		assertEquals(0, alarm.getDateTime().getTimeInMillis());
 		assertEquals("bla", alarm.getDescription());
+	}
+
+	private final class DataErrors {
+
+		public final int numberOfCalls;
+		public final String errorMessage;
+		public final List<Alarm> existingAlarms;
+		public final Alarm alarm;
+
+		public DataErrors(final int numberOfCalls, final String messageMatcher, final List<Alarm> existingAlarms, final Alarm alarm) {
+			this.numberOfCalls = numberOfCalls;
+			this.errorMessage = messageMatcher;
+			this.existingAlarms = existingAlarms;
+			this.alarm = alarm;
+		}
+
 	}
 
 }
