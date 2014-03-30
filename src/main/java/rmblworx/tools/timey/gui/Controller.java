@@ -18,20 +18,20 @@ public abstract class Controller {
 
 	private GuiHelper guiHelper;
 
-	public void addEmbeddedController(final Controller embeddedController) {
+	public final void addEmbeddedController(final Controller embeddedController) {
 		embeddedControllers.add(embeddedController);
 	}
 
-	public Vector<Controller> getEmbeddedControllers() {
+	public final Vector<Controller> getEmbeddedControllers() {
 		return embeddedControllers;
 	}
 
-	public void setGuiHelper(final GuiHelper guiHelper) {
+	public final void setGuiHelper(final GuiHelper guiHelper) {
 		this.guiHelper = guiHelper;
 		passGuiHelperToEmbeddedControllers();
 	}
 
-	public GuiHelper getGuiHelper() {
+	public final GuiHelper getGuiHelper() {
 		return guiHelper;
 	}
 

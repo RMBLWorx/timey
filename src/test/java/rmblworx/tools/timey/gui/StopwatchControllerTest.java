@@ -3,6 +3,7 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,7 +25,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class StopwatchControllerTest extends FxmlGuiTest {
+public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * Container für Elemente.
@@ -66,6 +67,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		// Stoppuhr starten
 		stopwatchStartButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).startStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(stopwatchStartButton.isVisible());
@@ -81,6 +83,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		// Stoppuhr stoppen
 		stopwatchStopButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
@@ -96,6 +99,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		// Stoppuhr zurücksetzen
 		stopwatchResetButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
@@ -179,6 +183,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
 		stopwatchResetButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
 
 		// angezeigte Zeit muss zurückgesetzt sein
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
@@ -217,10 +222,12 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
 		stopwatchStartButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).startStopwatch();
 
 		// Stoppuhr zurücksetzen
 		stopwatchResetButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
 
 		// gemessene Zeit muss angezeigt sein
 		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
@@ -228,6 +235,7 @@ public class StopwatchControllerTest extends FxmlGuiTest {
 		// Stoppuhr stoppen
 		stopwatchStopButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
 	}
 
 }

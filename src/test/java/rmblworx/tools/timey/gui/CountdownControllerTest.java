@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,7 +25,7 @@ import rmblworx.tools.timey.gui.component.TimePicker;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @Category(TimeyGuiTest.class)
-public class CountdownControllerTest extends FxmlGuiTest {
+public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 	/**
 	 * Container für Elemente.
@@ -72,7 +71,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 		// Countdown starten
 		countdownStartButton.fire();
 		FXTestUtils.awaitEvents();
-		verify(getController().getGuiHelper().getFacade(), times(1)).startCountdown();
+		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(countdownStartButton.isVisible());
@@ -85,7 +84,7 @@ public class CountdownControllerTest extends FxmlGuiTest {
 		// Countdown stoppen
 		countdownStopButton.fire();
 		FXTestUtils.awaitEvents();
-		verify(getController().getGuiHelper().getFacade(), times(1)).stopCountdown();
+		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -153,11 +152,11 @@ public class CountdownControllerTest extends FxmlGuiTest {
 
 		// Countdown starten
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade(), times(1)).startCountdown();
+		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Countdown stoppen
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade(), times(1)).stopCountdown();
+		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 	}
 
 }
