@@ -23,6 +23,16 @@ import rmblworx.tools.timey.ITimey;
 public abstract class FxmlGuiTest extends GuiTest {
 
 	/**
+	 * Sprache für GUI-Tests.
+	 */
+	public static final Locale TEST_LOCALE = Locale.GERMAN;
+
+	static {
+		// Standardsprache für alle GUI-Tests setzen (wichtig z. B. als Fallback auf Travis)
+		Locale.setDefault(TEST_LOCALE);
+	}
+
+	/**
 	 * Mit der GUI verbundener Controller.
 	 */
 	private Controller controller;
@@ -39,7 +49,7 @@ public abstract class FxmlGuiTest extends GuiTest {
 	protected final Parent getRootNode() {
 		final GuiHelper guiHelper = new GuiHelper();
 		guiHelper.setFacade(mock(ITimey.class)); // Fassade für Tests mocken
-		final ResourceBundle i18n = guiHelper.getResourceBundle(Locale.GERMAN);
+		final ResourceBundle i18n = guiHelper.getResourceBundle(TEST_LOCALE);
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
 			final Parent root = (Parent) loader.load();
