@@ -2,7 +2,7 @@ package rmblworx.tools.timey;
 
 import java.util.List;
 
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Schnittstellenbeschreibung des Alarmsystems.
@@ -16,7 +16,7 @@ interface IAlarm {
 	 * 
 	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
-	List<TimeDescriptor> getAllAlarmtimestamps();
+	List<AlarmDescriptor> getAllAlarmtimestamps();
 
 	/**
 	 * Liefert die Aussage, ob die Alarmzeit scharf oder unscharf geschalten ist.
@@ -25,7 +25,7 @@ interface IAlarm {
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true oder false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
 	 */
-	Boolean isAlarmtimestampActivated(TimeDescriptor descriptor);
+	Boolean isAlarmtimestampActivated(AlarmDescriptor descriptor);
 
 	/**
 	 * Loescht den Alarmzeitpunkt.
@@ -34,7 +34,7 @@ interface IAlarm {
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean removeAlarmtimestamp(TimeDescriptor descriptor);
+	Boolean removeAlarmtimestamp(AlarmDescriptor descriptor);
 
 	/**
 	 * Setzt die Alarmzeit wobei jede nur einmalig vorkommen kann.
@@ -43,7 +43,7 @@ interface IAlarm {
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt bereits vorhanden
 	 */
-	Boolean setAlarmtimestamp(TimeDescriptor descriptor);
+	Boolean setAlarmtimestamp(AlarmDescriptor descriptor);
 
 	/**
 	 * Stellt die Alarmzeit unscharf bzw. scharf.
@@ -54,5 +54,5 @@ interface IAlarm {
 	 *            Booleanscher Wert ob der Alarmzeitpunkt aktiviert werden soll
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean setStateOfAlarmtimestamp(TimeDescriptor descriptor, Boolean isActivated);
+	Boolean setStateOfAlarmtimestamp(AlarmDescriptor descriptor, Boolean isActivated);
 }

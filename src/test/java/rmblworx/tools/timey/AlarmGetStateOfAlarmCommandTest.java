@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 public class AlarmGetStateOfAlarmCommandTest {
@@ -21,7 +22,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
-	private TimeDescriptor descriptor;
+	private AlarmDescriptor descriptor;
 
 	@Before
 	public void setUp() throws Exception {

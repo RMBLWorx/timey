@@ -1,7 +1,7 @@
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando zum Aktivieren eines Alarmzeitpunktes.
@@ -21,7 +21,7 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	/**
 	 * Beschreibung des Alarmzeitpunktes.
 	 */
-	private final TimeDescriptor timeDescriptor;
+	private final AlarmDescriptor timeDescriptor;
 
 	/**
 	 * Erweiterter Konstruktor.
@@ -33,7 +33,7 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	 * @param isActivated
 	 *            Aussage ob der Alarmzeitpunkt aktiviert sein soll
 	 */
-	public AlarmSetStateOfAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor, final Boolean isActivated) {
+	public AlarmSetStateOfAlarmCommand(final IAlarm receiver, final AlarmDescriptor descriptor, final Boolean isActivated) {
 		if (receiver == null || descriptor == null || isActivated == null) {
 			throw new NullArgumentException();
 		}

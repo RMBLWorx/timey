@@ -4,7 +4,7 @@ import java.util.List;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Diese Implementierung dient der Steuerung des Alarmsystems.
@@ -32,27 +32,27 @@ public class Alarm implements IAlarm {
 	}
 
 	@Override
-	public List<TimeDescriptor> getAllAlarmtimestamps() {
+	public List<AlarmDescriptor> getAllAlarmtimestamps() {
 		return this.service.getAll();
 	}
 
 	@Override
-	public Boolean isAlarmtimestampActivated(final TimeDescriptor descriptor) {
+	public Boolean isAlarmtimestampActivated(final AlarmDescriptor descriptor) {
 		return this.service.isActivated(descriptor);
 	}
 
 	@Override
-	public Boolean removeAlarmtimestamp(final TimeDescriptor descriptor) {
+	public Boolean removeAlarmtimestamp(final AlarmDescriptor descriptor) {
 		return this.service.delete(descriptor);
 	}
 
 	@Override
-	public Boolean setAlarmtimestamp(final TimeDescriptor descriptor) {
+	public Boolean setAlarmtimestamp(final AlarmDescriptor descriptor) {
 		return this.service.create(descriptor);
 	}
 
 	@Override
-	public Boolean setStateOfAlarmtimestamp(final TimeDescriptor descriptor, final Boolean isActivated) {
+	public Boolean setStateOfAlarmtimestamp(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		return this.service.setState(descriptor, isActivated);
 	}
 }

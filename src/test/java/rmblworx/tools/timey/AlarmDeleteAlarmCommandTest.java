@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -30,7 +31,7 @@ public class AlarmDeleteAlarmCommandTest {
 	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
-	private TimeDescriptor descriptor;
+	private AlarmDescriptor descriptor;
 
 	/**
 	 * @throws java.lang.Exception

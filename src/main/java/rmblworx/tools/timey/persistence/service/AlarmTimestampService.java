@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import rmblworx.tools.timey.persistence.dao.IAlarmTimestampDao;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
+
 
 /**
  * Serviceimplementierung zur Persistierung von {@link AlarmTimestamp Alarmzeitpunkt}en.
@@ -25,17 +27,17 @@ public class AlarmTimestampService implements IAlarmTimestampService {
 	private IAlarmTimestampDao dao;
 
 	@Override
-	public Boolean create(final TimeDescriptor descriptor) {
+	public Boolean create(final AlarmDescriptor descriptor) {
 		return this.getDao().createAlarmTimestamp(descriptor);
 	}
 
 	@Override
-	public Boolean delete(final TimeDescriptor descriptor) {
+	public Boolean delete(final AlarmDescriptor descriptor) {
 		return this.getDao().deleteAlarmTimestamp(descriptor);
 	}
 
 	@Override
-	public List<TimeDescriptor> getAll() {
+	public List<AlarmDescriptor> getAll() {
 		return this.getDao().findAll();
 	}
 
@@ -47,12 +49,12 @@ public class AlarmTimestampService implements IAlarmTimestampService {
 	}
 
 	@Override
-	public Boolean isActivated(final TimeDescriptor descriptor) {
+	public Boolean isActivated(final AlarmDescriptor descriptor) {
 		return this.dao.isActivated(descriptor);
 	}
 
 	@Override
-	public Boolean setState(final TimeDescriptor descriptor, final Boolean isActivated) {
+	public Boolean setState(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		return this.dao.setIsActivated(descriptor, isActivated);
 	}
 }

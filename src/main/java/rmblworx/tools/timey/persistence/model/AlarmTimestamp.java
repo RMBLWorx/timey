@@ -30,11 +30,17 @@ public final class AlarmTimestamp implements Serializable {
 	@Column(nullable = false)
 	private Timestamp alarmTimestamp;
 	/**
+	 * Beschreibungstext zum Alarmzeitpunkt.
+	 */
+	@Column(nullable = true)
+	private String description;
+	/**
 	 * Primaerschluessel des Alarmzeitpunktes.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
 	/**
 	 * Referenz auf das Objekt das den Status kennzeichnet.
 	 * <ul>
@@ -46,12 +52,32 @@ public final class AlarmTimestamp implements Serializable {
 	private Boolean isActivated;
 
 	/**
+	 * Zeitpunkt an welchem der Alarm wiederholt werden soll.
+	 */
+	@Column(nullable = true)
+	private Timestamp snooze;
+
+	/**
+	 * Pfad zum abzuspielenden Sound bei Eintritt des Alarmzeitpunktes.
+	 */
+	@Column(nullable = true)
+	private String sound;
+
+	/**
 	 * Liefert den Alarmzeitpunkt.
 	 * 
 	 * @return Zeitpunkt an welchem der Alarm auszulösen ist insofern aktiv.
 	 */
 	public Timestamp getAlarmTimestamp() {
 		return this.alarmTimestamp;
+	}
+
+	/**
+	 * Liefert die Beschreibung zum Alarmzeitpunkt.
+	 * @return die Beschreibung
+	 */
+	public String getDescription() {
+		return this.description;
 	}
 
 	/**
@@ -73,6 +99,23 @@ public final class AlarmTimestamp implements Serializable {
 	}
 
 	/**
+	 * Liefert den Zeitpunkt, an welchem der Alarm wiederholt werden soll.
+	 * @return Wiederholungszeitpunkt
+	 */
+	public Timestamp getSnooze() {
+		return this.snooze;
+	}
+
+	/**
+	 * Liefert den Pfad zum Sound der bei Eintritt des Alarmzeitpunktes abgespielt werden soll.
+	 * 
+	 * @return Abzuspielenden Sound inklusive Pfad
+	 */
+	public String getSound() {
+		return this.sound;
+	}
+
+	/**
 	 * Setzt den Alarmzeitpunkt.
 	 * 
 	 * @param alarmTimestamp
@@ -80,6 +123,15 @@ public final class AlarmTimestamp implements Serializable {
 	 */
 	public void setAlarmTimestamp(final Timestamp alarmTimestamp) {
 		this.alarmTimestamp = alarmTimestamp;
+	}
+
+	/**
+	 * Setzt den Beschreibungstext zum ALarmzeitpunkt.
+	 * @param description
+	 *            zu setzende Beschreibung
+	 */
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	/**
@@ -100,5 +152,24 @@ public final class AlarmTimestamp implements Serializable {
 	 */
 	public void setIsActivated(final Boolean isActivated) {
 		this.isActivated = isActivated;
+	}
+
+	/**
+	 * Setzt den Zeitpunkt an welchem der Alarm wiederholt ausgeloest werden soll.
+	 * @param snooze
+	 *            Der zu setzende Wiederholungszeitpunkt
+	 */
+	public void setSnooze(final Timestamp snooze) {
+		this.snooze = snooze;
+	}
+
+	/**
+	 * Setzt den Pfad vom abzuspielenden Sound bei Alarmeintritt.
+	 * 
+	 * @param sound
+	 *            Pfad zum Sound
+	 */
+	public void setSound(final String sound) {
+		this.sound = sound;
 	}
 }

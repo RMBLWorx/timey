@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -36,16 +38,17 @@ public class AlarmTest {
 	private static final long EXPECTED_MILLISECONDS = 100;
 
 	@Autowired
-	private TimeDescriptor descriptor;
+	private AlarmDescriptor descriptor;
 	private IAlarm effectiveDelegate;
-	private List<TimeDescriptor> list;
+	private List<AlarmDescriptor> list;
 	@Mock
 	private IAlarmTimestampService service;
 
-	private Boolean assertThatTimestampIsPresent(List<TimeDescriptor> list, TimeDescriptor expectedDescriptor) {
+	private Boolean assertThatTimestampIsPresent(List<AlarmDescriptor> list, AlarmDescriptor expectedDescriptor) {
 		Boolean result = Boolean.FALSE;
-		for (TimeDescriptor timeDescr : list) {
-			if (timeDescr.getMilliSeconds() == expectedDescriptor.getMilliSeconds()) {
+		for (AlarmDescriptor timeDescr : list) {
+			if (timeDescr.getAlarmtime().getMilliSeconds() == expectedDescriptor.getAlarmtime()
+					.getMilliSeconds()) {
 				result = Boolean.TRUE;
 				break;
 			}
@@ -53,10 +56,12 @@ public class AlarmTest {
 		return result;
 	}
 
-	private List<TimeDescriptor> createListWithDescriptors() {
-		List<TimeDescriptor> list = new ArrayList<TimeDescriptor>();
-		list.add(new TimeDescriptor(EXPECTED_MILLISECONDS));
-		return list;
+	private List<AlarmDescriptor> createListWithDescriptors() {
+		this.list = new ArrayList<AlarmDescriptor>();
+		final AlarmDescriptor ad = new AlarmDescriptor(new TimeDescriptor(EXPECTED_MILLISECONDS), false, "Text",
+				Paths.get("/bla/blub"), null);
+		this.list.add(ad);
+		return this.list;
 	}
 
 	/**
@@ -66,7 +71,7 @@ public class AlarmTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.effectiveDelegate = new Alarm(this.service);
-		this.descriptor.setMilliSeconds(EXPECTED_MILLISECONDS);
+		this.descriptor.getAlarmtime().setMilliSeconds(EXPECTED_MILLISECONDS);
 		this.list = this.createListWithDescriptors();
 	}
 
@@ -95,7 +100,7 @@ public class AlarmTest {
 	@Test
 	public final void testIsActivatedShouldReturnNullBecauseNoAlarmtimeWasSetBefore() {
 		this.effectiveDelegate = new Alarm(this.service);
-		TimeDescriptor expected = null;
+		AlarmDescriptor expected = null;
 
 		when(this.service.isActivated(expected)).thenReturn(null);
 		this.effectiveDelegate.setAlarmtimestamp(expected);
@@ -136,7 +141,7 @@ public class AlarmTest {
 	@Test
 	public final void testSetAlarmtimestamp() {
 		Boolean result = Boolean.FALSE;
-		this.descriptor.setMilliSeconds(EXPECTED_MILLISECONDS);
+		this.descriptor.getAlarmtime().setMilliSeconds(EXPECTED_MILLISECONDS);
 		when(this.service.create(this.descriptor)).thenReturn(Boolean.TRUE);
 		this.effectiveDelegate.setAlarmtimestamp(this.descriptor);
 

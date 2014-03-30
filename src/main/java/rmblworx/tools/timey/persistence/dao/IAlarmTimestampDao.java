@@ -2,7 +2,8 @@ package rmblworx.tools.timey.persistence.dao;
 
 import java.util.List;
 
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Schnittstellenbeschreibung fuer das Datenzugriffobjekt zum persistieren von AlarmTimestamp-Objekten.
@@ -17,7 +18,7 @@ public interface IAlarmTimestampDao {
 	 *            Der zu persistierende Alarmzeitpunkt.
 	 * @return true wenn erfolgreich, sonst false.
 	 */
-	Boolean createAlarmTimestamp(TimeDescriptor descriptor);
+	Boolean createAlarmTimestamp(AlarmDescriptor descriptor);
 
 	/**
 	 * Entfernt das {@link AlarmTimestamp}-Objekt aus der Datenbank.
@@ -26,14 +27,14 @@ public interface IAlarmTimestampDao {
 	 *            der zu entfernende Alarmzeitpunkt.
 	 * @return true wenn erfolgreich, sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
 	 */
-	Boolean deleteAlarmTimestamp(TimeDescriptor descriptor);
+	Boolean deleteAlarmTimestamp(AlarmDescriptor descriptor);
 
 	/**
 	 * Liefert alle Alarmzeitpunkte.
 	 * 
 	 * @return unveraenderliche Liste mit allen Alarmzeitpunkten.
 	 */
-	List<TimeDescriptor> findAll();
+	List<AlarmDescriptor> findAll();
 
 	/**
 	 * Gibt Auskunft ob der Alarmzeitpunkt aktiviert ist.
@@ -42,7 +43,7 @@ public interface IAlarmTimestampDao {
 	 *            der Alarmzeitpunkt
 	 * @return true wenn aktiviert sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean isActivated(TimeDescriptor descriptor);
+	Boolean isActivated(AlarmDescriptor descriptor);
 
 	/**
 	 * Ermoeglicht das Aktivierung/ Deaktivierung des {@link AlarmTimestamp}-Objekts.
@@ -53,5 +54,5 @@ public interface IAlarmTimestampDao {
 	 *            true wenn der Alarm aktiviert werden soll, sonst false.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean setIsActivated(TimeDescriptor descriptor, Boolean isActivated);
+	Boolean setIsActivated(AlarmDescriptor descriptor, Boolean isActivated);
 }

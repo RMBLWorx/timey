@@ -66,6 +66,19 @@
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
 		<constructor-arg value="0"></constructor-arg>
 	</bean>
+	<bean id="alarmDescriptor" name="alarmDescriptor"
+		class="rmblworx.tools.timey.vo.AlarmDescriptor">
+		<constructor-arg ref="descriptor" index="0"/>
+		<constructor-arg value="true" index="1"/>
+		<constructor-arg value="Text" index="2"/>
+		<constructor-arg ref="path" index="3"/>
+		<constructor-arg ref="descriptor" index="4"/>
+	</bean>
+	<bean id="path" name="path"
+		class="java.nio.file.Paths" factory-method="get">
+		<constructor-arg value="file:/bla/blubb"/>
+	</bean>
+	
 
 	<!-- ######################### Service-Deklarationen ############################# -->
 	<bean id="alarmTimestampService" name="alarmTimestampService"

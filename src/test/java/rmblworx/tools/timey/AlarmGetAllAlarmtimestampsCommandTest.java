@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 public class AlarmGetAllAlarmtimestampsCommandTest {
 
@@ -22,8 +22,8 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
-	private TimeDescriptor descriptor;
-	private List<TimeDescriptor> list;
+	private AlarmDescriptor descriptor;
+	private List<AlarmDescriptor> list;
 
 	@Before
 	public void setUp() throws Exception {
@@ -31,7 +31,7 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 		this.command = new AlarmGetAllAlarmtimestampsCommand(this.mockedReceiver);
 		this.invoker = new Invoker();
 		this.invoker.storeCommand(this.command);
-		this.list = new ArrayList<TimeDescriptor>();
+		this.list = new ArrayList<AlarmDescriptor>();
 		this.list.add(this.descriptor);
 	}
 

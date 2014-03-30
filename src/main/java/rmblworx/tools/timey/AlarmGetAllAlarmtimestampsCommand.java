@@ -3,7 +3,7 @@ package rmblworx.tools.timey;
 import java.util.List;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando ermoeglicht das Abrufen aller erfassten Alarmzeitpunkte.
@@ -34,7 +34,7 @@ public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
 	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
 	@Override
-	public List<TimeDescriptor> execute() {
+	public List<AlarmDescriptor> execute() {
 		return this.fReceiver.getAllAlarmtimestamps();
 	}
 }
