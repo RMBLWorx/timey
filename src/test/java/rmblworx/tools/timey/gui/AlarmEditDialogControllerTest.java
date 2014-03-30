@@ -3,8 +3,14 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.Calendar;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import javafx.scene.Scene;
@@ -58,9 +64,8 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
 
-		// Alarm anlegen
-		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00"), "Test");
-		controller.setAlarm(alarm);
+		// Alarm vorgeben
+		controller.setAlarm(new Alarm(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00"), "Test"));
 
 		// sicherstellen, dass Formularfelder korrekt gefüllt sind
 		assertTrue(alarmEnabledCheckbox.isSelected());
@@ -79,6 +84,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
+		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
@@ -86,7 +92,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		 */
 		// controller.setDialogStage(stage);
 
-		// Alarm anlegen
+		// Alarm vorgeben
 		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Bla");
 		controller.setAlarm(alarm);
 
@@ -103,7 +109,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		alarmDescriptionTextField.setText("Test");
 
 		// Speichern-Schaltfläche betätigen
-		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 		alarmSaveButton.fire();
 		FXTestUtils.awaitEvents();
 
@@ -121,6 +126,38 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	}
 
 	/**
+	 * Testet Anzeige der Fehlermeldung bei leerem Datum.
+	 */
+	@Test
+	public final void testErrorDateEmpty() {
+		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
+		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
+		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
+
+		/*
+		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
+		 * Verfügung steht.
+		 */
+		// controller.setDialogStage(stage);
+
+		// Alarm vorgeben
+		controller.setAlarm(new Alarm());
+
+		// Datum leeren
+		alarmDatePicker.setValue(null);
+
+		final GuiHelper guiHelper = mock(GuiHelper.class);
+		controller.setGuiHelper(guiHelper);
+
+		// Speichern-Schaltfläche betätigen
+		alarmSaveButton.fire();
+		FXTestUtils.awaitEvents();
+
+		// sicherstellen, dass Fehlermeldung erscheint
+		verify(guiHelper).showDialogMessage(anyString(), eq("Ein Datum muss angegeben werden.\n"), isA(ResourceBundle.class));
+	}
+
+	/**
 	 * Testet das Verwerfen der Änderungen.
 	 */
 	@Test
@@ -130,6 +167,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
+		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
@@ -156,7 +194,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		alarmDescriptionTextField.setText("Test");
 
 		// Abbrechen-Schaltfläche betätigen
-		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 		alarmCancelButton.fire();
 		FXTestUtils.awaitEvents();
 

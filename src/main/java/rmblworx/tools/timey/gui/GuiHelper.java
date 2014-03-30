@@ -76,7 +76,7 @@ public class GuiHelper {
 	 * @param text Text
 	 * @param i18n ResourceBundle
 	 */
-	public final void showDialogMessage(final String caption, final String text, final ResourceBundle i18n) {
+	public void showDialogMessage(final String caption, final String text, final ResourceBundle i18n) {
 		showMessageDialog(caption, text, i18n);
 	}
 
