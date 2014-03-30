@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -72,7 +71,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Countdown starten
 		countdownStartButton.fire();
 		FXTestUtils.awaitEvents();
-		verify(getController().getGuiHelper().getFacade(), times(1)).startCountdown();
+		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(countdownStartButton.isVisible());
@@ -85,7 +84,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Countdown stoppen
 		countdownStopButton.fire();
 		FXTestUtils.awaitEvents();
-		verify(getController().getGuiHelper().getFacade(), times(1)).stopCountdown();
+		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -153,11 +152,11 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 		// Countdown starten
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade(), times(1)).startCountdown();
+		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Countdown stoppen
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade(), times(1)).stopCountdown();
+		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 	}
 
 }
