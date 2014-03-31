@@ -16,7 +16,7 @@
   <children>
     <AnchorPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
       <children>
-        <CheckBox fx:id="alarmEnabledCheckbox" layoutX="0.0" layoutY="1.0" mnemonicParsing="false" text="aktiv" />
+        <CheckBox fx:id="alarmEnabledCheckbox" layoutX="0.0" layoutY="1.0" mnemonicParsing="false" text="%alarmEdit.active.label" />
         <Label layoutX="0.0" layoutY="27.0" text="%alarmEdit.date.label" />
         <CalendarTextField fx:id="alarmDatePicker" layoutX="0.0" layoutY="44.0" />
         <Label layoutX="0.0" layoutY="73.0" text="%alarmEdit.time.label" />
