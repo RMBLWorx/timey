@@ -2,6 +2,7 @@ package rmblworx.tools.timey.gui;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -176,8 +177,9 @@ public class AlarmEditDialogController extends Controller {
 		}
 
 		if (alarmDatePicker.getValue() != null && existingAlarms != null) {
+			final Date selectedDateTime = getDateTimeFromPickers().getTime();
 			for (final Alarm existingAlarm : existingAlarms) {
-				if (alarm != existingAlarm && getDateTimeFromPickers().getTime().equals(existingAlarm.getDateTime().getTime())) {
+				if (alarm != existingAlarm && selectedDateTime.equals(existingAlarm.getDateTime().getTime())) {
 					errors.append(resources.getString("alarmEdit.otherAlarmWithSameTimestampAlreadyExists"));
 					errors.append("\n");
 					break;
