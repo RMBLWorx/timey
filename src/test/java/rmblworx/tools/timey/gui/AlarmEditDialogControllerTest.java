@@ -144,6 +144,8 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		 */
 		// controller.setDialogStage(stage);
 
+		controller.setExistingAlarms(Arrays.asList(new Alarm()));
+
 		// Alarm vorgeben
 		controller.setAlarm(new Alarm());
 

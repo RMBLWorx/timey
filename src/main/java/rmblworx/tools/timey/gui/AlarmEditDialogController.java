@@ -175,7 +175,7 @@ public class AlarmEditDialogController extends Controller {
 			errors.append("\n");
 		}
 
-		if (existingAlarms != null) {
+		if (alarmDatePicker.getValue() != null && existingAlarms != null) {
 			for (final Alarm existingAlarm : existingAlarms) {
 				if (alarm != existingAlarm && getDateTimeFromPickers().getTime().equals(existingAlarm.getDateTime().getTime())) {
 					errors.append(resources.getString("alarmEdit.otherAlarmWithSameTimestampAlreadyExists"));
