@@ -67,15 +67,23 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
+		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
+		final Button alarmNoSoundButton = (Button) scene.lookup("#alarmNoSoundButton");
+		final Button alarmPlaySoundButton = (Button) scene.lookup("#alarmPlaySoundButton");
 
 		// Alarm vorgeben
 		controller.setAlarm(new Alarm(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00"), "Test"));
+		FXTestUtils.awaitEvents();
 
 		// sicherstellen, dass Formularfelder korrekt gefüllt sind
 		assertTrue(alarmEnabledCheckbox.isSelected());
 		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014").getTime(), alarmDatePicker.getValue().getTime());
 		assertEquals(DateTimeUtil.getCalendarForString("12:00:00").getTime(), alarmTimePicker.getTime().getTime());
 		assertEquals("Test", alarmDescriptionTextField.getText());
+
+		assertEquals("kein Klingelton gewählt", alarmSelectSoundButton.getText());
+		assertTrue(alarmNoSoundButton.isDisabled());
+		assertTrue(alarmPlaySoundButton.isDisabled());
 	}
 
 	/**
@@ -88,6 +96,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
+		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
 		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 
 		/*
@@ -99,6 +108,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Alarm vorgeben
 		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Bla");
 		controller.setAlarm(alarm);
+		FXTestUtils.awaitEvents();
 
 		// deaktivieren
 		alarmEnabledCheckbox.fire();
@@ -111,6 +121,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// Beschreibung setzen
 		alarmDescriptionTextField.setText("Test");
+
+		// Sound setzen
+		controller.setRingtone("Sound");
+		FXTestUtils.awaitEvents();
 
 		// Speichern-Schaltfläche betätigen
 		alarmSaveButton.fire();
@@ -127,6 +141,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		assertEquals(DateTimeUtil.getCalendarForString("12:00:00").getTime(), DateTimeUtil.getTimePart(alarm.getDateTime()).getTime());
 		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00").getTime(), alarm.getDateTime().getTime());
 		assertEquals("Test", alarm.getDescription());
+		assertEquals("Sound", alarm.getSound());
 	}
 
 	/**
@@ -146,6 +161,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// Alarm vorgeben
 		controller.setAlarm(new Alarm());
+		FXTestUtils.awaitEvents();
 
 		// Datum leeren
 		alarmDatePicker.setValue(null);
@@ -193,6 +209,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		for (final DataErrors testCase : testCases) {
 			controller.setExistingAlarms(testCase.existingAlarms);
 			controller.setAlarm(testCase.alarm);
+			FXTestUtils.awaitEvents();
 
 			final GuiHelper guiHelper = mock(GuiHelper.class);
 			controller.setGuiHelper(guiHelper);
@@ -217,6 +234,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
+		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
 		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 
 		/*
@@ -225,11 +243,12 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		 */
 		// controller.setDialogStage(stage);
 
-		// Alarm anlegen
+		// Alarm vorgeben
 		final Calendar dateTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		dateTime.clear();
 		final Alarm alarm = new Alarm(dateTime, "bla");
 		controller.setAlarm(alarm);
+		FXTestUtils.awaitEvents();
 
 		// deaktivieren
 		alarmEnabledCheckbox.fire();
@@ -242,6 +261,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// Beschreibung setzen
 		alarmDescriptionTextField.setText("Test");
+
+		// Sound setzen
+		controller.setRingtone("Sound");
+		FXTestUtils.awaitEvents();
 
 		// Abbrechen-Schaltfläche betätigen
 		alarmCancelButton.fire();
@@ -256,6 +279,49 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		assertTrue(alarm.isEnabled());
 		assertEquals(0, alarm.getDateTime().getTimeInMillis());
 		assertEquals("bla", alarm.getDescription());
+		assertEquals(null, alarm.getSound());
+	}
+
+	/**
+	 * Testet das Auswählen, Anhören und Löschen eines Klingeltons.
+	 */
+	@Test
+	public final void testSoundSelection() {
+		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
+		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
+		final Button alarmNoSoundButton = (Button) scene.lookup("#alarmNoSoundButton");
+		final Button alarmPlaySoundButton = (Button) scene.lookup("#alarmPlaySoundButton");
+
+		/*
+		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
+		 * Verfügung steht.
+		 */
+		// controller.setDialogStage(stage);
+
+		// Alarm vorgeben
+		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Bla");
+		controller.setAlarm(alarm);
+		FXTestUtils.awaitEvents();
+
+		// Sound setzen
+		controller.setRingtone("Sound");
+		FXTestUtils.awaitEvents();
+
+		assertFalse(alarmNoSoundButton.isDisabled());
+		assertFalse(alarmPlaySoundButton.isDisabled());
+
+		// Sound-Abspielen-Schaltfläche betätigen
+		final AudioPlayer player = mock(AudioPlayer.class);
+		controller.setAudioPlayer(player);
+		alarmPlaySoundButton.fire();
+		FXTestUtils.awaitEvents();
+		verify(player).playInThread(eq("Sound"), isA(Thread.UncaughtExceptionHandler.class));
+
+		// Sound-Löschen-Schaltfläche betätigen
+		alarmNoSoundButton.fire();
+		FXTestUtils.awaitEvents();
+
+		assertEquals("kein Klingelton gewählt", alarmSelectSoundButton.getText());
 	}
 
 	private final class DataErrors {
