@@ -8,21 +8,25 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
-    <StackPane layoutY="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <VBox id="VBox" alignment="CENTER" layoutX="0.0" layoutY="0.0" spacing="5.0">
       <children>
-        <Label fx:id="message" text="" textAlignment="LEFT" />
+        <StackPane>
+          <children>
+            <Label fx:id="message" text="" textAlignment="LEFT" />
+          </children>
+          <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+          </padding>
+        </StackPane>
+        <StackPane>
+          <children>
+            <Button fx:id="okButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="false" mnemonicParsing="false" text="%messageDialog.okButton.label" textAlignment="LEFT" />
+          </children>
+          <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+          </padding>
+        </StackPane>
       </children>
-      <padding>
-        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
-      </padding>
-    </StackPane>
-    <StackPane layoutY="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-      <children>
-        <Button fx:id="okButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="false" mnemonicParsing="false" text="%messageDialog.okButton.label" textAlignment="LEFT" />
-      </children>
-      <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
-      </padding>
-    </StackPane>
+    </VBox>
   </children>
 </AnchorPane>
