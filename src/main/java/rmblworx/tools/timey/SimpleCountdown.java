@@ -42,10 +42,6 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 	 */
 	private ScheduledFuture<?> countdownFuture;
 	/**
-	 * Referenz auf den Event-Dispatcher.
-	 */
-	private TimeyEventDispatcher dispatcher;
-	/**
 	 * Spring-Kontext.
 	 */
 	private ApplicationContext springContext;
@@ -57,7 +53,6 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 	 *            Referenz auf den Event-Dispatcher
 	 */
 	public SimpleCountdown(final TimeyEventDispatcher timeyEventDispatcher) {
-		this.dispatcher = timeyEventDispatcher;
 		timeyEventDispatcher.addEventListener(this);
 	}
 
@@ -81,15 +76,16 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 		final CountdownRunnable countdown = (CountdownRunnable) this.springContext.getBean("countdownRunnable",
 				this.timeDescriptor, Long.valueOf(this.timePassed));
 
-		countdownFuture = this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
-
+		this.countdownFuture = this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
+		// TODO Implementierung unvollstaendig - amountOfThreads beeinflusst nur die Groesze des Threadpools und bislang
+		// nicht die Anzahl erzeugter/geplanter Threads
 		return this.timeDescriptor;
 	}
 
 	@Override
 	public Boolean stopCountdown() {
 		if (this.scheduler != null && !this.scheduler.isTerminated()) {
-			final TaskStopper stopRunnable = new TaskStopper(scheduler, countdownFuture);
+			final TaskStopper stopRunnable = new TaskStopper(this.scheduler, this.countdownFuture);
 			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
 		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();

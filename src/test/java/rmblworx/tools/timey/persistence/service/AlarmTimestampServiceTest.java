@@ -55,8 +55,8 @@ public class AlarmTimestampServiceTest {
 
 		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(this.expectedAlarmDescriptor));
 		final List<AlarmDescriptor> actualList = this.service.getAll();
-		for (AlarmDescriptor timeDescriptor : actualList) {
-			if (timeDescriptor.getAlarmtime().getMilliSeconds() == EXPECTED_MILLISECONDS) {
+		for (AlarmDescriptor alarmDescriptor : actualList) {
+			if (alarmDescriptor.getAlarmtime().getMilliSeconds() == EXPECTED_MILLISECONDS) {
 				found = true;
 			}
 		}

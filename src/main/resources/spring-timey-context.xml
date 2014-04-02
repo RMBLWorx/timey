@@ -11,6 +11,9 @@
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm">
 		<constructor-arg ref="alarmTimestampService" index="0" />
+		<constructor-arg value="1" index="1" />
+		<constructor-arg type="java.util.concurrent.TimeUnit"
+			value="MILLISECONDS" index="2" />
 	</bean>
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
 		<constructor-arg ref="simpleTimer" index="0" />
@@ -42,10 +45,15 @@
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
+	<bean id="alarmRunnable" name="alarmRunnable"
+		class="rmblworx.tools.timey.AlarmRunnable">
+	</bean>
 	<bean scope="prototype" id="countdownRunnable" name="countdownRunnable"
 		class="rmblworx.tools.timey.CountdownRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
+	</bean>
+	<bean id="simpleAlarm" name="simpleAlarm" class="rmblworx.tools.timey.SimpleAlarm">
 	</bean>
 	<bean id="simpleTimer" name="simpleTimer" class="rmblworx.tools.timey.SimpleTimer">
 		<constructor-arg ref="descriptor"></constructor-arg>
@@ -95,7 +103,7 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:alarmdb" />
+		<property name="url" value="jdbc:h2:alarmdb;DB_CLOSE_ON_EXIT=FALSE" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="initialSize" value="5" />

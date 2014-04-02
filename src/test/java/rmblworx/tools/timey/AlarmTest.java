@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -70,7 +72,7 @@ public class AlarmTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		this.effectiveDelegate = new Alarm(this.service);
+		this.effectiveDelegate = new Alarm(this.service, 1, TimeUnit.MINUTES);
 		this.descriptor.getAlarmtime().setMilliSeconds(EXPECTED_MILLISECONDS);
 		this.list = this.createListWithDescriptors();
 	}
@@ -99,7 +101,7 @@ public class AlarmTest {
 	 */
 	@Test
 	public final void testIsActivatedShouldReturnNullBecauseNoAlarmtimeWasSetBefore() {
-		this.effectiveDelegate = new Alarm(this.service);
+		this.effectiveDelegate = new Alarm(this.service, 1, TimeUnit.MINUTES);
 		AlarmDescriptor expected = null;
 
 		when(this.service.isActivated(expected)).thenReturn(null);
@@ -177,6 +179,22 @@ public class AlarmTest {
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseServiceIsNull() {
-		this.effectiveDelegate = new Alarm(null);
+		this.effectiveDelegate = new Alarm(null, 1, TimeUnit.MINUTES);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmTimestampService)} .
+	 */
+	@Test(expected = NullArgumentException.class)
+	public final void testShouldFailBecauseTimeUnitIsNull() {
+		this.effectiveDelegate = new Alarm(null, 1, null);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmTimestampService)} .
+	 */
+	@Test(expected = ValueMinimumArgumentException.class)
+	public final void testShouldFailBecauseDelayIsLessThanOne() {
+		this.effectiveDelegate = new Alarm(this.service, 0, TimeUnit.MINUTES);
 	}
 }
