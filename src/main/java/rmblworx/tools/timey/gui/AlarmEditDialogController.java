@@ -211,7 +211,13 @@ public class AlarmEditDialogController extends Controller {
 	private void handlePlaySoundButtonClick() {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				audioPlayer.playInThread(ringtone.get(), new Thread.UncaughtExceptionHandler() {
+				final String ringtonePath = ringtone.get();
+
+				if (ringtonePath == null || ringtonePath.length() == 0) {
+					return;
+				}
+
+				audioPlayer.playInThread(ringtonePath, new Thread.UncaughtExceptionHandler() {
 					public void uncaughtException(final Thread thread, final Throwable exception) {
 						Platform.runLater(new Runnable() {
 							public void run() {
