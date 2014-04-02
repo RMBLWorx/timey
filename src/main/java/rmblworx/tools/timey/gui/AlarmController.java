@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
+import rmblworx.tools.timey.ITimey;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -122,7 +124,17 @@ public class AlarmController extends Controller {
 				}
 			});
 
-			addSampleData();
+//			addSampleData();
+
+			Platform.runLater(new Runnable() {
+				public void run() {
+					final ObservableList<Alarm> tableData = alarmTable.getItems();
+					for (final Alarm alarm : AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarmtimestamps())) {
+						tableData.add(alarm);
+					}
+					refreshTable();
+				}
+			});
 		}
 
 		if (alarmEditButton != null) {
@@ -154,6 +166,8 @@ public class AlarmController extends Controller {
 					alarmTable.getSelectionModel().select(idx);
 
 					alarmTable.requestFocus();
+
+					getGuiHelper().getFacade().setAlarmtimestamp(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 				}
 			}
 		});
@@ -182,6 +196,7 @@ public class AlarmController extends Controller {
 				if (alarm != null) {
 					alarmTable.getSelectionModel().clearSelection(); // Auswahl aufheben
 					alarmTable.getItems().remove(alarm);
+					getGuiHelper().getFacade().removeAlarmtimestamp(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 				}
 			}
 		});
@@ -205,8 +220,13 @@ public class AlarmController extends Controller {
 	private void editAlarm() {
 		final Alarm alarm = alarmTable.getSelectionModel().getSelectedItem();
 		if (alarm != null) {
+			final AlarmDescriptor oldAlarm = AlarmDescriptorConverter.getAsAlarmDescriptor(alarm); // Instanz vorm Bearbeiten anlegen
 			if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.edit"))) {
 				refreshTable();
+
+				final ITimey facade = getGuiHelper().getFacade();
+				facade.removeAlarmtimestamp(oldAlarm);
+				facade.setAlarmtimestamp(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 			}
 		}
 	}
