@@ -20,8 +20,8 @@ public class AudioPlayer {
 	 */
 	public void playInThread(final String path, final Thread.UncaughtExceptionHandler exceptionHandler) {
 		/*
-		 * Sound in separatem Thread abspielen, da die Anwendung bei nicht-vorhandener Datei sonst einige Zeit (ca. 5 Sekunden) nicht
-		 * mehr reagieren würde, bevor eine Exception auftritt.
+		 * Sound in separatem Thread abspielen, da die Anwendung bei nicht-vorhandener Datei sonst einige Zeit (ca. 5 Sekunden) nicht mehr
+		 * reagieren würde, bevor eine Exception auftritt.
 		 */
 		final Thread thread = new Thread(new Runnable() {
 			public void run() {
