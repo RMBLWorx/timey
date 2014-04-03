@@ -56,7 +56,6 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
 		assertFalse(stopwatchStartButton.isDisabled());
-//		assertTrue(stopwatchStartButton.isFocused()); // muss nicht unbedingt der Fall sein
 
 		assertFalse(stopwatchStopButton.isVisible());
 		assertFalse(stopwatchStopButton.isDisabled());
@@ -130,7 +129,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 		assertEquals("00:00:00", stopwatchTimeLabel.getText());
 
-		// Millisekunden-Anteil wieder ausblenden
+		// Millisekunden-Anteil wieder einblenden
 		stopwatchShowMillisecondsCheckbox.fire();
 		FXTestUtils.awaitEvents();
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());

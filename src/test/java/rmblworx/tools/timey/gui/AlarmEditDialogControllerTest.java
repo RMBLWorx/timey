@@ -96,7 +96,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
-		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
 		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 
 		/*
@@ -236,7 +235,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
-		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
 		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 
 		/*
