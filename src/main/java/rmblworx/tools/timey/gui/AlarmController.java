@@ -2,7 +2,6 @@ package rmblworx.tools.timey.gui;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -28,6 +27,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
+import org.joda.time.LocalDateTime;
+
 /**
  * Controller für die Alarm-GUI.
  * 
@@ -49,7 +50,7 @@ public class AlarmController extends Controller {
 	private TableView<Alarm> alarmTable;
 
 	@FXML
-	private TableColumn<Alarm, Calendar> alarmDateTimeColumn;
+	private TableColumn<Alarm, LocalDateTime> alarmDateTimeColumn;
 
 	@FXML
 	private TableColumn<Alarm, String> alarmDescriptionColumn;
@@ -69,14 +70,14 @@ public class AlarmController extends Controller {
 		assert alarmDeleteButton != null : "fx:id='alarmDeleteButton' was not injected";
 
 		if (alarmDateTimeColumn != null) {
-			alarmDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Alarm, Calendar>("dateTime"));
+			alarmDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Alarm, LocalDateTime>("dateTime"));
 
-			alarmDateTimeColumn.setCellFactory(new Callback<TableColumn<Alarm, Calendar>, TableCell<Alarm, Calendar>>() {
-				public TableCell<Alarm, Calendar> call(final TableColumn<Alarm, Calendar> param) {
-					return new TableCell<Alarm, Calendar>() {
-						protected void updateItem(final Calendar item, final boolean empty) {
+			alarmDateTimeColumn.setCellFactory(new Callback<TableColumn<Alarm, LocalDateTime>, TableCell<Alarm, LocalDateTime>>() {
+				public TableCell<Alarm, LocalDateTime> call(final TableColumn<Alarm, LocalDateTime> param) {
+					return new TableCell<Alarm, LocalDateTime>() {
+						protected void updateItem(final LocalDateTime item, final boolean empty) {
 							super.updateItem(item, empty);
-							setText(empty ? null : dateTimeFormatter.format(item.getTimeInMillis()));
+							setText(empty ? null : dateTimeFormatter.format(item.toDate().getTime()));
 						}
 					};
 				}
@@ -257,16 +258,11 @@ public class AlarmController extends Controller {
 	 * Fügt der Tabelle Beispieldaten hinzu.
 	 */
 	private void addSampleData() {
-		final Calendar cal1 = Calendar.getInstance();
-		cal1.add(Calendar.SECOND, 5);
-		final Calendar cal2 = Calendar.getInstance();
-		cal2.add(Calendar.SECOND, 10);
-		final Calendar cal3 = Calendar.getInstance();
-		cal3.add(Calendar.SECOND, 15);
+		final LocalDateTime now = LocalDateTime.now();
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		tableData.add(new Alarm(cal1, "noch wird hier ..."));
-		tableData.add(new Alarm(cal2, "... nichts persistiert ..."));
-		tableData.add(new Alarm(cal3, "... oder ausgelöst", false));
+		tableData.add(new Alarm(now.secondOfMinute().addToCopy(5), "noch wird hier ..."));
+		tableData.add(new Alarm(now.secondOfMinute().addToCopy(10), "... nichts persistiert ..."));
+		tableData.add(new Alarm(now.secondOfMinute().addToCopy(15), "... oder ausgelöst", false));
 	}
 
 	/**

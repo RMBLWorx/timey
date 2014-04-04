@@ -28,6 +28,7 @@
 		<h2.version>1.3.175</h2.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<javafx.lib.ant-javafx.jar>${java.home}/../lib/ant-javafx.jar</javafx.lib.ant-javafx.jar>
+		<joda-time.version>2.3</joda-time.version>
 		<mockito.version>1.9.5</mockito.version>
 		<application.dist>${project.build.directory}/distribution</application.dist>
 		<maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
@@ -117,6 +118,11 @@
 			<groupId>org.jfxtras</groupId>
 			<artifactId>jfxtras-labs</artifactId>
 			<version>2.2-r5</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda-time.version}</version>
 		</dependency>
 		<!-- Testing -->
 		<dependency>

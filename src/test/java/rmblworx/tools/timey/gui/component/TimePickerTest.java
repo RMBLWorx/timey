@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -244,12 +244,12 @@ public class TimePickerTest extends GuiTest {
 		testCases.add(new TimePartsAndTimeValue("00", "00", "00", "00:00:00"));
 
 		for (final TimePartsAndTimeValue testCase : testCases) {
-			final Calendar time = DateTimeUtil.getCalendarForString(testCase.timeString);
+			final LocalTime time = DateTimeUtil.getLocalTimeForString(testCase.timeString);
 			timePicker.setTime(time);
 			assertEquals(testCase.hours, hoursTextField.getText());
 			assertEquals(testCase.minutes, minutesTextField.getText());
 			assertEquals(testCase.seconds, secondsTextField.getText());
-			assertEquals(time.getTime(), timePicker.getTimeProperty().get().getTime());
+			assertEquals(time, timePicker.getTimeProperty().get());
 		}
 	}
 
@@ -268,12 +268,12 @@ public class TimePickerTest extends GuiTest {
 		testCases.add(new TimePartsAndTimeValue("00", "00", "00", "00:00:00"));
 
 		for (final TimePartsAndTimeValue testCase : testCases) {
-			final Calendar time = DateTimeUtil.getCalendarForString(testCase.timeString);
+			final LocalTime time = DateTimeUtil.getLocalTimeForString(testCase.timeString);
 			hoursTextField.setText(testCase.hours);
 			minutesTextField.setText(testCase.minutes);
 			secondsTextField.setText(testCase.seconds);
-			assertEquals(time.getTimeInMillis(), timePicker.getTime().getTimeInMillis());
-			assertEquals(time.getTimeInMillis(), timePicker.getTimeProperty().get().getTimeInMillis());
+			assertEquals(time, timePicker.getTime());
+			assertEquals(time, timePicker.getTimeProperty().get());
 		}
 	}
 

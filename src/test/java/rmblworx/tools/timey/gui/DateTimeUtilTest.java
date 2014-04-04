@@ -2,9 +2,6 @@ package rmblworx.tools.timey.gui;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import org.junit.Test;
 
 /**
@@ -16,47 +13,94 @@ import org.junit.Test;
  */
 public class DateTimeUtilTest {
 
-	private static final TimeZone TZ_UTC = TimeZone.getTimeZone("UTC");
-	private static final TimeZone TZ_BERLIN = TimeZone.getTimeZone("Europe/Berlin");
-
 	/**
-	 * Testet {@link DateTimeUtil#getDatePart(Calendar)}.
+	 * Testet {@link DateTimeUtil#getDatePart(org.joda.time.LocalDateTime)}.
 	 */
 	@Test
 	public final void testGetDatePart() {
-		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014").getTime(),
-				DateTimeUtil.getDatePart(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00")).getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014", TZ_UTC).getTime(),
-				DateTimeUtil.getDatePart(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00", TZ_UTC)).getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014", TZ_BERLIN).getTime(),
-				DateTimeUtil.getDatePart(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00", TZ_BERLIN)).getTime());
+		for (final DateTimePartsValue testCase : getDateTimeParts()) {
+			assertEquals(DateTimeUtil.getLocalDateForString(testCase.date),
+					DateTimeUtil.getDatePart(DateTimeUtil.getLocalDateTimeForString(testCase.dateTime)));
+		}
 	}
 
 	/**
-	 * Testet {@link DateTimeUtil#getTimePart(Calendar)}.
+	 * Testet {@link DateTimeUtil#getTimePart(org.joda.time.LocalDateTime)}.
 	 */
 	@Test
 	public final void testGetTimePart() {
-		assertEquals(DateTimeUtil.getCalendarForString("12:00:00").getTime(),
-				DateTimeUtil.getTimePart(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00")).getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("12:00:00", TZ_UTC).getTime(),
-				DateTimeUtil.getTimePart(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00", TZ_UTC)).getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("12:00:00", TZ_BERLIN).getTime(),
-				DateTimeUtil.getTimePart(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00", TZ_BERLIN)).getTime());
+		for (final DateTimePartsValue testCase : getDateTimeParts()) {
+			assertEquals(DateTimeUtil.getLocalTimeForString(testCase.time),
+					DateTimeUtil.getTimePart(DateTimeUtil.getLocalDateTimeForString(testCase.dateTime)));
+		}
 	}
 
 	/**
-	 * Testet {@link DateTimeUtil#getCalendarForString(String, TimeZone))}.
+	 * Testet {@link DateTimeUtil#getLocalDateTimeForString(String)}.
 	 */
 	@Test
-	public final void testGetCalendarForString() {
-		assertEquals(0, DateTimeUtil.getCalendarForString("01.01.1970", TZ_UTC).getTimeInMillis());
-		assertEquals(0, DateTimeUtil.getCalendarForString("01.01.1970 00:00:00", TZ_UTC).getTimeInMillis());
-		assertEquals(0, DateTimeUtil.getCalendarForString("00:00:00", TZ_UTC).getTimeInMillis());
+	public final void testGetLocalDateTimeForString() {
+		final String[] strings = new String[] {
+			"01.01.1970 00:00:00",
+			"01.01.1970",
+			"00:00:00",
+		};
+		for (final String string : strings) {
+			assertEquals(String.format("Failed parsing and evaluating date/time string '%s'.", string),
+					0, DateTimeUtil.getLocalDateTimeForString(string).getMillisOfDay());
+		}
+	}
 
-		assertEquals(-3600000, DateTimeUtil.getCalendarForString("01.01.1970", TZ_BERLIN).getTimeInMillis());
-		assertEquals(-3600000, DateTimeUtil.getCalendarForString("01.01.1970 00:00:00", TZ_BERLIN).getTimeInMillis());
-		assertEquals(-3600000, DateTimeUtil.getCalendarForString("00:00:00", TZ_BERLIN).getTimeInMillis());
+	/**
+	 * Testet {@link DateTimeUtil#getLocalDateForString(String)}.
+	 */
+	@Test
+	public final void testGetLocalDateForString() {
+		final String[] strings = new String[] {
+			"01.01.1970",
+		};
+		for (final String string : strings) {
+			assertEquals(String.format("Failed parsing and evaluating date string '%s'.", string),
+					0, DateTimeUtil.getLocalDateForString(string).toDateTimeAtStartOfDay().getMillisOfDay());
+		}
+	}
+
+	/**
+	 * Testet {@link DateTimeUtil#getLocalTimeForString(String)}.
+	 */
+	@Test
+	public final void testGetLocalTimeForString() {
+		final String[] strings = new String[] {
+			"00:00:00",
+		};
+		for (final String string : strings) {
+			assertEquals(String.format("Failed parsing and evaluating time string '%s'.", string),
+					0, DateTimeUtil.getLocalTimeForString(string).getMillisOfDay());
+		}
+	}
+
+	/**
+	 * @return Testfälle
+	 */
+	private DateTimePartsValue[] getDateTimeParts() {
+		return new DateTimePartsValue[] {
+			new DateTimePartsValue("24.12.2014", "12:00:00"), // Zeitpunkt in Zeitzone "CET"
+			new DateTimePartsValue("04.04.2014", "12:00:00"), // Zeitpunkt in Zeitzone "CEST"
+		};
+	}
+
+	private final class DateTimePartsValue {
+
+		public final String date;
+		public final String time;
+		public final String dateTime;
+
+		public DateTimePartsValue(final String date, final String time) {
+			this.date = date;
+			this.time = time;
+			this.dateTime = String.format("%s %s", date, time);
+		}
+
 	}
 
 }

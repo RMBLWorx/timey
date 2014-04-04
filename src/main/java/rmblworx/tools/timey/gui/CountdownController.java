@@ -1,7 +1,6 @@
 package rmblworx.tools.timey.gui;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -15,6 +14,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalTime;
+
 import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.event.CountdownExpiredEvent;
 import rmblworx.tools.timey.event.TimeyEvent;
@@ -73,14 +76,13 @@ public class CountdownController extends Controller implements TimeyEventListene
 		assert countdownTimeLabel != null : "fx:id='countdownTimeLabel' was not injected";
 		assert countdownTimePicker != null : "fx:id='countdownTimePicker' was not injected";
 
-		countdownTimePicker.setTimeZone(TIMEZONE);
-		setupTimeFormatters();
+		setupTimeFormatter();
 
 		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
 		countdownStartButton.setDisable(true);
-		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<Calendar>() {
-			public void changed(final ObservableValue<? extends Calendar> property, final Calendar oldValue, final Calendar newValue) {
-				countdownStartButton.setDisable(newValue.getTimeInMillis() == 0L);
+		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<LocalTime>() {
+			public void changed(final ObservableValue<? extends LocalTime> property, final LocalTime oldValue, final LocalTime newValue) {
+				countdownStartButton.setDisable(newValue.getMillisOfDay() == 0L);
 			}
 		});
 
@@ -125,7 +127,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 			return;
 		}
 
-		final long millis = countdownTimePicker.getTime().getTimeInMillis();
+		final long millis = countdownTimePicker.getTime().getMillisOfDay();
 
 		if (millis == 0L) {
 			return;
@@ -193,9 +195,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 
 		countdownRunning = false;
 
-		final Calendar cal = Calendar.getInstance(TIMEZONE);
-		cal.setTimeInMillis(getMillisRoundedToWholeSeconds(countdownValue - TimeZone.getDefault().getDSTSavings())); // TODO WTF?
-		countdownTimePicker.setTime(cal);
+		countdownTimePicker.setTime(new LocalTime(getMillisRoundedToWholeSeconds(countdownValue), DateTimeZone.UTC));
 
 		countdownStartButton.setVisible(true);
 		countdownStartButton.requestFocus();
@@ -216,7 +216,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 	/**
 	 * Initialisiert den Zeitformatierer.
 	 */
-	private void setupTimeFormatters() {
+	private void setupTimeFormatter() {
 		if (timeFormatter == null) {
 			timeFormatter = new SimpleDateFormat("HH:mm:ss");
 			timeFormatter.setTimeZone(TIMEZONE);
@@ -238,7 +238,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 	private void transferTimeFromInputToLabel() {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getTime()));
+				countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getMillisOfDay()));
 			}
 		});
 	}

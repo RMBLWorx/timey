@@ -11,10 +11,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 import java.util.Vector;
 
 import javafx.scene.Scene;
@@ -23,6 +21,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import jfxtras.labs.scene.control.CalendarTextField;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -66,19 +65,21 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final CheckBox alarmEnabledCheckbox = (CheckBox) scene.lookup("#alarmEnabledCheckbox");
 		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
 		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
+		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
 		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
 		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
 		final Button alarmNoSoundButton = (Button) scene.lookup("#alarmNoSoundButton");
 		final Button alarmPlaySoundButton = (Button) scene.lookup("#alarmPlaySoundButton");
 
 		// Alarm vorgeben
-		controller.setAlarm(new Alarm(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00"), "Test"));
+		controller.setAlarm(new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test"));
 		FXTestUtils.awaitEvents();
 
 		// sicherstellen, dass Formularfelder korrekt gefüllt sind
 		assertTrue(alarmEnabledCheckbox.isSelected());
-		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014").getTime(), alarmDatePicker.getValue().getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("12:00:00").getTime(), alarmTimePicker.getTime().getTime());
+		assertEquals(DateTimeUtil.getLocalDateForString("24.12.2014").toDate(), alarmDatePicker.getValue().getTime());
+		assertEquals(DateTimeUtil.getLocalTimeForString("12:00:00"), alarmTimePicker.getTime());
+		assertEquals("12", hoursTextField.getText());
 		assertEquals("Test", alarmDescriptionTextField.getText());
 
 		assertEquals("kein Klingelton gewählt", alarmSelectSoundButton.getText());
@@ -105,7 +106,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		// Alarm vorgeben
-		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Bla");
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Bla");
 		controller.setAlarm(alarm);
 		FXTestUtils.awaitEvents();
 
@@ -113,10 +114,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		alarmEnabledCheckbox.fire();
 
 		// Datum setzen
-		alarmDatePicker.setValue(DateTimeUtil.getCalendarForString("24.12.2014"));
+		alarmDatePicker.setValue(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
 
 		// Zeit setzen
-		alarmTimePicker.setTime(DateTimeUtil.getCalendarForString("12:00:00"));
+		alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
 
 		// Beschreibung setzen
 		alarmDescriptionTextField.setText("Test");
@@ -136,9 +137,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// sicherstellen, dass Alarm neue Werte hat
 		assertFalse(alarm.isEnabled());
-		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014").getTime(), DateTimeUtil.getDatePart(alarm.getDateTime()).getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("12:00:00").getTime(), DateTimeUtil.getTimePart(alarm.getDateTime()).getTime());
-		assertEquals(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00").getTime(), alarm.getDateTime().getTime());
+		assertEquals(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), alarm.getDateTime());
 		assertEquals("Test", alarm.getDescription());
 		assertEquals("Sound", alarm.getSound());
 	}
@@ -195,14 +194,14 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final List<DataErrors> testCases = new Vector<DataErrors>();
 		// Anlegen eines Alarms mit identischem Zeitstempel
 		testCases.add(new DataErrors(1, "Ein anderer Alarm mit demselben Zeitpunkt existiert bereits.\n",
-				Arrays.asList(new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm1")),
-				new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm2")));
+				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm1")),
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm2")));
 		// Anlegen eines Alarms mit unterschiedlichem Zeitstempel
 		testCases.add(new DataErrors(0, null,
-				Arrays.asList(new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm1")),
-				new Alarm(DateTimeUtil.getCalendarForString("11.11.2000"), "Alarm2")));
+				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm1")),
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("11.11.2000"), "Alarm2")));
 		// Bearbeiten eines Alarms ohne Änderung des Zeitstempels
-		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Alarm1"); // genau ein Objekt
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm1"); // genau ein Objekt
 		testCases.add(new DataErrors(0, null,
 				Arrays.asList(alarm),
 				alarm));
@@ -244,9 +243,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		// Alarm vorgeben
-		final Calendar dateTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		dateTime.clear();
-		final Alarm alarm = new Alarm(dateTime, "bla");
+		final Alarm alarm = new Alarm(new LocalDateTime(0), "bla");
 		controller.setAlarm(alarm);
 		FXTestUtils.awaitEvents();
 
@@ -254,10 +251,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		alarmEnabledCheckbox.fire();
 
 		// Datum setzen
-		alarmDatePicker.setValue(DateTimeUtil.getCalendarForString("24.12.2014"));
+		alarmDatePicker.setValue(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
 
 		// Zeit setzen
-		alarmTimePicker.setTime(DateTimeUtil.getCalendarForString("12:00:00"));
+		alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
 
 		// Beschreibung setzen
 		alarmDescriptionTextField.setText("Test");
@@ -277,7 +274,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// sicherstellen, dass Alarm ursprüngliche Werte hat
 		assertTrue(alarm.isEnabled());
-		assertEquals(0, alarm.getDateTime().getTimeInMillis());
+		assertEquals(0, alarm.getDateTime().toDate().getTime());
 		assertEquals("bla", alarm.getDescription());
 		assertEquals(null, alarm.getSound());
 	}
@@ -299,7 +296,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		// Alarm vorgeben
-		final Alarm alarm = new Alarm(DateTimeUtil.getCalendarForString("01.01.1970"), "Bla");
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Bla");
 		controller.setAlarm(alarm);
 		FXTestUtils.awaitEvents();
 

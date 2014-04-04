@@ -2,9 +2,10 @@ package rmblworx.tools.timey.gui;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 
 /**
  * Hilfsmethoden zum Umgang mit Datum/Zeit-Werten.
@@ -15,74 +16,77 @@ import java.util.TimeZone;
  */
 public final class DateTimeUtil {
 
+	private static final String PATTERN_DATE_TIME = "dd.MM.yyyy HH:mm:ss";
+	private static final String PATTERN_DATE = "dd.MM.yyyy";
+	private static final String PATTERN_TIME = "HH:mm:ss";
+
 	/**
 	 * @param dateTime Datum-/Zeit-Wert
 	 * @return Datumsanteil in ms
 	 */
-	public static Calendar getDatePart(final Calendar dateTime) {
-		final Calendar date = (Calendar) dateTime.clone();
-
-		// Zeitanteil entfernen
-		date.set(Calendar.HOUR_OF_DAY, 0);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.SECOND, 0);
-		date.set(Calendar.MILLISECOND, 0);
-
-		return date;
-
-//		// Zeitanteil entfernen
-//		return DateUtils.truncate(dateTime, Calendar.DATE);
+	public static LocalDate getDatePart(final LocalDateTime dateTime) {
+		return dateTime.toLocalDate();
 	}
 
 	/**
 	 * @param dateTime Datum-/Zeit-Wert
 	 * @return Zeitanteil in ms
 	 */
-	public static Calendar getTimePart(final Calendar dateTime) {
-		final Calendar time = (Calendar) dateTime.clone();
-
-		// Datumsanteil entfernen, @see http://stackoverflow.com/a/1363358
-		final long millisPerDay = 24 * 60 * 60 * 1000;
-		time.setTimeInMillis(dateTime.getTimeInMillis() % millisPerDay);
-
-		return time;
+	public static LocalTime getTimePart(final LocalDateTime dateTime) {
+		return dateTime.toLocalTime();
 	}
 
 	/**
-	 * Konvertiert einen Datum/Zeit-String in ein Kalender-Objekt.
 	 * @param string Datum/Zeit-Wert
-	 * @return Kalender mit entsprechendem Datum/Zeit-Wert
+	 * @return {@link LocalDateTime}-Objekt mit entsprechendem Datum/Zeit-Wert
 	 */
-	public static Calendar getCalendarForString(final String string) {
-		return getCalendarForString(string, TimeZone.getDefault());
-	}
-
-	/**
-	 * Konvertiert einen Datum/Zeit-String in ein Kalender-Objekt.
-	 * @param string Datum/Zeit-Wert
-	 * @param timeZone Zeitzone
-	 * @return Kalender mit entsprechendem Datum/Zeit-Wert
-	 */
-	public static Calendar getCalendarForString(final String string, final TimeZone timeZone) {
+	public static LocalDateTime getLocalDateTimeForString(final String string) {
 		final String[] patterns = {
-			"dd.MM.yyyy HH:mm:ss",
-			"dd.MM.yyyy",
-			"HH:mm:ss",
+			PATTERN_DATE_TIME,
+			PATTERN_DATE,
+			PATTERN_TIME,
 		};
 
+		return parseString(string, patterns);
+	}
+
+	/**
+	 * @param string Datum-Wert
+	 * @return {@link LocalDate}-Objekt mit entsprechendem Datum-Wert
+	 */
+	public static LocalDate getLocalDateForString(final String string) {
+		final String[] patterns = {
+			PATTERN_DATE,
+		};
+
+		return getDatePart(parseString(string, patterns));
+	}
+
+	/**
+	 * @param string Zeit-Wert
+	 * @return {@link LocalTime}-Objekt mit entsprechendem Zeit-Wert
+	 */
+	public static LocalTime getLocalTimeForString(final String string) {
+		final String[] patterns = {
+			PATTERN_TIME,
+		};
+
+		return getTimePart(parseString(string, patterns));
+	}
+
+	/**
+	 * @param string Datum/Zeit-Wert
+	 * @param patterns gültige Muster zum Parsen des Wertes
+	 * @return {@link LocalDateTime}-Objekt mit entsprechendem Datum/Zeit-Wert
+	 */
+	private static LocalDateTime parseString(final String string, final String[] patterns) {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat();
-		dateFormat.setTimeZone(timeZone);
 
 		for (final String pattern : patterns) {
 			dateFormat.applyPattern(pattern);
 
 			try {
-				final Date dateTime = dateFormat.parse(string);
-
-				// wird nur aufgerufen, sobald keine Gefahr einer ParseException mehr besteht
-				final Calendar result = Calendar.getInstance(timeZone);
-				result.setTime(dateTime);
-				return result;
+				return new LocalDateTime(dateFormat.parse(string));
 			} catch (final ParseException e) {
 				continue;
 			}

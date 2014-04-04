@@ -5,14 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Calendar;
-
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -115,20 +113,20 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 
 		// Alarm anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		final Alarm alarm1 = new Alarm(DateTimeUtil.getCalendarForString("24.12.2014 12:00:00"), "Test");
+		final Alarm alarm1 = new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test");
 		tableData.add(alarm1);
 
 		/*
 		 * Sicherstellen, dass Zellen die korrekten Objekte enthalten.
 		 * Wäre z. B. nicht der Fall, wenn der Name des Alarm-Attributs nicht mit dem Namen der Spalte übereinstimmt.
 		 */
-		final Object dateTimeCellData = alarmTable.getColumns().get(0).getCellData(0);
+		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(0).getCellData(0);
 		assertNotNull(dateTimeCellData);
-		assertEquals(alarm1.getDateTime().getTime(), ((Calendar) dateTimeCellData).getTime());
+		assertEquals(alarm1.getDateTime(), dateTimeCellData);
 
-		final Object descriptionCellData = alarmTable.getColumns().get(1).getCellData(0);
+		final String descriptionCellData = (String) alarmTable.getColumns().get(1).getCellData(0);
 		assertNotNull(descriptionCellData);
-		assertEquals(alarm1.getDescription(), (String) descriptionCellData);
+		assertEquals(alarm1.getDescription(), descriptionCellData);
 	}
 
 }
