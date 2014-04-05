@@ -30,6 +30,7 @@ public class ConfigStorage {
 
 		try {
 			props.storeToXML(outputStream, null);
+			config.setChanged(false);
 		} catch (final IOException e) {
 			System.err.println(e.getLocalizedMessage());
 		}
@@ -52,7 +53,9 @@ public class ConfigStorage {
 		try {
 			final Properties props = new Properties();
 			props.loadFromXML(inputStream);
-			return getPropertiesAsConfig(props);
+			final Config config = getPropertiesAsConfig(props);
+			config.setChanged(false);
+			return config;
 		} catch (final IOException e) {
 			if (!suppressErrors) {
 				System.err.println("Error while trying to load the config file: " + e.getLocalizedMessage());
