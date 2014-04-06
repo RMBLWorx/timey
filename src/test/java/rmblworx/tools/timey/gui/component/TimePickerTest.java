@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
+import javafx.geometry.VerticalDirection;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
@@ -125,6 +126,40 @@ public class TimePickerTest extends GuiTest {
 				fail(String.format("test case %d: '%.0f' doesn't match expected '%s'.", testCases.indexOf(testCase),
 						testCase.slider.getValue(), testCase.sliderValue));
 			}
+		}
+	}
+
+	/**
+	 * Testet Wertänderung durch Scrollen innerhalb von Textfeldern.
+	 */
+	@Test
+	public final void testTextFieldScrolling() {
+		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
+		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
+		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
+
+		final Slider hoursSlider = (Slider) scene.lookup("#hoursSlider");
+		final Slider minutesSlider = (Slider) scene.lookup("#minutesSlider");
+		final Slider secondsSlider = (Slider) scene.lookup("#secondsSlider");
+
+		final TextFieldScrollingData[] testCases = new TextFieldScrollingData[] {
+			new TextFieldScrollingData(minutesTextField, hoursTextField, hoursSlider),
+			new TextFieldScrollingData(secondsTextField, minutesTextField, minutesSlider),
+			new TextFieldScrollingData(hoursTextField, secondsTextField, secondsSlider),
+		};
+
+		for (final TextFieldScrollingData testCase : testCases) {
+			click(testCase.focusedTextField); // anderes Feld fokussieren
+			// Scrollen über Feld ohne Fokus hat keine Auswirkung 
+			move(testCase.textField);
+			scroll(VerticalDirection.UP);
+			assertEquals(0.0, testCase.slider.getValue(), 0.0);
+
+			click(testCase.textField); // richtiges Feld fokussieren
+			scroll(VerticalDirection.UP);
+			assertEquals(1.0, testCase.slider.getValue(), 0.0);
+			scroll(VerticalDirection.DOWN);
+			assertEquals(0.0, testCase.slider.getValue(), 0.0);
 		}
 	}
 
@@ -266,6 +301,20 @@ public class TimePickerTest extends GuiTest {
 			this.sliderValue = sliderValue;
 			this.textField = textField;
 			this.textFieldValue = textFieldValue;
+		}
+
+	}
+
+	private final class TextFieldScrollingData {
+
+		public final TextField focusedTextField;
+		public final TextField textField;
+		public final Slider slider;
+
+		public TextFieldScrollingData(final TextField focusedTextField, final TextField textField, final Slider slider) {
+			this.focusedTextField = focusedTextField;
+			this.textField = textField;
+			this.slider = slider;
 		}
 
 	}

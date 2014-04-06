@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
@@ -239,6 +240,21 @@ public class TimePicker extends AnchorPane {
 				}
 			});
 		}
+
+		// auf Scroll-Ereignis im Textfeld reagieren
+		textField.setOnScroll(new EventHandler<ScrollEvent>() {
+			public void handle(final ScrollEvent event) {
+				// Scrollen über Feld ohne Fokus hat keine Auswirkung
+				if (!textField.isFocused()) {
+					return;
+				}
+
+				final double change = event.getDeltaY() > 0 ? 1 : -1;
+				slider.setValue(slider.getValue() + change);
+
+				event.consume();
+			}
+		});
 	}
 
 	/**
