@@ -44,6 +44,17 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	private Scene scene;
 
+	// GUI-Elemente
+	private AlarmEditDialogController controller;
+	private CheckBox alarmEnabledCheckbox;
+	private CalendarTextField alarmDatePicker;
+	private TimePicker alarmTimePicker;
+	private TextField alarmDescriptionTextField;
+	private Button alarmSelectSoundButton;
+	private Button alarmNoSoundButton;
+	private Button alarmPlaySoundButton;
+	private Button alarmSaveButton;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,6 +65,16 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
+
+		controller = (AlarmEditDialogController) getController();
+		alarmEnabledCheckbox = (CheckBox) scene.lookup("#alarmEnabledCheckbox");
+		alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
+		alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
+		alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
+		alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
+		alarmNoSoundButton = (Button) scene.lookup("#alarmNoSoundButton");
+		alarmPlaySoundButton = (Button) scene.lookup("#alarmPlaySoundButton");
+		alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 	}
 
 	/**
@@ -61,15 +82,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testInitialState() {
-		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
-		final CheckBox alarmEnabledCheckbox = (CheckBox) scene.lookup("#alarmEnabledCheckbox");
-		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
-		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
-		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
-		final Button alarmNoSoundButton = (Button) scene.lookup("#alarmNoSoundButton");
-		final Button alarmPlaySoundButton = (Button) scene.lookup("#alarmPlaySoundButton");
 
 		// Alarm vorgeben
 		controller.setAlarm(new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test"));
@@ -92,13 +105,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testApplyChanges() {
-		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
-		final CheckBox alarmEnabledCheckbox = (CheckBox) scene.lookup("#alarmEnabledCheckbox");
-		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
-		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
-		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
-		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
-
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
 		 * Verfügung steht.
@@ -147,10 +153,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testErrorDateEmpty() {
-		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
-		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
-		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
-
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
 		 * Verfügung steht.
@@ -182,9 +184,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testErrorOtherAlarmWithSameTimestampAlreadyExists() {
-		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
-		final Button alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
-
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
 		 * Verfügung steht.
@@ -229,11 +228,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testCancel() {
-		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
-		final CheckBox alarmEnabledCheckbox = (CheckBox) scene.lookup("#alarmEnabledCheckbox");
-		final CalendarTextField alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
-		final TimePicker alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
-		final TextField alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
 		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 
 		/*
@@ -284,11 +278,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testSoundSelection() {
-		final AlarmEditDialogController controller = (AlarmEditDialogController) getController();
-		final Button alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
-		final Button alarmNoSoundButton = (Button) scene.lookup("#alarmNoSoundButton");
-		final Button alarmPlaySoundButton = (Button) scene.lookup("#alarmPlaySoundButton");
-
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
 		 * Verfügung steht.

@@ -32,6 +32,12 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 */
 	private Scene scene;
 
+	// GUI-Elemente
+	private Label countdownTimeLabel;
+	private Button countdownStartButton;
+	private Button countdownStopButton;
+	private TimePicker countdownTimePicker;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -42,6 +48,11 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
+
+		countdownTimeLabel = (Label) scene.lookup("#countdownTimeLabel");
+		countdownStartButton = (Button) scene.lookup("#countdownStartButton");
+		countdownStopButton = (Button) scene.lookup("#countdownStopButton");
+		countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
 	}
 
 	/**
@@ -49,10 +60,6 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStartStopButtonStates() {
-		final Button countdownStartButton = (Button) scene.lookup("#countdownStartButton");
-		final Button countdownStopButton = (Button) scene.lookup("#countdownStopButton");
-		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
-
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
 		assertTrue(countdownStartButton.isDisabled());
@@ -106,11 +113,6 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testTimeConversionBetweenPickerAndLabel() {
-		final Button countdownStartButton = (Button) scene.lookup("#countdownStartButton");
-		final Button countdownStopButton = (Button) scene.lookup("#countdownStopButton");
-		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
-		final Label countdownTimeLabel = (Label) scene.lookup("#countdownTimeLabel");
-
 		// Zeit setzen
 		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
 
@@ -140,8 +142,6 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStartStopPerKeyboard() {
-		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
-
 		// Zeit auf 0 setzen
 		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
 		FXTestUtils.awaitEvents();

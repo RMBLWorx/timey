@@ -41,6 +41,15 @@ public class TimePickerTest extends GuiTest {
 	 */
 	private Scene scene;
 
+	// GUI-Elemente
+	private TimePicker timePicker;
+	private TextField hoursTextField;
+	private TextField minutesTextField;
+	private TextField secondsTextField;
+	private Slider hoursSlider;
+	private Slider minutesSlider;
+	private Slider secondsSlider;
+
 	/**
 	 * @return Elternknoten der GUI-Elemente
 	 */
@@ -51,6 +60,16 @@ public class TimePickerTest extends GuiTest {
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
+
+		timePicker = (TimePicker) scene.getRoot();
+
+		hoursTextField = (TextField) scene.lookup("#hoursTextField");
+		minutesTextField = (TextField) scene.lookup("#minutesTextField");
+		secondsTextField = (TextField) scene.lookup("#secondsTextField");
+
+		hoursSlider = (Slider) scene.lookup("#hoursSlider");
+		minutesSlider = (Slider) scene.lookup("#minutesSlider");
+		secondsSlider = (Slider) scene.lookup("#secondsSlider");
 	}
 
 	/**
@@ -58,17 +77,9 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testInitialState() {
-		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
-		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-
 		assertEquals("00", hoursTextField.getText());
 		assertEquals("00", minutesTextField.getText());
 		assertEquals("00", secondsTextField.getText());
-
-		final Slider hoursSlider = (Slider) scene.lookup("#hoursSlider");
-		final Slider minutesSlider = (Slider) scene.lookup("#minutesSlider");
-		final Slider secondsSlider = (Slider) scene.lookup("#secondsSlider");
 
 		assertEquals(0L, (long) hoursSlider.getValue());
 		assertEquals(0L, (long) minutesSlider.getValue());
@@ -80,14 +91,6 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testBidirectionalBoundingOfTextFieldsAndSliders() {
-		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
-		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-
-		final Slider hoursSlider = (Slider) scene.lookup("#hoursSlider");
-		final Slider minutesSlider = (Slider) scene.lookup("#minutesSlider");
-		final Slider secondsSlider = (Slider) scene.lookup("#secondsSlider");
-
 		final List<TextFieldAndSliderValue> testCases = new Vector<TextFieldAndSliderValue>();
 		testCases.add(new TextFieldAndSliderValue(hoursSlider, 1, hoursTextField, "01"));
 		testCases.add(new TextFieldAndSliderValue(hoursSlider, 23, hoursTextField, "23"));
@@ -134,14 +137,6 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testTextFieldScrolling() {
-		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
-		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-
-		final Slider hoursSlider = (Slider) scene.lookup("#hoursSlider");
-		final Slider minutesSlider = (Slider) scene.lookup("#minutesSlider");
-		final Slider secondsSlider = (Slider) scene.lookup("#secondsSlider");
-
 		final TextFieldScrollingData[] testCases = new TextFieldScrollingData[] {
 			new TextFieldScrollingData(minutesTextField, hoursTextField, hoursSlider),
 			new TextFieldScrollingData(secondsTextField, minutesTextField, minutesSlider),
@@ -168,10 +163,6 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testTextFieldsInvalidInput() {
-		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
-		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-
 		final List<TextFieldInputAndValue> testCases = new Vector<TextFieldInputAndValue>();
 		// zu kurze Eingabe
 		testCases.add(new TextFieldInputAndValue(hoursTextField, "1", "01", true));
@@ -234,14 +225,10 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testSetTime() {
-		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
-		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-		final TimePicker timePicker = (TimePicker) scene.getRoot();
-
-		final List<TimePartsAndTimeValue> testCases = new Vector<TimePartsAndTimeValue>();
-		testCases.add(new TimePartsAndTimeValue("23", "59", "59", "23:59:59"));
-		testCases.add(new TimePartsAndTimeValue("00", "00", "00", "00:00:00"));
+		final TimePartsAndTimeValue[] testCases = new TimePartsAndTimeValue[] {
+			new TimePartsAndTimeValue("23", "59", "59", "23:59:59"),
+			new TimePartsAndTimeValue("00", "00", "00", "00:00:00"),
+		};
 
 		for (final TimePartsAndTimeValue testCase : testCases) {
 			final LocalTime time = DateTimeUtil.getLocalTimeForString(testCase.timeString);
@@ -258,14 +245,10 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testGetTime() {
-		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
-		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
-		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-		final TimePicker timePicker = (TimePicker) scene.getRoot();
-
-		final List<TimePartsAndTimeValue> testCases = new Vector<TimePartsAndTimeValue>();
-		testCases.add(new TimePartsAndTimeValue("23", "59", "59", "23:59:59"));
-		testCases.add(new TimePartsAndTimeValue("00", "00", "00", "00:00:00"));
+		final TimePartsAndTimeValue[] testCases = new TimePartsAndTimeValue[] {
+			new TimePartsAndTimeValue("23", "59", "59", "23:59:59"),
+			new TimePartsAndTimeValue("00", "00", "00", "00:00:00"),
+		};
 
 		for (final TimePartsAndTimeValue testCase : testCases) {
 			final LocalTime time = DateTimeUtil.getLocalTimeForString(testCase.timeString);

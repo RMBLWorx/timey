@@ -31,6 +31,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	 */
 	private Scene scene;
 
+	// GUI-Elemente
+	private TableView<Alarm> alarmTable;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -42,8 +45,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	public final void setUp() {
 		scene = stage.getScene();
 
+		alarmTable = (TableView<Alarm>) scene.lookup("#alarmTable");
+
 		// Tabelle leeren
-		final TableView<Alarm> alarmTable = (TableView<Alarm>) scene.lookup("#alarmTable");
 		alarmTable.getItems().clear();
 	}
 
@@ -52,8 +56,6 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testDeleteAlarm() {
-		final TableView<Alarm> alarmTable = (TableView<Alarm>) scene.lookup("#alarmTable");
-
 		// zwei Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		final Alarm alarm1 = new Alarm();
@@ -109,8 +111,6 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testAlarmTableRendering() {
-		final TableView<Alarm> alarmTable = (TableView<Alarm>) scene.lookup("#alarmTable");
-
 		// Alarm anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		final Alarm alarm1 = new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test");
