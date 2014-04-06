@@ -56,7 +56,6 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
 		assertTrue(countdownStartButton.isDisabled());
-//		assertTrue(countdownStartButton.isFocused()); // muss nicht unbedingt der Fall sein
 
 		assertFalse(countdownStopButton.isVisible());
 		assertFalse(countdownStopButton.isDisabled());
@@ -143,19 +142,27 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	public final void testStartStopPerKeyboard() {
 		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
 
+		// Zeit auf 0 setzen
+		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:00"));
+		FXTestUtils.awaitEvents();
+
 		// bei Zeit = 0 darf sich Countdown nicht starten lassen
 		type(KeyCode.ENTER);
+		FXTestUtils.awaitEvents();
 		verify(getController().getGuiHelper().getFacade(), never()).startCountdown();
 
 		// Zeit setzen
 		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:10"));
+		FXTestUtils.awaitEvents();
 
 		// Countdown starten
 		type(KeyCode.ENTER);
+		FXTestUtils.awaitEvents();
 		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Countdown stoppen
 		type(KeyCode.ENTER);
+		FXTestUtils.awaitEvents();
 		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 	}
 

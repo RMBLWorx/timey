@@ -1,6 +1,8 @@
 package rmblworx.tools.timey.gui.component;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
@@ -156,14 +158,11 @@ public class TimePickerTest extends GuiTest {
 		testCases.add(new TextFieldInputAndValue(minutesTextField, "x", "00", true));
 		testCases.add(new TextFieldInputAndValue(secondsTextField, "x", "00", true));
 
-		final List<InputMode> inputModes = new Vector<InputMode>();
-		inputModes.add(InputMode.TYPE);
-		inputModes.add(InputMode.COPY_PASTE);
-
-		for (final InputMode inputMode : inputModes) {
+		for (final InputMode inputMode : new InputMode[] { InputMode.TYPE, InputMode.COPY_PASTE }) {
 			// Inhalt des Textfelds setzen und sicherstellen, dass Inhalt der Erwartung entspricht
 			for (final TextFieldInputAndValue testCase : testCases) {
 				testCase.textField.requestFocus(); // Feld fokussieren
+				assertTrue(testCase.textField.isFocused());
 				switch (inputMode) {
 					case TYPE:
 						type(testCase.input);
@@ -176,6 +175,7 @@ public class TimePickerTest extends GuiTest {
 				}
 				if (testCase.loseFocusAfterwards) {
 					type(KeyCode.TAB); // Feld muss Fokus wieder verlieren
+					assertFalse(testCase.textField.isFocused());
 				}
 				try {
 					waitUntil(testCase.textField, new Predicate<TextField>() {
@@ -202,7 +202,6 @@ public class TimePickerTest extends GuiTest {
 		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
 		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
 		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-
 		final TimePicker timePicker = (TimePicker) scene.getRoot();
 
 		final List<TimePartsAndTimeValue> testCases = new Vector<TimePartsAndTimeValue>();
@@ -227,7 +226,6 @@ public class TimePickerTest extends GuiTest {
 		final TextField hoursTextField = (TextField) scene.lookup("#hoursTextField");
 		final TextField minutesTextField = (TextField) scene.lookup("#minutesTextField");
 		final TextField secondsTextField = (TextField) scene.lookup("#secondsTextField");
-
 		final TimePicker timePicker = (TimePicker) scene.getRoot();
 
 		final List<TimePartsAndTimeValue> testCases = new Vector<TimePartsAndTimeValue>();

@@ -41,8 +41,7 @@ public class TimeyControllerTest extends FxmlGuiControllerTest {
 			return;
 		}
 
-		final SystemTray tray = SystemTray.getSystemTray();
-		assertEquals(1, tray.getTrayIcons().length);
+		assertEquals(1, SystemTray.getSystemTray().getTrayIcons().length);
 	}
 
 }

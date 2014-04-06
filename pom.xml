@@ -147,10 +147,34 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration combine.self="override" />
+						<configuration combine.self="override">
+							<includes>
+								<include>GuiTests.java</include>
+								<include>NonGuiTests.java</include>
+							</includes>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<!-- ClasspathSuite erst dann als Abhängigkeit deklarieren, wenn es verfügbar ist. -->
+		<profile>
+			<id>classpath-suite-available</id>
+			<activation>
+				<file>
+					<!-- Variable ${project.build.directory} kann hier dummerweise nicht genutzt werden. -->
+					<exists>target/tmp/classpath-suite/cpsuite-1.2.6.jar</exists>
+				</file>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>net.johanneslink</groupId>
+					<artifactId>classpath-suite</artifactId>
+					<version>1.2.6</version>
+					<scope>system</scope>
+					<systemPath>${project.build.directory}/tmp/classpath-suite/cpsuite-1.2.6.jar</systemPath>
+				</dependency>
+			</dependencies>
 		</profile>
 	</profiles>
 
@@ -298,12 +322,12 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<!-- Quelle zum bauen des ausfuehrbaren und signierten Jar-Archivs (17.03.2014-21:03): 
-					http://myjavafx.blogspot.de/2012/08/building-signing-and-deploying-your.html -->
-				<!-- Aufrufbeispiel: mvn clean install -DskipTests=true antrun:run -Dfx=jar -->
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
 				<executions>
+					<!-- Quelle zum bauen des ausfuehrbaren und signierten Jar-Archivs (17.03.2014-21:03): 
+						http://myjavafx.blogspot.de/2012/08/building-signing-and-deploying-your.html -->
+					<!-- Aufrufbeispiel: mvn clean install -DskipTests=true antrun:run -Dfx=jar -->
 					<execution>
 						<id>default-cli</id>
 						<phase>install</phase>
@@ -359,6 +383,20 @@
 									<!-- Request elevated permissions -->
 									<fx:permissions elevated="true" />
 								</fx:deploy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<!-- ClasspathSuite (http://www.johanneslink.net/projects/cpsuite.jsp) herunterladen und entpacken. -->
+					<execution>
+						<id>prepare-classpath-suite</id>
+						<phase>validate</phase>
+						<configuration>
+							<target xmlns:fx="javafx:com.sun.javafx.tools.ant">
+								<mkdir dir="${project.build.directory}/tmp/classpath-suite/" />
+								<get src="http://www.johanneslink.net/downloads/cpsuite/cpsuite-1.2.6.jar" dest="${project.build.directory}/tmp/classpath-suite/" />
 							</target>
 						</configuration>
 						<goals>
