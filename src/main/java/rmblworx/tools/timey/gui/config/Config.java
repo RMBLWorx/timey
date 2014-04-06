@@ -17,6 +17,11 @@ public class Config {
 	public static final Locale[] AVAILABLE_LOCALES = {Locale.GERMAN, Locale.ENGLISH};
 
 	/**
+	 * Ob die Konfiguration geändert wurde.
+	 */
+	private boolean changed = false;
+
+	/**
 	 * Sprache.
 	 */
 	private Locale locale = Locale.GERMAN;
@@ -36,7 +41,19 @@ public class Config {
 	 */
 	private int activeTab = 0;
 
+	public void setChanged(final boolean changed) {
+		this.changed = changed;
+	}
+
+	public boolean isChanged() {
+		return changed;
+	}
+
 	public void setLocale(final Locale locale) {
+		if (this.locale != locale) {
+			changed = true;
+		}
+
 		this.locale = locale;
 	}
 
@@ -45,6 +62,10 @@ public class Config {
 	}
 
 	public void setMinimizeToTray(final boolean minimizeToTray) {
+		if (this.minimizeToTray != minimizeToTray) {
+			changed = true;
+		}
+
 		this.minimizeToTray = minimizeToTray;
 	}
 
@@ -53,6 +74,10 @@ public class Config {
 	}
 
 	public void setStopwatchShowMilliseconds(final boolean stopwatchShowMilliseconds) {
+		if (this.stopwatchShowMilliseconds != stopwatchShowMilliseconds) {
+			changed = true;
+		}
+
 		this.stopwatchShowMilliseconds = stopwatchShowMilliseconds;
 	}
 
@@ -60,12 +85,16 @@ public class Config {
 		return stopwatchShowMilliseconds;
 	}
 
-	public int getActiveTab() {
-		return activeTab;
+	public void setActiveTab(final int activeTab) {
+		if (this.activeTab != activeTab) {
+			changed = true;
+		}
+
+		this.activeTab = activeTab;
 	}
 
-	public void setActiveTab(final int activeTab) {
-		this.activeTab = activeTab;
+	public int getActiveTab() {
+		return activeTab;
 	}
 
 }

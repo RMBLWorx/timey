@@ -56,7 +56,16 @@ public class Main extends Application {
 	 * Beendet die Anwendung.
 	 */
 	public final void stop() {
-		new FileConfigStorage().saveToFile(ConfigManager.getCurrentConfig(), CONFIG_FILENAME);
+		/*
+		 * Konfigurationsdatei nur speichern, wenn Werte geändert wurden.
+		 * Nicht anhand der Abweichung zur Standardkonfiguration entscheiden, ob gespeichert werden soll, weil durch Änderungen auch
+		 * zufälligerweise wieder die Werte der Standardkonfiguration gesetzt werden könnten und diese dann nicht für den nächsten Start
+		 * übernommen werden würden.
+		 */
+		if (ConfigManager.getCurrentConfig().isChanged()) {
+			new FileConfigStorage().saveToFile(ConfigManager.getCurrentConfig(), CONFIG_FILENAME);
+		}
+
 		System.exit(0);
 	}
 

@@ -1,6 +1,7 @@
 package rmblworx.tools.timey.gui.config;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -113,6 +114,43 @@ public class ConfigStorageTest {
 
 		// sicherstellen, dass geladene Konfiguration der Standardkonfiguration entspricht
 		assertEquals(getConfigAsString(ConfigManager.getNewDefaultConfig()), getConfigAsString(emptyConfig));
+	}
+
+	/**
+	 * Testet, ob eine Konfiguration, nachdem sie gespeichert wurde, als nicht-geändert gilt.
+	 */
+	@Test
+	public final void testSavingConfigWillMarkItAsUnchanged() {
+		// Standardkonfiguration erzeugen
+		final Config config = ConfigManager.getNewDefaultConfig();
+		config.setChanged(true);
+
+		// Konfiguration speichern
+		new ConfigStorage().saveConfig(config, new ByteArrayOutputStream());
+
+		// sicherstellen, dass gespeicherte Konfiguration als nicht-geändert gilt 
+		assertFalse(config.isChanged());
+	}
+
+	/**
+	 * Testet, ob eine Konfiguration, nachdem sie geladen wurde, als nicht-geändert gilt.
+	 */
+	@Test
+	public final void testLoadingConfigWillMarkItAsUnchanged() {
+		// leere Konfiguration speichern
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			new Properties().storeToXML(out, null);
+		} catch (final IOException e) {
+			fail(e.getLocalizedMessage());
+		}
+
+		// gespeicherte Konfiguration laden, sollte dabei mit Standardwerten gefüllt werden
+		final ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+		final Config emptyConfig = new ConfigStorage().loadConfig(in, true);
+
+		// sicherstellen, dass geladene Konfiguration als nicht-geändert gilt 
+		assertFalse(emptyConfig.isChanged());
 	}
 
 	/**
