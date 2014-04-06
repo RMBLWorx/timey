@@ -1,5 +1,6 @@
 package rmblworx.tools.timey.gui.config;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -12,9 +13,14 @@ import java.util.Locale;
 public class Config {
 
 	/**
-	 * Verfügbare Sprachen zur Auswahl in den Optionen.
+	 * Unterstützte Sprachen zur Auswahl in den Optionen.
 	 */
 	public static final Locale[] AVAILABLE_LOCALES = {Locale.GERMAN, Locale.ENGLISH};
+
+	/**
+	 * Fallback, falls eine nicht-unterstützte Sprache angefordert wurde.
+	 */
+	public static final Locale FALLBACK_LOCALE = Locale.ENGLISH;
 
 	/**
 	 * Ob die Konfiguration geändert wurde.
@@ -24,7 +30,7 @@ public class Config {
 	/**
 	 * Sprache.
 	 */
-	private Locale locale = Locale.GERMAN;
+	private Locale locale = getDefaultLocale();
 
 	/**
 	 * Ob die Anwendung ins System-Tray minimiert werden soll.
@@ -40,6 +46,19 @@ public class Config {
 	 * Aktiver Tab.
 	 */
 	private int activeTab = 0;
+
+	/**
+	 * @return Systemsprache, falls unterstützt, sonst Fallback
+	 */
+	public Locale getDefaultLocale() {
+		final Locale defaultLocale = Locale.forLanguageTag(Locale.getDefault().getLanguage());
+
+		if (Arrays.asList(AVAILABLE_LOCALES).contains(defaultLocale)) {
+			return defaultLocale;
+		}
+
+		return FALLBACK_LOCALE;
+	}
 
 	public void setChanged(final boolean changed) {
 		this.changed = changed;

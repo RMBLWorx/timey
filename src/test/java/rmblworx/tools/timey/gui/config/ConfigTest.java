@@ -1,10 +1,16 @@
 package rmblworx.tools.timey.gui.config;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -15,6 +21,35 @@ import org.junit.Test;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 public class ConfigTest {
+
+	private static Locale previousLocale;
+
+	@BeforeClass
+	public static final void setUpClass() {
+		previousLocale = Locale.getDefault();
+	}
+
+	@AfterClass
+	public static final void tearDownClass() {
+		Locale.setDefault(previousLocale);
+	}
+
+	@Test
+	/**
+	 * Testet {@link Config#getDefaultLocale()}.
+	 */
+	public final void testGetDefaultLocale() {
+		final Map<Locale, Locale> testCases = new HashMap<>(4);
+		testCases.put(new Locale("blah"), Locale.ENGLISH);
+		testCases.put(Locale.GERMANY, Locale.GERMAN);
+		testCases.put(Locale.GERMAN, Locale.GERMAN);
+		testCases.put(Locale.ENGLISH, Locale.ENGLISH);
+
+		for (final Entry<Locale, Locale> testCase : testCases.entrySet()) {
+			Locale.setDefault(testCase.getKey());
+			assertEquals(testCase.getValue(), ConfigManager.getNewDefaultConfig().getDefaultLocale());
+		}
+	}
 
 	/**
 	 * Testet den Änderungszustand der Konfiguration.
