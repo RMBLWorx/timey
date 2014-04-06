@@ -1,13 +1,13 @@
 package rmblworx.tools.timey.gui;
 
-import java.util.Calendar;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import org.joda.time.LocalDateTime;
 
 /**
  * Alarm-VO für die GUI.
@@ -19,7 +19,7 @@ import javafx.beans.property.StringProperty;
 public class Alarm {
 
 	private final BooleanProperty enabled;
-	private final ObjectProperty<Calendar> dateTime;
+	private final ObjectProperty<LocalDateTime> dateTime;
 	private final StringProperty description;
 	private final StringProperty sound;
 
@@ -27,20 +27,20 @@ public class Alarm {
 	 * Initialisiert den Alarm mit der aktuellen Systemzeit.
 	 */
 	public Alarm() {
-		this(Calendar.getInstance(), null);
+		this(LocalDateTime.now(), null);
 	}
 
-	public Alarm(final Calendar dateTime, final String description) {
+	public Alarm(final LocalDateTime dateTime, final String description) {
 		this(dateTime, description, null, true);
 	}
 
-	public Alarm(final Calendar dateTime, final String description, final boolean enabled) {
+	public Alarm(final LocalDateTime dateTime, final String description, final boolean enabled) {
 		this(dateTime, description, null, enabled);
 	}
 
-	public Alarm(final Calendar dateTime, final String description, final String sound, final boolean enabled) {
+	public Alarm(final LocalDateTime dateTime, final String description, final String sound, final boolean enabled) {
 		this.enabled = new SimpleBooleanProperty(enabled);
-		this.dateTime = new SimpleObjectProperty<Calendar>(dateTime);
+		this.dateTime = new SimpleObjectProperty<LocalDateTime>(dateTime);
 		this.description = new SimpleStringProperty(description);
 		this.sound = new SimpleStringProperty(sound);
 	}
@@ -53,11 +53,11 @@ public class Alarm {
 		return enabled.get();
 	}
 
-	public void setDateTime(final Calendar dateTime) {
+	public void setDateTime(final LocalDateTime dateTime) {
 		this.dateTime.set(dateTime);
 	}
 
-	public Calendar getDateTime() {
+	public LocalDateTime getDateTime() {
 		return dateTime.get();
 	}
 

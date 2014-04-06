@@ -61,7 +61,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertFalse(countdownStopButton.isDisabled());
 
 		// Zeit setzen
-		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:10"));
+		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -94,7 +94,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		assertFalse(countdownStopButton.isDisabled());
 
 		// Zeit wieder auf 0 setzen
-		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:00"));
+		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -112,7 +112,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		final Label countdownTimeLabel = (Label) scene.lookup("#countdownTimeLabel");
 
 		// Zeit setzen
-		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:10"));
+		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
 
 		// Countdown starten
 		countdownStartButton.fire();
@@ -129,7 +129,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// verbleibende Zeit muss stimmen
-		assertEquals(10000, countdownTimePicker.getTime().getTimeInMillis());
+		assertEquals(10000, countdownTimePicker.getTime().getMillisOfDay());
 
 		assertTrue(countdownTimePicker.isVisible());
 		assertFalse(countdownTimeLabel.isVisible());
@@ -143,7 +143,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		final TimePicker countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
 
 		// Zeit auf 0 setzen
-		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:00"));
+		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
 		FXTestUtils.awaitEvents();
 
 		// bei Zeit = 0 darf sich Countdown nicht starten lassen
@@ -152,7 +152,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		verify(getController().getGuiHelper().getFacade(), never()).startCountdown();
 
 		// Zeit setzen
-		countdownTimePicker.setTime(DateTimeUtil.getCalendarForString("00:00:10"));
+		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
 		FXTestUtils.awaitEvents();
 
 		// Countdown starten

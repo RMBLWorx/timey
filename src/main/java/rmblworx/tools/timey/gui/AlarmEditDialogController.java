@@ -2,8 +2,6 @@ package rmblworx.tools.timey.gui;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,6 +18,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import jfxtras.labs.scene.control.CalendarTextField;
+
+import org.joda.time.LocalDateTime;
+import org.joda.time.MutableDateTime;
+
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 
@@ -149,7 +151,7 @@ public class AlarmEditDialogController extends Controller {
 		this.alarm = alarm;
 
 		alarmEnabledCheckbox.setSelected(alarm.isEnabled());
-		alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()));
+		alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar());
 		alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
 		alarmDescriptionTextField.setText(alarm.getDescription());
 		ringtone.set(alarm.getSound());
@@ -272,13 +274,12 @@ public class AlarmEditDialogController extends Controller {
 	/**
 	 * @return kombinierter Zeitstempel aus DatePicker und TimePicker
 	 */
-	private Calendar getDateTimeFromPickers() {
-		final Calendar dateTime = (Calendar) alarmDatePicker.getValue().clone();
-		dateTime.setTimeInMillis(DateTimeUtil.getDatePart(alarmDatePicker.getValue()).getTimeInMillis()
-				+ dateTime.getTimeZone().getDSTSavings()
-				+ DateTimeUtil.getTimePart(alarmTimePicker.getTime()).getTimeInMillis());
+	private LocalDateTime getDateTimeFromPickers() {
+		final MutableDateTime mdt = new MutableDateTime(0);
+		mdt.add(alarmDatePicker.getValue().getTimeInMillis());
+		mdt.add(alarmTimePicker.getTime().getMillisOfDay());
 
-		return dateTime;
+		return mdt.toDateTime().toLocalDateTime();
 	}
 
 	/**
@@ -293,9 +294,9 @@ public class AlarmEditDialogController extends Controller {
 		}
 
 		if (alarmDatePicker.getValue() != null && existingAlarms != null) {
-			final Date selectedDateTime = getDateTimeFromPickers().getTime();
+			final LocalDateTime selectedDateTime = getDateTimeFromPickers();
 			for (final Alarm existingAlarm : existingAlarms) {
-				if (alarm != existingAlarm && selectedDateTime.equals(existingAlarm.getDateTime().getTime())) {
+				if (alarm != existingAlarm && selectedDateTime.equals(existingAlarm.getDateTime())) {
 					errors.append(resources.getString("alarmEdit.otherAlarmWithSameTimestampAlreadyExists"));
 					errors.append("\n");
 					break;

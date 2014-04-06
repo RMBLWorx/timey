@@ -1,9 +1,6 @@
 package rmblworx.tools.timey.gui.component;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,6 +16,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
+
+import org.joda.time.LocalTime;
 
 /**
  * JavaFX-Komponente zur Angabe einer Zeit bestehend aus Stunden, Minuten und Sekunden.
@@ -52,27 +51,7 @@ public class TimePicker extends AnchorPane {
 	/**
 	 * Zeit als Property.
 	 */
-	private final ObjectProperty<Calendar> timeProperty = new SimpleObjectProperty<Calendar>();
-
-	/**
-	 * Zeitzone.
-	 */
-	private TimeZone timeZone = TimeZone.getDefault();
-
-	/**
-	 * Formatiert Zeitstempel als Stunden-Werte.
-	 */
-	private SimpleDateFormat hoursFormatter;
-
-	/**
-	 * Formatiert Zeitstempel als Minuten-Werte.
-	 */
-	private SimpleDateFormat minutesFormatter;
-
-	/**
-	 * Formatiert Zeitstempel als Sekunden-Werte.
-	 */
-	private SimpleDateFormat secondsFormatter;
+	private final ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<LocalTime>();
 
 	@FXML
 	private TextField hoursTextField;
@@ -94,9 +73,7 @@ public class TimePicker extends AnchorPane {
 
 	public TimePicker() {
 		// Zeit auf 0 setzen
-		final Calendar cal = Calendar.getInstance(timeZone);
-		cal.clear();
-		timeProperty.set(cal);
+		timeProperty.set(new LocalTime(0));
 
         createGui();
     }
@@ -133,44 +110,30 @@ public class TimePicker extends AnchorPane {
 		if (secondsTextField != null) {
 			bindTextInputListenersAndSlider(secondsTextField, secondsSlider, MAX_SECONDS);
 		}
-
-		setupTimeFormatters();
 	}
 
 	/**
 	 * @param time Zeit in ms
 	 */
-	public void setTime(final Calendar time) {
-		hoursTextField.setText(hoursFormatter.format(time.getTime()));
-		minutesTextField.setText(minutesFormatter.format(time.getTime()));
-		secondsTextField.setText(secondsFormatter.format(time.getTime()));
+	public void setTime(final LocalTime time) {
+		hoursTextField.setText(getTwoDigitValue(time.getHourOfDay()));
+		minutesTextField.setText(getTwoDigitValue(time.getMinuteOfHour()));
+		secondsTextField.setText(getTwoDigitValue(time.getSecondOfMinute()));
 	}
 
 	/**
 	 * @return Zeit in ms
 	 */
-	public Calendar getTime() {
-		final Calendar cal = Calendar.getInstance(timeZone);
-		cal.clear();
-		cal.add(Calendar.HOUR_OF_DAY, Integer.parseInt(hoursTextField.getText()));
-		cal.add(Calendar.MINUTE, Integer.parseInt(minutesTextField.getText()));
-		cal.add(Calendar.SECOND, Integer.parseInt(secondsTextField.getText()));
-
-		return cal;
+	public LocalTime getTime() {
+		return new LocalTime(Integer.parseInt(hoursTextField.getText()), Integer.parseInt(minutesTextField.getText()),
+				Integer.parseInt(secondsTextField.getText()));
 	}
 
 	/**
 	 * @return Zeit als Property
 	 */
-	public ObjectProperty<Calendar> getTimeProperty() {
+	public ObjectProperty<LocalTime> getTimeProperty() {
 		return timeProperty;
-	}
-
-	/**
-	 * @param timeZone Zeitzone
-	 */
-	public void setTimeZone(final TimeZone timeZone) {
-		this.timeZone = timeZone;
 	}
 
 	/**
@@ -263,26 +226,6 @@ public class TimePicker extends AnchorPane {
 	 */
 	private String getTwoDigitValue(final long value) {
 		return String.format("%02d", value);
-	}
-
-	/**
-	 * Initialisiert die Zeitformatierer.
-	 */
-	private void setupTimeFormatters() {
-		if (hoursFormatter == null) {
-			hoursFormatter = new SimpleDateFormat("HH");
-			hoursFormatter.setTimeZone(timeZone);
-		}
-
-		if (minutesFormatter == null) {
-			minutesFormatter = new SimpleDateFormat("mm");
-			minutesFormatter.setTimeZone(timeZone);
-		}
-
-		if (secondsFormatter == null) {
-			secondsFormatter = new SimpleDateFormat("ss");
-			secondsFormatter.setTimeZone(timeZone);
-		}
 	}
 
 }
