@@ -33,6 +33,23 @@
 	-fx-text-fill: -fx-selection-bar-text;
 }
 
+/* vertikalen Scrollbalken in Alarm-Tabelle vermeiden (Quelle: https://community.oracle.com/message/10977604#10977604) */
+.table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button {
+	-fx-background-color: null;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
+	-fx-padding: 0;
+}
+.table-view *.scroll-bar:horizontal *.increment-arrow, 
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+	-fx-background-color: null;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
+	-fx-padding: 0;
+	-fx-shape: null;
+}
+
 /* Symbol für Sound-Abspiel-Schaltfläche */
 .button.play-sound {
 	-fx-background-image: url('img/sound.png');

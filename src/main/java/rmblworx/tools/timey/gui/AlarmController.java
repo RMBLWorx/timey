@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.SortType;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -122,12 +122,6 @@ public class AlarmController extends Controller {
 				}
 			});
 
-			// standardmäßig nach Datum/Zeit sortieren, älteste zuerst
-			if (alarmDateTimeColumn != null) {
-				alarmDateTimeColumn.setSortType(SortType.ASCENDING);
-				alarmTable.getSortOrder().add(alarmDateTimeColumn);
-			}
-
 			addSampleData();
 		}
 
@@ -152,6 +146,14 @@ public class AlarmController extends Controller {
 				final Alarm alarm = new Alarm();
 				if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.add"))) {
 					alarmTable.getItems().add(alarm);
+					refreshTable();
+
+					// neuen Alarm auswählen
+					final int idx = alarmTable.getItems().indexOf(alarm);
+					alarmTable.scrollTo(idx);
+					alarmTable.getSelectionModel().select(idx);
+
+					alarmTable.requestFocus();
 				}
 			}
 		});
@@ -246,23 +248,19 @@ public class AlarmController extends Controller {
 	 * Aktualisiert den Inhalt der Tabelle.
 	 */
 	private void refreshTable() {
-		final Alarm selectedItem = alarmTable.getSelectionModel().getSelectedItem();
-		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		alarmTable.setItems(null);
-		alarmTable.layout();
-		alarmTable.setItems(tableData);
-		alarmTable.getSelectionModel().select(selectedItem); // wichtig (@see http://javafx-jira.kenai.com/browse/RT-26291)
+		FXCollections.sort(alarmTable.getItems());
 	}
 
 	/**
 	 * Fügt der Tabelle Beispieldaten hinzu.
 	 */
 	private void addSampleData() {
-		final LocalDateTime now = LocalDateTime.now();
+		final LocalDateTime now = LocalDateTime.now().millisOfSecond().setCopy(0);
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		tableData.add(new Alarm(now.secondOfMinute().addToCopy(5), "noch wird hier ..."));
 		tableData.add(new Alarm(now.secondOfMinute().addToCopy(10), "... nichts persistiert ..."));
 		tableData.add(new Alarm(now.secondOfMinute().addToCopy(15), "... oder ausgelöst", false));
+		refreshTable();
 	}
 
 	/**

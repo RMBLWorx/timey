@@ -16,7 +16,7 @@ import org.joda.time.LocalDateTime;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class Alarm {
+public class Alarm implements Comparable<Alarm> {
 
 	private final BooleanProperty enabled;
 	private final ObjectProperty<LocalDateTime> dateTime;
@@ -27,7 +27,7 @@ public class Alarm {
 	 * Initialisiert den Alarm mit der aktuellen Systemzeit.
 	 */
 	public Alarm() {
-		this(LocalDateTime.now(), null);
+		this(LocalDateTime.now().millisOfSecond().setCopy(0), null);
 	}
 
 	public Alarm(final LocalDateTime dateTime, final String description) {
@@ -75,6 +75,11 @@ public class Alarm {
 
 	public String getSound() {
 		return sound.get();
+	}
+
+	public int compareTo(final Alarm other) {
+		// nach Datum/Zeit sortieren, älteste zuerst
+		return getDateTime().toDateTime().getMillis() > other.getDateTime().toDateTime().getMillis() ? 1 : -1;
 	}
 
 }
