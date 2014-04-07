@@ -27,7 +27,7 @@ public class Alarm implements Comparable<Alarm> {
 	 * Initialisiert den Alarm mit der aktuellen Systemzeit.
 	 */
 	public Alarm() {
-		this(LocalDateTime.now(), null);
+		this(LocalDateTime.now().millisOfSecond().setCopy(0), null);
 	}
 
 	public Alarm(final LocalDateTime dateTime, final String description) {
