@@ -248,13 +248,7 @@ public class AlarmController extends Controller {
 	 * Aktualisiert den Inhalt der Tabelle.
 	 */
 	private void refreshTable() {
-		final Alarm selectedItem = alarmTable.getSelectionModel().getSelectedItem();
-		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		FXCollections.sort(tableData);
-		alarmTable.setItems(null);
-		alarmTable.layout();
-		alarmTable.setItems(tableData);
-		alarmTable.getSelectionModel().select(selectedItem); // wichtig (@see http://javafx-jira.kenai.com/browse/RT-26291)
+		FXCollections.sort(alarmTable.getItems());
 	}
 
 	/**
