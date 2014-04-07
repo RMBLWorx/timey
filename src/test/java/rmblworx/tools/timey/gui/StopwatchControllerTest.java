@@ -32,6 +32,12 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	private Scene scene;
 
+	// GUI-Elemente
+	private Label stopwatchTimeLabel;
+	private Button stopwatchStartButton;
+	private Button stopwatchStopButton;
+	private Button stopwatchResetButton;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -42,6 +48,11 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
+
+		stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
+		stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
+		stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
+		stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
 	}
 
 	/**
@@ -49,10 +60,6 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchStartStopResetButtonStates() {
-		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
-		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
-		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
-
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
 		assertFalse(stopwatchStartButton.isDisabled());
@@ -118,7 +125,6 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	@Test
 	public final void testStopwatchTimeLabelMilliseconds() {
 		final CheckBox stopwatchShowMillisecondsCheckbox = (CheckBox) scene.lookup("#stopwatchShowMillisecondsCheckbox");
-		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
 
 		// Ausgangszustand
 		assertTrue(stopwatchShowMillisecondsCheckbox.isSelected());
@@ -140,10 +146,6 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchStartStopTimeMeasured() {
-		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
-		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
-		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
-
 		// Stoppuhr starten
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
 		stopwatchStartButton.fire();
@@ -174,11 +176,6 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchReset() {
-		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
-		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
-		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
-		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
-
 		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
 		stopwatchResetButton.fire();
 		FXTestUtils.awaitEvents();
@@ -212,11 +209,6 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchResetWhileRunning() {
-		final Button stopwatchStartButton = (Button) scene.lookup("#stopwatchStartButton");
-		final Button stopwatchStopButton = (Button) scene.lookup("#stopwatchStopButton");
-		final Button stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
-		final Label stopwatchTimeLabel = (Label) scene.lookup("#stopwatchTimeLabel");
-
 		// Stoppuhr starten
 		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
 		stopwatchStartButton.fire();
