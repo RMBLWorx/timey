@@ -8,6 +8,9 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.junit.Test;
@@ -33,12 +36,17 @@ public class ConfigStorageTest {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		new ConfigStorage().saveConfig(config, out);
 
+		final Map<String, String> testCases = new HashMap<>(4);
+		testCases.put(ConfigStorage.PROP_LOCALE, String.format("%s", config.getLocale()));
+		testCases.put(ConfigStorage.PROP_MINIMIZE_TO_TRAY, String.format("%s", config.isMinimizeToTray()));
+		testCases.put(ConfigStorage.PROP_STOPWATCH_SHOW_MILLIS, String.format("%s", config.isStopwatchShowMilliseconds()));
+		testCases.put(ConfigStorage.PROP_ACTIVE_TAB, String.format("%d", config.getActiveTab()));
+
 		// sicherstellen, dass gespeicherte Konfiguration korrekte Einträge enthält
 		final String content = out.toString();
-		assertTrue(content, content.contains(String.format("<entry key=\"%s\">de</entry>", ConfigStorage.PROP_LOCALE)));
-		assertTrue(content, content.contains(String.format("<entry key=\"%s\">false</entry>", ConfigStorage.PROP_MINIMIZE_TO_TRAY)));
-		assertTrue(content, content.contains(String.format("<entry key=\"%s\">true</entry>", ConfigStorage.PROP_STOPWATCH_SHOW_MILLIS)));
-		assertTrue(content, content.contains(String.format("<entry key=\"%s\">0</entry>", ConfigStorage.PROP_ACTIVE_TAB)));
+		for (final Entry<String, String> testCase : testCases.entrySet()) {
+			assertTrue(content, content.contains(String.format("<entry key=\"%s\">%s</entry>", testCase.getKey(), testCase.getValue())));
+		}
 	}
 
 	/**
