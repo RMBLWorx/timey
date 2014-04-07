@@ -147,6 +147,13 @@ public class AlarmController extends Controller {
 				if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.add"))) {
 					alarmTable.getItems().add(alarm);
 					refreshTable();
+
+					// neuen Alarm auswählen
+					final int idx = alarmTable.getItems().indexOf(alarm);
+					alarmTable.scrollTo(idx);
+					alarmTable.getSelectionModel().select(idx);
+
+					alarmTable.requestFocus();
 				}
 			}
 		});
