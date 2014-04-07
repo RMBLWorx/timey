@@ -163,8 +163,7 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration combine.self="override">
 							<includes>
-								<include>GuiTests.java</include>
-								<include>NonGuiTests.java</include>
+								<include>GuiFirstTests.java</include>
 							</includes>
 						</configuration>
 					</plugin>
