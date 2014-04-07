@@ -30,6 +30,7 @@
 		<javafx.lib.ant-javafx.jar>${java.home}/../lib/ant-javafx.jar</javafx.lib.ant-javafx.jar>
 		<joda-time.version>2.3</joda-time.version>
 		<mockito.version>1.9.5</mockito.version>
+		<cpsuite.version>1.2.5</cpsuite.version>
 		<application.dist>${project.build.directory}/distribution</application.dist>
 		<maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
 		<maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
@@ -143,6 +144,13 @@
 			<scope>test</scope>
 			<version>${mockito.version}</version>
 		</dependency>
+		<dependency>
+			<!-- ClasspathSuite (http://www.johanneslink.net/projects/cpsuite.jsp) -->
+			<groupId>cpsuite</groupId>
+			<artifactId>cpsuite</artifactId>
+			<version>${cpsuite.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -162,25 +170,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<!-- ClasspathSuite erst dann als Abhängigkeit deklarieren, wenn es verfügbar ist. -->
-		<profile>
-			<id>classpath-suite-available</id>
-			<activation>
-				<file>
-					<!-- Variable ${project.build.directory} kann hier dummerweise nicht genutzt werden. -->
-					<exists>target/tmp/classpath-suite/cpsuite-1.2.6.jar</exists>
-				</file>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>net.johanneslink</groupId>
-					<artifactId>classpath-suite</artifactId>
-					<version>1.2.6</version>
-					<scope>system</scope>
-					<systemPath>${project.build.directory}/tmp/classpath-suite/cpsuite-1.2.6.jar</systemPath>
-				</dependency>
-			</dependencies>
 		</profile>
 	</profiles>
 
@@ -395,22 +384,15 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
-					<!-- ClasspathSuite (http://www.johanneslink.net/projects/cpsuite.jsp) herunterladen und entpacken. -->
-					<execution>
-						<id>prepare-classpath-suite</id>
-						<phase>validate</phase>
-						<configuration>
-							<target xmlns:fx="javafx:com.sun.javafx.tools.ant">
-								<mkdir dir="${project.build.directory}/tmp/classpath-suite/" />
-								<get src="http://www.johanneslink.net/downloads/cpsuite/cpsuite-1.2.6.jar" dest="${project.build.directory}/tmp/classpath-suite/" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>http://maven.xwiki.org</id>
+			<url>http://maven.xwiki.org/externals</url>
+		</repository>
+	</repositories>
 </project>
