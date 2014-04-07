@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.SortType;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -122,12 +122,6 @@ public class AlarmController extends Controller {
 				}
 			});
 
-			// standardmäßig nach Datum/Zeit sortieren, älteste zuerst
-			if (alarmDateTimeColumn != null) {
-				alarmDateTimeColumn.setSortType(SortType.ASCENDING);
-				alarmTable.getSortOrder().add(alarmDateTimeColumn);
-			}
-
 			addSampleData();
 		}
 
@@ -152,6 +146,7 @@ public class AlarmController extends Controller {
 				final Alarm alarm = new Alarm();
 				if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.add"))) {
 					alarmTable.getItems().add(alarm);
+					refreshTable();
 				}
 			}
 		});
@@ -248,6 +243,7 @@ public class AlarmController extends Controller {
 	private void refreshTable() {
 		final Alarm selectedItem = alarmTable.getSelectionModel().getSelectedItem();
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		FXCollections.sort(tableData);
 		alarmTable.setItems(null);
 		alarmTable.layout();
 		alarmTable.setItems(tableData);
@@ -258,11 +254,12 @@ public class AlarmController extends Controller {
 	 * Fügt der Tabelle Beispieldaten hinzu.
 	 */
 	private void addSampleData() {
-		final LocalDateTime now = LocalDateTime.now();
+		final LocalDateTime now = LocalDateTime.now().millisOfSecond().setCopy(0);
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		tableData.add(new Alarm(now.secondOfMinute().addToCopy(5), "noch wird hier ..."));
 		tableData.add(new Alarm(now.secondOfMinute().addToCopy(10), "... nichts persistiert ..."));
 		tableData.add(new Alarm(now.secondOfMinute().addToCopy(15), "... oder ausgelöst", false));
+		refreshTable();
 	}
 
 	/**
