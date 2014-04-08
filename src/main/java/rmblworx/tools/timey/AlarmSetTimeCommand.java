@@ -40,6 +40,6 @@ public class AlarmSetTimeCommand implements ICommand {
 	 */
 	@Override
 	public Boolean execute() {
-		return this.fReceiver.setAlarmtimestamp(this.timeDescriptor);
+		return this.fReceiver.setAlarm(this.timeDescriptor);
 	}
 }

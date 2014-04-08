@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey.persistence.service;
 
@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.After;
@@ -26,7 +25,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring-timey-context.xml" })
-public class AlarmTimestampServiceTest {
+public class AlarmServiceTest {
 
 	private static final int EXPECTED_MILLISECONDS = 1000;
 	private static final String KEIN_ALARMZEITPUNKT_ERZEUGT = "Kein Alarmzeitpunkt erzeugt!";
@@ -34,11 +33,11 @@ public class AlarmTimestampServiceTest {
 	private AlarmDescriptor expectedAlarmDescriptor;
 
 	@Autowired
-	private IAlarmTimestampService service;
+	private IAlarmService service;
 
 	@Before
 	public void setUp() throws Exception {
-		this.expectedAlarmDescriptor  = new AlarmDescriptor(new TimeDescriptor(EXPECTED_MILLISECONDS), true, "Text", Paths.get("/bla"), null);
+		this.expectedAlarmDescriptor  = new AlarmDescriptor(new TimeDescriptor(EXPECTED_MILLISECONDS), true, "Text", "/bla", null);
 	}
 
 	@After
@@ -47,7 +46,7 @@ public class AlarmTimestampServiceTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service. IAlarmTimestampService#create(TimeDescriptor)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service. IAlarmService#create(TimeDescriptor)} .
 	 */
 	@Test
 	public void testCreate() {
@@ -66,10 +65,10 @@ public class AlarmTimestampServiceTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(TimeDescriptor)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmService#delete(TimeDescriptor)} .
 	 */
 	@Test
-	public void testDeleteAlarmTimestamp() {
+	public void testDeleteAlarm() {
 
 		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(this.expectedAlarmDescriptor));
 		assertTrue(this.service.delete(this.expectedAlarmDescriptor));
@@ -82,15 +81,15 @@ public class AlarmTimestampServiceTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#delete(TimeDescriptor)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmService#delete(TimeDescriptor)} .
 	 */
 	@Test
-	public void testDeleteAlarmTimestampShouldFailBecauseDescriptorIsNull() {
+	public void testDeleteAlarmShouldFailBecauseDescriptorIsNull() {
 		assertNull(NOT_NULL_MSG, this.service.delete(null));
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#setState(Long, Boolean)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmService#setState(Long, Boolean)} .
 	 */
 	@Test
 	public void testSetIsActivated() {
@@ -102,7 +101,7 @@ public class AlarmTimestampServiceTest {
 		this.service.delete(this.expectedAlarmDescriptor);
 	}
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#isActivated(TimeDescriptor)} .
+	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmService#isActivated(TimeDescriptor)} .
 	 */
 	@Test
 	public void testIsActivatedShouldReturnNullBecauseTimestampIsNotPresent() {
@@ -112,7 +111,7 @@ public class AlarmTimestampServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmTimestampService#setState(TimeDescriptor, Boolean)} .
+	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#setState(TimeDescriptor, Boolean)} .
 	 */
 	@Test
 	public void testSetIsActivatedShouldFailBecauseDescriptorIsNull() {

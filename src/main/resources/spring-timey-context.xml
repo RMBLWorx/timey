@@ -10,7 +10,7 @@
 
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm">
-		<constructor-arg ref="alarmTimestampService" index="0" />
+		<constructor-arg ref="alarmService" index="0" />
 		<constructor-arg value="1" index="1" />
 		<constructor-arg type="java.util.concurrent.TimeUnit"
 			value="MILLISECONDS" index="2" />
@@ -79,22 +79,18 @@
 		<constructor-arg ref="descriptor" index="0"/>
 		<constructor-arg value="true" index="1"/>
 		<constructor-arg value="Text" index="2"/>
-		<constructor-arg ref="path" index="3"/>
+		<property name="sound"><null/></property>
+		<constructor-arg value="null" index="3"/>
 		<constructor-arg ref="descriptor" index="4"/>
-	</bean>
-	<bean id="path" name="path"
-		class="java.nio.file.Paths" factory-method="get">
-		<constructor-arg value="file:/bla/blubb"/>
-	</bean>
-	
+	</bean>	
 
 	<!-- ######################### Service-Deklarationen ############################# -->
-	<bean id="alarmTimestampService" name="alarmTimestampService"
-		class="rmblworx.tools.timey.persistence.service.AlarmTimestampService">
+	<bean id="alarmService" name="alarmService"
+		class="rmblworx.tools.timey.persistence.service.AlarmService">
 	</bean>
 	<!-- ########################## DAO-Deklarationen ######################### -->
-	<bean id="alarmTimestampDao" name="alarmTimestampDao"
-		class="rmblworx.tools.timey.persistence.dao.AlarmTimestampDao">
+	<bean id="alarmDao" name="alarmDao"
+		class="rmblworx.tools.timey.persistence.dao.AlarmDao">
 	</bean>
 
 	<!-- ############################ Begin Spring-Hibernate Integration ######################## -->

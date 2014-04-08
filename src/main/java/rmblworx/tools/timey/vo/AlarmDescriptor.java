@@ -1,6 +1,5 @@
 package rmblworx.tools.timey.vo;
 
-import java.nio.file.Path;
 
 /**
  * Werteobjekt zur Beschreibung eines Alarms.
@@ -23,7 +22,7 @@ public class AlarmDescriptor {
 	/**
 	 * Abzuspielender Sound beim Eintreten des Alarms.
 	 */
-	private Path sound;
+	private String sound;
 	/**
 	 * Beschreibung des eigentlichen Alarmzeitpunktes.
 	 */
@@ -44,7 +43,7 @@ public class AlarmDescriptor {
 	 *            Beschreibung des Zeitpunktes, an welchem der Alarm erneut ausgefuehrt werden soll
 	 */
 	public AlarmDescriptor(final TimeDescriptor timeDescriptor, final Boolean isActive, final String description,
-			final Path soundToPlay, final TimeDescriptor snooze) {
+			final String soundToPlay, final TimeDescriptor snooze) {
 		this.alarmtime = timeDescriptor;
 		this.isActive = isActive;
 		this.description = description;
@@ -64,7 +63,7 @@ public class AlarmDescriptor {
 		return this.snooze;
 	}
 
-	public Path getSound() {
+	public String getSound() {
 		return this.sound;
 	}
 
@@ -80,15 +79,15 @@ public class AlarmDescriptor {
 		this.isActive = isActive;
 	}
 
-	public void setSnooze(TimeDescriptor snooze) {
+	public void setSnooze(final TimeDescriptor snooze) {
 		this.snooze = snooze;
 	}
 
-	public void setSound(Path sound) {
+	public void setSound(final String sound) {
 		this.sound = sound;
 	}
 
-	public void setAlarmtime(TimeDescriptor timeDescriptor) {
+	public void setAlarmtime(final TimeDescriptor timeDescriptor) {
 		this.alarmtime = timeDescriptor;
 	}
 }

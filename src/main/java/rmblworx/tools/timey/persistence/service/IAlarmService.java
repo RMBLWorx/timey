@@ -2,16 +2,16 @@ package rmblworx.tools.timey.persistence.service;
 
 import java.util.List;
 
-import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
- * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmTimestamp Alarmzeitpunkten}.
+ * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
  * 
  * @author mmatthies
- * @see AlarmTimestamp
+ * @see AlarmEntity
  */
-public interface IAlarmTimestampService {
+public interface IAlarmService {
 	/**
 	 * Persistiert den Alarmzeitpunkt.
 	 * 

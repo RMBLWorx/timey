@@ -71,8 +71,8 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public List<AlarmDescriptor> getAllAlarmtimestamps() {
-		return this.alarmClient.initGetAllAlarmtimestamps();
+	public List<AlarmDescriptor> getAllAlarms() {
+		return this.alarmClient.initGetAllAlarms();
 	}
 
 	@Override
@@ -82,12 +82,12 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public Boolean isAlarmtimestampActivated(final AlarmDescriptor descriptor) {
+	public Boolean isAlarmActivated(final AlarmDescriptor descriptor) {
 		return this.alarmClient.initAlarmGetStateOfAlarmCommand(descriptor);
 	}
 
 	@Override
-	public Boolean removeAlarmtimestamp(final AlarmDescriptor descriptor) {
+	public Boolean removeAlarm(final AlarmDescriptor descriptor) {
 		return this.alarmClient.initAlarmDeleteAlarm(descriptor);
 	}
 
@@ -97,8 +97,8 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public Boolean setAlarmtimestamp(final AlarmDescriptor descriptor) {
-		return this.alarmClient.initSetAlarmtimestampCommand(descriptor);
+	public Boolean setAlarm(final AlarmDescriptor descriptor) {
+		return this.alarmClient.initSetAlarmCommand(descriptor);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public Boolean setStateOfAlarmtimestamp(final AlarmDescriptor descriptor, final Boolean isActivated) {
+	public Boolean setStateOfAlarm(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		return this.alarmClient.initAlarmSetStateOfAlarmCommand(descriptor, isActivated);
 	}
 

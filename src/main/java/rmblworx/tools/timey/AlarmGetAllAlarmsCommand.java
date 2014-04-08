@@ -10,7 +10,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * 
  * @author "mmatthies"
  */
-public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
+public class AlarmGetAllAlarmsCommand implements ICommand {
 
 	/**
 	 * Speichert die Empfaenger-Instanz.
@@ -23,7 +23,7 @@ public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
 	 * @param receiver
 	 *            Empfaengerimplementierung
 	 */
-	public AlarmGetAllAlarmtimestampsCommand(final IAlarm receiver) {
+	public AlarmGetAllAlarmsCommand(final IAlarm receiver) {
 		if (receiver == null) {
 			throw new NullArgumentException();
 		}
@@ -35,6 +35,6 @@ public class AlarmGetAllAlarmtimestampsCommand implements ICommand {
 	 */
 	@Override
 	public List<AlarmDescriptor> execute() {
-		return this.fReceiver.getAllAlarmtimestamps();
+		return this.fReceiver.getAllAlarms();
 	}
 }

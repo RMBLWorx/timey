@@ -129,7 +129,7 @@ public class AlarmController extends Controller {
 			Platform.runLater(new Runnable() {
 				public void run() {
 					final ObservableList<Alarm> tableData = alarmTable.getItems();
-					for (final Alarm alarm : AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarmtimestamps())) {
+					for (final Alarm alarm : AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms())) {
 						tableData.add(alarm);
 					}
 					refreshTable();
@@ -167,7 +167,7 @@ public class AlarmController extends Controller {
 
 					alarmTable.requestFocus();
 
-					getGuiHelper().getFacade().setAlarmtimestamp(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+					getGuiHelper().getFacade().setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 				}
 			}
 		});
@@ -196,7 +196,7 @@ public class AlarmController extends Controller {
 				if (alarm != null) {
 					alarmTable.getSelectionModel().clearSelection(); // Auswahl aufheben
 					alarmTable.getItems().remove(alarm);
-					getGuiHelper().getFacade().removeAlarmtimestamp(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+					getGuiHelper().getFacade().removeAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 				}
 			}
 		});
@@ -225,8 +225,8 @@ public class AlarmController extends Controller {
 				refreshTable();
 
 				final ITimey facade = getGuiHelper().getFacade();
-				facade.removeAlarmtimestamp(oldAlarm);
-				facade.setAlarmtimestamp(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+				facade.removeAlarm(oldAlarm);
+				facade.setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 			}
 		}
 	}

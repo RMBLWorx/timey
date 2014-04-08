@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
-import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
+import rmblworx.tools.timey.persistence.service.IAlarmService;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
@@ -22,7 +22,7 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 	/**
 	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
 	 */
-	private final IAlarmTimestampService service;
+	private final IAlarmService service;
 	private ApplicationContext springContext;
 	private SimpleAlarm alarmdetector;
 	private final int delayPerThread;
@@ -38,7 +38,7 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 	 * @param unit
 	 *            Einheit fuer den Erkennungsintervall
 	 */
-	public Alarm(final IAlarmTimestampService service, final int delay, final TimeUnit unit) {
+	public Alarm(final IAlarmService service, final int delay, final TimeUnit unit) {
 		if (service == null || unit == null) {
 			throw new NullArgumentException();
 		}
@@ -60,27 +60,27 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 	}
 
 	@Override
-	public List<AlarmDescriptor> getAllAlarmtimestamps() {
+	public List<AlarmDescriptor> getAllAlarms() {
 		return this.service.getAll();
 	}
 
 	@Override
-	public Boolean isAlarmtimestampActivated(final AlarmDescriptor descriptor) {
+	public Boolean isAlarmActivated(final AlarmDescriptor descriptor) {
 		return this.service.isActivated(descriptor);
 	}
 
 	@Override
-	public Boolean removeAlarmtimestamp(final AlarmDescriptor descriptor) {
+	public Boolean removeAlarm(final AlarmDescriptor descriptor) {
 		return this.service.delete(descriptor);
 	}
 
 	@Override
-	public Boolean setAlarmtimestamp(final AlarmDescriptor descriptor) {
+	public Boolean setAlarm(final AlarmDescriptor descriptor) {
 		return this.service.create(descriptor);
 	}
 
 	@Override
-	public Boolean setStateOfAlarmtimestamp(final AlarmDescriptor descriptor, final Boolean isActivated) {
+	public Boolean setStateOfAlarm(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		return this.service.setState(descriptor, isActivated);
 	}
 

@@ -58,8 +58,8 @@ public class AlarmClient {
 		return invoker.execute();
 	}
 
-	public <T> T initGetAllAlarmtimestamps() {
-		final AlarmGetAllAlarmtimestampsCommand cmd = new AlarmGetAllAlarmtimestampsCommand(this.fReceiver);
+	public <T> T initGetAllAlarms() {
+		final AlarmGetAllAlarmsCommand cmd = new AlarmGetAllAlarmsCommand(this.fReceiver);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
 
@@ -70,7 +70,7 @@ public class AlarmClient {
 	 * This method creates a ConcreteCommand instance and specifies a Receiver
 	 * object.
 	 */
-	public <T> T initSetAlarmtimestampCommand(final AlarmDescriptor td) {
+	public <T> T initSetAlarmCommand(final AlarmDescriptor td) {
 		final AlarmSetTimeCommand cmd = new AlarmSetTimeCommand(this.fReceiver, td);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);

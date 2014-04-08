@@ -40,6 +40,6 @@ public class AlarmDeleteAlarmCommand implements ICommand {
 	 */
 	@Override
 	public Boolean execute() {
-		return this.fReceiver.removeAlarmtimestamp(this.timeDescriptor);
+		return this.fReceiver.removeAlarm(this.timeDescriptor);
 	}
 }

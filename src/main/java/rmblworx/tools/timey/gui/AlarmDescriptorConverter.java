@@ -1,7 +1,5 @@
 package rmblworx.tools.timey.gui;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +20,14 @@ public final class AlarmDescriptorConverter {
 
 	public static Alarm getAsAlarm(final AlarmDescriptor ad) {
 		final LocalDateTime dateTime = new LocalDateTime(ad.getAlarmtime().getMilliSeconds(), DateTimeZone.UTC);
-		final String sound = ad.getSound() != null ? ad.getSound().toString() : null;
+		final String sound = ad.getSound();
 
 		return new Alarm(dateTime, ad.getDescription(), sound, ad.getIsActive());
 	}
 
 	public static AlarmDescriptor getAsAlarmDescriptor(final Alarm alarm) {
 		final TimeDescriptor time = new TimeDescriptor(alarm.getDateTimeInMillis());
-		final Path sound = alarm.getSound() != null ? Paths.get(alarm.getSound()) : null;
+		final String sound = alarm.getSound();
 
 		return new AlarmDescriptor(time, alarm.isEnabled(), alarm.getDescription(), sound, null);
 	}

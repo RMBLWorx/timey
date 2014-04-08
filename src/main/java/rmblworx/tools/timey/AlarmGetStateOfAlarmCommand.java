@@ -40,7 +40,7 @@ public class AlarmGetStateOfAlarmCommand implements ICommand {
 	 */
 	@Override
 	public Boolean execute() {
-		return this.fReceiver.isAlarmtimestampActivated(this.timeDescriptor);
+		return this.fReceiver.isAlarmActivated(this.timeDescriptor);
 	}
 
 }

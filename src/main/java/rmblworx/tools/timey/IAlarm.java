@@ -16,7 +16,7 @@ interface IAlarm {
 	 * 
 	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
-	List<AlarmDescriptor> getAllAlarmtimestamps();
+	List<AlarmDescriptor> getAllAlarms();
 
 	/**
 	 * Liefert die Aussage, ob die Alarmzeit scharf oder unscharf geschalten ist.
@@ -25,7 +25,7 @@ interface IAlarm {
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true oder false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
 	 */
-	Boolean isAlarmtimestampActivated(AlarmDescriptor descriptor);
+	Boolean isAlarmActivated(AlarmDescriptor descriptor);
 
 	/**
 	 * Loescht den Alarmzeitpunkt.
@@ -34,7 +34,7 @@ interface IAlarm {
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean removeAlarmtimestamp(AlarmDescriptor descriptor);
+	Boolean removeAlarm(AlarmDescriptor descriptor);
 
 	/**
 	 * Setzt die Alarmzeit wobei jede nur einmalig vorkommen kann.
@@ -43,7 +43,7 @@ interface IAlarm {
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt bereits vorhanden
 	 */
-	Boolean setAlarmtimestamp(AlarmDescriptor descriptor);
+	Boolean setAlarm(AlarmDescriptor descriptor);
 
 	/**
 	 * Stellt die Alarmzeit unscharf bzw. scharf.
@@ -54,5 +54,5 @@ interface IAlarm {
 	 *            Booleanscher Wert ob der Alarmzeitpunkt aktiviert werden soll
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean setStateOfAlarmtimestamp(AlarmDescriptor descriptor, Boolean isActivated);
+	Boolean setStateOfAlarm(AlarmDescriptor descriptor, Boolean isActivated);
 }

@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
-public class AlarmGetAllAlarmtimestampsCommandTest {
+public class AlarmGetAllAlarmsCommandTest {
 
 	private Invoker invoker;
 	@Mock
@@ -28,7 +28,7 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		this.command = new AlarmGetAllAlarmtimestampsCommand(this.mockedReceiver);
+		this.command = new AlarmGetAllAlarmsCommand(this.mockedReceiver);
 		this.invoker = new Invoker();
 		this.invoker.storeCommand(this.command);
 		this.list = new ArrayList<AlarmDescriptor>();
@@ -43,19 +43,19 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#execute()}.
+	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmsCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
-		when(this.mockedReceiver.getAllAlarmtimestamps()).thenReturn(this.list);
+		when(this.mockedReceiver.getAllAlarms()).thenReturn(this.list);
 		assertNotNull("null zurueckgegeben!", this.invoker.execute());
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#AlarmGetAllAlarmtimestampsCommand(IAlarm)}.
+	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmsCommand#AlarmGetAllAlarmsCommand(IAlarm)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
-		this.command = new AlarmGetAllAlarmtimestampsCommand(null);
+		this.command = new AlarmGetAllAlarmsCommand(null);
 	}
 }

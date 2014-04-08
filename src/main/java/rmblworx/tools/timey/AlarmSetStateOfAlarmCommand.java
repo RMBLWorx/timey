@@ -47,6 +47,6 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 	 */
 	@Override
 	public Boolean execute() {
-		return this.fReceiver.setStateOfAlarmtimestamp(this.timeDescriptor, this.isActivated);
+		return this.fReceiver.setStateOfAlarm(this.timeDescriptor, this.isActivated);
 	}
 }

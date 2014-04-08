@@ -12,12 +12,12 @@ import javax.persistence.Table;
 
 /**
  * Modell eines Alarmzeitpunktes.
- * 
+ *
  * @author mmatthies
  */
 @Entity
-@Table(name = "ALARMTIMESTAMP")
-public final class AlarmTimestamp implements Serializable {
+@Table(name = "ALARM")
+public final class AlarmEntity implements Serializable {
 
 	/**
 	 * Serial-Version UID.
@@ -28,7 +28,7 @@ public final class AlarmTimestamp implements Serializable {
 	 * Referenz auf den Alarmzeitpunkt.
 	 */
 	@Column(nullable = false)
-	private Timestamp alarmTimestamp;
+	private Timestamp alarm;
 	/**
 	 * Beschreibungstext zum Alarmzeitpunkt.
 	 */
@@ -65,11 +65,11 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Liefert den Alarmzeitpunkt.
-	 * 
+	 *
 	 * @return Zeitpunkt an welchem der Alarm auszulösen ist insofern aktiv.
 	 */
-	public Timestamp getAlarmTimestamp() {
-		return this.alarmTimestamp;
+	public Timestamp getAlarm() {
+		return this.alarm;
 	}
 
 	/**
@@ -82,8 +82,8 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Liefert die eineindeutige Id des Alarmzeitpunktes.
-	 * 
-	 * @return Id des AlarmTimestamp-Objektes
+	 *
+	 * @return Id des Alarm-Objektes
 	 */
 	public Long getId() {
 		return this.id;
@@ -91,7 +91,7 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Gibt Auskunft ob der Alarmzeitpunkt aktiv ist.
-	 * 
+	 *
 	 * @return true wenn aktiv, sonst false.
 	 */
 	public Boolean getIsActivated() {
@@ -108,7 +108,7 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Liefert den Pfad zum Sound der bei Eintritt des Alarmzeitpunktes abgespielt werden soll.
-	 * 
+	 *
 	 * @return Abzuspielenden Sound inklusive Pfad
 	 */
 	public String getSound() {
@@ -117,12 +117,12 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Setzt den Alarmzeitpunkt.
-	 * 
-	 * @param alarmTimestamp
+	 *
+	 * @param alarm
 	 *            zu setzender Alarmzeitpunkt.
 	 */
-	public void setAlarmTimestamp(final Timestamp alarmTimestamp) {
-		this.alarmTimestamp = alarmTimestamp;
+	public void setAlarm(final Timestamp alarm) {
+		this.alarm = alarm;
 	}
 
 	/**
@@ -135,8 +135,8 @@ public final class AlarmTimestamp implements Serializable {
 	}
 
 	/**
-	 * Setzt die eineindeutige Id des AlarmTimestamp-Objektes.
-	 * 
+	 * Setzt die eineindeutige Id des Alarm-Objektes.
+	 *
 	 * @param id
 	 *            Id fuer dieses Objekt.
 	 */
@@ -146,7 +146,7 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Ermoeglicht das Setzen des Aktivierungsstatus.
-	 * 
+	 *
 	 * @param isActivated
 	 *            booleaschen Wert.
 	 */
@@ -165,7 +165,7 @@ public final class AlarmTimestamp implements Serializable {
 
 	/**
 	 * Setzt den Pfad vom abzuspielenden Sound bei Alarmeintritt.
-	 * 
+	 *
 	 * @param sound
 	 *            Pfad zum Sound
 	 */

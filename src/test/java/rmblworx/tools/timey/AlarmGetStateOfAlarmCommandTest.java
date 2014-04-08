@@ -44,7 +44,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteTimestampIsActivated() {
-		when(this.mockedReceiver.isAlarmtimestampActivated(this.descriptor)).thenReturn(Boolean.TRUE);
+		when(this.mockedReceiver.isAlarmActivated(this.descriptor)).thenReturn(Boolean.TRUE);
 		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -53,7 +53,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteTimestampIsNotActivated() {
-		when(this.mockedReceiver.isAlarmtimestampActivated(this.descriptor)).thenReturn(Boolean.FALSE);
+		when(this.mockedReceiver.isAlarmActivated(this.descriptor)).thenReturn(Boolean.FALSE);
 		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -62,7 +62,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteTimestampIsNotPresent() {
-		when(this.mockedReceiver.isAlarmtimestampActivated(this.descriptor)).thenReturn(null);
+		when(this.mockedReceiver.isAlarmActivated(this.descriptor)).thenReturn(null);
 		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 

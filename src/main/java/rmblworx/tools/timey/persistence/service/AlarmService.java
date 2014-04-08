@@ -6,34 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import rmblworx.tools.timey.persistence.dao.IAlarmTimestampDao;
-import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.persistence.dao.IAlarmDao;
+import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 
 /**
- * Serviceimplementierung zur Persistierung von {@link AlarmTimestamp Alarmzeitpunkt}en.
+ * Serviceimplementierung zur Persistierung von {@link AlarmEntity Alarmzeitpunkt}en.
  * 
  * @author mmatthies
  */
 @Service
 @Transactional
-public class AlarmTimestampService implements IAlarmTimestampService {
+public class AlarmService implements IAlarmService {
 
 	/**
 	 * Referenz auf das Datenzugriffsobjekt.
 	 */
 	@Autowired
-	private IAlarmTimestampDao dao;
+	private IAlarmDao dao;
 
 	@Override
 	public Boolean create(final AlarmDescriptor descriptor) {
-		return this.getDao().createAlarmTimestamp(descriptor);
+		return this.getDao().createAlarm(descriptor);
 	}
 
 	@Override
 	public Boolean delete(final AlarmDescriptor descriptor) {
-		return this.getDao().deleteAlarmTimestamp(descriptor);
+		return this.getDao().deleteAlarm(descriptor);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class AlarmTimestampService implements IAlarmTimestampService {
 	/**
 	 * @return Referenz auf das Datenzugriffsobjekt.
 	 */
-	private IAlarmTimestampDao getDao() {
+	private IAlarmDao getDao() {
 		return this.dao;
 	}
 

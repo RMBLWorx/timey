@@ -59,7 +59,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteOnExistingTimestamp() {
-		when(this.mockedReceiver.removeAlarmtimestamp(this.descriptor)).thenReturn(Boolean.TRUE);
+		when(this.mockedReceiver.removeAlarm(this.descriptor)).thenReturn(Boolean.TRUE);
 		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -68,7 +68,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteOnNonExistingTimestamp() {
-		when(this.mockedReceiver.removeAlarmtimestamp(null)).thenReturn(Boolean.FALSE);
+		when(this.mockedReceiver.removeAlarm(null)).thenReturn(Boolean.FALSE);
 		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -77,7 +77,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteOnTimestampCantBeDeleted() {
-		when(this.mockedReceiver.removeAlarmtimestamp(this.descriptor)).thenReturn(null);
+		when(this.mockedReceiver.removeAlarm(this.descriptor)).thenReturn(null);
 		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 

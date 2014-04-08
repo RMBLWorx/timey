@@ -56,7 +56,7 @@ public class AlarmSetTimeCommandTest {
 	 */
 	@Test
 	public final void testExecuteSettingTimestampWasSuccessfully() {
-		when(this.mockedReceiver.setAlarmtimestamp(this.descriptor)).thenReturn(Boolean.TRUE);
+		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(Boolean.TRUE);
 		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -65,7 +65,7 @@ public class AlarmSetTimeCommandTest {
 	 */
 	@Test
 	public final void testExecuteSettingTimestampWasNotSuccessfully() {
-		when(this.mockedReceiver.setAlarmtimestamp(this.descriptor)).thenReturn(Boolean.FALSE);
+		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(Boolean.FALSE);
 		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -74,7 +74,7 @@ public class AlarmSetTimeCommandTest {
 	 */
 	@Test
 	public final void testExecuteSettingTimestampExists() {
-		when(this.mockedReceiver.setAlarmtimestamp(this.descriptor)).thenReturn(null);
+		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(null);
 		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 

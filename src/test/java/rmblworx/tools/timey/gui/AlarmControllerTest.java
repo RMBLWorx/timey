@@ -85,7 +85,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		// Alarm löschen
 		alarmDeleteButton.fire();
 		FXTestUtils.awaitEvents();
-		verify(getController().getGuiHelper().getFacade()).removeAlarmtimestamp(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
 			}
