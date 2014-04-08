@@ -160,12 +160,19 @@ public class AlarmController extends Controller {
 					alarmTable.getItems().add(alarm);
 					refreshTable();
 
-					// neuen Alarm auswählen
+					/*
+					 * Neuen Alarm auswählen.
+					 * Muss verzögert ausgeführt werden, um Darstellungsproblem beim Hinzufügen des ersten Alarms zu vermeiden. 
+					 * (Hinweis von https://community.oracle.com/message/10389376#10389376.)
+					 */
 					final int idx = alarmTable.getItems().indexOf(alarm);
-					alarmTable.scrollTo(idx);
-					alarmTable.getSelectionModel().select(idx);
-
-					alarmTable.requestFocus();
+					Platform.runLater(new Runnable() {
+						public void run() {
+							alarmTable.scrollTo(idx);
+							alarmTable.getSelectionModel().select(idx);
+							alarmTable.requestFocus();
+						}
+					});
 
 					getGuiHelper().getFacade().setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 				}
