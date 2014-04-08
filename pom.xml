@@ -390,7 +390,7 @@
 
 	<repositories>
 		<repository>
-			<id>http://maven.xwiki.org</id>
+			<id>xwiki-externals</id>
 			<url>http://maven.xwiki.org/externals</url>
 		</repository>
 	</repositories>
