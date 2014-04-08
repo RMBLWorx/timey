@@ -142,13 +142,15 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStartStopPerKeyboard() {
+		// Sekunden-Feld fokussieren
+		click(scene.lookup("#secondsTextField"));
+
 		// Zeit auf 0 setzen
 		countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
 		FXTestUtils.awaitEvents();
 
 		// bei Zeit = 0 darf sich Countdown nicht starten lassen
 		type(KeyCode.ENTER);
-		FXTestUtils.awaitEvents();
 		verify(getController().getGuiHelper().getFacade(), never()).startCountdown();
 
 		// Zeit setzen
@@ -157,12 +159,10 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 		// Countdown starten
 		type(KeyCode.ENTER);
-		FXTestUtils.awaitEvents();
 		verify(getController().getGuiHelper().getFacade()).startCountdown();
 
 		// Countdown stoppen
 		type(KeyCode.ENTER);
-		FXTestUtils.awaitEvents();
 		verify(getController().getGuiHelper().getFacade()).stopCountdown();
 	}
 
