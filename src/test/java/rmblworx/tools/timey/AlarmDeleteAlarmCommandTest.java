@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -30,7 +31,7 @@ public class AlarmDeleteAlarmCommandTest {
 	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
-	private TimeDescriptor descriptor;
+	private AlarmDescriptor descriptor;
 
 	/**
 	 * @throws java.lang.Exception
@@ -58,7 +59,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteOnExistingTimestamp() {
-		when(this.mockedReceiver.removeAlarmtimestamp(this.descriptor)).thenReturn(Boolean.TRUE);
+		when(this.mockedReceiver.removeAlarm(this.descriptor)).thenReturn(Boolean.TRUE);
 		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -67,7 +68,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteOnNonExistingTimestamp() {
-		when(this.mockedReceiver.removeAlarmtimestamp(null)).thenReturn(Boolean.FALSE);
+		when(this.mockedReceiver.removeAlarm(null)).thenReturn(Boolean.FALSE);
 		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
 	}
 
@@ -76,7 +77,7 @@ public class AlarmDeleteAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteOnTimestampCantBeDeleted() {
-		when(this.mockedReceiver.removeAlarmtimestamp(this.descriptor)).thenReturn(null);
+		when(this.mockedReceiver.removeAlarm(this.descriptor)).thenReturn(null);
 		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 

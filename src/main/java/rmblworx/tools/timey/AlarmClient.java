@@ -1,6 +1,6 @@
 package rmblworx.tools.timey;
 
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
@@ -28,7 +28,7 @@ public class AlarmClient {
 	 *            zu löschender Alarmzeitpunkt
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	public Boolean initAlarmDeleteAlarm(final TimeDescriptor descriptor) {
+	public Boolean initAlarmDeleteAlarm(final AlarmDescriptor descriptor) {
 		final AlarmDeleteAlarmCommand cmd = new AlarmDeleteAlarmCommand(this.fReceiver, descriptor);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
@@ -42,7 +42,7 @@ public class AlarmClient {
 	 *            Referenz auf das Zeitobjekt
 	 * @return true oder false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	public Boolean initAlarmGetStateOfAlarmCommand(final TimeDescriptor descriptor) {
+	public Boolean initAlarmGetStateOfAlarmCommand(final AlarmDescriptor descriptor) {
 		final AlarmGetStateOfAlarmCommand cmd = new AlarmGetStateOfAlarmCommand(this.fReceiver, descriptor);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
@@ -50,7 +50,7 @@ public class AlarmClient {
 		return invoker.execute();
 	}
 
-	public Boolean initAlarmSetStateOfAlarmCommand(TimeDescriptor descriptor, Boolean isActivated) {
+	public Boolean initAlarmSetStateOfAlarmCommand(AlarmDescriptor descriptor, Boolean isActivated) {
 		final AlarmSetStateOfAlarmCommand cmd = new AlarmSetStateOfAlarmCommand(this.fReceiver, descriptor, isActivated);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
@@ -58,8 +58,8 @@ public class AlarmClient {
 		return invoker.execute();
 	}
 
-	public <T> T initGetAllAlarmtimestamps() {
-		final AlarmGetAllAlarmtimestampsCommand cmd = new AlarmGetAllAlarmtimestampsCommand(this.fReceiver);
+	public <T> T initGetAllAlarms() {
+		final AlarmGetAllAlarmsCommand cmd = new AlarmGetAllAlarmsCommand(this.fReceiver);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);
 
@@ -70,7 +70,7 @@ public class AlarmClient {
 	 * This method creates a ConcreteCommand instance and specifies a Receiver
 	 * object.
 	 */
-	public <T> T initSetAlarmtimestampCommand(final TimeDescriptor td) {
+	public <T> T initSetAlarmCommand(final AlarmDescriptor td) {
 		final AlarmSetTimeCommand cmd = new AlarmSetTimeCommand(this.fReceiver, td);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);

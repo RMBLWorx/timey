@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey;
 
@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-import rmblworx.tools.timey.persistence.service.IAlarmTimestampService;
+import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
+import rmblworx.tools.timey.persistence.service.IAlarmService;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -36,16 +39,17 @@ public class AlarmTest {
 	private static final long EXPECTED_MILLISECONDS = 100;
 
 	@Autowired
-	private TimeDescriptor descriptor;
+	private AlarmDescriptor descriptor;
 	private IAlarm effectiveDelegate;
-	private List<TimeDescriptor> list;
+	private List<AlarmDescriptor> list;
 	@Mock
-	private IAlarmTimestampService service;
+	private IAlarmService service;
 
-	private Boolean assertThatTimestampIsPresent(List<TimeDescriptor> list, TimeDescriptor expectedDescriptor) {
+	private Boolean assertThatTimestampIsPresent(List<AlarmDescriptor> list, AlarmDescriptor expectedDescriptor) {
 		Boolean result = Boolean.FALSE;
-		for (TimeDescriptor timeDescr : list) {
-			if (timeDescr.getMilliSeconds() == expectedDescriptor.getMilliSeconds()) {
+		for (AlarmDescriptor timeDescr : list) {
+			if (timeDescr.getAlarmtime().getMilliSeconds() == expectedDescriptor.getAlarmtime()
+					.getMilliSeconds()) {
 				result = Boolean.TRUE;
 				break;
 			}
@@ -53,10 +57,12 @@ public class AlarmTest {
 		return result;
 	}
 
-	private List<TimeDescriptor> createListWithDescriptors() {
-		List<TimeDescriptor> list = new ArrayList<TimeDescriptor>();
-		list.add(new TimeDescriptor(EXPECTED_MILLISECONDS));
-		return list;
+	private List<AlarmDescriptor> createListWithDescriptors() {
+		this.list = new ArrayList<AlarmDescriptor>();
+		final AlarmDescriptor ad = new AlarmDescriptor(new TimeDescriptor(EXPECTED_MILLISECONDS), false, "Text",
+				"/bla/blub", null);
+		this.list.add(ad);
+		return this.list;
 	}
 
 	/**
@@ -65,8 +71,8 @@ public class AlarmTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		this.effectiveDelegate = new Alarm(this.service);
-		this.descriptor.setMilliSeconds(EXPECTED_MILLISECONDS);
+		this.effectiveDelegate = new Alarm(this.service, 1, TimeUnit.MINUTES);
+		this.descriptor.getAlarmtime().setMilliSeconds(EXPECTED_MILLISECONDS);
 		this.list = this.createListWithDescriptors();
 	}
 
@@ -79,99 +85,115 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#getAllAlarmtimestamps()}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#getAllAlarms()}.
 	 */
 	@Test
-	public final void testGetAllAlarmtimestamps() {
+	public final void testGetAllAlarms() {
 		when(this.service.getAll()).thenReturn(this.list);
-		this.effectiveDelegate.setAlarmtimestamp(this.descriptor);
-		assertNotNull("Es wurde keine leere Liste geliefert!", this.effectiveDelegate.getAllAlarmtimestamps());
-		assertFalse("Leere Ergebnismenge!", this.effectiveDelegate.getAllAlarmtimestamps().isEmpty());
+		this.effectiveDelegate.setAlarm(this.descriptor);
+		assertNotNull("Es wurde keine leere Liste geliefert!", this.effectiveDelegate.getAllAlarms());
+		assertFalse("Leere Ergebnismenge!", this.effectiveDelegate.getAllAlarms().isEmpty());
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#isAlarmtimestampActivated(TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#isAlarmActivated(TimeDescriptor)}.
 	 */
 	@Test
 	public final void testIsActivatedShouldReturnNullBecauseNoAlarmtimeWasSetBefore() {
-		this.effectiveDelegate = new Alarm(this.service);
-		TimeDescriptor expected = null;
+		this.effectiveDelegate = new Alarm(this.service, 1, TimeUnit.MINUTES);
+		AlarmDescriptor expected = null;
 
 		when(this.service.isActivated(expected)).thenReturn(null);
-		this.effectiveDelegate.setAlarmtimestamp(expected);
+		this.effectiveDelegate.setAlarm(expected);
 
-		assertNull(this.effectiveDelegate.isAlarmtimestampActivated(expected));
+		assertNull(this.effectiveDelegate.isAlarmActivated(expected));
 	}
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Alarm#isAlarmtimestampActivated(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * {@link rmblworx.tools.timey.Alarm#isAlarmActivated(rmblworx.tools.timey.vo.TimeDescriptor)}.
 	 */
 	@Test
-	public final void testIsAlarmtimestampActivated() {
+	public final void testIsAlarmActivated() {
 		when(this.service.isActivated(this.descriptor)).thenReturn(Boolean.TRUE);
 		when(this.service.create(this.descriptor)).thenReturn(Boolean.TRUE);
 		when(this.service.setState(this.descriptor, Boolean.TRUE)).thenReturn(Boolean.TRUE);
-		this.effectiveDelegate.setAlarmtimestamp(this.descriptor);
-		this.effectiveDelegate.setStateOfAlarmtimestamp(this.descriptor, true);
-		assertTrue("Alarmzeit nicht aktiv!", this.effectiveDelegate.isAlarmtimestampActivated(this.descriptor));
+		this.effectiveDelegate.setAlarm(this.descriptor);
+		this.effectiveDelegate.setStateOfAlarm(this.descriptor, true);
+		assertTrue("Alarmzeit nicht aktiv!", this.effectiveDelegate.isAlarmActivated(this.descriptor));
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#removeAlarmtimestamp(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#removeAlarm(rmblworx.tools.timey.vo.TimeDescriptor)}.
 	 */
 	@Test
-	public final void testRemoveAlarmtimestamp() {
-		this.effectiveDelegate.setAlarmtimestamp(this.descriptor);
+	public final void testRemoveAlarm() {
+		this.effectiveDelegate.setAlarm(this.descriptor);
 		when(this.service.delete(this.descriptor)).thenReturn(true);
 
 		assertTrue("Alarmzeit wurde nicht aus der DB entfernt!",
-				this.effectiveDelegate.removeAlarmtimestamp(this.descriptor));
+				this.effectiveDelegate.removeAlarm(this.descriptor));
 
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#setAlarmtimestamp(TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#setAlarm(TimeDescriptor)}.
 	 */
 	@Test
-	public final void testSetAlarmtimestamp() {
+	public final void testSetAlarm() {
 		Boolean result = Boolean.FALSE;
-		this.descriptor.setMilliSeconds(EXPECTED_MILLISECONDS);
+		this.descriptor.getAlarmtime().setMilliSeconds(EXPECTED_MILLISECONDS);
 		when(this.service.create(this.descriptor)).thenReturn(Boolean.TRUE);
-		this.effectiveDelegate.setAlarmtimestamp(this.descriptor);
+		this.effectiveDelegate.setAlarm(this.descriptor);
 
 		when(this.service.getAll()).thenReturn(this.list);
-		result = this.assertThatTimestampIsPresent(this.effectiveDelegate.getAllAlarmtimestamps(), this.descriptor);
+		result = this.assertThatTimestampIsPresent(this.effectiveDelegate.getAllAlarms(), this.descriptor);
 
 		assertTrue("Alarmzeit wurde nicht erzeugt!", result);
 	}
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Alarm#setStateOfAlarmtimestamp(rmblworx.tools.timey.vo.TimeDescriptor, java.lang.Boolean)}
+	 * {@link rmblworx.tools.timey.Alarm#setStateOfAlarm(rmblworx.tools.timey.vo.TimeDescriptor, java.lang.Boolean)}
 	 * .
 	 */
 	@Test
-	public final void testSetStateOfAlarmtimestamp() {
+	public final void testSetStateOfAlarm() {
 		when(this.service.create(this.descriptor)).thenReturn(Boolean.TRUE);
 		when(this.service.setState(this.descriptor, Boolean.TRUE)).thenReturn(Boolean.TRUE);
 		when(this.service.isActivated(this.descriptor)).thenReturn(Boolean.TRUE);
 
-		this.effectiveDelegate.setAlarmtimestamp(this.descriptor);
-		assertTrue(this.effectiveDelegate.setStateOfAlarmtimestamp(this.descriptor, true));
-		assertTrue("Aktivierung fehlgeschlagen!", this.effectiveDelegate.isAlarmtimestampActivated(this.descriptor));
+		this.effectiveDelegate.setAlarm(this.descriptor);
+		assertTrue(this.effectiveDelegate.setStateOfAlarm(this.descriptor, true));
+		assertTrue("Aktivierung fehlgeschlagen!", this.effectiveDelegate.isAlarmActivated(this.descriptor));
 
 		when(this.service.setState(this.descriptor, Boolean.FALSE)).thenReturn(Boolean.TRUE);
 		when(this.service.isActivated(this.descriptor)).thenReturn(Boolean.FALSE);
-		assertTrue(this.effectiveDelegate.setStateOfAlarmtimestamp(this.descriptor, false));
-		assertFalse("Deaktivierung fehlgeschlagen!", this.effectiveDelegate.isAlarmtimestampActivated(this.descriptor));
+		assertTrue(this.effectiveDelegate.setStateOfAlarm(this.descriptor, false));
+		assertFalse("Deaktivierung fehlgeschlagen!", this.effectiveDelegate.isAlarmActivated(this.descriptor));
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmTimestampService)} .
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmService)} .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseServiceIsNull() {
-		this.effectiveDelegate = new Alarm(null);
+		this.effectiveDelegate = new Alarm(null, 1, TimeUnit.MINUTES);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmService)} .
+	 */
+	@Test(expected = NullArgumentException.class)
+	public final void testShouldFailBecauseTimeUnitIsNull() {
+		this.effectiveDelegate = new Alarm(null, 1, null);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmService)} .
+	 */
+	@Test(expected = ValueMinimumArgumentException.class)
+	public final void testShouldFailBecauseDelayIsLessThanOne() {
+		this.effectiveDelegate = new Alarm(this.service, 0, TimeUnit.MINUTES);
 	}
 }

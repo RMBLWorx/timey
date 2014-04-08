@@ -1,7 +1,7 @@
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando zum Loeschen eines Alarmzeitpunktes.
@@ -17,7 +17,7 @@ public class AlarmDeleteAlarmCommand implements ICommand {
 	/**
 	 * Referenz auf das Zeitobjekt.
 	 */
-	private final TimeDescriptor timeDescriptor;
+	private final AlarmDescriptor timeDescriptor;
 
 	/**
 	 * Erweiterter Konstruktor.
@@ -27,7 +27,7 @@ public class AlarmDeleteAlarmCommand implements ICommand {
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes
 	 */
-	public AlarmDeleteAlarmCommand(final IAlarm receiver, final TimeDescriptor descriptor) {
+	public AlarmDeleteAlarmCommand(final IAlarm receiver, final AlarmDescriptor descriptor) {
 		if (receiver == null || descriptor == null) {
 			throw new NullArgumentException();
 		}
@@ -40,6 +40,6 @@ public class AlarmDeleteAlarmCommand implements ICommand {
 	 */
 	@Override
 	public Boolean execute() {
-		return this.fReceiver.removeAlarmtimestamp(this.timeDescriptor);
+		return this.fReceiver.removeAlarm(this.timeDescriptor);
 	}
 }

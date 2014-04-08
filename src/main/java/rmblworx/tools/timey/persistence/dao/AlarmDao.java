@@ -14,7 +14,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import rmblworx.tools.timey.persistence.model.AlarmTimestamp;
+import rmblworx.tools.timey.persistence.model.AlarmEntity;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -24,12 +25,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class AlarmTimestampDao implements IAlarmTimestampDao {
+public class AlarmDao implements IAlarmDao {
 
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(AlarmTimestampDao.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AlarmDao.class);
 	/**
 	 * SessionFactory.
 	 */
@@ -40,23 +41,31 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 	 *            Referenz auf die SessionFactory.
 	 */
 	@Autowired
-	public AlarmTimestampDao(final SessionFactory sessionFactory) {
+	public AlarmDao(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public Boolean createAlarmTimestamp(final TimeDescriptor descriptor) {
+	public Boolean createAlarm(final AlarmDescriptor descriptor) {
 		Boolean result = Boolean.FALSE;
 		if (descriptor != null) {
-			final AlarmTimestamp entity = new AlarmTimestamp();
-			final Timestamp timestamp = new Timestamp(descriptor.getMilliSeconds());
-			entity.setAlarmTimestamp(timestamp);
-			entity.setIsActivated(Boolean.FALSE);
+			final AlarmEntity entity = new AlarmEntity();
+			final Timestamp timestamp = new Timestamp(descriptor.getAlarmtime().getMilliSeconds());
+			final String sound = descriptor.getSound().toString();
+			Timestamp snooze = null;
+			if (descriptor.getSnooze() != null) {
+				snooze = new Timestamp(descriptor.getSnooze().getMilliSeconds());
+			}
+			entity.setAlarm(timestamp);
+			entity.setIsActivated(descriptor.getIsActive());
+			entity.setDescription(descriptor.getDescription());
+			entity.setSnooze(snooze);
+			entity.setSound(sound);
 			this.currentSession().save(entity);
 			result = Boolean.TRUE;
 		}
-		// TODO: Exceptions per Interceptor abfangen -> throwing Advice implementieren
+		// TODO: Noch umzusetzen : Jeder Zeitpunkt darf nur von einem Alarm beschrieben und persistent sein
 		return result;
 	}
 
@@ -69,15 +78,15 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public Boolean deleteAlarmTimestamp(final TimeDescriptor descriptor) {
+	public Boolean deleteAlarm(final AlarmDescriptor descriptor) {
 		Boolean result = Boolean.FALSE;
 		if (null != descriptor) {
-			final List<AlarmTimestamp> allTimestamps = this.getAll();
+			final List<AlarmEntity> allAlarms = this.getAll();
 			try {
-				for (AlarmTimestamp alarmTimestamp : allTimestamps) {
-					final long milliseconds = alarmTimestamp.getAlarmTimestamp().getTime();
-					if (milliseconds == descriptor.getMilliSeconds()) {
-						this.currentSession().delete(alarmTimestamp);
+				for (AlarmEntity alarm : allAlarms) {
+					final long milliseconds = alarm.getAlarm().getTime();
+					if (milliseconds == descriptor.getAlarmtime().getMilliSeconds()) {
+						this.currentSession().delete(alarm);
 						result = Boolean.TRUE;
 					}
 				}
@@ -94,12 +103,19 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 	}
 
 	@Override
-	public List<TimeDescriptor> findAll() {
-		final List<AlarmTimestamp> all = this.getAll();
-		final List<TimeDescriptor> result = new ArrayList<TimeDescriptor>(all.size());
-		for (AlarmTimestamp alarmTimestamp : all) {
-			final long milliseconds = alarmTimestamp.getAlarmTimestamp().getTime();
-			final TimeDescriptor descriptor = new TimeDescriptor(milliseconds);
+	public List<AlarmDescriptor> findAll() {
+		final List<AlarmEntity> entities = this.getAll();
+		final List<AlarmDescriptor> result = new ArrayList<AlarmDescriptor>(entities.size());
+		for (AlarmEntity alarm : entities) {
+			final TimeDescriptor timeDescriptor = new TimeDescriptor(alarm.getAlarm().getTime());
+			final Boolean isActive = alarm.getIsActivated();
+			final String description = alarm.getDescription();
+			TimeDescriptor snooze = null;
+			if (alarm.getSnooze() != null) {
+				snooze = new TimeDescriptor(alarm.getSnooze().getTime());
+			}
+			final String sound = alarm.getSound();
+			final AlarmDescriptor descriptor = new AlarmDescriptor(timeDescriptor, isActive, description, sound, snooze);
 			result.add(descriptor);
 		}
 		return Collections.unmodifiableList(result);
@@ -109,8 +125,8 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 	 * @return Liste mit allen persistenten Alarmzeit-Objekten.
 	 */
 	@SuppressWarnings("unchecked")
-	private List<AlarmTimestamp> getAll() {
-		final List<AlarmTimestamp> allTimestamps = this.currentSession().createCriteria(AlarmTimestamp.class).list();
+	private List<AlarmEntity> getAll() {
+		final List<AlarmEntity> allTimestamps = this.currentSession().createCriteria(AlarmEntity.class).list();
 
 		return Collections.unmodifiableList(allTimestamps);
 	}
@@ -118,16 +134,17 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 	/**
 	 * Liefert das Alarmzeitpunktobjekt das den vom Deskriptor beschriebenen Alarmzeitpunkt enthaelt.
 	 * 
-	 * @param descriptor der Alarmzeitpunkt
+	 * @param descriptor
+	 *            der Alarmzeitpunkt
 	 * @return das Alarmzeitpunktobjekt oder {@code null} wenn nicht gefunden
 	 */
-	private AlarmTimestamp getByTime(final TimeDescriptor descriptor) {
-		AlarmTimestamp result = null;
+	private AlarmEntity getByTime(final AlarmDescriptor descriptor) {
+		AlarmEntity result = null;
 		if (null != descriptor) {
-			final List<AlarmTimestamp> all = this.getAll();
-			for (AlarmTimestamp alarmTimestamp : all) {
-				if (alarmTimestamp.getAlarmTimestamp().getTime() == descriptor.getMilliSeconds()) {
-					result = alarmTimestamp;
+			final List<AlarmEntity> all = this.getAll();
+			for (AlarmEntity alarm : all) {
+				if (alarm.getAlarm().getTime() == descriptor.getAlarmtime().getMilliSeconds()) {
+					result = alarm;
 					break;
 				}
 			}
@@ -136,10 +153,10 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 	}
 
 	@Override
-	public Boolean isActivated(final TimeDescriptor descriptor) {
+	public Boolean isActivated(final AlarmDescriptor descriptor) {
 		Boolean result = null;
 		if (null != descriptor) {
-			final AlarmTimestamp timestamp = this.getByTime(descriptor);
+			final AlarmEntity timestamp = this.getByTime(descriptor);
 			if (timestamp != null) {
 				result = timestamp.getIsActivated();
 			}
@@ -149,11 +166,11 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public Boolean setIsActivated(final TimeDescriptor descriptor, final Boolean isActivated) {
+	public Boolean setIsActivated(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		Boolean result = Boolean.FALSE;
 		if (null != descriptor && null != isActivated) {
 			try {
-				final AlarmTimestamp timestamp = this.getByTime(descriptor);
+				final AlarmEntity timestamp = this.getByTime(descriptor);
 				timestamp.setIsActivated(isActivated);
 				this.currentSession().save(timestamp);
 				result = Boolean.TRUE;
@@ -161,7 +178,7 @@ public class AlarmTimestampDao implements IAlarmTimestampDao {
 				LOG.error(e.getMessage());
 				result = null;
 			}
-		} else{
+		} else {
 			result = null;
 		}
 		return result;

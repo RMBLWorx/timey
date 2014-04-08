@@ -12,6 +12,7 @@ import rmblworx.tools.timey.event.TimeyEventDispatcher;
 import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -70,23 +71,23 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public List<TimeDescriptor> getAllAlarmtimestamps() {
-		return this.alarmClient.initGetAllAlarmtimestamps();
+	public List<AlarmDescriptor> getAllAlarms() {
+		return this.alarmClient.initGetAllAlarms();
 	}
 
 	@Override
 	public String getVersion(final String globPattern) throws IllegalStateException, EmptyArgumentException,
-			NullArgumentException {
+	NullArgumentException {
 		return this.jarVersionDetector.detectJarVersion(globPattern);
 	}
 
 	@Override
-	public Boolean isAlarmtimestampActivated(final TimeDescriptor descriptor) {
+	public Boolean isAlarmActivated(final AlarmDescriptor descriptor) {
 		return this.alarmClient.initAlarmGetStateOfAlarmCommand(descriptor);
 	}
 
 	@Override
-	public Boolean removeAlarmtimestamp(final TimeDescriptor descriptor) {
+	public Boolean removeAlarm(final AlarmDescriptor descriptor) {
 		return this.alarmClient.initAlarmDeleteAlarm(descriptor);
 	}
 
@@ -96,8 +97,8 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public Boolean setAlarmtimestamp(final TimeDescriptor descriptor) {
-		return this.alarmClient.initSetAlarmtimestampCommand(descriptor);
+	public Boolean setAlarm(final AlarmDescriptor descriptor) {
+		return this.alarmClient.initSetAlarmCommand(descriptor);
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public Boolean setStateOfAlarmtimestamp(final TimeDescriptor descriptor, final Boolean isActivated) {
+	public Boolean setStateOfAlarm(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		return this.alarmClient.initAlarmSetStateOfAlarmCommand(descriptor, isActivated);
 	}
 

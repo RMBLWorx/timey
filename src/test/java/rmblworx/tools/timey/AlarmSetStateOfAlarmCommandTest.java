@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
@@ -27,7 +28,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
-	private TimeDescriptor descriptor;
+	private AlarmDescriptor descriptor;
 	private Boolean isActivated;
 
 	/**
@@ -58,7 +59,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecute() {
-		when(this.mockedReceiver.setStateOfAlarmtimestamp(this.descriptor, this.isActivated)).thenReturn(Boolean.TRUE);
+		when(this.mockedReceiver.setStateOfAlarm(this.descriptor, this.isActivated)).thenReturn(Boolean.TRUE);
 		assertTrue("Falsches Ergebnis!", (Boolean) this.invoker.execute());
 	}
 
@@ -67,7 +68,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteShouldReturnNullBecauseAlarmDoesntExist() {
-		when(this.mockedReceiver.setStateOfAlarmtimestamp(this.descriptor, this.isActivated)).thenReturn(null);
+		when(this.mockedReceiver.setStateOfAlarm(this.descriptor, this.isActivated)).thenReturn(null);
 		assertNull("Falsches Ergebnis!", null);
 	}
 
@@ -76,7 +77,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	 */
 	@Test
 	public final void testExecuteShouldReturnFalseBecauseCouldNotBeSet() {
-		when(this.mockedReceiver.setStateOfAlarmtimestamp(this.descriptor, this.isActivated)).thenReturn(Boolean.FALSE);
+		when(this.mockedReceiver.setStateOfAlarm(this.descriptor, this.isActivated)).thenReturn(Boolean.FALSE);
 		assertFalse("Falsches Ergebnis!", (Boolean) this.invoker.execute());
 	}
 

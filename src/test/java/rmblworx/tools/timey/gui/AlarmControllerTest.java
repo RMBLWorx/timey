@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.verify;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.utils.FXTestUtils;
+import org.mockito.ArgumentMatcher;
+
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * GUI-Tests für die Alarm-Funktionalität.
@@ -58,8 +63,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	public final void testDeleteAlarm() {
 		// zwei Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		final Alarm alarm1 = new Alarm();
-		final Alarm alarm2 = new Alarm();
+		final LocalDateTime now = LocalDateTime.now();
+		final Alarm alarm1 = new Alarm(now.secondOfMinute().addToCopy(5), "alarm1");
+		final Alarm alarm2 = new Alarm(now.secondOfMinute().addToCopy(10), "alarm2");
 		tableData.add(alarm1);
 		tableData.add(alarm2);
 
@@ -79,6 +85,11 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		// Alarm löschen
 		alarmDeleteButton.fire();
 		FXTestUtils.awaitEvents();
+		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+			public boolean matches(final Object argument) {
+				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
+			}
+		}));
 
 		// sicherstellen, dass zweiter Alarm gelöscht ist, erster aber nicht
 		assertTrue(tableData.contains(alarm1));

@@ -13,25 +13,25 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
-public class AlarmGetAllAlarmtimestampsCommandTest {
+public class AlarmGetAllAlarmsCommandTest {
 
 	private Invoker invoker;
 	@Mock
 	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
-	private TimeDescriptor descriptor;
-	private List<TimeDescriptor> list;
+	private AlarmDescriptor descriptor;
+	private List<AlarmDescriptor> list;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		this.command = new AlarmGetAllAlarmtimestampsCommand(this.mockedReceiver);
+		this.command = new AlarmGetAllAlarmsCommand(this.mockedReceiver);
 		this.invoker = new Invoker();
 		this.invoker.storeCommand(this.command);
-		this.list = new ArrayList<TimeDescriptor>();
+		this.list = new ArrayList<AlarmDescriptor>();
 		this.list.add(this.descriptor);
 	}
 
@@ -43,19 +43,19 @@ public class AlarmGetAllAlarmtimestampsCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#execute()}.
+	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmsCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
-		when(this.mockedReceiver.getAllAlarmtimestamps()).thenReturn(this.list);
+		when(this.mockedReceiver.getAllAlarms()).thenReturn(this.list);
 		assertNotNull("null zurueckgegeben!", this.invoker.execute());
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmtimestampsCommand#AlarmGetAllAlarmtimestampsCommand(IAlarm)}.
+	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmsCommand#AlarmGetAllAlarmsCommand(IAlarm)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
-		this.command = new AlarmGetAllAlarmtimestampsCommand(null);
+		this.command = new AlarmGetAllAlarmsCommand(null);
 	}
 }

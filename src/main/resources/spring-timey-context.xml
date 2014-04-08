@@ -10,7 +10,10 @@
 
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm">
-		<constructor-arg ref="alarmTimestampService" index="0" />
+		<constructor-arg ref="alarmService" index="0" />
+		<constructor-arg value="1" index="1" />
+		<constructor-arg type="java.util.concurrent.TimeUnit"
+			value="MILLISECONDS" index="2" />
 	</bean>
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
 		<constructor-arg ref="simpleTimer" index="0" />
@@ -42,10 +45,15 @@
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
+	<bean id="alarmRunnable" name="alarmRunnable"
+		class="rmblworx.tools.timey.AlarmRunnable">
+	</bean>
 	<bean scope="prototype" id="countdownRunnable" name="countdownRunnable"
 		class="rmblworx.tools.timey.CountdownRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
+	</bean>
+	<bean id="simpleAlarm" name="simpleAlarm" class="rmblworx.tools.timey.SimpleAlarm">
 	</bean>
 	<bean id="simpleTimer" name="simpleTimer" class="rmblworx.tools.timey.SimpleTimer">
 		<constructor-arg ref="descriptor"></constructor-arg>
@@ -66,14 +74,23 @@
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
 		<constructor-arg value="0"></constructor-arg>
 	</bean>
+	<bean id="alarmDescriptor" name="alarmDescriptor"
+		class="rmblworx.tools.timey.vo.AlarmDescriptor">
+		<constructor-arg ref="descriptor" index="0"/>
+		<constructor-arg value="true" index="1"/>
+		<constructor-arg value="Text" index="2"/>
+		<property name="sound"><null/></property>
+		<constructor-arg value="null" index="3"/>
+		<constructor-arg ref="descriptor" index="4"/>
+	</bean>	
 
 	<!-- ######################### Service-Deklarationen ############################# -->
-	<bean id="alarmTimestampService" name="alarmTimestampService"
-		class="rmblworx.tools.timey.persistence.service.AlarmTimestampService">
+	<bean id="alarmService" name="alarmService"
+		class="rmblworx.tools.timey.persistence.service.AlarmService">
 	</bean>
 	<!-- ########################## DAO-Deklarationen ######################### -->
-	<bean id="alarmTimestampDao" name="alarmTimestampDao"
-		class="rmblworx.tools.timey.persistence.dao.AlarmTimestampDao">
+	<bean id="alarmDao" name="alarmDao"
+		class="rmblworx.tools.timey.persistence.dao.AlarmDao">
 	</bean>
 
 	<!-- ############################ Begin Spring-Hibernate Integration ######################## -->
@@ -82,7 +99,7 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:alarmdb" />
+		<property name="url" value="jdbc:h2:alarmdb;DB_CLOSE_ON_EXIT=FALSE" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="initialSize" value="5" />
@@ -101,7 +118,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="dialect">org.hibernate.dialect.H2Dialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">false</prop>
 			</props>

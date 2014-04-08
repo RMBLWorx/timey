@@ -2,15 +2,16 @@ package rmblworx.tools.timey.persistence.service;
 
 import java.util.List;
 
-import rmblworx.tools.timey.vo.TimeDescriptor;
+import rmblworx.tools.timey.persistence.model.AlarmEntity;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
- * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmTimestamp Alarmzeitpunkten}.
+ * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
  * 
  * @author mmatthies
- * @see AlarmTimestamp
+ * @see AlarmEntity
  */
-public interface IAlarmTimestampService {
+public interface IAlarmService {
 	/**
 	 * Persistiert den Alarmzeitpunkt.
 	 * 
@@ -18,7 +19,7 @@ public interface IAlarmTimestampService {
 	 *            Referenz auf das Objekt das den Alarmzeitpunkt beschreibt
 	 * @return true wenn erfolgreich sonst false
 	 */
-	Boolean create(TimeDescriptor descriptor);
+	Boolean create(AlarmDescriptor descriptor);
 
 	/**
 	 * Entfernt den Alarmzeitpunkt aus der Datenbank.
@@ -27,14 +28,14 @@ public interface IAlarmTimestampService {
 	 *            Beschreibung des Alarmzeitpunktes
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
 	 */
-	Boolean delete(TimeDescriptor descriptor);
+	Boolean delete(AlarmDescriptor descriptor);
 
 	/**
 	 * Liefert alle Alarmzeitpunkte in der Datenbank.
 	 * 
 	 * @return unveraenderliche Liste mit allen Alarmzeitpunkten oder leere Liste
 	 */
-	List<TimeDescriptor> getAll();
+	List<AlarmDescriptor> getAll();
 
 	/**
 	 * Liefert die Aussage ob der Alarmzeitpunkt aktiv oder inaktiv ist.
@@ -43,7 +44,7 @@ public interface IAlarmTimestampService {
 	 *            Zeitobjekt das den Alarmzeitpunkt beschreibt
 	 * @return true wenn aktiv sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean isActivated(TimeDescriptor descriptor);
+	Boolean isActivated(AlarmDescriptor descriptor);
 
 	/**
 	 * Setzt den Alarmzeitpunkt auf den uebergebenen Status in der Datenbank.
@@ -54,5 +55,5 @@ public interface IAlarmTimestampService {
 	 *            Referenz auf das booleansche Objekt das den Zustand beschreibt.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	Boolean setState(TimeDescriptor descriptor, Boolean isActivated);
+	Boolean setState(AlarmDescriptor descriptor, Boolean isActivated);
 }

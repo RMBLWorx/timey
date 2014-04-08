@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
 /**
@@ -59,6 +60,13 @@ public class Alarm implements Comparable<Alarm> {
 
 	public LocalDateTime getDateTime() {
 		return dateTime.get();
+	}
+
+	/**
+	 * @return UTC-basierter Datum/Zeit-Wert in ms
+	 */
+	public long getDateTimeInMillis() {
+		return dateTime.get().toDateTime(DateTimeZone.UTC).getMillis();
 	}
 
 	public void setDescription(final String description) {
