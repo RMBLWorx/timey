@@ -41,12 +41,12 @@
 		<constructor-arg ref="countdownReceiver" />
 	</bean>
 	<!-- ###################### sonstige-Implementierungen ############################# -->
-	<bean scope="prototype" id="timerRunnable" name="timerRunnable" class="rmblworx.tools.timey.TimerRunnable">
+	<bean scope="prototype" id="timerRunnable" name="timerRunnable"
+		class="rmblworx.tools.timey.TimerRunnable">
 		<constructor-arg ref="descriptor" index="0" />
 		<constructor-arg value="0" index="1" />
 	</bean>
-	<bean id="alarmRunnable" name="alarmRunnable"
-		class="rmblworx.tools.timey.AlarmRunnable">
+	<bean id="alarmRunnable" name="alarmRunnable" class="rmblworx.tools.timey.AlarmRunnable">
 	</bean>
 	<bean scope="prototype" id="countdownRunnable" name="countdownRunnable"
 		class="rmblworx.tools.timey.CountdownRunnable">
@@ -76,13 +76,15 @@
 	</bean>
 	<bean id="alarmDescriptor" name="alarmDescriptor"
 		class="rmblworx.tools.timey.vo.AlarmDescriptor">
-		<constructor-arg ref="descriptor" index="0"/>
-		<constructor-arg value="true" index="1"/>
-		<constructor-arg value="Text" index="2"/>
-		<property name="sound"><null/></property>
-		<constructor-arg value="null" index="3"/>
-		<constructor-arg ref="descriptor" index="4"/>
-	</bean>	
+		<constructor-arg ref="descriptor" index="0" />
+		<constructor-arg value="true" index="1" />
+		<constructor-arg value="Text" index="2" />
+		<property name="sound">
+			<null />
+		</property>
+		<constructor-arg value="null" index="3" />
+		<constructor-arg ref="descriptor" index="4" />
+	</bean>
 
 	<!-- ######################### Service-Deklarationen ############################# -->
 	<bean id="alarmService" name="alarmService"
@@ -97,13 +99,20 @@
 	<context:component-scan base-package="rmblworx.tools.timey.persistence" />
 	<tx:annotation-driven />
 
+	<!--
+	 ausgliederung der Konfigurationswerte in eine Properties-Datei. Besonderheit hier - abhaenging vom Ablageort der Datei wird eine Test
+	 bzw. ein Produktivdatenbank damit konfiguriert
+  	-->
+	<context:property-placeholder location="classpath:/db.properties" />
+	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:alarmdb;DB_CLOSE_ON_EXIT=FALSE" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
-		<property name="initialSize" value="5" />
-		<property name="maxActive" value="10" />
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="initialSize" value="${initialSize}" />
+		<property name="maxActive" value="${maxActive}" />
+
 	</bean>
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
