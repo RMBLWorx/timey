@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -49,6 +50,12 @@ public class AlarmController extends Controller {
 	private ResourceBundle resources;
 
 	@FXML
+	private Node alarmContainer;
+
+	@FXML
+	private Node alarmProgressContainer;
+
+	@FXML
 	private TableView<Alarm> alarmTable;
 
 	@FXML
@@ -65,6 +72,8 @@ public class AlarmController extends Controller {
 
 	@FXML
 	private void initialize() {
+		assert alarmContainer != null : "fx:id='alarmContainer' was not injected";
+		assert alarmProgressContainer != null : "fx:id='alarmProgressContainer' was not injected";
 		assert alarmTable != null : "fx:id='alarmTable' was not injected";
 		assert alarmDateTimeColumn != null : "fx:id='alarmDateTimeColumn' was not injected";
 		assert alarmDescriptionColumn != null : "fx:id='alarmDescriptionColumn' was not injected";
@@ -126,6 +135,7 @@ public class AlarmController extends Controller {
 
 //			addSampleData();
 
+			showProgress();
 			Platform.runLater(new Runnable() {
 				public void run() {
 					final ObservableList<Alarm> tableData = alarmTable.getItems();
@@ -133,6 +143,7 @@ public class AlarmController extends Controller {
 						tableData.add(alarm);
 					}
 					refreshTable();
+					hideProgress();
 				}
 			});
 		}
@@ -296,6 +307,21 @@ public class AlarmController extends Controller {
 	private void setupDateTimeFormatter() {
 		if (dateTimeFormatter == null) {
 			dateTimeFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		}
+	}
+
+	private void showProgress() {
+		switchProgress(true);
+	}
+
+	private void hideProgress() {
+		switchProgress(false);
+	}
+
+	private void switchProgress(final boolean visible) {
+		if (alarmProgressContainer != null && alarmContainer != null) {
+			alarmProgressContainer.setVisible(visible);
+			alarmContainer.setVisible(!visible);
 		}
 	}
 

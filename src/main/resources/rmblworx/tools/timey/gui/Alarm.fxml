@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmController">
   <children>
-    <GridPane id="GridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <GridPane fx:id="alarmContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <TableView fx:id="alarmTable" onMouseClicked="#handleTableClick" GridPane.columnIndex="0" GridPane.rowIndex="0">
           <columns>
@@ -16,7 +16,7 @@
             <TableColumn editable="false" prefWidth="150.0" resizable="false" sortable="false" text="%alarmDescriptionColumn.label" fx:id="alarmDescriptionColumn" />
           </columns>
         </TableView>
-        <GridPane id="GridPane" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <GridPane GridPane.columnIndex="0" GridPane.rowIndex="1">
           <children>
             <Button fx:id="alarmAddButton" mnemonicParsing="false" onAction="#handleAddButtonAction" text="%alarmAddButton.label" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
             <Button fx:id="alarmEditButton" mnemonicParsing="false" onAction="#handleEditButtonAction" text="%alarmEditButton.label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
@@ -43,5 +43,11 @@
         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
+    <TilePane fx:id="alarmProgressContainer" alignment="CENTER" orientation="VERTICAL" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <ProgressIndicator progress="-1.0" />
+        <Label text="%alarms.progress.loading" />
+      </children>
+    </TilePane>
   </children>
 </AnchorPane>
