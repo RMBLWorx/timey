@@ -23,33 +23,31 @@ public class ConfigStorage {
 
 	/**
 	 * @param config zu speichernde Konfiguration
-	 * @param outputStream
+	 * @param outputStream Ausgabestream
+	 * @throws IOException 
 	 */
-	public final void saveConfig(final Config config, final OutputStream outputStream) {
+	public final void saveConfig(final Config config, final OutputStream outputStream) throws IOException {
 		final Properties props = getConfigAsProperties(config);
-
-		try {
-			props.storeToXML(outputStream, null);
-			config.setChanged(false);
-		} catch (final IOException e) {
-			System.err.println(e.getLocalizedMessage());
-		}
+		props.storeToXML(outputStream, null);
+		config.setChanged(false);
 	}
 
 	/**
-	 * @param inputStream
+	 * @param inputStream Eingabestream
 	 * @return geladene Konfiguration
+	 * @throws IOException 
 	 */
-	public final Config loadConfig(final InputStream inputStream) {
+	public final Config loadConfig(final InputStream inputStream) throws IOException {
 		return loadConfig(inputStream, false);
 	}
 
 	/**
-	 * @param inputStream
-	 * @param suppressErrors ob Fehlermeldungen unterdrückt werden sollen
+	 * @param inputStream Eingabestream
+	 * @param ignoreErrors ob Fehler ignoriert werden sollen
 	 * @return geladene Konfiguration
+	 * @throws IOException 
 	 */
-	public final Config loadConfig(final InputStream inputStream, final boolean suppressErrors) {
+	public final Config loadConfig(final InputStream inputStream, final boolean ignoreErrors) throws IOException {
 		try {
 			final Properties props = new Properties();
 			props.loadFromXML(inputStream);
@@ -57,8 +55,8 @@ public class ConfigStorage {
 			config.setChanged(false);
 			return config;
 		} catch (final IOException e) {
-			if (!suppressErrors) {
-				System.err.println("Error while trying to load the config file: " + e.getLocalizedMessage());
+			if (!ignoreErrors) {
+				throw e;
 			}
 			return ConfigManager.getNewDefaultConfig();
 		}

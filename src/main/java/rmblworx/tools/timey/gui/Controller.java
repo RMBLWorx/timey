@@ -1,5 +1,6 @@
 package rmblworx.tools.timey.gui;
 
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -14,7 +15,7 @@ public abstract class Controller {
 	/**
 	 * In der für diesen Controller verantwortlichen GUI eingebettete Controller.
 	 */
-	private Vector<Controller> embeddedControllers = new Vector<>();
+	private final List<Controller> embeddedControllers = new Vector<>();
 
 	private GuiHelper guiHelper;
 
@@ -22,7 +23,7 @@ public abstract class Controller {
 		embeddedControllers.add(embeddedController);
 	}
 
-	public final Vector<Controller> getEmbeddedControllers() {
+	public final List<Controller> getEmbeddedControllers() {
 		return embeddedControllers;
 	}
 
