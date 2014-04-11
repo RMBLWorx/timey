@@ -52,7 +52,7 @@ public class AlarmDao implements IAlarmDao {
 		if (descriptor != null) {
 			final AlarmEntity entity = new AlarmEntity();
 			final Timestamp timestamp = new Timestamp(descriptor.getAlarmtime().getMilliSeconds());
-			final String sound = descriptor.getSound().toString();
+			final String sound = descriptor.getSound();
 			Timestamp snooze = null;
 			if (descriptor.getSnooze() != null) {
 				snooze = new Timestamp(descriptor.getSnooze().getMilliSeconds());

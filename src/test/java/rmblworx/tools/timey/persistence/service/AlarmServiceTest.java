@@ -65,6 +65,28 @@ public class AlarmServiceTest {
 	}
 
 	/**
+	 * Testet das Speichern eines Alarms ohne Klingelton.
+	 */
+	@Test
+	public void testCreateAlarmWithoutSound() {
+		final AlarmDescriptor alarm = new AlarmDescriptor(new TimeDescriptor(0), true, "Text", null, null);
+
+		try {
+			assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, service.create(alarm));
+			boolean found = false;
+			for (final AlarmDescriptor ad : service.getAll()) {
+				if (ad.getSound() == null) {
+					found = true;
+					break;
+				}
+			}
+			assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, found);
+		} finally {
+			service.delete(alarm);
+		}
+	}
+
+	/**
 	 * Test method for {@link rmblworx.tools.timey.persistence.service.IAlarmService#delete(TimeDescriptor)} .
 	 */
 	@Test
