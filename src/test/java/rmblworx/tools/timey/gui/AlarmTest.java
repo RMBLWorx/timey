@@ -2,7 +2,6 @@ package rmblworx.tools.timey.gui;
 
 import static org.junit.Assert.assertEquals;
 
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class AlarmTest {
 	@Test
 	public void testGetDateTimeInMillis() {
 		final long now = System.currentTimeMillis();
-		assertEquals(now, new Alarm(new LocalDateTime(now, DateTimeZone.UTC), "alarm").getDateTimeInMillis());
+		assertEquals(now, new Alarm(new LocalDateTime(now), "alarm").getDateTimeInMillis());
 	}
 
 }
