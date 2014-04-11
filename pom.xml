@@ -352,7 +352,7 @@
 									<fx:application refid="myApp" />
 
 									<manifest>
-										<attribute name="Class-Path" value="${manifest.classpath}" />
+										<attribute name="JavaFX-Class-Path" value="${manifest.classpath}" />
 										<attribute name="Implementation-Version" value="${project.version}" />
 										<attribute name="Bundle-Version" value="${project.version}" />
 									</manifest>
