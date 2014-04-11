@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
-import rmblworx.tools.timey.ITimey;
-import rmblworx.tools.timey.vo.AlarmDescriptor;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,6 +30,12 @@ import javafx.util.Callback;
 
 import org.joda.time.LocalDateTime;
 
+import rmblworx.tools.timey.ITimey;
+import rmblworx.tools.timey.event.AlarmExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
+import rmblworx.tools.timey.event.TimeyEventListener;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
+
 /**
  * Controller für die Alarm-GUI.
  * 
@@ -39,7 +43,7 @@ import org.joda.time.LocalDateTime;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class AlarmController extends Controller {
+public class AlarmController extends Controller implements TimeyEventListener {
 
 	/**
 	 * Formatiert Zeitstempel als Datum/Zeit-Werte.
@@ -136,11 +140,7 @@ public class AlarmController extends Controller {
 			showProgress();
 			Platform.runLater(new Runnable() {
 				public void run() {
-					final ObservableList<Alarm> tableData = alarmTable.getItems();
-					for (final Alarm alarm : AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms())) {
-						tableData.add(alarm);
-					}
-					refreshTable();
+					reloadAlarms();
 					hideProgress();
 				}
 			});
@@ -153,6 +153,13 @@ public class AlarmController extends Controller {
 		if (alarmDeleteButton != null) {
 			alarmDeleteButton.setDisable(true);
 		}
+
+		final TimeyEventListener eventListener = this;
+		Platform.runLater(new Runnable() {
+			public void run() {
+				getGuiHelper().getFacade().addEventListener(eventListener);
+			}
+		});
 
 		setupDateTimeFormatter();
 	}
@@ -320,6 +327,52 @@ public class AlarmController extends Controller {
 		if (alarmProgressContainer != null && alarmContainer != null) {
 			alarmProgressContainer.setVisible(visible);
 			alarmContainer.setVisible(!visible);
+		}
+	}
+
+	/**
+	 * Lädt die Alarme aus der Datenbank.
+	 */
+	private void reloadAlarms() {
+		final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
+
+		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		tableData.clear();
+		for (final Alarm alarm : AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms())) {
+			tableData.add(alarm);
+		}
+		refreshTable();
+
+		alarmTable.getSelectionModel().select(selectedIndex);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void handleEvent(final TimeyEvent event) {
+		if (event instanceof AlarmExpiredEvent) {
+			final Alarm alarm = AlarmDescriptorConverter.getAsAlarm(((AlarmExpiredEvent) event).getAlarmDescriptor());
+
+			showProgress();
+			reloadAlarms();
+			hideProgress();
+
+			getGuiHelper().showTrayMessageWithFallbackToDialog("Alarm ausgelöst", alarm.getDescription(), resources);
+
+			final String sound = alarm.getSound();
+			if (sound != null) {
+				new AudioPlayer().playInThread(sound, new Thread.UncaughtExceptionHandler() {
+					public void uncaughtException(final Thread thread, final Throwable exception) {
+						Platform.runLater(new Runnable() {
+							public void run() {
+								getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"),
+										String.format(resources.getString("sound.play.error"), exception.getLocalizedMessage()),
+										resources);
+							}
+						});
+					}
+				});
+			}
 		}
 	}
 
