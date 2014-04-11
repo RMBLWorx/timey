@@ -15,7 +15,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Diese Thread-sichere Implementierung setzt einen Countdown-Zähler um. Zeitnahme findet in Millisekunden statt.
- *
+ * 
  * @author mmatthies
  */
 public class AlarmRunnable implements Runnable, ApplicationContextAware {
@@ -37,10 +37,12 @@ public class AlarmRunnable implements Runnable, ApplicationContextAware {
 		long currentTimeMillis = System.currentTimeMillis();
 		AlarmDescriptor result = null;
 		for (AlarmDescriptor alarm : this.allAlarms) {
-			if (alarm.getAlarmtime().getMilliSeconds() == currentTimeMillis) {
-				result = alarm;
+			if (alarm.getIsActive()) {
+				if (alarm.getAlarmtime().getMilliSeconds() <= currentTimeMillis) {
+					result = alarm;
+					break;
+				}
 			}
-			break;
 		}
 		return result;
 	}
@@ -56,6 +58,7 @@ public class AlarmRunnable implements Runnable, ApplicationContextAware {
 			final AlarmDescriptor result = this.detectAlarm();
 			if (result != null) {
 				// wenn erreicht event feuern sonst weiter abgleichen
+				this.alarmService.setState(result, false);
 				this.eventDispatcher.dispatchEvent(new AlarmExpiredEvent(result));
 			}
 		} finally {
