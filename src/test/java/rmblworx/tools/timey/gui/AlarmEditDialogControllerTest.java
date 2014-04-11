@@ -180,10 +180,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	}
 
 	/**
-	 * Testet Anzeige bzw. Ausbleiben der Fehlermeldung bei Alarm mit identischem Zeitstempel.
+	 * Testet Anzeige bzw. Ausbleiben von Fehlermeldungen beim Speichern eines Alarms.
 	 */
 	@Test
-	public final void testErrorOtherAlarmWithSameTimestampAlreadyExists() {
+	public final void testErrorWhenSavingAlarm() {
 		/*
 		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
 		 * Verfügung steht.
@@ -191,16 +191,34 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		final List<DataErrors> testCases = new Vector<DataErrors>();
+
+		// Anlegen/Bearbeiten eines Alarms mit Zeitstempel in Vergangenheit
+		testCases.add(new DataErrors(1, "Der Alarm-Zeitpunkt muss in der Zukunft liegen.\n",
+				null,
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm")));
+		// Anlegen/Bearbeiten eines Alarms mit Zeitstempel in Zukunft
+		testCases.add(new DataErrors(0, null,
+				null,
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm")));
+		// Anlegen/Bearbeiten eines inaktiven Alarms mit Zeitstempel in Vergangenheit
+		testCases.add(new DataErrors(0, null,
+				null,
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm", null, false)));
+		// Anlegen/Bearbeiten eines inaktiven Alarms mit Zeitstempel in Zukunft
+		testCases.add(new DataErrors(0, null,
+				null,
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm", null, false)));
+
 		// Anlegen eines Alarms mit identischem Zeitstempel
 		testCases.add(new DataErrors(1, "Ein anderer Alarm mit demselben Zeitpunkt existiert bereits.\n",
-				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm1")),
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm2")));
+				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm1")),
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm2")));
 		// Anlegen eines Alarms mit unterschiedlichem Zeitstempel
 		testCases.add(new DataErrors(0, null,
-				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm1")),
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("11.11.2000"), "Alarm2")));
+				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm1")),
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("11.11.2160"), "Alarm2")));
 		// Bearbeiten eines Alarms ohne Änderung des Zeitstempels
-		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm1"); // genau ein Objekt
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm1"); // genau ein Objekt
 		testCases.add(new DataErrors(0, null,
 				Arrays.asList(alarm),
 				alarm));

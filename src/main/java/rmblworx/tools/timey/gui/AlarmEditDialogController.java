@@ -294,13 +294,21 @@ public class AlarmEditDialogController extends Controller {
 			errors.append('\n');
 		}
 
-		if (alarmDatePicker.getValue() != null && existingAlarms != null) {
+		if (alarmDatePicker.getValue() != null) {
 			final LocalDateTime selectedDateTime = getDateTimeFromPickers();
-			for (final Alarm existingAlarm : existingAlarms) {
-				if (alarm != existingAlarm && selectedDateTime.equals(existingAlarm.getDateTime())) {
-					errors.append(resources.getString("alarmEdit.otherAlarmWithSameTimestampAlreadyExists"));
-					errors.append("\n");
-					break;
+
+			if (alarmEnabledCheckbox.isSelected() && selectedDateTime.isBefore(new LocalDateTime())) {
+				errors.append(resources.getString("alarmEdit.alarmTimestampMustBeInFuture"));
+				errors.append('\n');
+			}
+
+			if (existingAlarms != null) {
+				for (final Alarm existingAlarm : existingAlarms) {
+					if (alarm != existingAlarm && selectedDateTime.equals(existingAlarm.getDateTime())) {
+						errors.append(resources.getString("alarmEdit.otherAlarmWithSameTimestampAlreadyExists"));
+						errors.append('\n');
+						break;
+					}
 				}
 			}
 		}
