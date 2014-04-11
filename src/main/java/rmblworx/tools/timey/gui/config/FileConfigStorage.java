@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.slf4j.LoggerFactory;
+
 /**
  * Speichern/Laden der Konfiguration auf Basis einer Datei.
  * 
@@ -22,14 +24,14 @@ public class FileConfigStorage extends ConfigStorage {
 	 * @param filename Dateiname der Konfigurationsdatei (kann auch Pfad enthalten)
 	 */
 	public final void saveToFile(final Config config, final String filename) {
-		OutputStream out = null;
+		OutputStream outputStream = null;
 		try {
-			out = new FileOutputStream(filename);
-			saveConfig(config, out);
+			outputStream = new FileOutputStream(filename);
+			saveConfig(config, outputStream);
 		} catch (final IOException e) {
-			System.err.println(e.getLocalizedMessage());
+			LoggerFactory.getLogger(getClass()).error("Error while trying to save the config file: " + e.getLocalizedMessage());
 		} finally {
-			closeStream(out);
+			closeStream(outputStream);
 		}
 	}
 
@@ -42,15 +44,15 @@ public class FileConfigStorage extends ConfigStorage {
 			return ConfigManager.getNewDefaultConfig();
 		}
 
-		InputStream in = null;
+		InputStream inputStream = null;
 		try {
-			in = new FileInputStream(filename);
-			return loadConfig(in);
+			inputStream = new FileInputStream(filename);
+			return loadConfig(inputStream, true);
 		} catch (final IOException e) {
-			System.err.println(e.getLocalizedMessage());
+			LoggerFactory.getLogger(getClass()).error("Error while trying to load the config file: " + e.getLocalizedMessage());
 			return ConfigManager.getNewDefaultConfig();
 		} finally {
-			closeStream(in);
+			closeStream(inputStream);
 		}
 	}
 

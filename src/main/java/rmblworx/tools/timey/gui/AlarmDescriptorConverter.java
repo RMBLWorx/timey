@@ -53,4 +53,10 @@ public final class AlarmDescriptorConverter {
 		return out;
 	}
 
+	/**
+	 * Instanziierung verhindern.
+	 */
+	private AlarmDescriptorConverter() {
+	}
+
 }

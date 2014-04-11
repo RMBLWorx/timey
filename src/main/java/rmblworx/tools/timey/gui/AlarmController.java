@@ -97,10 +97,8 @@ public class AlarmController extends Controller {
 					final TableRow<Alarm> row = new TableRow<Alarm>() {
 						protected void updateItem(final Alarm alarm, final boolean empty) {
 							super.updateItem(alarm, empty);
-							if (alarm != null) {
-								if (!alarm.isEnabled()) {
-									getStyleClass().add("alarm-disabled");
-								}
+							if (alarm != null && !alarm.isEnabled()) {
+								getStyleClass().add("alarm-disabled");
 							}
 						}
 					};

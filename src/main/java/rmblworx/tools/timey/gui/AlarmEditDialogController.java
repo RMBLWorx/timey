@@ -21,6 +21,7 @@ import jfxtras.labs.scene.control.CalendarTextField;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.MutableDateTime;
+import org.slf4j.LoggerFactory;
 
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.gui.config.ConfigManager;
@@ -63,7 +64,7 @@ public class AlarmEditDialogController extends Controller {
 	/**
 	 * Der gewählte Klingelton.
 	 */
-	private SimpleStringProperty ringtone = new SimpleStringProperty("");
+	private final SimpleStringProperty ringtone = new SimpleStringProperty("");
 
 	/**
 	 * Ob der Alarm geändert wurde.
@@ -110,16 +111,16 @@ public class AlarmEditDialogController extends Controller {
 		alarmDatePicker.setLocale(ConfigManager.getCurrentConfig().getLocale());
 		alarmDatePicker.setPromptText(resources.getString("alarmEdit.datePicker.placeholder"));
 		alarmDatePicker.setParseErrorCallback(new Callback<Throwable, Void>() {
-			public Void call(final Throwable error) {
-				System.err.println(error.getLocalizedMessage());
+			public Void call(final Throwable e) {
+				LoggerFactory.getLogger(getClass()).error(e.getLocalizedMessage());
 				return null;
 			}
 		});
 
 		ringtone.addListener(new ChangeListener<String>() {
 			public void changed(final ObservableValue<? extends String> property, final String oldValue, final String newValue) {
-				alarmSelectSoundButton.setText(newValue != null ? newValue : resources.getString("sound.noSoundSelected.text"));
-				alarmSelectSoundButton.setTooltip(newValue != null ? new Tooltip(newValue) : null);
+				alarmSelectSoundButton.setText(newValue == null ? resources.getString("sound.noSoundSelected.text") : newValue);
+				alarmSelectSoundButton.setTooltip(newValue == null ? null : new Tooltip(newValue));
 				alarmNoSoundButton.setDisable(newValue == null);
 				alarmPlaySoundButton.setDisable(newValue == null);
 			}
@@ -290,7 +291,7 @@ public class AlarmEditDialogController extends Controller {
 
 		if (alarmDatePicker.getValue() == null) {
 			errors.append(resources.getString("alarmEdit.date.empty"));
-			errors.append("\n");
+			errors.append('\n');
 		}
 
 		if (alarmDatePicker.getValue() != null && existingAlarms != null) {
