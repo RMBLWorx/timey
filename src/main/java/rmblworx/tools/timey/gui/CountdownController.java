@@ -249,7 +249,8 @@ public class CountdownController extends Controller implements TimeyEventListene
 	public final void handleEvent(final TimeyEvent event) {
 		if (event instanceof CountdownExpiredEvent) {
 			stopCountdown(true);
-			getGuiHelper().showTrayMessageWithFallbackToDialog("Countdown abgelaufen", "Der Countdown ist abgelaufen.", resources);
+			getGuiHelper().showTrayMessageWithFallbackToDialog(resources.getString("countdown.event.expired.title"),
+					resources.getString("countdown.event.expired.text"), resources);
 		}
 	}
 
