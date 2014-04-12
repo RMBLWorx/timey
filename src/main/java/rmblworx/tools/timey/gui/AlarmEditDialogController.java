@@ -42,11 +42,6 @@ public class AlarmEditDialogController extends Controller {
 	private SimpleDateFormat dateFormatter;
 
 	/**
-	 * Spielt Sounds ab.
-	 */
-	private AudioPlayer audioPlayer = new AudioPlayer();
-
-	/**
 	 * Fenster des Dialogs.
 	 */
 	private Stage dialogStage;
@@ -127,10 +122,6 @@ public class AlarmEditDialogController extends Controller {
 		});
 
 		ringtone.set(null);
-	}
-
-	public void setAudioPlayer(final AudioPlayer audioPlayer) {
-		this.audioPlayer = audioPlayer;
 	}
 
 	public void setDialogStage(final Stage dialogStage) {
@@ -214,23 +205,7 @@ public class AlarmEditDialogController extends Controller {
 	private void handlePlaySoundButtonClick() {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				final String ringtonePath = ringtone.get();
-
-				if (ringtonePath == null || ringtonePath.length() == 0) {
-					return;
-				}
-
-				audioPlayer.playInThread(ringtonePath, new Thread.UncaughtExceptionHandler() {
-					public void uncaughtException(final Thread thread, final Throwable exception) {
-						Platform.runLater(new Runnable() {
-							public void run() {
-								getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"),
-										String.format(resources.getString("sound.play.error"), exception.getLocalizedMessage()),
-										resources);
-							}
-						});
-					}
-				});
+				getGuiHelper().playSoundInThread(ringtone.get(), resources);
 			}
 		});
 	}

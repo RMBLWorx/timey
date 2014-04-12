@@ -135,8 +135,6 @@ public class AlarmController extends Controller implements TimeyEventListener {
 				}
 			});
 
-//			addSampleData();
-
 			showProgress();
 			Platform.runLater(new Runnable() {
 				public void run() {
@@ -295,18 +293,6 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	}
 
 	/**
-	 * Fügt der Tabelle Beispieldaten hinzu.
-	 */
-	private void addSampleData() {
-		final LocalDateTime now = LocalDateTime.now().millisOfSecond().setCopy(0);
-		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		tableData.add(new Alarm(now.secondOfMinute().addToCopy(5), "noch wird hier ..."));
-		tableData.add(new Alarm(now.secondOfMinute().addToCopy(10), "... nichts persistiert ..."));
-		tableData.add(new Alarm(now.secondOfMinute().addToCopy(15), "... oder ausgelöst", false));
-		refreshTable();
-	}
-
-	/**
 	 * Initialisiert den Datum/Zeit-Formatierer.
 	 */
 	private void setupDateTimeFormatter() {
@@ -358,21 +344,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			hideProgress();
 
 			getGuiHelper().showTrayMessageWithFallbackToDialog("Alarm ausgelöst", alarm.getDescription(), resources);
-
-			final String sound = alarm.getSound();
-			if (sound != null) {
-				new AudioPlayer().playInThread(sound, new Thread.UncaughtExceptionHandler() {
-					public void uncaughtException(final Thread thread, final Throwable exception) {
-						Platform.runLater(new Runnable() {
-							public void run() {
-								getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"),
-										String.format(resources.getString("sound.play.error"), exception.getLocalizedMessage()),
-										resources);
-							}
-						});
-					}
-				});
-			}
+			getGuiHelper().playSoundInThread(alarm.getSound(), resources);
 		}
 	}
 

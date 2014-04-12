@@ -63,7 +63,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	public final void testDeleteAlarm() {
 		// zwei Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		final LocalDateTime now = LocalDateTime.now();
+		final LocalDateTime now = LocalDateTime.now().millisOfSecond().setCopy(0);
 		final Alarm alarm1 = new Alarm(now.secondOfMinute().addToCopy(5), "alarm1");
 		final Alarm alarm2 = new Alarm(now.secondOfMinute().addToCopy(10), "alarm2");
 		tableData.add(alarm1);

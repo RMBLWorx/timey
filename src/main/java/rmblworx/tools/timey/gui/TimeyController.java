@@ -181,7 +181,7 @@ public class TimeyController extends Controller {
 	 */
 	private void showProgramIsMinimizedMessage() {
 		if (minimizedFirstTime) {
-			getGuiHelper().showTrayMessage(resources.getString("trayMenu.appMinimized.caption"),
+			getGuiHelper().showTrayMessage(resources.getString("trayMenu.appMinimized.title"),
 					resources.getString("trayMenu.appMinimized.text"));
 			minimizedFirstTime = false;
 		}
