@@ -20,9 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.categories.TestFX;
 
 import rmblworx.tools.timey.gui.DateTimeUtil;
-import rmblworx.tools.timey.gui.TimeyGuiTest;
 
 import com.google.common.base.Predicate;
 
@@ -33,7 +33,7 @@ import com.google.common.base.Predicate;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-@Category(TimeyGuiTest.class)
+@Category(TestFX.class)
 public class TimePickerTest extends GuiTest {
 
 	/**

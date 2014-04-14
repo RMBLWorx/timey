@@ -6,6 +6,7 @@ import java.awt.SystemTray;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadui.testfx.categories.TestFX;
 
 /**
  * GUI-Tests für das Hauptfenster.
@@ -14,7 +15,7 @@ import org.junit.experimental.categories.Category;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-@Category(TimeyGuiTest.class)
+@Category(TestFX.class)
 public class TimeyControllerTest extends FxmlGuiControllerTest {
 
 	/**
