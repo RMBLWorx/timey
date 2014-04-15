@@ -35,7 +35,7 @@
 		<maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
 		<maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
 		<timey.main.class>rmblworx.tools.timey.gui.Main</timey.main.class>
-		<timey.gui-test-marker.class>rmblworx.tools.timey.gui.TimeyGuiTest</timey.gui-test-marker.class>
+		<timey.gui-test-marker.class>org.loadui.testfx.categories.TestFX</timey.gui-test-marker.class>
 	</properties>
 
 	<dependencies>

@@ -1,8 +1,7 @@
 import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-
-import rmblworx.tools.timey.gui.TimeyGuiTest;
+import org.loadui.testfx.categories.TestFX;
 
 /**
  * Suite für Tests, bei denen keine GUI sichtbar sein muss.
@@ -12,7 +11,7 @@ import rmblworx.tools.timey.gui.TimeyGuiTest;
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 @RunWith(Categories.class)
-@Categories.ExcludeCategory(TimeyGuiTest.class)
+@Categories.ExcludeCategory(TestFX.class)
 @Suite.SuiteClasses(AllTests.class)
 public class NonGuiTests {
 }
