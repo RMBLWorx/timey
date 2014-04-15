@@ -343,7 +343,8 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			reloadAlarms();
 			hideProgress();
 
-			getGuiHelper().showTrayMessageWithFallbackToDialog("Alarm ausgelöst", alarm.getDescription(), resources);
+			getGuiHelper().showTrayMessageWithFallbackToDialog(resources.getString("alarm.event.triggered.title"), alarm.getDescription(),
+					resources);
 			getGuiHelper().playSoundInThread(alarm.getSound(), resources);
 		}
 	}
