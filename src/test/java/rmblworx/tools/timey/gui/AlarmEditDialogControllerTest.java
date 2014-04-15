@@ -316,7 +316,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// Sound-Abspielen-Schaltfläche betätigen
 		final AudioPlayer player = mock(AudioPlayer.class);
-		controller.setAudioPlayer(player);
+		controller.getGuiHelper().setAudioPlayer(player);
 		alarmPlaySoundButton.fire();
 		FXTestUtils.awaitEvents();
 		verify(player).playInThread(eq("Sound"), isA(Thread.UncaughtExceptionHandler.class));

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,11 @@ import rmblworx.tools.timey.ITimey;
 public class GuiHelper {
 
 	/**
+	 * Spielt Sounds ab.
+	 */
+	private AudioPlayer audioPlayer = new AudioPlayer();
+
+	/**
 	 * Fassade.
 	 */
 	private ITimey facade;
@@ -35,6 +41,10 @@ public class GuiHelper {
 	 * Symbol im System-Tray.
 	 */
 	private TrayIcon trayIcon;
+
+	public void setAudioPlayer(final AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+	}
 
 	public final void setFacade(final ITimey facade) {
 		this.facade = facade;
@@ -122,6 +132,29 @@ public class GuiHelper {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Spielt den Sound in einem separaten Thread ab und zeigt einen evtl. auftretenden Fehler in einem Dialog an.
+	 * Falls {@code path == null} oder leer, macht die Methode nichts.
+	 * @param path Pfad zur Datei
+	 * @param i18n ResourceBundle
+	 */
+	public final void playSoundInThread(final String path, final ResourceBundle i18n) {
+		if (path == null || path.length() == 0) {
+			return;
+		}
+
+		audioPlayer.playInThread(path, new Thread.UncaughtExceptionHandler() {
+			public void uncaughtException(final Thread thread, final Throwable exception) {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						showDialogMessage(i18n.getString("messageDialog.error.title"),
+								String.format(i18n.getString("sound.play.error"), exception.getLocalizedMessage()), i18n);
+					}
+				});
+			}
+		});
 	}
 
 }
