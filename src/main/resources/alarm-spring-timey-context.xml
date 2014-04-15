@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<import resource="event-spring-timey-context.xml" />
+	<!-- ###################### Empfänger-Implementierungen ############################# -->
+	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm">
+		<constructor-arg ref="alarmService" index="0" />
+		<constructor-arg value="1" index="1" />
+		<constructor-arg type="java.util.concurrent.TimeUnit"
+			value="MILLISECONDS" index="2" />
+	</bean>
+	<!-- ###################### Client-Implementierungen ############################# -->
+	<bean id="alarmClient" name="alarmClient" class="rmblworx.tools.timey.AlarmClient">
+		<constructor-arg ref="alarmReceiver" />
+	</bean>
+	<!-- ###################### sonstige-Implementierungen ############################# -->
+	<bean id="alarmRunnable" name="alarmRunnable" class="rmblworx.tools.timey.AlarmRunnable">
+	</bean>
+	<bean id="simpleAlarm" name="simpleAlarm" class="rmblworx.tools.timey.SimpleAlarm">
+	</bean>
+	<!-- ############################# Werteobjekte ################################## -->
+	<bean id="descriptor" name="descriptor"
+		class="rmblworx.tools.timey.vo.TimeDescriptor">
+		<constructor-arg value="0"></constructor-arg>
+	</bean>
+	<bean id="alarmDescriptor" name="alarmDescriptor"
+		class="rmblworx.tools.timey.vo.AlarmDescriptor">
+		<constructor-arg ref="descriptor" index="0" />
+		<constructor-arg value="true" index="1" />
+		<constructor-arg value="Text" index="2" />
+		<property name="sound">
+			<null />
+		</property>
+		<constructor-arg value="null" index="3" />
+		<constructor-arg ref="descriptor" index="4" />
+	</bean>
+
+	<!-- ######################### Service-Deklarationen ############################# -->
+	<bean id="alarmService" name="alarmService"
+		class="rmblworx.tools.timey.persistence.service.AlarmService">
+	</bean>
+	<!-- ########################## DAO-Deklarationen ######################### -->
+	<bean id="alarmDao" name="alarmDao"
+		class="rmblworx.tools.timey.persistence.dao.AlarmDao">
+	</bean>
+
+	<!-- ############################ Begin Spring-Hibernate Integration ######################## -->
+	<context:component-scan base-package="rmblworx.tools.timey.persistence" />
+	<tx:annotation-driven />
+
+	<!-- ausgliederung der Konfigurationswerte in eine Properties-Datei. Besonderheit 
+		hier - abhaenging vom Ablageort der Datei wird eine Test bzw. ein Produktivdatenbank 
+		damit konfiguriert -->
+	<context:property-placeholder location="classpath:/db.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="initialSize" value="${initialSize}" />
+		<property name="maxActive" value="${maxActive}" />
+
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="rmblworx.tools.timey.persistence.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- um die Exception-Übersetzung einem HibernateDAO ohne Schablonen hinzuzufügen 
+		wird die im folgenden deklarierte Bean dem Spring-Anwendungscontext hinzugefügt. 
+		Der Postprocessor hängt einen Advisor an jede Bean die mit @Repository annotiert 
+		ist sodass alle plattformspezifischen Exceptions abgefangen und als standardisierte, 
+		ungeprüfte Spring-Exceptionserneut ausgelöst werden. -->
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<!-- ############################ Ende Spring - Hibernate Integration ######################## -->
+</beans>
