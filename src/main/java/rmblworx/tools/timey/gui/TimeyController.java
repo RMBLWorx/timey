@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +23,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
+import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 
 /**
@@ -30,7 +34,12 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
-public class TimeyController extends Controller {
+public class TimeyController extends Controller implements TimeyEventListener {
+
+	/**
+	 * Intervall für blinkendes Tray-Symbol in ms.
+	 */
+	private static final int TRAY_ICON_BLINK_INTERVAL = 500;
 
 	/**
 	 * Fenster der Anwendung.
@@ -41,6 +50,11 @@ public class TimeyController extends Controller {
 	 * Ob die Anwendung erstmalig minimiert wurde.
 	 */
 	private boolean minimizedFirstTime = true;
+
+	/**
+	 * Ob das Tray-Symbol blinken soll.
+	 */
+	private boolean trayIconBlinking = false;
 
 	@FXML
 	private ResourceBundle resources;
@@ -87,6 +101,13 @@ public class TimeyController extends Controller {
 				createTrayIcon();
 			}
 		});
+
+		final TimeyEventListener eventListener = this;
+		Platform.runLater(new Runnable() {
+			public void run() {
+				getGuiHelper().getFacade().addEventListener(eventListener);
+			}
+		});
 	}
 
 	public void setStage(final Stage stage) {
@@ -100,7 +121,8 @@ public class TimeyController extends Controller {
 		if (SystemTray.isSupported()) {
 			Platform.setImplicitExit(false);
 			final SystemTray tray = SystemTray.getSystemTray();
-			final Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
+			final Image clock = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
+			final Image clockWarning = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock_error.png"));
 
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
@@ -138,7 +160,19 @@ public class TimeyController extends Controller {
 			});
 			popup.add(closeItem);
 
-			final TrayIcon trayIcon = new TrayIcon(image, resources.getString("application.title"), popup);
+			final TrayIcon trayIcon = new TrayIcon(clock, resources.getString("application.title"), popup);
+
+			new Timer().schedule(new TimerTask() {
+				public void run() {
+					// aufhören zu blinken, nachdem Fenster wieder sichtbar gemacht wurde
+					if (isAppVisible()) {
+						trayIconBlinking = false;
+					}
+
+					trayIcon.setImage(trayIconBlinking && trayIcon.getImage() == clock ? clockWarning : clock);
+				}
+			}, 0, TRAY_ICON_BLINK_INTERVAL);
+
 			trayIcon.addActionListener(new ActionListener() {
 				public void actionPerformed(final ActionEvent event) {
 					show();
@@ -211,8 +245,16 @@ public class TimeyController extends Controller {
 				stage.show();
 				stage.toFront();
 				stage.setIconified(false);
+				trayIconBlinking = false;
 			}
 		});
+	}
+
+	/**
+	 * @return ob das Fenster der Anwendung direkt sichtbar ist
+	 */
+	private boolean isAppVisible() {
+		return !stage.isIconified() && stage.isFocused();
 	}
 
 	/**
@@ -220,6 +262,14 @@ public class TimeyController extends Controller {
 	 */
 	private void exit() {
 		Platform.exit();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void handleEvent(final TimeyEvent event) {
+		// blinken, falls Fenster bei Eintreten des Ereignisses nicht sichtbar ist
+		trayIconBlinking = !isAppVisible();
 	}
 
 }
