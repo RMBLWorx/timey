@@ -2,6 +2,7 @@ package rmblworx.tools.timey.gui;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -135,11 +136,9 @@ public class AlarmController extends Controller implements TimeyEventListener {
 				}
 			});
 
-			showProgress();
 			Platform.runLater(new Runnable() {
 				public void run() {
 					reloadAlarms();
-					hideProgress();
 				}
 			});
 		}
@@ -320,16 +319,44 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	 * Lädt die Alarme aus der Datenbank.
 	 */
 	private void reloadAlarms() {
-		final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
+		showProgress();
 
+		final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		tableData.clear();
-		for (final Alarm alarm : AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms())) {
-			tableData.add(alarm);
-		}
-		refreshTable();
 
-		alarmTable.getSelectionModel().select(selectedIndex);
+		// Alarme asynchron laden, um Anwendung nicht zu blockieren
+		final Thread thread = new Thread(new Runnable() {
+			public void run() {
+				final List<Alarm> alarms = AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms());
+
+				Platform.runLater(new Runnable() {
+					public void run() {
+						for (final Alarm alarm : alarms) {
+							tableData.add(alarm);
+						}
+						refreshTable();
+
+						alarmTable.getSelectionModel().select(selectedIndex);
+
+						hideProgress();
+					}
+				});
+			}
+		});
+		thread.setDaemon(true);
+		thread.setPriority(Thread.MIN_PRIORITY);
+		thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			public void uncaughtException(final Thread thread, final Throwable exception) {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"), exception.getLocalizedMessage(),
+								resources);
+					}
+				});
+			}
+		});
+		thread.start();
 	}
 
 	/**
@@ -339,9 +366,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		if (event instanceof AlarmExpiredEvent) {
 			final Alarm alarm = AlarmDescriptorConverter.getAsAlarm(((AlarmExpiredEvent) event).getAlarmDescriptor());
 
-			showProgress();
 			reloadAlarms();
-			hideProgress();
 
 			getGuiHelper().showTrayMessageWithFallbackToDialog("Alarm ausgelöst", alarm.getDescription(), resources);
 			getGuiHelper().playSoundInThread(alarm.getSound(), resources);
