@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -155,6 +156,27 @@ public class GuiHelper {
 				});
 			}
 		});
+	}
+
+	/**
+	 * Führt den Task in einem separaten Thread aus, um die Anwendung nicht zu blockieren.
+	 * @param task Task
+	 * @param i18n ResourceBundle
+	 */
+	public final void runInThread(final Task<Void> task, final ResourceBundle i18n) {
+		final Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.setPriority(Thread.MIN_PRIORITY);
+		thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			public void uncaughtException(final Thread thread, final Throwable exception) {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						showDialogMessage(i18n.getString("messageDialog.error.title"), exception.getLocalizedMessage(), i18n);
+					}
+				});
+			}
+		});
+		thread.start();
 	}
 
 }

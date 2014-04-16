@@ -10,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -170,24 +171,33 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			public void run() {
 				final Alarm alarm = new Alarm();
 				if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.add"))) {
-					alarmTable.getItems().add(alarm);
-					refreshTable();
+					showProgress();
 
-					/*
-					 * Neuen Alarm auswählen.
-					 * Muss verzögert ausgeführt werden, um Darstellungsproblem beim Hinzufügen des ersten Alarms zu vermeiden. 
-					 * (Hinweis von https://community.oracle.com/message/10389376#10389376.)
-					 */
-					final int idx = alarmTable.getItems().indexOf(alarm);
-					Platform.runLater(new Runnable() {
-						public void run() {
-							alarmTable.scrollTo(idx);
-							alarmTable.getSelectionModel().select(idx);
-							alarmTable.requestFocus();
+					getGuiHelper().runInThread(new Task<Void>() {
+						public Void call() {
+							alarmTable.getItems().add(alarm);
+							refreshTable();
+							getGuiHelper().getFacade().setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+
+							/*
+							 * Neuen Alarm auswählen.
+							 * Muss verzögert ausgeführt werden, um Darstellungsproblem beim Hinzufügen des ersten Alarms zu vermeiden. 
+							 * (Hinweis von https://community.oracle.com/message/10389376#10389376.)
+							 */
+							final int idx = alarmTable.getItems().indexOf(alarm);
+							Platform.runLater(new Runnable() {
+								public void run() {
+									alarmTable.scrollTo(idx);
+									alarmTable.getSelectionModel().select(idx);
+									alarmTable.requestFocus();
+								}
+							});
+
+							hideProgress();
+
+							return null;
 						}
-					});
-
-					getGuiHelper().getFacade().setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+					}, resources);
 				}
 			}
 		});
@@ -214,9 +224,19 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			public void run() {
 				final Alarm alarm = alarmTable.getSelectionModel().getSelectedItem();
 				if (alarm != null) {
-					alarmTable.getSelectionModel().clearSelection(); // Auswahl aufheben
-					alarmTable.getItems().remove(alarm);
-					getGuiHelper().getFacade().removeAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+					showProgress();
+
+					getGuiHelper().runInThread(new Task<Void>() {
+						public Void call() {
+							alarmTable.getSelectionModel().clearSelection(); // Auswahl aufheben
+							alarmTable.getItems().remove(alarm);
+							getGuiHelper().getFacade().removeAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+
+							hideProgress();
+
+							return null;
+						}
+					}, resources);
 				}
 			}
 		});
@@ -242,11 +262,21 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		if (alarm != null) {
 			final AlarmDescriptor oldAlarm = AlarmDescriptorConverter.getAsAlarmDescriptor(alarm); // Instanz vorm Bearbeiten anlegen
 			if (showAlarmEditDialog(alarm, resources.getString("alarmEdit.title.edit"))) {
-				refreshTable();
+				showProgress();
 
-				final ITimey facade = getGuiHelper().getFacade();
-				facade.removeAlarm(oldAlarm);
-				facade.setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+				getGuiHelper().runInThread(new Task<Void>() {
+					public Void call() {
+						refreshTable();
+
+						final ITimey facade = getGuiHelper().getFacade();
+						facade.removeAlarm(oldAlarm);
+						facade.setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+
+						hideProgress();
+
+						return null;
+					}
+				}, resources);
 			}
 		}
 	}
@@ -321,42 +351,25 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	private void reloadAlarms() {
 		showProgress();
 
-		final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
-		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		tableData.clear();
-
-		// Alarme asynchron laden, um Anwendung nicht zu blockieren
-		final Thread thread = new Thread(new Runnable() {
-			public void run() {
+		getGuiHelper().runInThread(new Task<Void>() {
+			public Void call() {
 				final List<Alarm> alarms = AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms());
 
-				Platform.runLater(new Runnable() {
-					public void run() {
-						for (final Alarm alarm : alarms) {
-							tableData.add(alarm);
-						}
-						refreshTable();
+				final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
 
-						alarmTable.getSelectionModel().select(selectedIndex);
+				final ObservableList<Alarm> tableData = alarmTable.getItems();
+				tableData.clear();
+				for (final Alarm alarm : alarms) {
+					tableData.add(alarm);
+				}
 
-						hideProgress();
-					}
-				});
+				refreshTable();
+				alarmTable.getSelectionModel().select(selectedIndex);
+				hideProgress();
+
+				return null;
 			}
-		});
-		thread.setDaemon(true);
-		thread.setPriority(Thread.MIN_PRIORITY);
-		thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-			public void uncaughtException(final Thread thread, final Throwable exception) {
-				Platform.runLater(new Runnable() {
-					public void run() {
-						getGuiHelper().showDialogMessage(resources.getString("messageDialog.error.title"), exception.getLocalizedMessage(),
-								resources);
-					}
-				});
-			}
-		});
-		thread.start();
+		}, resources);
 	}
 
 	/**
