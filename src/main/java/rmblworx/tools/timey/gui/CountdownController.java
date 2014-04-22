@@ -133,24 +133,24 @@ public class CountdownController extends Controller implements TimeyEventListene
 			return;
 		}
 
-		final TimeDescriptor timeDescriptor = new TimeDescriptor(millis);
-
 		countdownRunning = true;
-		countdownStartButton.setVisible(false);
-		countdownStopButton.setVisible(true);
-		countdownStopButton.requestFocus();
-
-		transferTimeFromInputToLabel();
-		enableTimeInput(false);
-
-		final ITimey facade = getGuiHelper().getFacade();
-		facade.setCountdownTime(timeDescriptor);
-		facade.startCountdown();
 
 		final Task<Void> task = new Task<Void>() {
 			private static final long SLEEP_TIME = 100L;
 
 			public Void call() throws InterruptedException {
+				final TimeDescriptor timeDescriptor = new TimeDescriptor(millis);
+
+				final ITimey facade = getGuiHelper().getFacade();
+				facade.setCountdownTime(timeDescriptor);
+				facade.startCountdown();
+
+				countdownStartButton.setVisible(false);
+				countdownStopButton.setVisible(true);
+				countdownStopButton.requestFocus();
+				transferTimeFromInputToLabel();
+				enableTimeInput(false);
+
 				while (countdownRunning) {
 					countdownValue = timeDescriptor.getMilliSeconds();
 					updateMessage(timeFormatter.format(getMillisRoundedToWholeSeconds(countdownValue)));
@@ -172,10 +172,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 			}
 		});
 
-		final Thread thread = new Thread(task);
-		thread.setDaemon(true);
-		thread.setPriority(Thread.MIN_PRIORITY);
-		thread.start();
+		getGuiHelper().runInThread(task, resources);
 	}
 
 	/**
@@ -187,20 +184,25 @@ public class CountdownController extends Controller implements TimeyEventListene
 			return;
 		}
 
-		if (countdownExpired) {
-			countdownValue = 0;
-		} else {
-			getGuiHelper().getFacade().stopCountdown();
-		}
-
 		countdownRunning = false;
 
-		countdownTimePicker.setTime(new LocalTime(getMillisRoundedToWholeSeconds(countdownValue), DateTimeZone.UTC));
+		getGuiHelper().runInThread(new Task<Void>() {
+			public Void call() throws InterruptedException {
+				if (countdownExpired) {
+					countdownValue = 0;
+				} else {
+					getGuiHelper().getFacade().stopCountdown();
+				}
 
-		countdownStartButton.setVisible(true);
-		countdownStartButton.requestFocus();
-		countdownStopButton.setVisible(false);
-		enableTimeInput(true);
+				countdownTimePicker.setTime(new LocalTime(getMillisRoundedToWholeSeconds(countdownValue), DateTimeZone.UTC));
+				countdownStartButton.setVisible(true);
+				countdownStartButton.requestFocus();
+				countdownStopButton.setVisible(false);
+				enableTimeInput(true);
+
+				return null;
+			}
+		}, resources);
 	}
 
 	/**
