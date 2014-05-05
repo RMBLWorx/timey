@@ -111,28 +111,32 @@ public class GuiHelper {
 	 * @param i18n ResourceBundle
 	 */
 	public final void showMessageDialog(final String title, final String text, final ResourceBundle i18n) {
-		try {
-			final Stage stage = new Stage(StageStyle.UTILITY);
-			final Parent root = FXMLLoader.load(getClass().getResource("MessageDialog.fxml"), i18n);
+		Platform.runLater(new Runnable() {
+			public void run() {
+				try {
+					final Stage stage = new Stage(StageStyle.UTILITY);
+					final Parent root = FXMLLoader.load(getClass().getResource("MessageDialog.fxml"), i18n);
 
-			final Label message = (Label) root.lookup("#message");
-			message.setText(text);
+					final Label message = (Label) root.lookup("#message");
+					message.setText(text);
 
-			final Button okButton = (Button) root.lookup("#okButton");
-			okButton.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(final ActionEvent event) {
-					stage.close();
+					final Button okButton = (Button) root.lookup("#okButton");
+					okButton.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(final ActionEvent event) {
+							stage.close();
+						}
+					});
+
+					stage.setScene(new Scene(root));
+					stage.setTitle(title);
+					stage.setResizable(false);
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.showAndWait();
+				} catch (final IOException e) {
+					e.printStackTrace();
 				}
-			});
-
-			stage.setScene(new Scene(root));
-			stage.setTitle(title);
-			stage.setResizable(false);
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
+			}
+		});
 	}
 
 	/**
