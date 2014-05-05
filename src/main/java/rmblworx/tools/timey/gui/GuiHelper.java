@@ -82,16 +82,6 @@ public class GuiHelper {
 	}
 
 	/**
-	 * Zeigt einen Hinweis in einem modalen Dialog an.
-	 * @param caption Titel
-	 * @param text Text
-	 * @param i18n ResourceBundle
-	 */
-	public void showDialogMessage(final String caption, final String text, final ResourceBundle i18n) {
-		showMessageDialog(caption, text, i18n);
-	}
-
-	/**
 	 * Zeigt einen Hinweis im System-Tray an.
 	 * @param caption Titel
 	 * @param text Text
@@ -105,12 +95,12 @@ public class GuiHelper {
 	}
 
 	/**
-	 * Zeigt ein modales Hinweisfenster.
+	 * Zeigt einen Hinweis in einem modalen Dialog an.
 	 * @param title Fenstertitel
 	 * @param text Text
 	 * @param i18n ResourceBundle
 	 */
-	public final void showMessageDialog(final String title, final String text, final ResourceBundle i18n) {
+	public void showDialogMessage(final String title, final String text, final ResourceBundle i18n) {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				try {
@@ -152,12 +142,8 @@ public class GuiHelper {
 
 		audioPlayer.playInThread(path, new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(final Thread thread, final Throwable exception) {
-				Platform.runLater(new Runnable() {
-					public void run() {
-						showDialogMessage(i18n.getString("messageDialog.error.title"),
-								String.format(i18n.getString("sound.play.error"), exception.getLocalizedMessage()), i18n);
-					}
-				});
+				showDialogMessage(i18n.getString("messageDialog.error.title"),
+						String.format(i18n.getString("sound.play.error"), exception.getLocalizedMessage()), i18n);
 			}
 		});
 	}
@@ -173,11 +159,7 @@ public class GuiHelper {
 		thread.setPriority(Thread.MIN_PRIORITY);
 		thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(final Thread thread, final Throwable exception) {
-				Platform.runLater(new Runnable() {
-					public void run() {
-						showDialogMessage(i18n.getString("messageDialog.error.title"), exception.getLocalizedMessage(), i18n);
-					}
-				});
+				showDialogMessage(i18n.getString("messageDialog.error.title"), exception.getLocalizedMessage(), i18n);
 			}
 		});
 		thread.start();
