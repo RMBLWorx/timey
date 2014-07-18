@@ -61,14 +61,14 @@ public final class TimeyFacade implements ITimey {
 	 * Standardkonstruktor.
 	 */
 	public TimeyFacade() {
-		LOG.error("loading");
+		LOG.info("loading spring-timey-context");
 		try {
 			this.springContext = new ClassPathXmlApplicationContext("spring-timey-context.xml");
 		} catch (final BeansException e) {
 			LOG.error(e.getMessage());
 			throw e;
 		}
-		LOG.error("loaded");
+		LOG.info("spring-timey-context loaded");
 	}
 
 	private void intiTimeyEventDispathcerContext() {

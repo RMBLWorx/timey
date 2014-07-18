@@ -33,7 +33,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/alarm-spring-timey-context.xml" })
 public class AlarmTest {
 
 	private static final long EXPECTED_MILLISECONDS = 100;
