@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey;
 
@@ -27,7 +27,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/stopwatch-spring-timey-context.xml" })
 public class SimpleTimerTest {
 	@Autowired
 	ApplicationContext springContext;
@@ -43,7 +43,7 @@ public class SimpleTimerTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.timer = new SimpleTimer(this.mockedDescriptor);
-		this.timer.setApplicationContext(springContext);
+		this.timer.setApplicationContext(this.springContext);
 	}
 
 	/**

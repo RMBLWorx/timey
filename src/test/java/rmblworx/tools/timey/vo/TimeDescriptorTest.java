@@ -14,11 +14,11 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 
 /**
  * Testklasse die das Wertobjekt zum kapseln der Zeitwerte testet.
- * 
+ *
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/alarm-spring-timey-context.xml" })
 public class TimeDescriptorTest {
 
 	/**

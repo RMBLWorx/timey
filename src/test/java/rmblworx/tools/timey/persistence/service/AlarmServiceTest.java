@@ -24,7 +24,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/alarm-spring-timey-context.xml" })
 public class AlarmServiceTest {
 
 	private static final int EXPECTED_MILLISECONDS = 1000;
@@ -72,9 +72,9 @@ public class AlarmServiceTest {
 		final AlarmDescriptor alarm = new AlarmDescriptor(new TimeDescriptor(0), true, "Text", null, null);
 
 		try {
-			assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, service.create(alarm));
+			assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(alarm));
 			boolean found = false;
-			for (final AlarmDescriptor ad : service.getAll()) {
+			for (final AlarmDescriptor ad : this.service.getAll()) {
 				if (ad.getSound() == null) {
 					found = true;
 					break;
@@ -82,7 +82,7 @@ public class AlarmServiceTest {
 			}
 			assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, found);
 		} finally {
-			service.delete(alarm);
+			this.service.delete(alarm);
 		}
 	}
 
