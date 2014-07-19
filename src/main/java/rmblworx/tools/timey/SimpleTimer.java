@@ -44,6 +44,8 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	 */
 	private ApplicationContext springContext;
 
+	private TimerRunnable timer;
+
 	/**
 	 * Konstruktor. Erfordert die Referenz auf das Werteobjekt, welches den
 	 * Wert an die GUI liefern wird.
@@ -82,13 +84,13 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	public TimeDescriptor startStopwatch(final int delayPerThread, final TimeUnit timeUnit) {
 		if (delayPerThread < 1) {
 			throw new ValueMinimumArgumentException();
-		} else if (timeUnit == null){
+		} else if (timeUnit == null) {
 			throw new NullArgumentException();
 		}
-		final TimerRunnable timer = (TimerRunnable) this.springContext.getBean("timerRunnable", this.timeDescriptor, this.timePassed);
+		this.timer = (TimerRunnable) this.springContext.getBean("timerRunnable", this.timeDescriptor, this.timePassed);
 
 		this.scheduler = Executors.newScheduledThreadPool(THREAD_POOL_SIZE);
-		this.timerFuture = this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
+		this.timerFuture = this.scheduler.scheduleAtFixedRate(this.timer, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
 	}
@@ -110,5 +112,10 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	@Override
 	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
+	}
+
+	@Override
+	public void toggleTimeModeInStopwatch() {
+		this.timer.toggleTimeMode();
 	}
 }

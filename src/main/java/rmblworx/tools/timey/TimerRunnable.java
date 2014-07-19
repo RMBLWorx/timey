@@ -8,6 +8,8 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 class TimerRunnable extends TimeyTimeRunnable implements Runnable {
+	private boolean isTimeModeActive = false;
+
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in
@@ -30,7 +32,9 @@ class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		final long currentTimeMillis = System.currentTimeMillis();
 
 		this.timeDelta = currentTimeMillis - this.timeStarted;
-		this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
+		if(!this.isTimeModeActive){
+			this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
+		}
 	}
 
 	@Override
@@ -43,4 +47,7 @@ class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		}
 	}
 
+	public void toggleTimeMode() {
+		this.isTimeModeActive = this.isTimeModeActive ? false : true;
+	}
 }
