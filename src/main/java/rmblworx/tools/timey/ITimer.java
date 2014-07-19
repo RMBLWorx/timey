@@ -6,14 +6,14 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Stoppuhr-Objekts.
- * 
+ *
  * @author mmatthies
  */
 interface ITimer {
 
 	/**
 	 * Setzt die Stoppuhr auf Null.
-	 * 
+	 *
 	 * @return true wenn die Uhr erfolgreich auf Anfang gesetzt werden konnte sonst false.
 	 */
 	Boolean resetStopwatch();
@@ -42,7 +42,8 @@ interface ITimer {
 
 	/**
 	 * Versetzt beim ersten Aufruf die Stoppuhr in den TIME-Modus (Zwischenzeitmodus). Die im TimeDescriptor gelieferte Zeit wird eingefroren und die Zeitnahme im Hintergrund fortgefuehrt. Beim erneuten Aufruf liefert die Methode wieder die aktuelle Zeitmessung.
+	 * @return true wenn Time-Modus aktiviert sonst false.
 	 */
-	void toggleTimeModeInStopwatch();
+	Boolean toggleTimeModeInStopwatch();
 
 }

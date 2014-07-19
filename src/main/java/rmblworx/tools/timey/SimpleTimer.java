@@ -115,7 +115,7 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	}
 
 	@Override
-	public void toggleTimeModeInStopwatch() {
-		this.timer.toggleTimeMode();
+	public Boolean toggleTimeModeInStopwatch() {
+		return this.timer.toggleTimeMode();
 	}
 }

@@ -47,7 +47,8 @@ class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		}
 	}
 
-	public void toggleTimeMode() {
+	public Boolean toggleTimeMode() {
 		this.isTimeModeActive = this.isTimeModeActive ? false : true;
+		return this.isTimeModeActive;
 	}
 }

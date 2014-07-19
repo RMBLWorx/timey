@@ -192,4 +192,10 @@ public final class TimeyFacade implements ITimey {
 		this.initStopwatchContext();
 		return this.stopwatchClient.initStopwatchStopCommand();
 	}
+
+	@Override
+	public Boolean toggleTimeModeInStopwatch() {
+		this.initStopwatchContext();
+		return this.stopwatchClient.initStopwatchToggleTimeModeCommand();
+	}
 }
