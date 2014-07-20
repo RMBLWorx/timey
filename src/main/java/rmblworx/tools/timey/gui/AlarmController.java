@@ -318,7 +318,21 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	 * Aktualisiert den Inhalt der Tabelle.
 	 */
 	private void refreshTable() {
+		refreshTable(true);
+	}
+
+	/**
+	 * Aktualisiert den Inhalt der Tabelle.
+	 * @param preserveSelection Ob die Auswahl erhalten bleiben soll.
+	 */
+	private void refreshTable(final boolean preserveSelection) {
+		final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
+
 		FXCollections.sort(alarmTable.getItems());
+
+		if (preserveSelection) {
+			alarmTable.getSelectionModel().select(selectedIndex);
+		}
 	}
 
 	/**
@@ -359,11 +373,9 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 				final ObservableList<Alarm> tableData = alarmTable.getItems();
 				tableData.clear();
-				for (final Alarm alarm : alarms) {
-					tableData.add(alarm);
-				}
+				tableData.addAll(alarms);
 
-				refreshTable();
+				refreshTable(false);
 				alarmTable.getSelectionModel().select(selectedIndex);
 				hideProgress();
 

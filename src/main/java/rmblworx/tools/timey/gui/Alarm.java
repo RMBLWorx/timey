@@ -89,4 +89,24 @@ public class Alarm implements Comparable<Alarm> {
 		return getDateTime().toDateTime().getMillis() > other.getDateTime().toDateTime().getMillis() ? 1 : -1;
 	}
 
+	/*
+	 * Die "<Attribut>Property"-Methoden sorgen dafür, dass die Änderungen beim Bearbeiten eines Alarms korrekt in der Alarm-Tabelle
+	 * dargestellt werden. Siehe http://stackoverflow.com/questions/11065140/javafx-2-1-tableview-refresh-items/24194842#24194842.
+	 */
+	public BooleanProperty enabledProperty() {
+		return enabled;
+	}
+
+	public ObjectProperty<LocalDateTime> dateTimeProperty() {
+		return dateTime;
+	}
+
+	public StringProperty descriptionProperty() {
+		return description;
+	}
+
+	public StringProperty soundProperty() {
+		return sound;
+	}
+
 }
