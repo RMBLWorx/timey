@@ -2,10 +2,15 @@ package rmblworx.tools.timey.persistence.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import rmblworx.tools.timey.event.AlarmsModifiedEvent;
+import rmblworx.tools.timey.event.TimeyEventDispatcher;
 import rmblworx.tools.timey.persistence.dao.IAlarmDao;
 import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
@@ -18,22 +23,35 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 @Service
 @Transactional
-public class AlarmService implements IAlarmService {
+public class AlarmService implements IAlarmService, ApplicationContextAware {
 
 	/**
 	 * Referenz auf das Datenzugriffsobjekt.
 	 */
 	@Autowired
 	private IAlarmDao dao;
+	private TimeyEventDispatcher eventDispatcher;
 
 	@Override
 	public Boolean create(final AlarmDescriptor descriptor) {
-		return this.getDao().createAlarm(descriptor);
+		Boolean result;
+		result = this.getDao().createAlarm(descriptor);
+		this.fireAlarmModifiedEvent();
+
+		return result;
+	}
+
+	private void fireAlarmModifiedEvent() {
+		this.eventDispatcher.dispatchEvent(new AlarmsModifiedEvent());
 	}
 
 	@Override
 	public Boolean delete(final AlarmDescriptor descriptor) {
-		return this.getDao().deleteAlarm(descriptor);
+		Boolean result;
+		result = this.getDao().deleteAlarm(descriptor);
+		this.fireAlarmModifiedEvent();
+
+		return result;
 	}
 
 	@Override
@@ -50,11 +68,25 @@ public class AlarmService implements IAlarmService {
 
 	@Override
 	public Boolean isActivated(final AlarmDescriptor descriptor) {
-		return this.dao.isActivated(descriptor);
+		Boolean result;
+		result = this.dao.isActivated(descriptor);
+		this.fireAlarmModifiedEvent();
+
+		return result;
 	}
 
 	@Override
 	public Boolean setState(final AlarmDescriptor descriptor, final Boolean isActivated) {
-		return this.dao.setIsActivated(descriptor, isActivated);
+		Boolean result;
+		result = this.dao.setIsActivated(descriptor, isActivated);
+		this.fireAlarmModifiedEvent();
+
+		return result;
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		final ApplicationContext springContext = applicationContext;
+		this.eventDispatcher = (TimeyEventDispatcher) springContext.getBean("timeyEventDispatcher");
 	}
 }

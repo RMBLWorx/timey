@@ -18,7 +18,6 @@ public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationC
 	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
 	 */
 	private final long timeCountdown;
-	private ApplicationContext springContext;
 	private TimeyEventDispatcher eventDispatcher;
 	private boolean wasEventFired = false;
 
@@ -67,7 +66,7 @@ public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationC
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
-		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
+		final ApplicationContext springContext = applicationContext;
+		this.eventDispatcher = (TimeyEventDispatcher) springContext.getBean("timeyEventDispatcher");
 	}
 }

@@ -8,8 +8,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import rmblworx.tools.timey.event.AlarmExpiredEvent;
-import rmblworx.tools.timey.event.TimeyEventDispatcher;
+import rmblworx.tools.timey.event.*;
 import rmblworx.tools.timey.persistence.service.IAlarmService;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
@@ -18,8 +17,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * 
  * @author mmatthies
  */
-public class AlarmRunnable implements Runnable, ApplicationContextAware {
-	private ApplicationContext springContext;
+public class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventListener {
 	private TimeyEventDispatcher eventDispatcher;
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
@@ -27,6 +25,7 @@ public class AlarmRunnable implements Runnable, ApplicationContextAware {
 	private final Lock lock = new ReentrantLock();
 	private IAlarmService alarmService;
 	private List<AlarmDescriptor> allAlarms;
+	private boolean newOrModifiedAlarmsAvailable = false;
 
 	/**
 	 */
@@ -52,8 +51,11 @@ public class AlarmRunnable implements Runnable, ApplicationContextAware {
 		Thread.currentThread().setName("timey-Alarm");
 		this.lock.lock();
 		try {
-			// alarme aus der db holen
-			this.allAlarms = this.alarmService.getAll();
+			// alarme aus der db
+			if(this.allAlarms == null || this.newOrModifiedAlarmsAvailable){
+				this.allAlarms = this.alarmService.getAll();
+				this.newOrModifiedAlarmsAvailable = false;
+			}
 			// alarme abgleichen mit aktueller Systemzeit
 			final AlarmDescriptor result = this.detectAlarm();
 			if (result != null) {
@@ -68,8 +70,16 @@ public class AlarmRunnable implements Runnable, ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
-		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
-		this.alarmService = (IAlarmService) this.springContext.getBean("alarmService");
+		final ApplicationContext springContext = applicationContext;
+		this.eventDispatcher = (TimeyEventDispatcher) springContext.getBean("timeyEventDispatcher");
+		this.eventDispatcher.addEventListener(this);
+		this.alarmService = (IAlarmService) springContext.getBean("alarmService");
+	}
+
+	@Override
+	public void handleEvent(final TimeyEvent timeyEvent) {
+		if(timeyEvent instanceof AlarmsModifiedEvent){
+			this.newOrModifiedAlarmsAvailable = true;
+		}
 	}
 }

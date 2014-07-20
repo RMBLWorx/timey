@@ -10,7 +10,7 @@
 			<!--Eselsbruecke: (ALL)e Level von (TRACE) - bis (DEBUG) -->
 			<!-- Die Reihenfolge der Level: -->
 			<!-- ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF -->
-			<param name="levelMin" value="INFO" />
+			<param name="levelMin" value="ERROR" />
 			<param name="levelMax" value="FATAL" />
 		</filter>
 	</appender>

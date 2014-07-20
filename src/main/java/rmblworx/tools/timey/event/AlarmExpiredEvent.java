@@ -3,7 +3,7 @@ package rmblworx.tools.timey.event;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
- * Informiert den Listener ueber den Ablauf eines Countdowns.
+ * Informiert den Listener ueber den Ablauf eines Alarms.
  * 
  * @author mmatthies
  */
