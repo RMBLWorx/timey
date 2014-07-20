@@ -10,7 +10,6 @@ import java.util.List;
  * @author mmatthies
  */
 public class TimeyEventDispatcher {
-	private static TimeyEventDispatcher instance;
 	/**
 	 * Liste aller registrierten Event-Listener.
 	 */
@@ -50,18 +49,4 @@ public class TimeyEventDispatcher {
 		}
 	}
 
-	/*
-	 * TODO
-	 * Diese Fabrikmethode dient derzeit als Workaround. Da die getrennten ApplicationContexte jedesmal eine eigene
-	 * EventDispatcher-Instanz bilden wird dies hiermit explizit unterbunden. Der saubere Ansatz waere den
-	 * EventDispatcher in einer Parent xml zu deklarieren und in den jeweiligen Alarm- und Countdown-Spring-XML's darauf
-	 * zu referenzieren - folgt noch
-	 */
-	public static synchronized TimeyEventDispatcher getInstance() {
-		if (instance == null) {
-			instance = new TimeyEventDispatcher();
-		}
-
-		return instance;
-	}
 }

@@ -18,7 +18,7 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/alarm-spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/spring-timey-context.xml", "/alarm-spring-timey-context.xml" })
 public class TimeDescriptorTest {
 
 	/**

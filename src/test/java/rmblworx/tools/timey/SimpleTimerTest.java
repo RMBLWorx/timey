@@ -27,7 +27,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/stopwatch-spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/spring-timey-context.xml", "/stopwatch-spring-timey-context.xml" })
 public class SimpleTimerTest {
 	@Autowired
 	ApplicationContext springContext;

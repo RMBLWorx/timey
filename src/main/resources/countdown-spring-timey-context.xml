@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-<import resource="event-spring-timey-context.xml" />
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="countdownReceiver" name="countdown" class="rmblworx.tools.timey.Countdown">
 		<constructor-arg value="1" index="0" />

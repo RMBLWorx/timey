@@ -6,7 +6,6 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<import resource="event-spring-timey-context.xml" />
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="alarmReceiver" name="alarm" class="rmblworx.tools.timey.Alarm">
 		<constructor-arg ref="alarmService" index="0" />

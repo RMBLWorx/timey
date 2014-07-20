@@ -10,6 +10,10 @@
 		class="rmblworx.tools.timey.JarVersionDetector" scope="singleton">
 	</bean>
 
+	<bean id="timeyEventDispatcher" name="timeyEventDispatcher"
+		class="rmblworx.tools.timey.event.TimeyEventDispatcher" scope="singleton">
+	</bean>
+
 	<!-- Konzept - Quelle: https://github.com/nydi/spring-practice -->
 	<!-- AOP config -->
 	<aop:aspectj-autoproxy />
