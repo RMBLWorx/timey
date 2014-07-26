@@ -16,7 +16,7 @@
 
 	<!-- Konzept - Quelle: https://github.com/nydi/spring-practice -->
 	<!-- AOP config -->
-	<aop:aspectj-autoproxy />
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<!-- declarative chained interceptor -->
 	<bean id="debugInterceptorWithComposite" class="ch.nydi.aop.interceptor.CompositeInterceptor">
@@ -36,8 +36,9 @@
 		<!-- <aop:advisor advice-ref="debugInterceptor" -->
 		<!-- pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" 
 			/> -->
+			
 		<aop:advisor advice-ref="debugInterceptorWithComposite"
-			pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" />
+						pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" />
 	</aop:config>
 
 </beans>

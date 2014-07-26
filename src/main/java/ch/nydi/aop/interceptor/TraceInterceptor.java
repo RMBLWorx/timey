@@ -1,6 +1,6 @@
 /*
  * Modified by mmatthies.
- * 
+ *
  * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,12 +26,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Logs the the arguments and the return value of a method invocation.
- * 
+ *
  * @author Daniel Nydegger
  */
 public class TraceInterceptor implements MethodInterceptor {
 
-	private final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(TraceInterceptor.class);
 
 	private String flattenArgument(Object argument) {
 		if (null == argument) {

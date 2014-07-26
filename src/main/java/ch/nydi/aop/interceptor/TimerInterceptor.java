@@ -1,6 +1,6 @@
 /*
  * Modified by mmatthies.
- * 
+ *
  * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,12 +26,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Measures the time of a invocation in nanoseconds.
- * 
+ *
  * @author Daniel Nydegger
  */
 public class TimerInterceptor implements MethodInterceptor {
 
-	private final Logger logger = LoggerFactory.getLogger(TraceInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
 
 	/**
 	 * {@inheritDoc}
@@ -50,7 +50,7 @@ public class TimerInterceptor implements MethodInterceptor {
 		finally {
 			chronometer.stop();
 			final StringBuilder builder = new StringBuilder();
-			builder.append("duration of ").append(invocation.getMethod().getName()).append(" [ns]: ").append(
+			builder.append("duration of ").append(invocation.getThis().getClass().getSimpleName()).append(".").append(invocation.getMethod().getName()).append(" [ns]: ").append(
 					chronometer.getTime(TimeUnit.NANOSECONDS));
 			this.logger.debug(builder.toString());
 		}
