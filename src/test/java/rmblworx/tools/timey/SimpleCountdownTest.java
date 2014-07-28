@@ -20,7 +20,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/countdown-spring-timey-context.xml" })
+@ContextConfiguration(locations = { "/spring-timey-context.xml", "/countdown-spring-timey-context.xml" })
 public class SimpleCountdownTest {
 
 	private static final long COUNTDOWN_START = 10000L;
