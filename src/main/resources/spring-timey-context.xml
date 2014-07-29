@@ -37,9 +37,9 @@
 		<!-- pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" 
 			/> -->
 		<aop:pointcut id="runnablesFiltered"
-			expression="execution(public * rmblworx.tools.timey.*.*(..)) and !bean(alarmRunnable) and !bean(timerRunnable) and !bean(countdownRunnable)" />
+			expression="execution(public * rmblworx.tools.timey.*.*.*(..)) and !bean(alarmRunnable) and !bean(timerRunnable) and !bean(countdownRunnable)" />
 		<aop:pointcut id="unfiltered"
-			expression="execution(public * rmblworx.tools.timey.*.*(..))" />
+			expression="execution(public * rmblworx.tools.timey.*.*.*(..))" />
 
 		<!-- Achtung im folgenden advisor wird der Pointcut zum herausfiltern aller 
 			Methodenaufrufe innerhalb der AlarmRunnable, TimerRunnable und CountdownRunnable 
