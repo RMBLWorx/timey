@@ -1,9 +1,8 @@
 package rmblworx.tools.timey.vo;
 
-
 /**
  * Werteobjekt zur Beschreibung eines Alarms.
- * 
+ *
  * @author mmatthies
  */
 public class AlarmDescriptor {
@@ -30,7 +29,7 @@ public class AlarmDescriptor {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param timeDescriptor
 	 *            Beschreibung des Alarmzeitpunktes
 	 * @param isActive
@@ -89,5 +88,30 @@ public class AlarmDescriptor {
 
 	public void setAlarmtime(final TimeDescriptor timeDescriptor) {
 		this.alarmtime = timeDescriptor;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(1024);
+		String result;
+		sb.append("AlarmDescriptor-State:");
+		sb.append("Description:");
+		sb.append(this.description);
+		sb.append(",");
+		sb.append("isActive:");
+		sb.append(this.isActive);
+		sb.append(",");
+		sb.append("Snooze:");
+		sb.append(this.snooze);
+		sb.append(",");
+		sb.append("Sound:");
+		sb.append(this.sound);
+		sb.append(",");
+		sb.append("Alarmtime:");
+		sb.append(this.alarmtime);
+		result = sb.toString();
+		sb = null;
+
+		return result;
 	}
 }

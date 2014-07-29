@@ -2,7 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
 <log4j:configuration>
 	<!--Appender zur Ausgabe und zum filtern auf Log-Level-Ebene -->
-	<appender name="debug" class="org.apache.log4j.ConsoleAppender">
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{ABSOLUTE}%6p %c{1}:%L - %m%n" />
 		</layout>
@@ -25,6 +25,6 @@
 	<!--Logger der fuer alle Klassen in allen Packages gilt -->
 	<root>
 		<priority value="error"></priority>
-		<appender-ref ref="debug" />
+		<appender-ref ref="console" />
 	</root>
 </log4j:configuration>
