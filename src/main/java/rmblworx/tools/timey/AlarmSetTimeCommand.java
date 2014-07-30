@@ -5,10 +5,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando zum Setzen der Alarmzeit.
- * 
+ *
  * @author mmatthies
  */
-public class AlarmSetTimeCommand implements ICommand {
+class AlarmSetTimeCommand implements ICommand {
 
 	/**
 	 * Speichert die Empfaenger-Instanz.
@@ -21,7 +21,7 @@ public class AlarmSetTimeCommand implements ICommand {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Empfaengerimplmentierung.
 	 * @param descriptor

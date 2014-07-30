@@ -5,10 +5,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando zum Loeschen eines Alarmzeitpunktes.
- * 
+ *
  * @author "mmatthies"
  */
-public class AlarmDeleteAlarmCommand implements ICommand {
+class AlarmDeleteAlarmCommand implements ICommand {
 
 	/**
 	 * Speichert die Empfaenger-Instanz.
@@ -21,7 +21,7 @@ public class AlarmDeleteAlarmCommand implements ICommand {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Empfaengerimplementierung
 	 * @param descriptor

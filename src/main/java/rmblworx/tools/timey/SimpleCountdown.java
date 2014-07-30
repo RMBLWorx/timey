@@ -19,10 +19,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Implementierung eines einfachen Timer's zum ausfuehren einer Zeitmessung.
- * 
+ *
  * @author mmatthies
  */
-public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
+class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -48,7 +48,7 @@ public class SimpleCountdown implements ICountdownTimer, TimeyEventListener, App
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param timeyEventDispatcher
 	 *            Referenz auf den Event-Dispatcher
 	 */

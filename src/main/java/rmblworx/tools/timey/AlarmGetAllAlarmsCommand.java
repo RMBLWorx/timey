@@ -7,10 +7,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando ermoeglicht das Abrufen aller erfassten Alarmzeitpunkte.
- * 
+ *
  * @author "mmatthies"
  */
-public class AlarmGetAllAlarmsCommand implements ICommand {
+class AlarmGetAllAlarmsCommand implements ICommand {
 
 	/**
 	 * Speichert die Empfaenger-Instanz.
@@ -19,7 +19,7 @@ public class AlarmGetAllAlarmsCommand implements ICommand {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Empfaengerimplementierung
 	 */

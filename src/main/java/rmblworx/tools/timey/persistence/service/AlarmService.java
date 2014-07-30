@@ -15,15 +15,14 @@ import rmblworx.tools.timey.persistence.dao.IAlarmDao;
 import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
-
 /**
  * Serviceimplementierung zur Persistierung von {@link AlarmEntity Alarmzeitpunkt}en.
- * 
+ *
  * @author mmatthies
  */
 @Service
 @Transactional
-public class AlarmService implements IAlarmService, ApplicationContextAware {
+class AlarmService implements IAlarmService, ApplicationContextAware {
 
 	/**
 	 * Referenz auf das Datenzugriffsobjekt.
@@ -31,6 +30,7 @@ public class AlarmService implements IAlarmService, ApplicationContextAware {
 	@Autowired
 	private IAlarmDao dao;
 	private TimeyEventDispatcher eventDispatcher;
+	private ApplicationContext springContext;
 
 	@Override
 	public Boolean create(final AlarmDescriptor descriptor) {
@@ -42,7 +42,9 @@ public class AlarmService implements IAlarmService, ApplicationContextAware {
 	}
 
 	private void fireAlarmModifiedEvent() {
-		this.eventDispatcher.dispatchEvent(new AlarmsModifiedEvent());
+		final AlarmsModifiedEvent alarmsModifiedEvent = (AlarmsModifiedEvent) this.springContext
+				.getBean("alarmsModifiedEvent");
+		this.eventDispatcher.dispatchEvent(alarmsModifiedEvent);
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class AlarmService implements IAlarmService, ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		final ApplicationContext springContext = applicationContext;
-		this.eventDispatcher = (TimeyEventDispatcher) springContext.getBean("timeyEventDispatcher");
+		this.springContext = applicationContext;
+		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 }

@@ -15,10 +15,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Implementierung eines einfachen Timer's zum ausfuehren einer Zeitmessung.
- * 
+ *
  * @author mmatthies
  */
-public class SimpleTimer implements ITimer, ApplicationContextAware {
+class SimpleTimer implements ITimer, ApplicationContextAware {
 
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
@@ -45,7 +45,7 @@ public class SimpleTimer implements ITimer, ApplicationContextAware {
 	/**
 	 * Konstruktor. Erfordert die Referenz auf das Werteobjekt, welches den
 	 * Wert an die GUI liefern wird.
-	 * 
+	 *
 	 * @param descriptor
 	 *            das zu setzende Werteobjekt. Es findet keine Pruefung
 	 *            auf @code{null} statt!
@@ -86,7 +86,7 @@ public class SimpleTimer implements ITimer, ApplicationContextAware {
 		final TimerRunnable timer = (TimerRunnable) this.springContext.getBean("timerRunnable", this.timeDescriptor, this.timePassed);
 
 		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
-		timerFuture = this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
+		this.timerFuture = this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
 	}
@@ -98,7 +98,7 @@ public class SimpleTimer implements ITimer, ApplicationContextAware {
 	@Override
 	public Boolean stopStopwatch() {
 		if (this.scheduler != null) {
-			final TaskStopper stopRunnable = new TaskStopper(scheduler, timerFuture);
+			final TaskStopper stopRunnable = new TaskStopper(this.scheduler, this.timerFuture);
 			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
 		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();

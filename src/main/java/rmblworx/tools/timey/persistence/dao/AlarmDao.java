@@ -20,12 +20,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Data Access Object-Implementierung zum verwalten der Alarmzeiten in timey.
- * 
+ *
  * @author mmatthies
  */
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class AlarmDao implements IAlarmDao {
+class AlarmDao implements IAlarmDao {
 
 	/**
 	 * Logger.
@@ -133,7 +133,7 @@ public class AlarmDao implements IAlarmDao {
 
 	/**
 	 * Liefert das Alarmzeitpunktobjekt das den vom Deskriptor beschriebenen Alarmzeitpunkt enthaelt.
-	 * 
+	 *
 	 * @param descriptor
 	 *            der Alarmzeitpunkt
 	 * @return das Alarmzeitpunktobjekt oder {@code null} wenn nicht gefunden

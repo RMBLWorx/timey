@@ -4,10 +4,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
- * 
+ *
  * @author mmatthies
  */
-public class AlarmClient {
+class AlarmClient {
 	/**
 	 * Speichert die Empfaenger-Instanz.
 	 */
@@ -15,7 +15,7 @@ public class AlarmClient {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz auf die Empfaenger-Instanz.
 	 */

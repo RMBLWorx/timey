@@ -3,10 +3,10 @@ package rmblworx.tools.timey;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
-public class TaskStopper implements Runnable {
+class TaskStopper implements Runnable {
 
-	private ScheduledFuture<?> future;
-	private ScheduledExecutorService scheduler;
+	private final ScheduledFuture<?> future;
+	private final ScheduledExecutorService scheduler;
 
 	public TaskStopper(final ScheduledExecutorService scheduler, final ScheduledFuture<?> taskToStopFuture) {
 		this.future = taskToStopFuture;

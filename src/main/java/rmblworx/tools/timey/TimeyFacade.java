@@ -16,7 +16,8 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
- * Fassade fuer das System timey.
+ * Fassade fuer das Backendsystem von timey. Bietet das API fuer saemtliche fuer das Frontend (GUI-Implementierung)
+ * relevanten timey-Funktionen an.
  *
  * @author mmatthies
  */
@@ -51,7 +52,7 @@ public final class TimeyFacade implements ITimey {
 	/**
 	 * Verwaltet die sich registrierenden Listener und erzeugt die Events.
 	 */
-	private TimeyEventDispatcher eventDispatcher;
+	private final TimeyEventDispatcher eventDispatcher;
 	private ApplicationContext countdownSpringContext;
 	private ApplicationContext stopwatchSpringContext;
 	private ApplicationContext alarmSpringContext;
@@ -68,19 +69,20 @@ public final class TimeyFacade implements ITimey {
 			throw e;
 		}
 		LOG.info("spring-timey-context loaded");
-		eventDispatcher = (TimeyEventDispatcher) springContext.getBean("timeyEventDispatcher");
+		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 
 	private void initJarversionDetectorContext() {
-		if(this.jarVersionDetector==null) {
+		if (this.jarVersionDetector == null) {
 			this.jarVersionDetector = (JarVersionDetector) this.springContext.getBean("jarVersionDetector");
 		}
 	}
 
 	private void intiCountdownContext() {
-		if(this.countdownClient==null) {
+		if (this.countdownClient == null) {
 			try {
-				this.countdownSpringContext = new ClassPathXmlApplicationContext(new String[]{"countdown-spring-timey-context.xml"}, springContext);
+				this.countdownSpringContext = new ClassPathXmlApplicationContext(
+						new String[] { "countdown-spring-timey-context.xml" }, this.springContext);
 			} catch (final BeansException e) {
 				LOG.error(e.getMessage());
 				throw e;
@@ -90,9 +92,10 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	private void initStopwatchContext() {
-		if(this.stopwatchClient==null) {
+		if (this.stopwatchClient == null) {
 			try {
-				this.stopwatchSpringContext = new ClassPathXmlApplicationContext(new String[]{"stopwatch-spring-timey-context.xml"}, springContext);
+				this.stopwatchSpringContext = new ClassPathXmlApplicationContext(
+						new String[] { "stopwatch-spring-timey-context.xml" }, this.springContext);
 			} catch (final BeansException e) {
 				LOG.error(e.getMessage());
 				throw e;
@@ -102,9 +105,10 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	private void initAlarmContext() {
-		if(this.alarmClient==null) {
+		if (this.alarmClient == null) {
 			try {
-				this.alarmSpringContext = new ClassPathXmlApplicationContext(new String[]{"alarm-spring-timey-context.xml"}, springContext);
+				this.alarmSpringContext = new ClassPathXmlApplicationContext(
+						new String[] { "alarm-spring-timey-context.xml" }, this.springContext);
 			} catch (final BeansException e) {
 				LOG.error(e.getMessage());
 				throw e;

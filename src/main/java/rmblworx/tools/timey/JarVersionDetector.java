@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey;
 
@@ -32,15 +32,15 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 /**
  * Diese Implementierung ermöglicht das Auslesen der Attribute Bundle-Version und/oder Implementation-Version aus dem
  * Manifest einer zu findenden Jar-Datei. Gesucht wird hierbei im Verzeichnis in welchem timey ausgefuehrt wird.
- * 
+ *
  * @author mmatthies
  */
-public class JarVersionDetector {
+class JarVersionDetector {
 
 	/**
 	 * Ein {@code FileVisitor} welcher alle Dateien findet, die zum anzugebenen
 	 * glob-Pattern passen.
-	 * 
+	 *
 	 * @see {@code http://docs.oracle.com/javase/javatutorials/tutorial/essential/io/fileOps.html#glob}
 	 * @author mmatthies
 	 */
@@ -57,7 +57,7 @@ public class JarVersionDetector {
 
 		/**
 		 * Erweiterter Konstruktor zur Angabe eines glob-Pattern.
-		 * 
+		 *
 		 * @param pattern
 		 *            Ausdruck.
 		 */
@@ -67,7 +67,7 @@ public class JarVersionDetector {
 
 		/**
 		 * Prueft ob das Path-Objekt zur Datei dem gegebenen Pattern entspricht.
-		 * 
+		 *
 		 * @param file
 		 *            zu pruefendes Path-Objekt.
 		 */
@@ -81,7 +81,7 @@ public class JarVersionDetector {
 
 		/**
 		 * Liefert die gefundenen Dateien.
-		 * 
+		 *
 		 * @return unveraenderliche Liste mit gefundenen Dateien oder eine leere
 		 *         Liste.
 		 */
@@ -129,7 +129,7 @@ public class JarVersionDetector {
 	/**
 	 * Versucht die angegebene Jar-Datei im Verzeichnis in welchem diese Anwendung ausgefuehrt wird zu finden und die
 	 * Versionsnummer aus dem Manifest zu lesen.
-	 * 
+	 *
 	 * @param jarFilename
 	 *            Name des jar-Archivs inklusive Dateiendung. Die Uebergabe in Form eines glob-Pattern ist ebenso
 	 *            moeglich.
@@ -188,7 +188,7 @@ public class JarVersionDetector {
 	 * Vom aktuellen Verzeichnis in welchem die Anwendung gerade ausgefuehrt
 	 * wird, liefert diese Hilfsmethode den Pfad zu jenen Dateien, die zum
 	 * uebergebenen Muster passen.
-	 * 
+	 *
 	 * @param pattern
 	 *            das glob-Pattern - siehe hierzu {@link Finder}.
 	 * @return unveraenderliche Liste von {@code Path}-Objekten oder leere
@@ -201,7 +201,7 @@ public class JarVersionDetector {
 	 *             oder wenn {@code null} adressiert wird.
 	 */
 	private List<Path> getPathToJar(final String pattern) throws IOException, EmptyArgumentException,
-			NullArgumentException {
+	NullArgumentException {
 
 		if (pattern == null) {
 			throw new NullArgumentException();

@@ -4,10 +4,10 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
  * Kommandoimplementierung zum stoppen eines Countdowns.
- * 
+ *
  * @author "mmatthies"
  */
-public class CountdownStopCommand implements ICommand {
+class CountdownStopCommand implements ICommand {
 
 	/**
 	 * Referenz der Empfaengerimplementierung.
@@ -16,7 +16,7 @@ public class CountdownStopCommand implements ICommand {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz der Empfaengerimplementierung
 	 */

@@ -7,14 +7,14 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
- * 
+ *
  * @author mmatthies
  * @see AlarmEntity
  */
 public interface IAlarmService {
 	/**
 	 * Persistiert den Alarmzeitpunkt.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Referenz auf das Objekt das den Alarmzeitpunkt beschreibt
 	 * @return true wenn erfolgreich sonst false
@@ -23,7 +23,7 @@ public interface IAlarmService {
 
 	/**
 	 * Entfernt den Alarmzeitpunkt aus der Datenbank.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
@@ -32,14 +32,14 @@ public interface IAlarmService {
 
 	/**
 	 * Liefert alle Alarmzeitpunkte in der Datenbank.
-	 * 
+	 *
 	 * @return unveraenderliche Liste mit allen Alarmzeitpunkten oder leere Liste
 	 */
 	List<AlarmDescriptor> getAll();
 
 	/**
 	 * Liefert die Aussage ob der Alarmzeitpunkt aktiv oder inaktiv ist.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Zeitobjekt das den Alarmzeitpunkt beschreibt
 	 * @return true wenn aktiv sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
@@ -48,7 +48,7 @@ public interface IAlarmService {
 
 	/**
 	 * Setzt den Alarmzeitpunkt auf den uebergebenen Status in der Datenbank.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Alarmzeitpunkt.
 	 * @param isActivated

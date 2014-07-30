@@ -14,10 +14,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Diese Implementierung dient der Steuerung des Alarmsystems.
- * 
+ *
  * @author mmatthies
  */
-public class Alarm implements IAlarm, ApplicationContextAware {
+class Alarm implements IAlarm, ApplicationContextAware {
 
 	/**
 	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
@@ -30,7 +30,7 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param service
 	 *            Von dieser Klasse zu verwendende Serviceimplementierung
 	 * @param delay

@@ -5,10 +5,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Kommando zum Aktivieren eines Alarmzeitpunktes.
- * 
+ *
  * @author "mmatthies"
  */
-public class AlarmSetStateOfAlarmCommand implements ICommand {
+class AlarmSetStateOfAlarmCommand implements ICommand {
 
 	/**
 	 * Speichert die Empfaenger-Instanz.
@@ -25,7 +25,7 @@ public class AlarmSetStateOfAlarmCommand implements ICommand {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Empfaengerimplementierung
 	 * @param descriptor

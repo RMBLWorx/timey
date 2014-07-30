@@ -1,11 +1,10 @@
 /**
- * 
+ *
  */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.BeansException;
@@ -18,7 +17,7 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 /**
  * @author mmatthies
  */
-public class SimpleAlarm implements ApplicationContextAware {
+class SimpleAlarm implements ApplicationContextAware {
 
 	private ApplicationContext springContext;
 
@@ -36,7 +35,7 @@ public class SimpleAlarm implements ApplicationContextAware {
 		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		final AlarmRunnable alarmDetection = (AlarmRunnable) this.springContext.getBean("alarmRunnable");
 
-		final ScheduledFuture<?> alarmFuture = scheduler.scheduleAtFixedRate(alarmDetection, 0, delayPerThread, timeUnit);
+		scheduler.scheduleAtFixedRate(alarmDetection, 0, delayPerThread, timeUnit);
 	}
 
 	@Override

@@ -4,10 +4,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Diese Thread-sichere Implementierung dient der Zeitmessung in Millisekunden.
- * 
+ *
  * @author mmatthies
  */
-public class TimerRunnable extends TimeyTimeRunnable implements Runnable {
+class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 	/**
 	 * @param descriptor
 	 *            Referenz auf das Wertobjekt das die Zeit in

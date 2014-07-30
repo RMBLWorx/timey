@@ -2,10 +2,10 @@ package rmblworx.tools.timey;
 
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
- * 
+ *
  * @author mmatthies
  */
-public class StopwatchClient {
+class StopwatchClient {
 
 	/**
 	 * Referenz auf die Empfaengerimplementierung.
@@ -14,7 +14,7 @@ public class StopwatchClient {
 
 	/**
 	 * Erzeugt eine Instanz dieses Klients und speichert die Referenz auf die Empfaengerimplementierung.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz auf die Implementierung die dieser Client den Kommandos uebergeben soll.
 	 */
