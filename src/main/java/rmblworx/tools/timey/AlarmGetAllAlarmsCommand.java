@@ -33,6 +33,7 @@ class AlarmGetAllAlarmsCommand implements ICommand {
 	/**
 	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<AlarmDescriptor> execute() {
 		return this.fReceiver.getAllAlarms();

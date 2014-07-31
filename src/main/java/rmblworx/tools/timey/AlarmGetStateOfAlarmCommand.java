@@ -38,6 +38,7 @@ class AlarmGetStateOfAlarmCommand implements ICommand {
 	/**
 	 * @return true oder false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.isAlarmActivated(this.timeDescriptor);

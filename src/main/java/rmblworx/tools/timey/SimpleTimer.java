@@ -20,6 +20,8 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 class SimpleTimer implements ITimer, ApplicationContextAware {
 
+	private static final int DELAY = 1;
+	private static final int THREAD_POOL_SIZE = 1;
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
 	 * ausfuehren zu lassen.
@@ -67,7 +69,7 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 		this.timePassed = 0;
 		this.timeDescriptor.setMilliSeconds(0);
 		if (isRunningAtTheMoment) {
-			this.startStopwatch(1, 1, TimeUnit.MILLISECONDS);
+			this.startStopwatch(1, TimeUnit.MILLISECONDS);
 		}
 		return isRunningAtTheMoment;
 	}
@@ -77,15 +79,15 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	 * @see rmblworx.tools.timey.ITimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)
 	 */
 	@Override
-	public TimeDescriptor startStopwatch(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
-		if (amountOfThreads < 1 || delayPerThread < 1) {
+	public TimeDescriptor startStopwatch(final int delayPerThread, final TimeUnit timeUnit) {
+		if (delayPerThread < 1) {
 			throw new ValueMinimumArgumentException();
 		} else if (timeUnit == null){
 			throw new NullArgumentException();
 		}
 		final TimerRunnable timer = (TimerRunnable) this.springContext.getBean("timerRunnable", this.timeDescriptor, this.timePassed);
 
-		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
+		this.scheduler = Executors.newScheduledThreadPool(THREAD_POOL_SIZE);
 		this.timerFuture = this.scheduler.scheduleAtFixedRate(timer, 0, delayPerThread, timeUnit);
 
 		return this.timeDescriptor;
@@ -99,7 +101,7 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	public Boolean stopStopwatch() {
 		if (this.scheduler != null) {
 			final TaskStopper stopRunnable = new TaskStopper(this.scheduler, this.timerFuture);
-			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
+			this.scheduler.schedule(stopRunnable, DELAY, TimeUnit.MILLISECONDS);
 		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 		return Boolean.TRUE;

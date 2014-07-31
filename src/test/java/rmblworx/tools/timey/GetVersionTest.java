@@ -44,7 +44,7 @@ public class GetVersionTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyFacade#getVersion()}.
+	 * Test method for {@link rmblworx.tools.timey.TimeyFacade#getVersion(String)}.
 	 * 
 	 * @throws Exception
 	 * @throws IllegalStateException

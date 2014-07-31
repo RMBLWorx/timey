@@ -24,7 +24,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * GUI-Tests für die Alarm-Funktionalität.
- * 
+ *
  * @author Christian Raue <christian.raue@gmail.com>
  * @copyright 2014 Christian Raue
  * @license http://opensource.org/licenses/mit-license.php MIT License
@@ -43,18 +43,20 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Alarm.fxml";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Before
 	public final void setUp() {
-		scene = stage.getScene();
+		this.scene = stage.getScene();
 
-		alarmTable = (TableView<Alarm>) scene.lookup("#alarmTable");
+		this.alarmTable = (TableView<Alarm>) this.scene.lookup("#alarmTable");
 
 		// Tabelle leeren
-		alarmTable.getItems().clear();
+		this.alarmTable.getItems().clear();
 	}
 
 	/**
@@ -63,21 +65,21 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	@Test
 	public final void testDeleteAlarm() {
 		// zwei Alarme anlegen
-		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		final ObservableList<Alarm> tableData = this.alarmTable.getItems();
 		final LocalDateTime now = LocalDateTime.now().millisOfSecond().setCopy(0);
 		final Alarm alarm1 = new Alarm(now.secondOfMinute().addToCopy(5), "alarm1");
 		final Alarm alarm2 = new Alarm(now.secondOfMinute().addToCopy(10), "alarm2");
 		tableData.add(alarm1);
 		tableData.add(alarm2);
 
-		final Button alarmDeleteButton = (Button) scene.lookup("#alarmDeleteButton");
+		final Button alarmDeleteButton = (Button) this.scene.lookup("#alarmDeleteButton");
 
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
 		assertTrue(alarmDeleteButton.isDisabled());
 
 		// zweiten Alarm auswählen
-		alarmTable.getSelectionModel().select(alarm2);
+		this.alarmTable.getSelectionModel().select(alarm2);
 
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
@@ -86,7 +88,8 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		// Alarm löschen
 		alarmDeleteButton.fire();
 		FXTestUtils.awaitEvents();
-		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+		verify(this.getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+			@Override
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
 			}
@@ -97,14 +100,14 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertFalse(tableData.contains(alarm2));
 
 		// sicherstellen, dass kein anderer Alarm ausgewählt ist
-		assertNull(alarmTable.getSelectionModel().getSelectedItem());
+		assertNull(this.alarmTable.getSelectionModel().getSelectedItem());
 
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
 		assertTrue(alarmDeleteButton.isDisabled());
 
 		// ersten Alarm auswählen
-		alarmTable.getSelectionModel().select(alarm1);
+		this.alarmTable.getSelectionModel().select(alarm1);
 
 		// Alarm löschen
 		alarmDeleteButton.fire();
@@ -124,7 +127,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	@Test
 	public final void testAlarmTableRendering() {
 		// Alarm anlegen
-		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		final ObservableList<Alarm> tableData = this.alarmTable.getItems();
 		final Alarm alarm1 = new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test");
 		tableData.add(alarm1);
 
@@ -132,11 +135,11 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		 * Sicherstellen, dass Zellen die korrekten Objekte enthalten.
 		 * Wäre z. B. nicht der Fall, wenn der Name des Alarm-Attributs nicht mit dem Namen der Spalte übereinstimmt.
 		 */
-		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(0).getCellData(0);
+		final LocalDateTime dateTimeCellData = (LocalDateTime) this.alarmTable.getColumns().get(0).getCellData(0);
 		assertNotNull(dateTimeCellData);
 		assertEquals(alarm1.getDateTime(), dateTimeCellData);
 
-		final String descriptionCellData = (String) alarmTable.getColumns().get(1).getCellData(0);
+		final String descriptionCellData = (String) this.alarmTable.getColumns().get(1).getCellData(0);
 		assertNotNull(descriptionCellData);
 		assertEquals(alarm1.getDescription(), descriptionCellData);
 	}

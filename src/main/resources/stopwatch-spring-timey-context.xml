@@ -10,9 +10,8 @@
 	<bean id="stopwatchReceiver" name="stopwatch" class="rmblworx.tools.timey.Stopwatch">
 		<constructor-arg ref="simpleTimer" index="0" />
 		<constructor-arg value="1" index="1" />
-		<constructor-arg value="1" index="2" />
 		<constructor-arg type="java.util.concurrent.TimeUnit"
-			value="MILLISECONDS" index="3" />
+			value="MILLISECONDS" index="2" />
 	</bean>
 	<bean id="stopwatchClient" name="stopwatchClient"
 		class="rmblworx.tools.timey.StopwatchClient">

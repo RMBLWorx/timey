@@ -35,7 +35,7 @@ public class StopwatchTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 1, 1, TimeUnit.MILLISECONDS);
+		this.stopwatch = new Stopwatch(this.mockedTimer, 1, TimeUnit.MILLISECONDS);
 	}
 
 	/**
@@ -49,42 +49,32 @@ public class StopwatchTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
+	 * {@link Stopwatch#Stopwatch(ITimer, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testStopwatchShouldFailBecauseTimerIsNull() {
-		this.stopwatch = new Stopwatch(null, (byte) 1, 1, TimeUnit.MILLISECONDS);
+		this.stopwatch = new Stopwatch(null, 1, TimeUnit.MILLISECONDS);
 	}
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
-	 * .
-	 */
-	@Test(expected = ValueMinimumArgumentException.class)
-	public final void testStopwatchShouldFailBecauseAmountOfThreadsIsLessThanOne() {
-		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 0, 1, TimeUnit.MILLISECONDS);
-	}
-
-	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
+	 * {@link Stopwatch#Stopwatch(ITimer, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testStopwatchShouldFailBecauseDelayIsLessThanOne() {
-		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 1, 0, TimeUnit.MILLISECONDS);
+		this.stopwatch = new Stopwatch(this.mockedTimer, 0, TimeUnit.MILLISECONDS);
 	}
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Stopwatch#Stopwatch(rmblworx.tools.timey.ITimer, byte, int, java.util.concurrent.TimeUnit)}
+	 * {@link Stopwatch#Stopwatch(ITimer, int, java.util.concurrent.TimeUnit)}
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testStopwatchShouldFailBecauseTimeUnitIsNull() {
-		this.stopwatch = new Stopwatch(this.mockedTimer, (byte) 1, 1, null);
+		this.stopwatch = new Stopwatch(this.mockedTimer, 1, null);
 	}
 
 	/**
@@ -101,7 +91,7 @@ public class StopwatchTest {
 	 */
 	@Test
 	public final void testStartStopwatch() {
-		when(this.mockedTimer.startStopwatch(1, 1, TimeUnit.MILLISECONDS)).thenReturn(this.mockedDescriptor);
+		when(this.mockedTimer.startStopwatch(1, TimeUnit.MILLISECONDS)).thenReturn(this.mockedDescriptor);
 		assertNotNull(this.stopwatch.startStopwatch());
 	}
 

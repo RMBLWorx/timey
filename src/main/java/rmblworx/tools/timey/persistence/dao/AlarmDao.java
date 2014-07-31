@@ -87,6 +87,7 @@ class AlarmDao implements IAlarmDao {
 					final long milliseconds = alarm.getAlarm().getTime();
 					if (milliseconds == descriptor.getAlarmtime().getMilliSeconds()) {
 						this.currentSession().delete(alarm);
+						this.currentSession().delete(alarm);
 						result = Boolean.TRUE;
 					}
 				}
@@ -105,7 +106,7 @@ class AlarmDao implements IAlarmDao {
 	@Override
 	public List<AlarmDescriptor> findAll() {
 		final List<AlarmEntity> entities = this.getAll();
-		final List<AlarmDescriptor> result = new ArrayList<AlarmDescriptor>(entities.size());
+		final List<AlarmDescriptor> result = new ArrayList<>(entities.size());
 		for (AlarmEntity alarm : entities) {
 			final TimeDescriptor timeDescriptor = new TimeDescriptor(alarm.getAlarm().getTime());
 			final Boolean isActive = alarm.getIsActivated();

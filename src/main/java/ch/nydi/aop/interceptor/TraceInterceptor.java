@@ -20,7 +20,6 @@ package ch.nydi.aop.interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,23 +28,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Daniel Nydegger
  */
-public class TraceInterceptor implements MethodInterceptor {
+public class TraceInterceptor extends AbstractInterceptor implements MethodInterceptor {
 
 	private final Logger logger = LoggerFactory.getLogger(TraceInterceptor.class);
-
-	private String flattenArgument(Object argument) {
-		if (null == argument) {
-			return "null";
-		}
-
-		if (argument instanceof Object[]) {
-			if (ArrayUtils.isEmpty((Object[]) argument)) {
-				return "no arguments";
-			}
-			return StringUtils.join((Object[]) argument, ", ");
-		}
-		return argument.toString();
-	}
 
 	@Override
 	public Object invoke(MethodInvocation invocation)
@@ -63,7 +48,7 @@ public class TraceInterceptor implements MethodInterceptor {
 				if (i > 0) {
 					flattenArguments.append(" | ");
 				}
-				flattenArguments.append(this.flattenArgument(arguments[i]));
+				flattenArguments.append(TraceInterceptor.this.flattenArgument(arguments[i]));
 			}
 			flattenArguments.append("}");
 			this.logger.trace(prefix + flattenArguments.toString());

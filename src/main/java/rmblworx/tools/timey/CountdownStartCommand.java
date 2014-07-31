@@ -31,6 +31,7 @@ class CountdownStartCommand implements ICommand {
 	/**
 	 * @return Referenz auf das Zeitbeschreibungsobjekt welches die noch verbleibende Zeit uebermittelt.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public TimeDescriptor execute() {
 		return this.fReceiver.startCountdown();

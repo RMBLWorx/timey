@@ -19,6 +19,7 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
  */
 class SimpleAlarm implements ApplicationContextAware {
 
+	private static final int THREAD_POOL_SIZE = 1;
 	private ApplicationContext springContext;
 
 	/**
@@ -32,7 +33,7 @@ class SimpleAlarm implements ApplicationContextAware {
 		} else if (timeUnit == null) {
 			throw new NullArgumentException();
 		}
-		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(THREAD_POOL_SIZE);
 		final AlarmRunnable alarmDetection = (AlarmRunnable) this.springContext.getBean("alarmRunnable");
 
 		scheduler.scheduleAtFixedRate(alarmDetection, 0, delayPerThread, timeUnit);

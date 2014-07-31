@@ -30,6 +30,7 @@ class StopwatchResetCommand implements ICommand {
 	/**
 	 * @return true wenn erfolgreich zurueckgesetzt werden konnte sonst false
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.resetStopwatch();

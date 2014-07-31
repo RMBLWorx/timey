@@ -31,6 +31,7 @@ class StopwatchStartCommand implements ICommand {
 	/**
 	 * @return Werteobjekt das die gemessene Zeit kapselt.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public TimeDescriptor execute() {
 		return this.fReceiver.startStopwatch();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
- * Serviceimplementierung zur Persistierung von {@link AlarmEntity Alarmzeitpunkt}en.
+ * Serviceimplementierung zur Persistierung von {@link rmblworx.tools.timey.persistence.model.AlarmEntity Alarmzeitpunkt}en.
  *
  * @author mmatthies
  */
@@ -27,6 +28,7 @@ class AlarmService implements IAlarmService, ApplicationContextAware {
 	/**
 	 * Referenz auf das Datenzugriffsobjekt.
 	 */
+	@Qualifier("alarmDao")
 	@Autowired
 	private IAlarmDao dao;
 	private TimeyEventDispatcher eventDispatcher;
@@ -87,7 +89,7 @@ class AlarmService implements IAlarmService, ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
 		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}

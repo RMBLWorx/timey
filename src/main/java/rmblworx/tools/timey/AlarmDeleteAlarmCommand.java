@@ -38,6 +38,7 @@ class AlarmDeleteAlarmCommand implements ICommand {
 	/**
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.removeAlarm(this.timeDescriptor);

@@ -37,7 +37,7 @@ class Invoker {
 	 */
 	@SuppressWarnings("unchecked")
 	public final <T> T execute() {
-		return (T) this.fCommand.execute();
+		return this.fCommand.execute();
 	}
 
 	/**

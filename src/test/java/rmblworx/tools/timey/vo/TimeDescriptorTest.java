@@ -31,14 +31,6 @@ public class TimeDescriptorTest {
 
 	/**
 	 * @throws java.lang.Exception
-	 *             Exception.
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
 	 *             Exception
 	 */
 	@After

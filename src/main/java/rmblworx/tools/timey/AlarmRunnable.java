@@ -66,7 +66,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 			if (result != null) {
 				// wenn erreicht event feuern sonst weiter abgleichen
 				this.alarmService.setState(result, false);
-				AlarmExpiredEvent event = (AlarmExpiredEvent) this.springContext.getBean("alarmExpiredEvent", result);
+				final AlarmExpiredEvent event = (AlarmExpiredEvent) this.springContext.getBean("alarmExpiredEvent", result);
 				this.eventDispatcher.dispatchEvent(event);
 			}
 		} finally {

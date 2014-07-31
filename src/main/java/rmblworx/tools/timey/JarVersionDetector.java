@@ -53,7 +53,7 @@ class JarVersionDetector {
 		/**
 		 * Ergebnis der Suche in Form einer Liste.
 		 */
-		private final List<Path> result = new LinkedList<Path>();
+		private final List<Path> result = new LinkedList<>();
 
 		/**
 		 * Erweiterter Konstruktor zur Angabe eines glob-Pattern.
@@ -145,7 +145,7 @@ class JarVersionDetector {
 		} else if (jarFilename.length() < 1) {
 			throw new EmptyArgumentException();
 		}
-		final List<String> result = new LinkedList<String>();
+		final List<String> result = new LinkedList<>();
 		File file;
 		JarFile jar;
 		String versionNumber = "";
@@ -212,7 +212,7 @@ class JarVersionDetector {
 		final String property = System.getProperty("user.dir");
 		final Path startDir = Paths.get(property);
 		final Finder finder = new Finder(pattern);
-		List<Path> result = new LinkedList<Path>();
+		List<Path> result;
 
 		Files.walkFileTree(startDir, finder);
 		result = finder.getResult();

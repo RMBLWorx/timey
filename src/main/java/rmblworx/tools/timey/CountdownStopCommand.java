@@ -30,6 +30,7 @@ class CountdownStopCommand implements ICommand {
 	/**
 	 * @return true wenn der Countdown gestoppt werden konnte sonst false
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.stopCountdown();

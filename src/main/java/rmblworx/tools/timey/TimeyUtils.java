@@ -4,7 +4,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Helferklasse mit haeufig benoetigten Funktionen.
- * 
+ *
  * @author mmatthies
  */
 public final class TimeyUtils {
@@ -26,6 +26,7 @@ public final class TimeyUtils {
 	 */
 	private static final String WINDOWS = "windows";
 
+
 	/**
 	 * Liefert den Namen des Betriebsystems.
 	 * @return Namenkuerzel des OS.
@@ -36,7 +37,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Prueft die Zeichenkette ob sie {@code Laenge == 0} aufweist.
-	 * 
+	 *
 	 * @param string
 	 *            zu pruefende Zeichenkette.
 	 * @return true wenn {@code Laenge == 0}.
@@ -47,7 +48,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Liefert die Antwort darauf, ob timey gerade auf einem Linux Betriebssystem ausgefuehrt wird.
-	 * 
+	 *
 	 * @return true wenn Linux sonst false
 	 */
 	public static boolean isLinuxSystem() {
@@ -57,7 +58,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Prueft die Zeichenkette ob sie {@code null} referenziert.
-	 * 
+	 *
 	 * @param string
 	 *            zu pruefende Zeichenkette.
 	 * @return true wenn {@code null} referenziert wird.
@@ -68,7 +69,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Prueft die Zeichenkette(n) ob sie {@code null} referenzieren oder die {@code Laenge == 0} aufweisen.
-	 * 
+	 *
 	 * @param string
 	 *            zu pruefende Zeichenkette.
 	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die {@code Laenge == 0} aufweist.
@@ -88,7 +89,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Liefert die Antwort darauf, ob timey gerade auf einem OS X-Betriebssystem ausgefuehrt wird.
-	 * 
+	 *
 	 * @return true wenn OS X sonst false
 	 */
 	public static boolean isOSXSystem() {
@@ -98,7 +99,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Liefert die Antwort darauf, ob timey gerade auf einem Windows-Betriebssystem ausgefuehrt wird.
-	 * 
+	 *
 	 * @return true wenn Windows sonst false
 	 */
 	public static boolean isWindowsSystem() {
@@ -109,7 +110,7 @@ public final class TimeyUtils {
 	/**
 	 * Veranlasst die fuer die Zeitnahme verwendete Implementierung sich zu beenden. Es wird so lange gewartet bis sie
 	 * beendet wurde.
-	 * 
+	 *
 	 * @param scheduler
 	 *            Referenz auf den Scheduler.
 	 */

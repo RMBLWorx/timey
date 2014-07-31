@@ -29,6 +29,7 @@ class StopwatchStopCommand implements ICommand {
 	/**
 	 * @return true wenn erfolgreich sonst false
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.stopStopwatch();

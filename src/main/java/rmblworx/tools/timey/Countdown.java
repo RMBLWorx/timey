@@ -11,14 +11,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Ermoeglicht die Zeitmessung in Form eines Countdowns.
- * 
+ *
  * @author mmatthies
  */
 class Countdown implements ICountdown, ApplicationContextAware {
-	/**
-	 * Anzahl der Threads die Zeit messen sollen.
-	 */
-	private final byte amountOfThreads;
 	/**
 	 * Spring-Kontext.
 	 */
@@ -29,7 +25,7 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	private ICountdownTimer countdownTimer;
 	/**
 	 * Gibt die Maszzahl fuer die Zeiteinheit an.
-	 * 
+	 *
 	 * @see #timeUnit
 	 */
 	private final int delayPerThread;
@@ -40,16 +36,12 @@ class Countdown implements ICountdown, ApplicationContextAware {
 
 	/**
 	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
-	 * 
-	 * @param amount
-	 *            Anzahl der Zeitmessungs-Threads
 	 * @param delay
 	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurueckgeliefert wird.
 	 * @param unit
 	 *            Maszeinheit fuer den Intervall.
 	 */
-	public Countdown(final byte amount, final int delay, final TimeUnit unit) {
-		this.amountOfThreads = amount;
+	public Countdown(final int delay, final TimeUnit unit) {
 		this.delayPerThread = delay;
 		this.timeUnit = unit;
 	}
@@ -80,7 +72,7 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	@Override
 	public TimeDescriptor startCountdown() {
 		this.initCountdownTimer();
-		return this.countdownTimer.startCountdown(this.amountOfThreads, this.delayPerThread, this.timeUnit);
+		return this.countdownTimer.startCountdown(this.delayPerThread, this.timeUnit);
 	}
 
 	@Override

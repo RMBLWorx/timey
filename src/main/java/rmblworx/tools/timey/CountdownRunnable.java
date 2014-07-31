@@ -57,7 +57,7 @@ class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextA
 				if (!this.wasEventFired) {
 					final CountdownExpiredEvent countdownExpiredEvent = (CountdownExpiredEvent) this.springContext
 							.getBean("countdownExpiredEvent");
-					TimeyEventDispatcher eventDispatcher = (TimeyEventDispatcher) this.springContext
+					final TimeyEventDispatcher eventDispatcher = (TimeyEventDispatcher) this.springContext
 							.getBean("timeyEventDispatcher");
 					eventDispatcher.dispatchEvent(countdownExpiredEvent);
 					this.wasEventFired = true;

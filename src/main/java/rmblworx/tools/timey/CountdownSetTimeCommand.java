@@ -38,6 +38,7 @@ class CountdownSetTimeCommand implements ICommand {
 	/**
 	 * @return true wenn die Countdownzeit erfolgreich gesetzt werden konnte sonst false.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.setCountdownTime(this.timeDescriptor);

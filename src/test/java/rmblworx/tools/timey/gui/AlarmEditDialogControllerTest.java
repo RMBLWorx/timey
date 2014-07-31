@@ -191,7 +191,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		 */
 		// controller.setDialogStage(stage);
 
-		final List<DataErrors> testCases = new Vector<DataErrors>();
+		final List<DataErrors> testCases = new Vector<>();
 
 		// Anlegen/Bearbeiten eines Alarms mit Zeitstempel in Vergangenheit
 		testCases.add(new DataErrors(1, "Der Alarm-Zeitpunkt muss in der Zukunft liegen.\n",

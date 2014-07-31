@@ -24,6 +24,11 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
 
+	private static final int DELAY = 1;
+	/**
+	 * Beschreibt die Groesze des vom Scheduler verwalteten Threadpools.
+	 */
+	private static final int THREAD_POOL_SIZE = 1;
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
 	 * ausfuehren zu lassen.
@@ -58,7 +63,7 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 
 	@Override
 	public Boolean setCountdownTime(final TimeDescriptor descriptor) {
-		if (descriptor == null) {
+		if (null == descriptor) {
 			throw new NullArgumentException();
 		}
 		this.timeDescriptor = descriptor;
@@ -66,19 +71,18 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 	}
 
 	@Override
-	public TimeDescriptor startCountdown(final int amountOfThreads, final int delayPerThread, final TimeUnit timeUnit) {
-		if (amountOfThreads < 1 || delayPerThread < 1) {
+	public TimeDescriptor startCountdown(final int delayPerThread, final TimeUnit timeUnit) {
+		if (delayPerThread < 1) {
 			throw new ValueMinimumArgumentException();
 		} else if (timeUnit == null) {
 			throw new NullArgumentException();
 		}
-		this.scheduler = Executors.newScheduledThreadPool(amountOfThreads);
+		this.scheduler = Executors.newScheduledThreadPool(THREAD_POOL_SIZE);
 		final CountdownRunnable countdown = (CountdownRunnable) this.springContext.getBean("countdownRunnable",
 				this.timeDescriptor, Long.valueOf(this.timePassed));
 
 		this.countdownFuture = this.scheduler.scheduleAtFixedRate(countdown, 0, delayPerThread, timeUnit);
-		// TODO Implementierung unvollstaendig - amountOfThreads beeinflusst nur die Groesze des Threadpools und bislang
-		// nicht die Anzahl erzeugter/geplanter Threads
+
 		return this.timeDescriptor;
 	}
 
@@ -86,7 +90,7 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 	public Boolean stopCountdown() {
 		if (this.scheduler != null && !this.scheduler.isTerminated()) {
 			final TaskStopper stopRunnable = new TaskStopper(this.scheduler, this.countdownFuture);
-			this.scheduler.schedule(stopRunnable, 1, TimeUnit.MILLISECONDS);
+			this.scheduler.schedule(stopRunnable, DELAY, TimeUnit.MILLISECONDS);
 		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 

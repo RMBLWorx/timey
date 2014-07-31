@@ -24,6 +24,7 @@
 			<list>
 				<bean class="ch.nydi.aop.interceptor.TraceInterceptor" />
 				<bean class="ch.nydi.aop.interceptor.TimerInterceptor" />
+<!-- 				<bean class="ch.nydi.aop.interceptor.DebugInterceptor" /> -->
 			</list>
 		</property>
 	</bean>
