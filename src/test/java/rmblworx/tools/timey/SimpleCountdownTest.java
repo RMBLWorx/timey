@@ -56,7 +56,7 @@ public class SimpleCountdownTest {
 	public void testComputeTime() throws InterruptedException {
 		final long time = System.currentTimeMillis() + COUNTDOWN_START;
 
-		this.countdown.startCountdown(1, 1, TimeUnit.MILLISECONDS);
+		this.countdown.startCountdown(1, TimeUnit.MILLISECONDS);
 		Thread.sleep(TIME_TO_WAIT);
 		this.countdown.stopCountdown();
 		final long actualCountdownTime = this.descriptor.getMilliSeconds();
@@ -73,27 +73,19 @@ public class SimpleCountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
-	 */
-	@Test(expected = ValueMinimumArgumentException.class)
-	public void testShouldFailBecauseAmountOfThreadsLessThanOne() {
-		this.countdown.startCountdown(0, 1, TimeUnit.MILLISECONDS);
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, TimeUnit)}.
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public void testShouldFailBecauseDelayLessThanOne() {
-		this.countdown.startCountdown(1, 0, TimeUnit.MILLISECONDS);
+		this.countdown.startCountdown(0, TimeUnit.MILLISECONDS);
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, int, TimeUnit)}.
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, TimeUnit)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public void testShouldFailBecauseTimeUnitIsNull() {
-		this.countdown.startCountdown(1, 1, null);
+		this.countdown.startCountdown(1, null);
 	}
 
 }

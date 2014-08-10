@@ -23,6 +23,11 @@
 	</bean>
 	<bean id="simpleAlarm" name="simpleAlarm" class="rmblworx.tools.timey.SimpleAlarm">
 	</bean>
+	<bean id="alarmExpiredEvent" class="rmblworx.tools.timey.event.AlarmExpiredEvent" scope="prototype">
+		<constructor-arg ref="alarmDescriptor" />
+	</bean>
+	<bean id="alarmsModifiedEvent" class="rmblworx.tools.timey.event.AlarmsModifiedEvent"/>
+
 	<!-- ############################# Werteobjekte ################################## -->
 	<bean id="descriptor" name="descriptor"
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
@@ -69,9 +74,7 @@
 	</bean>
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -81,7 +84,7 @@
 			<props>
 				<prop key="dialect">org.hibernate.dialect.H2Dialect</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">false</prop>
 			</props>
 		</property>
@@ -95,6 +98,6 @@
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	<!-- ############################ Ende Spring - Hibernate Integration ######################## -->
-	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 </beans>

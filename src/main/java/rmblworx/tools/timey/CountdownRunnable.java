@@ -10,17 +10,16 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Diese Thread-sichere Implementierung setzt einen Countdown-Zähler um. Zeitnahme findet in Millisekunden statt.
- * 
+ *
  * @author mmatthies
  */
-public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextAware {
+class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextAware {
 	/**
 	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
 	 */
 	private final long timeCountdown;
-	private ApplicationContext springContext;
-	private TimeyEventDispatcher eventDispatcher;
 	private boolean wasEventFired = false;
+	private ApplicationContext springContext;
 
 	/**
 	 * @param descriptor
@@ -56,7 +55,11 @@ public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationC
 				this.computeTime();
 			} else {
 				if (!this.wasEventFired) {
-					this.eventDispatcher.dispatchEvent(new CountdownExpiredEvent());
+					final CountdownExpiredEvent countdownExpiredEvent = (CountdownExpiredEvent) this.springContext
+							.getBean("countdownExpiredEvent");
+					final TimeyEventDispatcher eventDispatcher = (TimeyEventDispatcher) this.springContext
+							.getBean("timeyEventDispatcher");
+					eventDispatcher.dispatchEvent(countdownExpiredEvent);
 					this.wasEventFired = true;
 				}
 			}
@@ -68,6 +71,5 @@ public class CountdownRunnable extends TimeyTimeRunnable implements ApplicationC
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
-		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 }

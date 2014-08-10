@@ -2,10 +2,10 @@ package rmblworx.tools.timey;
 
 /**
  * Aufruferimplementierung die das uebergebene Kommando ausfuehrt.
- * 
+ *
  * @author mmatthies
  */
-public class Invoker {
+class Invoker {
 
 	/**
 	 * Referenz auf die Komandoimplementierung.
@@ -21,7 +21,7 @@ public class Invoker {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param cmd
 	 *            Referenz der auszufuehrenden Kommandoimplementierung.
 	 */
@@ -37,12 +37,12 @@ public class Invoker {
 	 */
 	@SuppressWarnings("unchecked")
 	public final <T> T execute() {
-		return (T) this.fCommand.execute();
+		return this.fCommand.execute();
 	}
 
 	/**
 	 * Setzt die Referenz der Kommandoimplementierung.
-	 * 
+	 *
 	 * @param cmd
 	 *            Referenz auf die Kommandoimplemetierung
 	 */

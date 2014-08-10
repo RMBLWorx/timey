@@ -5,10 +5,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Diese Kommandoimplementierung ermoeglicht das Starten eines Countdowns.
- * 
+ *
  * @author "mmatthies"
  */
-public class CountdownStartCommand implements ICommand {
+class CountdownStartCommand implements ICommand {
 
 	/**
 	 * Referenz der Empfaengerimplementierung.
@@ -17,7 +17,7 @@ public class CountdownStartCommand implements ICommand {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz der Empfaengerimplementierung
 	 */
@@ -31,6 +31,7 @@ public class CountdownStartCommand implements ICommand {
 	/**
 	 * @return Referenz auf das Zeitbeschreibungsobjekt welches die noch verbleibende Zeit uebermittelt.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public TimeDescriptor execute() {
 		return this.fReceiver.startCountdown();

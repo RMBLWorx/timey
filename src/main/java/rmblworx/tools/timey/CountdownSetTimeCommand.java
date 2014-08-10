@@ -5,10 +5,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Kommando zum setzen der Countdown-Zeit.
- * 
+ *
  * @author "mmatthies"
  */
-public class CountdownSetTimeCommand implements ICommand {
+class CountdownSetTimeCommand implements ICommand {
 
 	/**
 	 * Referenz der Empfaengerimplementierung.
@@ -21,7 +21,7 @@ public class CountdownSetTimeCommand implements ICommand {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz der Empfaengerimplementierung.
 	 * @param descriptor
@@ -38,6 +38,7 @@ public class CountdownSetTimeCommand implements ICommand {
 	/**
 	 * @return true wenn die Countdownzeit erfolgreich gesetzt werden konnte sonst false.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.setCountdownTime(this.timeDescriptor);

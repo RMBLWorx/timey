@@ -83,7 +83,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
@@ -93,7 +93,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
@@ -103,7 +103,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, TimeDescriptor, Boolean)}
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)

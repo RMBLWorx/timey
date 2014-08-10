@@ -20,12 +20,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Data Access Object-Implementierung zum verwalten der Alarmzeiten in timey.
- * 
+ *
  * @author mmatthies
  */
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class AlarmDao implements IAlarmDao {
+class AlarmDao implements IAlarmDao {
 
 	/**
 	 * Logger.
@@ -87,6 +87,7 @@ public class AlarmDao implements IAlarmDao {
 					final long milliseconds = alarm.getAlarm().getTime();
 					if (milliseconds == descriptor.getAlarmtime().getMilliSeconds()) {
 						this.currentSession().delete(alarm);
+						this.currentSession().delete(alarm);
 						result = Boolean.TRUE;
 					}
 				}
@@ -105,7 +106,7 @@ public class AlarmDao implements IAlarmDao {
 	@Override
 	public List<AlarmDescriptor> findAll() {
 		final List<AlarmEntity> entities = this.getAll();
-		final List<AlarmDescriptor> result = new ArrayList<AlarmDescriptor>(entities.size());
+		final List<AlarmDescriptor> result = new ArrayList<>(entities.size());
 		for (AlarmEntity alarm : entities) {
 			final TimeDescriptor timeDescriptor = new TimeDescriptor(alarm.getAlarm().getTime());
 			final Boolean isActive = alarm.getIsActivated();
@@ -133,7 +134,7 @@ public class AlarmDao implements IAlarmDao {
 
 	/**
 	 * Liefert das Alarmzeitpunktobjekt das den vom Deskriptor beschriebenen Alarmzeitpunkt enthaelt.
-	 * 
+	 *
 	 * @param descriptor
 	 *            der Alarmzeitpunkt
 	 * @return das Alarmzeitpunktobjekt oder {@code null} wenn nicht gefunden

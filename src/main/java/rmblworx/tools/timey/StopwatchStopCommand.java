@@ -4,10 +4,10 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
  * Kommando zum Stoppen der Stoppuhr.
- * 
+ *
  * @author mmatthies
  */
-public class StopwatchStopCommand implements ICommand {
+class StopwatchStopCommand implements ICommand {
 	/**
 	 * Referenz auf die Empfaengerimplementierung.
 	 */
@@ -15,7 +15,7 @@ public class StopwatchStopCommand implements ICommand {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
 	 */
@@ -29,6 +29,7 @@ public class StopwatchStopCommand implements ICommand {
 	/**
 	 * @return true wenn erfolgreich sonst false
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.stopStopwatch();

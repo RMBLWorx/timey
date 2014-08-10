@@ -4,17 +4,17 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
- * 
+ *
  * @author "mmatthies"
  */
-public class CountdownClient {
+class CountdownClient {
 
 	/** Speichert die Empfaenger Instanz des Klient. */
 	private final ICountdown fReceiver;
 
 	/**
 	 * Erzeugt eine Klient-Instanz und speichert die uebergebene Empfaengerimplementierung.
-	 * 
+	 *
 	 * @param receiver
 	 *            Empfaenger-Referenz.
 	 */

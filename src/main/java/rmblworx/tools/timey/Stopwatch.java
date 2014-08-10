@@ -14,10 +14,6 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 class Stopwatch implements IStopwatch {
 
 	/**
-	 * Anzahl der Threads die Zeit messen sollen.
-	 */
-	private final byte amountOfThreads;
-	/**
 	 * Gibt die Maszzahl fuer die Zeiteinheit an.
 	 * 
 	 * @see #timeUnit
@@ -34,23 +30,20 @@ class Stopwatch implements IStopwatch {
 
 	/**
 	 * Konstruktor welcher eine Instanz von diesem Receiver erzeugt.
-	 * 
+	 *
 	 * @param timer
 	 *            Implementierung einer Stoppuhr
-	 * @param amount
-	 *            Anzahl der Zeitmessungs-Threads
 	 * @param delay
 	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurueckgeliefert wird.
 	 * @param unit
-	 *            Maszeinheit fuer den Intervall.
+	 * 			  Zeiteinheit.
 	 */
-	public Stopwatch(final ITimer timer, final byte amount, final int delay, final TimeUnit unit) {
-		if (amount < 1 || delay < 1) {
+	public Stopwatch(final ITimer timer, final int delay, final TimeUnit unit) {
+		if (delay < 1) {
 			throw new ValueMinimumArgumentException();
 		} else if (timer == null || unit == null) {
 			throw new NullArgumentException();
 		}
-		this.amountOfThreads = amount;
 		this.delayPerThread = delay;
 		this.timeUnit = unit;
 		this.timer = timer;
@@ -67,7 +60,7 @@ class Stopwatch implements IStopwatch {
 
 	@Override
 	public TimeDescriptor startStopwatch() {
-		return this.timer.startStopwatch(this.amountOfThreads, this.delayPerThread, this.timeUnit);
+		return this.timer.startStopwatch(this.delayPerThread, this.timeUnit);
 	}
 
 	@Override

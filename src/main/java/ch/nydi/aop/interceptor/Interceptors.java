@@ -58,7 +58,7 @@ public final class Interceptors
             return Interceptors.EMPTY;
         }
 
-        final List<MethodInterceptor> flatlist = new ArrayList<MethodInterceptor>();
+        final List<MethodInterceptor> flatlist = new ArrayList<>();
         for (final MethodInterceptor interceptor : interceptors) {
             assert (interceptor != null);
 

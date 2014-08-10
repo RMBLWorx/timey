@@ -5,10 +5,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Kommando zum Starten der Stoppuhr.
- * 
+ *
  * @author mmatthies
  */
-public class StopwatchStartCommand implements ICommand {
+class StopwatchStartCommand implements ICommand {
 
 	/**
 	 * Referenz auf die Empfaengerinstanz die von diesem Kommando gesteuert wird.
@@ -17,7 +17,7 @@ public class StopwatchStartCommand implements ICommand {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
 	 */
@@ -31,6 +31,7 @@ public class StopwatchStartCommand implements ICommand {
 	/**
 	 * @return Werteobjekt das die gemessene Zeit kapselt.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public TimeDescriptor execute() {
 		return this.fReceiver.startStopwatch();

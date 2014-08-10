@@ -31,7 +31,7 @@ public class AlarmGetAllAlarmsCommandTest {
 		this.command = new AlarmGetAllAlarmsCommand(this.mockedReceiver);
 		this.invoker = new Invoker();
 		this.invoker.storeCommand(this.command);
-		this.list = new ArrayList<AlarmDescriptor>();
+		this.list = new ArrayList<>();
 		this.list.add(this.descriptor);
 	}
 

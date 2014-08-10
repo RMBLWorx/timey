@@ -14,23 +14,23 @@ abstract class TimeyTimeRunnable implements Runnable {
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
 	 */
-	protected final Lock lock = new ReentrantLock();
+	final Lock lock = new ReentrantLock();
 	/**
 	 * Differenz zwischen Startzeit und aktueller Zeit.
 	 */
-	protected long timeDelta;
+	long timeDelta;
 	/**
 	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
 	 */
-	protected final TimeDescriptor timeDescriptor;
+	final TimeDescriptor timeDescriptor;
 	/**
 	 * Beschreibt die vergangene Zeit in Millisekunden.
 	 */
-	protected final long timePassed;
+	final long timePassed;
 	/**
 	 * Beschreibt wann der Startvorgang ausgeloest wurde in Millisekunden.
 	 */
-	protected final long timeStarted;
+	final long timeStarted;
 
 	/**
 	 * Konstruktor.

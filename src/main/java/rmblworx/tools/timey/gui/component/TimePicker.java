@@ -51,7 +51,7 @@ public class TimePicker extends AnchorPane {
 	/**
 	 * Zeit als Property.
 	 */
-	private final ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<LocalTime>();
+	private final ObjectProperty<LocalTime> timeProperty = new SimpleObjectProperty<>();
 
 	@FXML
 	private TextField hoursTextField;

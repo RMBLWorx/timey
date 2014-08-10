@@ -40,7 +40,7 @@ public class Alarm implements Comparable<Alarm> {
 
 	public Alarm(final LocalDateTime dateTime, final String description, final String sound, final boolean enabled) {
 		this.enabled = new SimpleBooleanProperty(enabled);
-		this.dateTime = new SimpleObjectProperty<LocalDateTime>(dateTime);
+		this.dateTime = new SimpleObjectProperty<>(dateTime);
 		this.description = new SimpleStringProperty(description);
 		this.sound = new SimpleStringProperty(sound);
 	}

@@ -23,19 +23,17 @@ interface ICountdownTimer {
 
 	/**
 	 * Startet den Countdown.
-	 * 
-	 * @param amountOfThreads
-	 *            Anzahl fuer die Zeitmessung zu verwendender Threads.
 	 * @param delayPerThread
 	 *            Setzt die Verzoegerung pro Thread. Die Maszeinheit
 	 *            wird mittels des TimeUnit-Enum gesetzt.
 	 * @param timeUnit
 	 *            Setzt die zu verwendende Zeiteinheit fuer die
 	 *            wiederholte Aktualisierung des Werteobjekts.
+	 * 
 	 * @return Referenz auf das Wertobjekt das die darzustellende Zeit
-	 *         kapselt. Es handelt sich hierbei um das ueber {@link #setTime(TimeDescriptor)} uebergebene Objekt.
+	 *         kapselt. Es handelt sich hierbei um das ueber {@link #setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)} uebergebene Objekt.
 	 */
-	TimeDescriptor startCountdown(int amountOfThreads, int delayPerThread, TimeUnit timeUnit);
+	TimeDescriptor startCountdown(int delayPerThread, TimeUnit timeUnit);
 
 	/**
 	 * Stoppt den Countdown und beendet den/die gestarteten Threads.

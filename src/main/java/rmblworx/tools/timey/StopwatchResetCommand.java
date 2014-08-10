@@ -4,10 +4,10 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 
 /**
  * Kommando zum Zuruecksetzen der Stoppuhr.
- * 
+ *
  * @author mmatthies
  */
-public class StopwatchResetCommand implements ICommand {
+class StopwatchResetCommand implements ICommand {
 
 	/**
 	 * Speichert die Empfaenger-Instanz.
@@ -16,7 +16,7 @@ public class StopwatchResetCommand implements ICommand {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param receiver
 	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
 	 */
@@ -30,6 +30,7 @@ public class StopwatchResetCommand implements ICommand {
 	/**
 	 * @return true wenn erfolgreich zurueckgesetzt werden konnte sonst false
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean execute() {
 		return this.fReceiver.resetStopwatch();

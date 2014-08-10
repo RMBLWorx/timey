@@ -91,7 +91,7 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testBidirectionalBoundingOfTextFieldsAndSliders() {
-		final List<TextFieldAndSliderValue> testCases = new Vector<TextFieldAndSliderValue>();
+		final List<TextFieldAndSliderValue> testCases = new Vector<>();
 		testCases.add(new TextFieldAndSliderValue(hoursSlider, 1, hoursTextField, "01"));
 		testCases.add(new TextFieldAndSliderValue(hoursSlider, 23, hoursTextField, "23"));
 		testCases.add(new TextFieldAndSliderValue(minutesSlider, 59, minutesTextField, "59"));
@@ -163,7 +163,7 @@ public class TimePickerTest extends GuiTest {
 	 */
 	@Test
 	public final void testTextFieldsInvalidInput() {
-		final List<TextFieldInputAndValue> testCases = new Vector<TextFieldInputAndValue>();
+		final List<TextFieldInputAndValue> testCases = new Vector<>();
 		// zu kurze Eingabe
 		testCases.add(new TextFieldInputAndValue(hoursTextField, "1", "01", true));
 		testCases.add(new TextFieldInputAndValue(minutesTextField, "1", "01", true));

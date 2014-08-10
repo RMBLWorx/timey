@@ -83,7 +83,7 @@ public class AlarmDeleteAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, TimeDescriptor)}.
+	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
@@ -92,7 +92,7 @@ public class AlarmDeleteAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, TimeDescriptor)}.
+	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {

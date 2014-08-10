@@ -1,22 +1,15 @@
 package rmblworx.tools.timey.vo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 
 /**
  * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
  * Countdown, den Alarm und die Stopuhr benoetigt wird.
- * 
+ *
  * @author mmatthies
  */
 public class TimeDescriptor {
 
-	/**
-	 * Logger.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(TimeDescriptor.class);
 	/**
 	 * Kapselt die aktuelle Systemzeit in Millisekunden.
 	 */
@@ -25,13 +18,12 @@ public class TimeDescriptor {
 	/**
 	 * Konstruktor der die direkte Angabe der zu setzenden Millisekunden
 	 * ermoeglicht.
-	 * 
+	 *
 	 * @param milliSeconds
 	 *            Anzahl der Millisekunden. Es findet keine Pruefung auf
 	 *            negative Werte statt.
 	 */
 	public TimeDescriptor(final long milliSeconds) {
-		// LOG.debug("Erzeuge TimeDescriptor mit dem Wert (ms): {}", this.milliseconds);
 		this.milliseconds = milliSeconds;
 	}
 

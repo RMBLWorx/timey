@@ -68,40 +68,32 @@ public class SimpleTimerTest {
 	 */
 	@Test
 	public final void testResetStopwatch() {
-		this.timer.startStopwatch(1, 1, TimeUnit.NANOSECONDS);
+		this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
 		assertTrue(this.timer.resetStopwatch());
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
+	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
 	 */
 	@Test
 	public final void testStartStopwatch() {
-		assertNotNull(this.timer.startStopwatch(1, 1, TimeUnit.NANOSECONDS));
+		assertNotNull(this.timer.startStopwatch(1, TimeUnit.NANOSECONDS));
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
-	 */
-	@Test(expected = ValueMinimumArgumentException.class)
-	public final void testShouldFailBecauseAmountOfThreadsIsLessThanOne() {
-		this.timer.startStopwatch(0, 1, TimeUnit.NANOSECONDS);
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
+	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseDelayIsLessThanOne() {
-		this.timer.startStopwatch(1, 0, TimeUnit.NANOSECONDS);
+		this.timer.startStopwatch(0, TimeUnit.NANOSECONDS);
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, int, java.util.concurrent.TimeUnit)}.
+	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeUnitIsNull() {
-		this.timer.startStopwatch(1, 1, null);
+		this.timer.startStopwatch(1, null);
 	}
 
 	/**
@@ -109,7 +101,7 @@ public class SimpleTimerTest {
 	 */
 	@Test
 	public final void testStopStopwatch() {
-		this.timer.startStopwatch(1, 1, TimeUnit.NANOSECONDS);
+		this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
 		assertTrue(this.timer.stopStopwatch());
 	}
 }

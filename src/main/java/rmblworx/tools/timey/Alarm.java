@@ -14,10 +14,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /**
  * Diese Implementierung dient der Steuerung des Alarmsystems.
- * 
+ *
  * @author mmatthies
  */
-public class Alarm implements IAlarm, ApplicationContextAware {
+class Alarm implements IAlarm, ApplicationContextAware {
 
 	/**
 	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
@@ -30,7 +30,7 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 
 	/**
 	 * Erweiterter Konstruktor.
-	 * 
+	 *
 	 * @param service
 	 *            Von dieser Klasse zu verwendende Serviceimplementierung
 	 * @param delay
@@ -85,7 +85,7 @@ public class Alarm implements IAlarm, ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
 		this.startAlarmdetection();
 	}

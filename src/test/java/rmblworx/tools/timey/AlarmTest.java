@@ -58,7 +58,7 @@ public class AlarmTest {
 	}
 
 	private List<AlarmDescriptor> createListWithDescriptors() {
-		this.list = new ArrayList<AlarmDescriptor>();
+		this.list = new ArrayList<>();
 		final AlarmDescriptor ad = new AlarmDescriptor(new TimeDescriptor(EXPECTED_MILLISECONDS), false, "Text",
 				"/bla/blub", null);
 		this.list.add(ad);
@@ -96,7 +96,7 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#isAlarmActivated(TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#isAlarmActivated(rmblworx.tools.timey.vo.AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testIsActivatedShouldReturnNullBecauseNoAlarmtimeWasSetBefore() {
@@ -111,7 +111,7 @@ public class AlarmTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Alarm#isAlarmActivated(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * {@link rmblworx.tools.timey.Alarm#isAlarmActivated(rmblworx.tools.timey.vo.AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testIsAlarmActivated() {
@@ -124,7 +124,7 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#removeAlarm(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#removeAlarm(rmblworx.tools.timey.vo.AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testRemoveAlarm() {
@@ -137,7 +137,7 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#setAlarm(TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.Alarm#setAlarm(rmblworx.tools.timey.vo.AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testSetAlarm() {
@@ -154,7 +154,7 @@ public class AlarmTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.Alarm#setStateOfAlarm(rmblworx.tools.timey.vo.TimeDescriptor, java.lang.Boolean)}
+	 * {@link rmblworx.tools.timey.Alarm#setStateOfAlarm(rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
 	 * .
 	 */
 	@Test
@@ -174,7 +174,7 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmService)} .
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(rmblworx.tools.timey.persistence.service.IAlarmService, int, java.util.concurrent.TimeUnit)} .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseServiceIsNull() {
@@ -182,7 +182,7 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmService)} .
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(rmblworx.tools.timey.persistence.service.IAlarmService, int, java.util.concurrent.TimeUnit)} .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeUnitIsNull() {
@@ -190,7 +190,7 @@ public class AlarmTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(IAlarmService)} .
+	 * Test method for {@link rmblworx.tools.timey.Alarm#Alarm(rmblworx.tools.timey.persistence.service.IAlarmService, int, java.util.concurrent.TimeUnit)} .
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseDelayIsLessThanOne() {

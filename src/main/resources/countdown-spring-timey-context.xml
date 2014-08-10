@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -10,9 +9,8 @@
 	<!-- ###################### Empfänger-Implementierungen ############################# -->
 	<bean id="countdownReceiver" name="countdown" class="rmblworx.tools.timey.Countdown">
 		<constructor-arg value="1" index="0" />
-		<constructor-arg value="1" index="1" />
 		<constructor-arg type="java.util.concurrent.TimeUnit"
-			value="MILLISECONDS" index="2" />
+			value="MILLISECONDS" index="1" />
 	</bean>
 	<!-- ###################### Client-Implementierungen ############################# -->
 	<bean id="countdownClient" name="countdownClient"
@@ -29,6 +27,8 @@
 		class="rmblworx.tools.timey.SimpleCountdown">
 		<constructor-arg ref="timeyEventDispatcher" />
 	</bean>
+	<bean id="countdownExpiredEvent" name="countdownExpiredEvent"
+		class="rmblworx.tools.timey.event.CountdownExpiredEvent" />
 	<!-- ############################# Werteobjekte ################################## -->
 	<bean id="descriptor" name="descriptor"
 		class="rmblworx.tools.timey.vo.TimeDescriptor">

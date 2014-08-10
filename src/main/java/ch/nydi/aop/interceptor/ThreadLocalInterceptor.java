@@ -1,4 +1,5 @@
 /*
+ * Modified by mmatthies.
  * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,7 +45,7 @@ public class ThreadLocalInterceptor<T>
      * @return newly created instance of {@link ThreadLocalInterceptor}
      */
     public static <T> ThreadLocalInterceptor<T> create(final ThreadLocal<T> threadLocal, final T value) {
-        return new ThreadLocalInterceptor<T>(threadLocal, value);
+        return new ThreadLocalInterceptor<>(threadLocal, value);
     }
 
     /**
