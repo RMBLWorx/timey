@@ -15,20 +15,20 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven-clean-plugin.version>2.4.1</maven-clean-plugin.version>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
 		<junit.version>4.11</junit.version>
 		<javafx.version>2.2</javafx.version>
-		<spring.version>4.0.2.RELEASE</spring.version>
-		<slf4j.version>1.7.6</slf4j.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
+		<slf4j.version>1.7.7</slf4j.version>
 		<apache.commons.lang.version>2.6</apache.commons.lang.version>
 		<cglib.version>3.1</cglib.version>
-		<aspectjweaver.version>1.7.4</aspectjweaver.version>
+		<aspectjweaver.version>1.8.1</aspectjweaver.version>
 		<testfx.version>3.1.2</testfx.version>
 		<hibernate.core.version>3.6.10.Final</hibernate.core.version>
-		<h2.version>1.3.175</h2.version>
+		<h2.version>1.3.176</h2.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<javafx.lib.ant-javafx.jar>${java.home}/../lib/ant-javafx.jar</javafx.lib.ant-javafx.jar>
-		<joda-time.version>2.3</joda-time.version>
+		<joda-time.version>2.4</joda-time.version>
 		<mockito.version>1.9.5</mockito.version>
 		<cpsuite.version>1.2.5</cpsuite.version>
 		<application.dist>${project.build.directory}/distribution</application.dist>
