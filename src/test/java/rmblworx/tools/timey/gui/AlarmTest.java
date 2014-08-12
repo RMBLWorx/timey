@@ -18,7 +18,7 @@ public class AlarmTest {
 	 * Testet {@link Alarm#getDateTimeInMillis()}.
 	 */
 	@Test
-	public void testGetDateTimeInMillis() {
+	public final void testGetDateTimeInMillis() {
 		final long now = System.currentTimeMillis();
 		assertEquals(now, new Alarm(new LocalDateTime(now), "alarm").getDateTimeInMillis());
 	}

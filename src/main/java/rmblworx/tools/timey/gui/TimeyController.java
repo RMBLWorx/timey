@@ -120,9 +120,6 @@ public class TimeyController extends Controller implements TimeyEventListener {
 	private void createTrayIcon() {
 		if (SystemTray.isSupported()) {
 			Platform.setImplicitExit(false);
-			final SystemTray tray = SystemTray.getSystemTray();
-			final Image clock = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
-			final Image clockWarning = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock_error.png"));
 
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(final WindowEvent event) {
@@ -160,6 +157,8 @@ public class TimeyController extends Controller implements TimeyEventListener {
 			});
 			popup.add(closeItem);
 
+			final Image clock = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
+			final Image clockWarning = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock_error.png"));
 			final TrayIcon trayIcon = new TrayIcon(clock, resources.getString("application.title"), popup);
 
 			new Timer().schedule(new TimerTask() {
@@ -202,7 +201,7 @@ public class TimeyController extends Controller implements TimeyEventListener {
 				}
 			});
 			try {
-				tray.add(trayIcon);
+				SystemTray.getSystemTray().add(trayIcon);
 				getGuiHelper().setTrayIcon(trayIcon);
 			} catch (final AWTException e) {
 				e.printStackTrace();

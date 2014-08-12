@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -64,12 +63,8 @@ public class OptionsController extends Controller {
 			languageChoice.valueProperty().addListener(new ChangeListener<Locale>() {
 				public void changed(final ObservableValue<? extends Locale> property, final Locale oldValue, final Locale newValue) {
 					ConfigManager.getCurrentConfig().setLocale(newValue);
-					Platform.runLater(new Runnable() {
-						public void run() {
-							getGuiHelper().showDialogMessage(resources.getString("messageDialog.languageChoice.title"),
-									resources.getString("messageDialog.languageChoice.text"), resources);
-						}
-					});
+					getGuiHelper().showDialogMessage(resources.getString("messageDialog.languageChoice.title"),
+							resources.getString("messageDialog.languageChoice.text"), resources);
 				}
 			});
 		}
