@@ -159,7 +159,7 @@ public class SimpleTimerTest {
 
 		// TIME-Mode ein
 		this.timer.toggleTimeModeInStopwatch();
-		long expected = td.getMilliSeconds();
+		final long expected = td.getMilliSeconds();
 		Thread.sleep(10);
 		long actual = td.getMilliSeconds();
 		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
@@ -167,14 +167,15 @@ public class SimpleTimerTest {
 		//STOP gedrueckt - Zeitmessung stoppt aber eingefrorene Zeit bleibt im Vordergrund
 		if(this.timer.stopStopwatch()) {
 			assertEquals("Werte nicht identisch obwohl TIME-Mode aktiv!", expected, actual);
+			actual = td.getMilliSeconds();
 		} else {
 			fail("Uhr konnte nicht angehalten werden!");
 		}
 
 		// TIME-Mode aus - Uhr noch angehalten - es muss nun der letzte Wert bei Stop geliefert werden
 		this.timer.toggleTimeModeInStopwatch();
+		Thread.sleep(1);
 		actual = td.getMilliSeconds();
 		assertNotEquals("Stoppuhr hat den TIME-Modus nicht deaktiviert!", expected, actual);
-
 	}
 }

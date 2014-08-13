@@ -45,6 +45,7 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	private ApplicationContext springContext;
 
 	private TimerRunnable timer;
+	private boolean wasStoppedBefore = false;
 
 	/**
 	 * Konstruktor. Erfordert die Referenz auf das Werteobjekt, welches den
@@ -91,6 +92,7 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 
 		this.scheduler = Executors.newScheduledThreadPool(THREAD_POOL_SIZE);
 		this.timerFuture = this.scheduler.scheduleAtFixedRate(this.timer, 0, delayPerThread, timeUnit);
+		this.wasStoppedBefore = false;
 
 		return this.timeDescriptor;
 	}
@@ -106,6 +108,7 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 			this.scheduler.schedule(stopRunnable, DELAY, TimeUnit.MILLISECONDS);
 		}
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
+		this.wasStoppedBefore = true;
 		return Boolean.TRUE;
 	}
 
@@ -116,6 +119,9 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 
 	@Override
 	public Boolean toggleTimeModeInStopwatch() {
+		if (this.wasStoppedBefore) {
+			this.timeDescriptor.setMilliSeconds(this.timePassed);
+		}
 		return this.timer.toggleTimeMode();
 	}
 }
