@@ -22,12 +22,11 @@
 		<slf4j.version>1.7.7</slf4j.version>
 		<apache.commons.lang.version>2.6</apache.commons.lang.version>
 		<cglib.version>3.1</cglib.version>
-		<aspectjweaver.version>1.8.1</aspectjweaver.version>
+		<aspectjweaver.version>1.8.2</aspectjweaver.version>
 		<testfx.version>3.1.2</testfx.version>
 		<hibernate.core.version>3.6.10.Final</hibernate.core.version>
 		<h2.version>1.3.176</h2.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
-		<javafx.lib.ant-javafx.jar>${java.home}/../lib/ant-javafx.jar</javafx.lib.ant-javafx.jar>
 		<mockito.version>1.9.5</mockito.version>
 		<junit-toolbox.version>2.0</junit-toolbox.version>
 		<application.dist>${project.build.directory}/distribution</application.dist>
@@ -100,12 +99,13 @@
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<!-- Testing -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
+			<scope>test</scope>
 		</dependency>
-		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -121,8 +121,8 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<scope>test</scope>
 			<version>${mockito.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.junit-toolbox</groupId>
@@ -150,6 +150,7 @@
 				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>app.properties</exclude>
+					<exclude>**/*.txt</exclude>
 				</excludes>
 			</resource>
 		</resources>
@@ -169,36 +170,19 @@
 					<inherited>true</inherited>
 					<configuration>
 						<archive>
+							<addMavenDescriptor>false</addMavenDescriptor>
 							<manifest>
+								<addClasspath>true</addClasspath>
 								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+								<classpathPrefix>lib/</classpathPrefix>
+								<mainClass>${timey.main.class}</mainClass>
 							</manifest>
+							<manifestEntries>
+								<JavaFX-Version>${javafx.version}</JavaFX-Version>
+							</manifestEntries>
 						</archive>
-					</configuration>
-				</plugin>
-				<!-- copy-dependencies in Eclipse aktivieren, http://stackoverflow.com/a/8752807 -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[1.0.0,)</versionRange>
-										<goals>
-											<goal>copy-dependencies</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
+						<outputDirectory>${application.dist}</outputDirectory>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -222,7 +206,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.0.201403182114</version>
+				<version>0.7.1.201405082137</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -237,30 +221,6 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
-<!-- 					<execution> -->
-<!-- 						<id>default-check</id> -->
-<!-- 						<goals> -->
-<!-- 							<goal>check</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							minimal geforderte Testabdeckung -->
-<!-- 							<rules> -->
-<!-- 								<rule> -->
-<!-- 									<element>CLASS</element> -->
-<!-- 									<excludes> -->
-<!-- 										<exclude>*Test</exclude> -->
-<!-- 									</excludes> -->
-<!-- 									<limits> -->
-<!-- 										<limit> -->
-<!-- 											<counter>LINE</counter> -->
-<!-- 											<value>COVEREDRATIO</value> -->
-<!-- 											<minimum>0.25</minimum> -->
-<!-- 										</limit> -->
-<!-- 									</limits> -->
-<!-- 								</rule> -->
-<!-- 							</rules> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
 				</executions>
 				<configuration>
 					<excludes>
@@ -301,78 +261,6 @@
 						<include>FixedOrderTests.java</include>
 					</includes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<!-- Quelle zum bauen des ausfuehrbaren und signierten Jar-Archivs (17.03.2014-21:03):
-						http://myjavafx.blogspot.de/2012/08/building-signing-and-deploying-your.html -->
-					<!-- Aufrufbeispiel: mvn clean install -DskipTests=true antrun:run -Dfx=jar -->
-					<execution>
-						<id>default-cli</id>
-						<phase>install</phase>
-						<configuration>
-							<target xmlns:fx="javafx:com.sun.javafx.tools.ant">
-								<property name="applet.width" value="330" />
-								<property name="applet.height" value="200" />
-								<property name="application.title" value="${project.artifactId}" />
-								<property name="application.vendor" value="${project.groupId}" />
-								<!-- Copy the class path to the manifest. The lib folder is generated
-									by maven-dependency-plugin. -->
-								<manifestclasspath property="manifest.classpath"
-									jarfile="${application.dist}/${artefactId}.jar">
-									<classpath>
-										<path id="build.classpath">
-											<fileset dir="${application.dist}/lib">
-												<include name="*.jar" />
-											</fileset>
-										</path>
-									</classpath>
-								</manifestclasspath>
-
-								<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
-									uri="javafx:com.sun.javafx.tools.ant" classpath="${javafx.lib.ant-javafx.jar}" />
-								<fx:application id="myApp" name="${project.artifactId}"
-									mainClass="${timey.main.class}" />
-								<fx:jar destfile="${application.dist}/${project.artifactId}.jar">
-									<fx:application refid="myApp" />
-
-									<manifest>
-										<attribute name="Class-Path" value="${manifest.classpath}" />
-										<attribute name="Implementation-Version" value="${project.version}" />
-										<attribute name="Bundle-Version" value="${project.version}" />
-									</manifest>
-
-									<fx:platform javafx="${javafx.version}" />
-
-									<!-- The target/classes folder which contains all resources and
-										class files -->
-									<fileset dir="${project.build.outputDirectory}" />
-								</fx:jar>
-								<fx:resources id="appRes">
-									<fx:fileset dir="${application.dist}" includes="*.jar" />
-									<fx:fileset dir="${application.dist}" includes="lib/*.jar" />
-								</fx:resources>
-								<fx:deploy width="${applet.width}" height="${applet.height}"
-									outdir="${application.dist}" embedJNLP="true" outfile="${application.title}">
-
-									<fx:application refId="myApp" />
-
-									<fx:resources refid="appRes" />
-									<fx:info title="Sample app: ${application.title}"
-										vendor="${application.vendor}" />
-
-									<!-- Request elevated permissions -->
-									<fx:permissions elevated="true" />
-								</fx:deploy>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
