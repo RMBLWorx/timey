@@ -8,6 +8,6 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.OptionsController">
   <children>
     <CheckBox fx:id="minimizeToTrayCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleMinimizeToTrayCheckboxClick" text="%minimizeToTrayCheckbox.label" />
-    <ComboBox fx:id="languageChoice" layoutX="14.0" layoutY="41.0" />
+    <ComboBox fx:id="languageChoice" layoutX="14.0" layoutY="65.0" />
   </children>
 </AnchorPane>
