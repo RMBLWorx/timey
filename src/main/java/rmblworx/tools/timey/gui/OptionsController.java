@@ -63,8 +63,9 @@ public class OptionsController extends Controller {
 			languageChoice.valueProperty().addListener(new ChangeListener<Locale>() {
 				public void changed(final ObservableValue<? extends Locale> property, final Locale oldValue, final Locale newValue) {
 					ConfigManager.getCurrentConfig().setLocale(newValue);
-					getGuiHelper().showDialogMessage(resources.getString("messageDialog.languageChoice.title"),
-							resources.getString("messageDialog.languageChoice.text"), resources);
+					final ResourceBundle i18nNewLocale = getGuiHelper().getResourceBundle(newValue);
+					getGuiHelper().showDialogMessage(i18nNewLocale.getString("messageDialog.languageChoice.title"),
+							i18nNewLocale.getString("messageDialog.languageChoice.text"), i18nNewLocale);
 				}
 			});
 		}
