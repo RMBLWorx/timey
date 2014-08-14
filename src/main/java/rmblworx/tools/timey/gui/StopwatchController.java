@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import rmblworx.tools.timey.gui.config.Config;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -40,6 +41,9 @@ public class StopwatchController extends Controller {
 	private Button stopwatchStopButton;
 
 	@FXML
+	private ToggleButton stopwatchSplitTimeButton;
+
+	@FXML
 	private Button stopwatchResetButton;
 
 	@FXML
@@ -62,6 +66,7 @@ public class StopwatchController extends Controller {
 	private void initialize() {
 		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
 		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
+		assert stopwatchSplitTimeButton != null : "fx:id='stopwatchSplitTimeButton' was not injected";
 		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";
 		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected";
 		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected";
@@ -82,6 +87,22 @@ public class StopwatchController extends Controller {
 	}
 
 	/**
+	 * Aktion bei Klick auf Zwischenzeit-Schaltfläche.
+	 */
+	@FXML
+	private void handleSplitTimeButtonClick() {
+		getGuiHelper().runInThread(new Task<Void>() {
+			public Void call() {
+				getGuiHelper().getFacade().toggleTimeModeInStopwatch();
+
+				stopwatchStopButton.setDisable(stopwatchSplitTimeButton.isSelected());
+
+				return null;
+			}
+		}, resources);
+	}
+
+	/**
 	 * Aktion bei Klick auf Stop-Schaltfläche.
 	 */
 	@FXML
@@ -99,6 +120,8 @@ public class StopwatchController extends Controller {
 				getGuiHelper().getFacade().resetStopwatch();
 				stopwatchValue = 0L;
 				updateStopwatchTimeLabel();
+				stopwatchSplitTimeButton.setSelected(false);
+				stopwatchStopButton.setDisable(false);
 				stopwatchStartButton.requestFocus();
 
 				return null;
@@ -135,6 +158,7 @@ public class StopwatchController extends Controller {
 				final TimeDescriptor td = getGuiHelper().getFacade().startStopwatch();
 
 				stopwatchStartButton.setVisible(false);
+				stopwatchSplitTimeButton.setDisable(false);
 				stopwatchStopButton.setVisible(true);
 				stopwatchStopButton.requestFocus();
 
@@ -173,6 +197,8 @@ public class StopwatchController extends Controller {
 
 				stopwatchStartButton.setVisible(true);
 				stopwatchStartButton.requestFocus();
+				stopwatchSplitTimeButton.setDisable(true);
+				stopwatchSplitTimeButton.setSelected(false);
 				stopwatchStopButton.setVisible(false);
 
 				return null;

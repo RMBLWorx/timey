@@ -55,4 +55,15 @@ class StopwatchClient {
 		return invoker.execute();
 	}
 
+	/**
+	 * @return true wenn Time-Modus erfolgreich aktiviert wurde sonst false
+	 */
+	public <T> T initStopwatchToggleTimeModeCommand() {
+		final StopwatchToggleTimeModeCommand cmd = new StopwatchToggleTimeModeCommand(this.fReceiver);
+		final Invoker invoker = new Invoker();
+		invoker.storeCommand(cmd);
+
+		return invoker.execute();
+	}
+
 }

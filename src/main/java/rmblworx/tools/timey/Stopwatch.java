@@ -8,14 +8,14 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /**
  * Diese Implementierung dient der Steuerung der Stoppuhr.
- * 
+ *
  * @author mmatthies
  */
 class Stopwatch implements IStopwatch {
 
 	/**
 	 * Gibt die Maszzahl fuer die Zeiteinheit an.
-	 * 
+	 *
 	 * @see #timeUnit
 	 */
 	private final int delayPerThread;
@@ -70,5 +70,15 @@ class Stopwatch implements IStopwatch {
 		}
 
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public Boolean toggleTimeModeInStopwatch() {
+		Boolean result = Boolean.FALSE;
+		if(this.timer != null){
+			result = this.timer.toggleTimeModeInStopwatch();
+		}
+
+		return result;
 	}
 }

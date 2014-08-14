@@ -10,6 +10,7 @@
     <Label fx:id="stopwatchTimeLabel" layoutX="14.0" layoutY="16.0" text="00:00:00.000" />
     <Button fx:id="stopwatchStartButton" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#handleStartButtonClick" prefWidth="55.0" text="%stopwatchStartButton.label" />
     <Button fx:id="stopwatchStopButton" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#handleStopButtonClick" prefWidth="55.0" text="%stopwatchStopButton.label" visible="false" />
+    <ToggleButton fx:id="stopwatchSplitTimeButton" layoutX="91.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleSplitTimeButtonClick" text="%stopwatchSplitTimeButton.label" disable="true" />
     <Button fx:id="stopwatchResetButton" layoutX="91.0" layoutY="65.0" mnemonicParsing="false" onAction="#handleResetButtonClick" text="%stopwatchResetButton.label" />
     <CheckBox fx:id="stopwatchShowMillisecondsCheckbox" indeterminate="false" layoutX="190.0" layoutY="69.0" mnemonicParsing="false" onAction="#handleShowMillisecondsCheckboxClick" selected="true" text=".000" />
   </children>
