@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.SwingUtilities;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -91,7 +93,11 @@ public class GuiHelper {
 			throw new RuntimeException("There's no system tray icon.");
 		}
 
-		trayIcon.displayMessage(caption, text, TrayIcon.MessageType.INFO);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				trayIcon.displayMessage(caption, text, TrayIcon.MessageType.INFO);
+			}
+		});
 	}
 
 	/**

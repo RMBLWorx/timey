@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.SwingUtilities;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -118,95 +120,119 @@ public class TimeyController extends Controller implements TimeyEventListener {
 	 * Erzeugt das Symbol im System-Tray.
 	 */
 	private void createTrayIcon() {
-		if (SystemTray.isSupported()) {
-			Platform.setImplicitExit(false);
+		if (!SystemTray.isSupported()) {
+			return;
+		}
 
-			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-				public void handle(final WindowEvent event) {
-					if (ConfigManager.getCurrentConfig().isMinimizeToTray()) {
-						hide();
-					} else {
-						exit();
-					}
-				}
-			});
+		Platform.setImplicitExit(false);
 
-			stage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
-				public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
-					if (Boolean.TRUE.equals(newValue)) {
-						hide();
-					}
-				}
-			});
-
-			final PopupMenu popup = new PopupMenu();
-
-			final MenuItem showItem = new MenuItem(resources.getString("trayMenu.show.label"));
-			showItem.addActionListener(new ActionListener() {
-				public void actionPerformed(final ActionEvent event) {
-					show();
-				}
-			});
-			popup.add(showItem);
-
-			final MenuItem closeItem = new MenuItem(resources.getString("trayMenu.close.label"));
-			closeItem.addActionListener(new ActionListener() {
-				public void actionPerformed(final ActionEvent event) {
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			public void handle(final WindowEvent event) {
+				if (ConfigManager.getCurrentConfig().isMinimizeToTray()) {
+					hide();
+				} else {
 					exit();
 				}
-			});
-			popup.add(closeItem);
-
-			final Image clock = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
-			final Image clockWarning = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock_error.png"));
-			final TrayIcon trayIcon = new TrayIcon(clock, resources.getString("application.title"), popup);
-
-			new Timer().schedule(new TimerTask() {
-				public void run() {
-					// aufhören zu blinken, nachdem Fenster wieder sichtbar gemacht wurde
-					if (isAppVisible()) {
-						trayIconBlinking = false;
-					}
-
-					trayIcon.setImage(trayIconBlinking && trayIcon.getImage() == clock ? clockWarning : clock);
-				}
-			}, 0, TRAY_ICON_BLINK_INTERVAL);
-
-			trayIcon.addActionListener(new ActionListener() {
-				public void actionPerformed(final ActionEvent event) {
-					show();
-				}
-			});
-			trayIcon.addMouseListener(new MouseListener() {
-				public void mouseClicked(final MouseEvent event) {
-					if (event.getButton() == MouseEvent.BUTTON1) {
-						if (stage.isIconified()) {
-							show();
-						} else {
-							hide();
-						}
-					}
-				}
-
-				public void mouseReleased(final MouseEvent event) {
-				}
-
-				public void mousePressed(final MouseEvent event) {
-				}
-
-				public void mouseExited(final MouseEvent event) {
-				}
-
-				public void mouseEntered(final MouseEvent event) {
-				}
-			});
-			try {
-				SystemTray.getSystemTray().add(trayIcon);
-				getGuiHelper().setTrayIcon(trayIcon);
-			} catch (final AWTException e) {
-				e.printStackTrace();
 			}
-		}
+		});
+
+		stage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
+			public void changed(final ObservableValue<? extends Boolean> property, final Boolean oldValue, final Boolean newValue) {
+				if (Boolean.TRUE.equals(newValue)) {
+					hide();
+				}
+			}
+		});
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				final Image clock = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock.png"));
+				final Image clockWarning = Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/clock_error.png"));
+				final TrayIcon trayIcon = new TrayIcon(clock, resources.getString("application.title"), createTrayMenu());
+
+				new Timer().schedule(new TimerTask() {
+					public void run() {
+						// aufhören zu blinken, nachdem Fenster wieder sichtbar gemacht wurde
+						if (isAppVisible()) {
+							trayIconBlinking = false;
+						}
+
+						trayIcon.setImage(trayIconBlinking && trayIcon.getImage() == clock ? clockWarning : clock);
+					}
+				}, 0, TRAY_ICON_BLINK_INTERVAL);
+
+				addTrayListeners(trayIcon);
+
+				try {
+					SystemTray.getSystemTray().add(trayIcon);
+					getGuiHelper().setTrayIcon(trayIcon);
+				} catch (final AWTException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Erzeugt das Menü fürs System-Tray.
+	 * @return Popup-Menü
+	 */
+	private PopupMenu createTrayMenu() {
+		final PopupMenu popup = new PopupMenu();
+
+		final MenuItem showItem = new MenuItem(resources.getString("trayMenu.show.label"));
+		showItem.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent event) {
+				show();
+			}
+		});
+		popup.add(showItem);
+
+		final MenuItem closeItem = new MenuItem(resources.getString("trayMenu.close.label"));
+		closeItem.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent event) {
+				exit();
+			}
+		});
+		popup.add(closeItem);
+
+		return popup;
+	}
+
+	/**
+	 * Ergänzt das Symbol im System-Tray um notwendige EventListener.
+	 * @param trayIcon Symbol im System-Tray
+	 */
+	private void addTrayListeners(final TrayIcon trayIcon) {
+		trayIcon.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent event) {
+				show();
+			}
+		});
+
+		trayIcon.addMouseListener(new MouseListener() {
+			public void mouseClicked(final MouseEvent event) {
+				if (event.getButton() == MouseEvent.BUTTON1) {
+					if (stage.isIconified()) {
+						show();
+					} else {
+						hide();
+					}
+				}
+			}
+
+			public void mouseReleased(final MouseEvent event) {
+			}
+
+			public void mousePressed(final MouseEvent event) {
+			}
+
+			public void mouseExited(final MouseEvent event) {
+			}
+
+			public void mouseEntered(final MouseEvent event) {
+			}
+		});
 	}
 
 	/**
