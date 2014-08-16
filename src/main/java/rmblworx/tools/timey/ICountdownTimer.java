@@ -4,10 +4,13 @@ import java.util.concurrent.TimeUnit;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Countdown-Objekts das die konkrete Zeitmessung
  * implementiert.
- * 
  * @author mmatthies
  */
 interface ICountdownTimer {

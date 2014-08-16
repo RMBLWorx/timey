@@ -3,10 +3,13 @@ package rmblworx.tools.timey;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Kommando zum setzen der Countdown-Zeit.
- *
- * @author "mmatthies"
+ * @author mmatthies
  */
 class CountdownSetTimeCommand implements ICommand {
 

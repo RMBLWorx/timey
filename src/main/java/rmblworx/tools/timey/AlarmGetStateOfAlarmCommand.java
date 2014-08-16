@@ -3,10 +3,13 @@ package rmblworx.tools.timey;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Kommando zur Erfragung des Aktivierungsstatus eines Alarmzeitpunktes.
- *
- * @author "mmatthies"
+ * @author mmatthies
  */
 class AlarmGetStateOfAlarmCommand implements ICommand {
 

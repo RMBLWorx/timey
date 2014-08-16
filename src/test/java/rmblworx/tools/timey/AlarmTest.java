@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertFalse;
@@ -29,6 +26,10 @@ import rmblworx.tools.timey.persistence.service.IAlarmService;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * @author mmatthies
  */

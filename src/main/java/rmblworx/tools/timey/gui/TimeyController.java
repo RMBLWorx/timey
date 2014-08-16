@@ -29,12 +29,13 @@ import rmblworx.tools.timey.event.TimeyEvent;
 import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Controller für die Timey-GUI.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class TimeyController extends Controller implements TimeyEventListener {
 

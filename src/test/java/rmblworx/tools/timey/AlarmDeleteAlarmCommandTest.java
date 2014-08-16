@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertFalse;
@@ -16,12 +13,14 @@ import org.mockito.MockitoAnnotations;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
-import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Testet das Kommando zum loeschen von Alarmzeitpunkten aus der Datenbank wobei ausschliesslich die Logik des Kommandos
  * getestet wird und nicht die Funktionalitaet der anderen Akteure.
- * 
  * @author mmatthies
  */
 public class AlarmDeleteAlarmCommandTest {

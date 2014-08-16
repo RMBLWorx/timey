@@ -1,9 +1,12 @@
 package rmblworx.tools.timey.exception;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Wird geworfen um anzuzeigen, dass der an die Methode uebergebene Wert kleiner als der im jeweiligen Kontext
  * erforderliche Mindestwert.
- * 
  * @author mmatthies
  */
 public final class ValueMinimumArgumentException extends IllegalArgumentException {

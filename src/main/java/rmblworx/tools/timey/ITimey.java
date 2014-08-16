@@ -4,9 +4,12 @@ import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Schnittstellenbeschreibung des timey-Systems.
- * 
  * @author mmatthies
  */
 public interface ITimey extends IAlarm, ICountdown, IStopwatch {

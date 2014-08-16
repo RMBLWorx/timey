@@ -18,12 +18,13 @@ import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.gui.component.TimePicker;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * GUI-Tests für den Countdown.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 @Category(TestFX.class)
 public class CountdownControllerTest extends FxmlGuiControllerTest {

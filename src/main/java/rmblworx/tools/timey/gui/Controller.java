@@ -3,12 +3,13 @@ package rmblworx.tools.timey.gui;
 import java.util.List;
 import java.util.Vector;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Basisklasse für GUI-Controller.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public abstract class Controller {
 

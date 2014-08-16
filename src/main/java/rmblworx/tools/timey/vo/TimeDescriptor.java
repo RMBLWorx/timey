@@ -2,10 +2,13 @@ package rmblworx.tools.timey.vo;
 
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
  * Countdown, den Alarm und die Stopuhr benoetigt wird.
- *
  * @author mmatthies
  */
 public class TimeDescriptor {

@@ -15,6 +15,13 @@ import org.mockito.MockitoAnnotations;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
+/**
+ * @author mmatthies
+ */
 public class AlarmGetAllAlarmsCommandTest {
 
 	private Invoker invoker;

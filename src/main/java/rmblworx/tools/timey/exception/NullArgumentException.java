@@ -1,9 +1,12 @@
 package rmblworx.tools.timey.exception;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Wird geworfen um anzuzeigen, dass eine Referenz auf {@code null} an eine Methode uebergeben wurde und dies nicht im
  * jeweiligen Kontext zulaessig ist.
- * 
  * @author mmatthies
  */
 public final class NullArgumentException extends IllegalArgumentException {

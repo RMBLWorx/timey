@@ -12,9 +12,12 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.persistence.service.IAlarmService;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Diese Implementierung dient der Steuerung des Alarmsystems.
- *
  * @author mmatthies
  */
 class Alarm implements IAlarm, ApplicationContextAware {

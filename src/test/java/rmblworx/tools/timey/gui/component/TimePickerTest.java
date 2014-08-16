@@ -26,12 +26,13 @@ import rmblworx.tools.timey.gui.DateTimeUtil;
 
 import com.google.common.base.Predicate;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * GUI-Tests für die TimePicker-Komponente.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 @Category(TestFX.class)
 public class TimePickerTest extends GuiTest {

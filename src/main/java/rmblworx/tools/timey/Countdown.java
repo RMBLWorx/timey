@@ -9,9 +9,12 @@ import org.springframework.context.ApplicationContextAware;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Ermoeglicht die Zeitmessung in Form eines Countdowns.
- *
  * @author mmatthies
  */
 class Countdown implements ICountdown, ApplicationContextAware {

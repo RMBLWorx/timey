@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
@@ -29,10 +26,13 @@ import org.slf4j.LoggerFactory;
 import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Diese Implementierung ermöglicht das Auslesen der Attribute Bundle-Version und/oder Implementation-Version aus dem
  * Manifest einer zu findenden Jar-Datei. Gesucht wird hierbei im Verzeichnis in welchem timey ausgefuehrt wird.
- *
  * @author mmatthies
  */
 class JarVersionDetector {

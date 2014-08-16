@@ -4,9 +4,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Verwaltet die Listener und verteilt die Events.
- *
  * @author mmatthies
  */
 public class TimeyEventDispatcher {

@@ -5,6 +5,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Abstrakte Klasse fuer alle timey Zeitmessungsimplementierungen.
  * @author mmatthies

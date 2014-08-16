@@ -5,9 +5,12 @@ import java.util.List;
 import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
- *
  * @author mmatthies
  * @see AlarmEntity
  */

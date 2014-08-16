@@ -26,13 +26,14 @@ import org.slf4j.LoggerFactory;
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Controller für den Dialog zum Bearbeiten eines Alarms.
- * @see http://edu.makery.ch/blog/2012/11/20/javafx-tutorial-addressapp-3/
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @see <a href="http://code.makery.ch/java/javafx-2-tutorial-part3/">JavaFX 2 Tutorial - Part 3: Interacting with the User</a>
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class AlarmEditDialogController extends Controller {
 

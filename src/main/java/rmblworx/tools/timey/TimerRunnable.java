@@ -2,9 +2,12 @@ package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Diese Thread-sichere Implementierung dient der Zeitmessung in Millisekunden.
- *
  * @author mmatthies
  */
 class TimerRunnable extends TimeyTimeRunnable implements Runnable {
