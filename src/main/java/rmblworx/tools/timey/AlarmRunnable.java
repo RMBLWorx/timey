@@ -16,9 +16,12 @@ import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.persistence.service.IAlarmService;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Diese Thread-sichere Implementierung setzt einen Countdown-Zähler um. Zeitnahme findet in Millisekunden statt.
- *
  * @author mmatthies
  */
 class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventListener {

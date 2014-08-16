@@ -1,5 +1,9 @@
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
- * Enthält alle Implementierungen für das GUI.
- * @author mmatthies
+ * GUI-Implementierung.
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 package rmblworx.tools.timey.gui;

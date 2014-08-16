@@ -1,6 +1,5 @@
 package rmblworx.tools.timey;
 
-
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -17,6 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * @author mmatthies
  */

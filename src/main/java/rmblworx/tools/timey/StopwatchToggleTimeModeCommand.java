@@ -1,13 +1,13 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * @author mmatthies
- *
  */
 public class StopwatchToggleTimeModeCommand implements ICommand{
 	/**

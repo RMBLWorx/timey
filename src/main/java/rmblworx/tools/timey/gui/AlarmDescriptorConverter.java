@@ -8,12 +8,13 @@ import org.joda.time.LocalDateTime;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Konvertiert zwischen {@link Alarm} und {@link AlarmDescriptor}.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public final class AlarmDescriptorConverter {
 

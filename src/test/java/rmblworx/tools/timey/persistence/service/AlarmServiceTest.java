@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey.persistence.service;
 
 import static org.junit.Assert.assertNull;
@@ -21,6 +18,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * @author mmatthies
  */

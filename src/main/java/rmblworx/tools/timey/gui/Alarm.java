@@ -9,12 +9,13 @@ import javafx.beans.property.StringProperty;
 
 import org.joda.time.LocalDateTime;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Alarm-VO für die GUI.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class Alarm implements Comparable<Alarm> {
 

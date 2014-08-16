@@ -10,12 +10,13 @@ import java.io.OutputStream;
 
 import org.slf4j.LoggerFactory;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Speichern/Laden der Konfiguration auf Basis einer Datei.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class FileConfigStorage extends ConfigStorage {
 

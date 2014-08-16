@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import java.util.concurrent.Executors;
@@ -14,6 +11,10 @@ import org.springframework.context.ApplicationContextAware;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * @author mmatthies
  */

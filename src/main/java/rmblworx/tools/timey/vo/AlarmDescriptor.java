@@ -1,8 +1,11 @@
 package rmblworx.tools.timey.vo;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Werteobjekt zur Beschreibung eines Alarms.
- *
  * @author mmatthies
  */
 public class AlarmDescriptor {

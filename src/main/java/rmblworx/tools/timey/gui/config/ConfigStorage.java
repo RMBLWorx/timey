@@ -7,12 +7,13 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Properties;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Speichern/Laden der Konfiguration.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class ConfigStorage {
 

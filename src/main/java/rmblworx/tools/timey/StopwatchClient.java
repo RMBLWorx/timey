@@ -1,8 +1,11 @@
 package rmblworx.tools.timey;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
- *
  * @author mmatthies
  */
 class StopwatchClient {

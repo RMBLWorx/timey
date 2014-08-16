@@ -2,9 +2,12 @@ package rmblworx.tools.timey;
 
 import rmblworx.tools.timey.exception.NullArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Kommando zum Stoppen der Stoppuhr.
- *
  * @author mmatthies
  */
 class StopwatchStopCommand implements ICommand {

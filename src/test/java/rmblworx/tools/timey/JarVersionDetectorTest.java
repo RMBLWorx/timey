@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertNotNull;
@@ -18,6 +15,10 @@ import org.slf4j.LoggerFactory;
 import rmblworx.tools.timey.exception.EmptyArgumentException;
 import rmblworx.tools.timey.exception.NullArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * @author mmatthies
  */

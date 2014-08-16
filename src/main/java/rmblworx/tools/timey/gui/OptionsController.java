@@ -14,12 +14,13 @@ import javafx.util.StringConverter;
 import rmblworx.tools.timey.gui.config.Config;
 import rmblworx.tools.timey.gui.config.ConfigManager;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Controller für die Optionen-GUI.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class OptionsController extends Controller {
 

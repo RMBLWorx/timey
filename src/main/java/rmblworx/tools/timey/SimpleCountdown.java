@@ -17,9 +17,12 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Implementierung eines einfachen Timer's zum ausfuehren einer Zeitmessung.
- *
  * @author mmatthies
  */
 class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {

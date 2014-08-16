@@ -2,9 +2,12 @@ package rmblworx.tools.timey;
 
 import java.util.concurrent.ScheduledExecutorService;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Helferklasse mit haeufig benoetigten Funktionen.
- *
  * @author mmatthies
  */
 public final class TimeyUtils {

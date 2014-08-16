@@ -3,7 +3,6 @@ package rmblworx.tools.timey.vo;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Testklasse die das Wertobjekt zum kapseln der Zeitwerte testet.
- *
  * @author mmatthies
  */
 @RunWith(SpringJUnit4ClassRunner.class)

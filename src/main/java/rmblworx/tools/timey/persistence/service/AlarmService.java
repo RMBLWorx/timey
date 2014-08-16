@@ -13,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import rmblworx.tools.timey.event.AlarmsModifiedEvent;
 import rmblworx.tools.timey.event.TimeyEventDispatcher;
 import rmblworx.tools.timey.persistence.dao.IAlarmDao;
-import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Serviceimplementierung zur Persistierung von {@link rmblworx.tools.timey.persistence.model.AlarmEntity Alarmzeitpunkt}en.
- *
  * @author mmatthies
  */
 @Service

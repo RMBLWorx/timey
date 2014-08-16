@@ -4,12 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Test für Hilfsmethoden zum Umgang mit Datum/Zeit-Werten.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class DateTimeUtilTest {
 

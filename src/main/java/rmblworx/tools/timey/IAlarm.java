@@ -4,9 +4,12 @@ import java.util.List;
 
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Schnittstellenbeschreibung des Alarmsystems.
- * 
  * @author mmatthies
  */
 interface IAlarm {

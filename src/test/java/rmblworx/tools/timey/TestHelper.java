@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rmblworx.tools.timey;
 
 import java.io.BufferedReader;
@@ -11,9 +8,12 @@ import java.io.Reader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Helferklasse fuer, in so manchem Test, haeufig benoetigte Funktionalitaeten.
- * 
  * @author mmatthies
  */
 final class TestHelper {

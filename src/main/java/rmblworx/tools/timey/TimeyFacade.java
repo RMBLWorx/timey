@@ -15,10 +15,13 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Fassade fuer das Backendsystem von timey. Bietet das API fuer saemtliche fuer das Frontend (GUI-Implementierung)
  * relevanten timey-Funktionen an.
- *
  * @author mmatthies
  */
 public final class TimeyFacade implements ITimey {

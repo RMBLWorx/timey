@@ -25,12 +25,13 @@ import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.gui.component.TimePicker;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Controller für die Countdown-GUI.
- * 
- * @author Christian Raue <christian.raue@gmail.com>
- * @copyright 2014 Christian Raue
- * @license http://opensource.org/licenses/mit-license.php MIT License
+ * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class CountdownController extends Controller implements TimeyEventListener {
 
