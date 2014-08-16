@@ -119,7 +119,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// deaktivieren
-		alarmEnabledCheckbox.fire();
+		click(alarmEnabledCheckbox);
 
 		// Datum setzen
 		alarmDatePicker.setValue(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
@@ -135,8 +135,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// Speichern-Schaltfläche betätigen
-		alarmSaveButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmSaveButton);
 
 		// TODO auf Schließen des Dialogs warten
 
@@ -174,8 +173,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		controller.setGuiHelper(guiHelper);
 
 		// Speichern-Schaltfläche betätigen
-		alarmSaveButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmSaveButton);
 
 		// sicherstellen, dass Fehlermeldung erscheint
 		verify(guiHelper).showDialogMessage(anyString(), eq("Ein Datum muss angegeben werden.\n"), isA(ResourceBundle.class));
@@ -234,8 +232,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 			controller.setGuiHelper(guiHelper);
 
 			// Speichern-Schaltfläche betätigen
-			alarmSaveButton.fire();
-			FXTestUtils.awaitEvents();
+			click(alarmSaveButton);
 
 			// sicherstellen, dass Fehlermeldung erscheint bzw. nicht
 			verify(guiHelper, times(testCase.numberOfCalls)).showDialogMessage(anyString(),
@@ -262,7 +259,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// deaktivieren
-		alarmEnabledCheckbox.fire();
+		click(alarmEnabledCheckbox);
 
 		// Datum setzen
 		alarmDatePicker.setValue(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
@@ -278,8 +275,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// Abbrechen-Schaltfläche betätigen
-		alarmCancelButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmCancelButton);
 
 		// TODO auf Schließen des Dialogs warten
 
@@ -319,13 +315,11 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Sound-Abspielen-Schaltfläche betätigen
 		final AudioPlayer player = mock(AudioPlayer.class);
 		controller.getGuiHelper().setAudioPlayer(player);
-		alarmPlaySoundButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmPlaySoundButton);
 		verify(player).playInThread(eq("Sound"), isA(Thread.UncaughtExceptionHandler.class));
 
 		// Sound-Löschen-Schaltfläche betätigen
-		alarmNoSoundButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmNoSoundButton);
 
 		assertEquals("kein Klingelton gewählt", alarmSelectSoundButton.getText());
 	}

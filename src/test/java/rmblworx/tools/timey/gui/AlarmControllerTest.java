@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
-import org.loadui.testfx.utils.FXTestUtils;
 import org.mockito.ArgumentMatcher;
 
 import rmblworx.tools.timey.vo.AlarmDescriptor;
@@ -86,8 +85,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertFalse(alarmDeleteButton.isDisabled());
 
 		// Alarm löschen
-		alarmDeleteButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmDeleteButton);
 		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
@@ -109,8 +107,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		alarmTable.getSelectionModel().select(alarm1);
 
 		// Alarm löschen
-		alarmDeleteButton.fire();
-		FXTestUtils.awaitEvents();
+		click(alarmDeleteButton);
 
 		// sicherstellen, dass keine Alarme mehr existieren
 		assertTrue(tableData.isEmpty());
