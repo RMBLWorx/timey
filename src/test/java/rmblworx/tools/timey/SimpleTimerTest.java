@@ -166,7 +166,7 @@ public class SimpleTimerTest {
 		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
 
 		//STOP gedrueckt - Zeitmessung stoppt aber eingefrorene Zeit bleibt im Vordergrund
-		if(this.timer.stopStopwatch()) {
+		if (this.timer.stopStopwatch()) {
 			assertEquals("Werte nicht identisch obwohl TIME-Mode aktiv!", expected, actual);
 			actual = td.getMilliSeconds();
 		} else {

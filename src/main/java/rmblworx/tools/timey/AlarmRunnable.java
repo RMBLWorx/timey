@@ -60,7 +60,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 		this.lock.lock();
 		try {
 			// alarme aus der db
-			if(this.allAlarms == null || this.newOrModifiedAlarmsAvailable){
+			if (this.allAlarms == null || this.newOrModifiedAlarmsAvailable) {
 				this.allAlarms = this.alarmService.getAll();
 				this.newOrModifiedAlarmsAvailable = false;
 			}
@@ -87,7 +87,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 
 	@Override
 	public void handleEvent(final TimeyEvent timeyEvent) {
-		if(timeyEvent instanceof AlarmsModifiedEvent){
+		if (timeyEvent instanceof AlarmsModifiedEvent) {
 			this.newOrModifiedAlarmsAvailable = true;
 		}
 	}
