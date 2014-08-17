@@ -1,7 +1,9 @@
 package rmblworx.tools.timey.gui;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,19 +14,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import jfxtras.scene.control.CalendarTextField;
+import javafx.util.StringConverter;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.MutableDateTime;
-import org.slf4j.LoggerFactory;
 
 import rmblworx.tools.timey.gui.component.TimePicker;
-import rmblworx.tools.timey.gui.config.ConfigManager;
 
 /*
  * Copyright 2014 Christian Raue
@@ -36,11 +36,6 @@ import rmblworx.tools.timey.gui.config.ConfigManager;
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class AlarmEditDialogController extends Controller {
-
-	/**
-	 * Formatiert Zeitstempel als Datum-Werte.
-	 */
-	private SimpleDateFormat dateFormatter;
 
 	/**
 	 * Fenster des Dialogs.
@@ -74,7 +69,7 @@ public class AlarmEditDialogController extends Controller {
 	private CheckBox alarmEnabledCheckbox;
 
 	@FXML
-	private CalendarTextField alarmDatePicker;
+	private DatePicker alarmDatePicker;
 
 	@FXML
 	private TimePicker alarmTimePicker;
@@ -101,15 +96,25 @@ public class AlarmEditDialogController extends Controller {
 		assert alarmNoSoundButton != null : "fx:id='alarmNoSoundButton' was not injected";
 		assert alarmPlaySoundButton != null : "fx:id='alarmPlaySoundButton' was not injected";
 
-		setupDateFormatter();
-
-		alarmDatePicker.setDateFormat(dateFormatter);
-		alarmDatePicker.setLocale(ConfigManager.getCurrentConfig().getLocale());
 		alarmDatePicker.setPromptText(resources.getString("alarmEdit.datePicker.placeholder"));
-		alarmDatePicker.setParseErrorCallback(new Callback<Throwable, Void>() {
-			public Void call(final Throwable e) {
-				LoggerFactory.getLogger(getClass()).error(e.getLocalizedMessage());
+
+		alarmDatePicker.setConverter(new StringConverter<LocalDate>() {
+			private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+			public LocalDate fromString(final String string) {
+				if (string != null && !string.isEmpty()) {
+					return LocalDate.parse(string, dateFormatter);
+				}
+
 				return null;
+			}
+
+			public String toString(final LocalDate date) {
+				if (date != null) {
+					return dateFormatter.format(date);
+				}
+
+				return "";
 			}
 		});
 
@@ -146,7 +151,7 @@ public class AlarmEditDialogController extends Controller {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				alarmEnabledCheckbox.setSelected(alarm.isEnabled());
-				alarmDatePicker.setCalendar(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar());
+				alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 				alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
 				alarmDescriptionTextField.setText(alarm.getDescription());
 				ringtone.set(alarm.getSound());
@@ -237,7 +242,7 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	private LocalDateTime getDateTimeFromPickers() {
 		final MutableDateTime mdt = new MutableDateTime(0);
-		mdt.add(alarmDatePicker.getCalendar().getTimeInMillis());
+		mdt.add(alarmDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 		mdt.add(alarmTimePicker.getTime().getMillisOfDay());
 
 		return mdt.toDateTime().toLocalDateTime();
@@ -249,12 +254,12 @@ public class AlarmEditDialogController extends Controller {
 	private boolean isInputValid() {
 		final StringBuilder errors = new StringBuilder();
 
-		if (alarmDatePicker.getCalendar() == null) {
+		if (alarmDatePicker.getValue() == null) {
 			errors.append(resources.getString("alarmEdit.date.empty"));
 			errors.append('\n');
 		}
 
-		if (alarmDatePicker.getCalendar() != null) {
+		if (alarmDatePicker.getValue() != null) {
 			final LocalDateTime selectedDateTime = getDateTimeFromPickers();
 
 			if (alarmEnabledCheckbox.isSelected() && selectedDateTime.isBefore(new LocalDateTime())) {
@@ -280,15 +285,6 @@ public class AlarmEditDialogController extends Controller {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Initialisiert den Datums-Formatierer.
-	 */
-	private void setupDateFormatter() {
-		if (dateFormatter == null) {
-			dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-		}
 	}
 
 }

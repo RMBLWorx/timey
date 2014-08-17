@@ -107,11 +107,6 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jfxtras</groupId>
-			<artifactId>jfxtras-controls</artifactId>
-			<version>8.0-r1</version>
-		</dependency>
-		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time.version}</version>
