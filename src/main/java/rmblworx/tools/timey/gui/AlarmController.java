@@ -1,7 +1,8 @@
 package rmblworx.tools.timey.gui;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,9 +30,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-
-import org.joda.time.LocalDateTime;
-
 import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.event.AlarmExpiredEvent;
 import rmblworx.tools.timey.event.TimeyEvent;
@@ -51,7 +49,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	/**
 	 * Formatiert Zeitstempel als Datum/Zeit-Werte.
 	 */
-	private SimpleDateFormat dateTimeFormatter;
+	private DateTimeFormatter dateTimeFormatter;
 
 	@FXML
 	private ResourceBundle resources;
@@ -95,7 +93,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 					return new TableCell<Alarm, LocalDateTime>() {
 						protected void updateItem(final LocalDateTime item, final boolean empty) {
 							super.updateItem(item, empty);
-							setText(empty ? null : dateTimeFormatter.format(item.toDate().getTime()));
+							setText(empty ? null : dateTimeFormatter.format(item));
 						}
 					};
 				}
@@ -341,7 +339,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	 */
 	private void setupDateTimeFormatter() {
 		if (dateTimeFormatter == null) {
-			dateTimeFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+			dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 		}
 	}
 

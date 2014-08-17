@@ -7,13 +7,15 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.verify;
+
+import java.time.LocalDateTime;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 
-import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -67,9 +69,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	public final void testDeleteAlarm() {
 		// zwei Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		final LocalDateTime now = LocalDateTime.now().millisOfSecond().setCopy(0);
-		final Alarm alarm1 = new Alarm(now.secondOfMinute().addToCopy(5), "alarm1");
-		final Alarm alarm2 = new Alarm(now.secondOfMinute().addToCopy(10), "alarm2");
+		final LocalDateTime now = LocalDateTime.now().withNano(0);
+		final Alarm alarm1 = new Alarm(now.plusSeconds(5), "alarm1");
+		final Alarm alarm2 = new Alarm(now.plusSeconds(10), "alarm2");
 		tableData.add(alarm1);
 		tableData.add(alarm2);
 

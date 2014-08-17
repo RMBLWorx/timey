@@ -1,13 +1,13 @@
 package rmblworx.tools.timey.gui;
 
+import java.time.LocalDateTime;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-import org.joda.time.LocalDateTime;
 
 /*
  * Copyright 2014 Christian Raue
@@ -28,7 +28,7 @@ public class Alarm implements Comparable<Alarm> {
 	 * Initialisiert den Alarm mit der aktuellen Systemzeit.
 	 */
 	public Alarm() {
-		this(LocalDateTime.now().millisOfSecond().setCopy(0), null);
+		this(LocalDateTime.now().withNano(0), null);
 	}
 
 	public Alarm(final LocalDateTime dateTime, final String description) {
@@ -66,7 +66,7 @@ public class Alarm implements Comparable<Alarm> {
 	 * @return UTC-basierter Datum/Zeit-Wert in ms
 	 */
 	public long getDateTimeInMillis() {
-		return dateTime.get().toDateTime().getMillis();
+		return DateTimeUtil.getLocalDateTimeInMillis(getDateTime());
 	}
 
 	public void setDescription(final String description) {
@@ -87,7 +87,7 @@ public class Alarm implements Comparable<Alarm> {
 
 	public int compareTo(final Alarm other) {
 		// nach Datum/Zeit sortieren, älteste zuerst
-		return getDateTime().toDateTime().getMillis() > other.getDateTime().toDateTime().getMillis() ? 1 : -1;
+		return getDateTime().compareTo(other.getDateTime());
 	}
 
 	/*

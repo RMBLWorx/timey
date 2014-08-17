@@ -3,7 +3,6 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.joda.time.LocalDateTime;
 import org.junit.Test;
 
 import rmblworx.tools.timey.vo.AlarmDescriptor;
@@ -41,8 +40,7 @@ public class AlarmDescriptorConverterTest {
 	@Test
 	public final void testGetAsAlarmDescriptor() {
 		final long now = System.currentTimeMillis();
-
-		final Alarm alarm = new Alarm(new LocalDateTime(now), "alarm", "/path/to/sound", false);
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeFromMillis(now), "alarm", "/path/to/sound", false);
 		final AlarmDescriptor ad = AlarmDescriptorConverter.getAsAlarmDescriptor(alarm);
 
 		assertEquals(now, ad.getAlarmtime().getMilliSeconds());

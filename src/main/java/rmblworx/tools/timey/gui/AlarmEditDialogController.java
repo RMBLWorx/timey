@@ -2,7 +2,8 @@ package rmblworx.tools.timey.gui;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,10 +21,6 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
-import org.joda.time.LocalDateTime;
-import org.joda.time.MutableDateTime;
-
 import rmblworx.tools.timey.gui.component.TimePicker;
 
 /*
@@ -151,8 +148,8 @@ public class AlarmEditDialogController extends Controller {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				alarmEnabledCheckbox.setSelected(alarm.isEnabled());
-				alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-				alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
+				alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()));
+				alarmTimePicker.setValue(DateTimeUtil.getTimePart(alarm.getDateTime()));
 				alarmDescriptionTextField.setText(alarm.getDescription());
 				ringtone.set(alarm.getSound());
 			}
@@ -241,11 +238,10 @@ public class AlarmEditDialogController extends Controller {
 	 * @return kombinierter Zeitstempel aus DatePicker und TimePicker
 	 */
 	private LocalDateTime getDateTimeFromPickers() {
-		final MutableDateTime mdt = new MutableDateTime(0);
-		mdt.add(alarmDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-		mdt.add(alarmTimePicker.getTime().getMillisOfDay());
+		final LocalDate date = alarmDatePicker.getValue();
+		final LocalTime time = alarmTimePicker.getValue();
 
-		return mdt.toDateTime().toLocalDateTime();
+		return LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute(), time.getSecond());
 	}
 
 	/**
@@ -262,7 +258,7 @@ public class AlarmEditDialogController extends Controller {
 		if (alarmDatePicker.getValue() != null) {
 			final LocalDateTime selectedDateTime = getDateTimeFromPickers();
 
-			if (alarmEnabledCheckbox.isSelected() && selectedDateTime.isBefore(new LocalDateTime())) {
+			if (alarmEnabledCheckbox.isSelected() && selectedDateTime.isBefore(LocalDateTime.now())) {
 				errors.append(resources.getString("alarmEdit.alarmTimestampMustBeInFuture"));
 				errors.append('\n');
 			}

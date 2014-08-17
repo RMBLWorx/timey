@@ -74,7 +74,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Zeit setzen
 		Platform.runLater(new Runnable() {
 			public void run() {
-				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+				countdownTimePicker.setValue(DateTimeUtil.getLocalTimeForString("00:00:10"));
 			}
 		});
 		FXTestUtils.awaitEvents();
@@ -110,7 +110,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Zeit wieder auf 0 setzen
 		Platform.runLater(new Runnable() {
 			public void run() {
-				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
+				countdownTimePicker.setValue(DateTimeUtil.getLocalTimeForString("00:00:00"));
 			}
 		});
 		FXTestUtils.awaitEvents();
@@ -128,7 +128,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Zeit setzen
 		Platform.runLater(new Runnable() {
 			public void run() {
-				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+				countdownTimePicker.setValue(DateTimeUtil.getLocalTimeForString("00:00:10"));
 			}
 		});
 		FXTestUtils.awaitEvents();
@@ -146,7 +146,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		click(countdownStopButton);
 
 		// verbleibende Zeit muss stimmen
-		assertEquals(10000, countdownTimePicker.getTime().getMillisOfDay());
+		assertEquals(10000L * DateTimeUtil.MILLI_TO_NANO, countdownTimePicker.getValue().toNanoOfDay());
 
 		assertTrue(countdownTimePicker.isVisible());
 		assertFalse(countdownTimeLabel.isVisible());
@@ -164,7 +164,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Zeit auf 0 setzen
 		Platform.runLater(new Runnable() {
 			public void run() {
-				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:00"));
+				countdownTimePicker.setValue(DateTimeUtil.getLocalTimeForString("00:00:00"));
 			}
 		});
 		FXTestUtils.awaitEvents();
@@ -176,7 +176,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Zeit setzen
 		Platform.runLater(new Runnable() {
 			public void run() {
-				countdownTimePicker.setTime(DateTimeUtil.getLocalTimeForString("00:00:10"));
+				countdownTimePicker.setValue(DateTimeUtil.getLocalTimeForString("00:00:10"));
 			}
 		});
 		FXTestUtils.awaitEvents();
