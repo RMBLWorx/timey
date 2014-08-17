@@ -182,7 +182,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 							/*
 							 * Neuen Alarm auswählen.
-							 * Muss verzögert ausgeführt werden, um Darstellungsproblem beim Hinzufügen des ersten Alarms zu vermeiden. 
+							 * Muss verzögert ausgeführt werden, um Darstellungsproblem beim Hinzufügen des ersten Alarms zu vermeiden.
 							 * (Hinweis von https://community.oracle.com/message/10389376#10389376.)
 							 */
 							final int idx = alarmTable.getItems().indexOf(alarm);
@@ -355,8 +355,12 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 	private void switchProgress(final boolean visible) {
 		if (alarmProgressContainer != null && alarmContainer != null) {
-			alarmProgressContainer.setVisible(visible);
-			alarmContainer.setVisible(!visible);
+			Platform.runLater(new Runnable() {
+				public void run() {
+					alarmProgressContainer.setVisible(visible);
+					alarmContainer.setVisible(!visible);
+				}
+			});
 		}
 	}
 
@@ -369,16 +373,19 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		getGuiHelper().runInThread(new Task<Void>() {
 			public Void call() {
 				final List<Alarm> alarms = AlarmDescriptorConverter.getAsAlarms(getGuiHelper().getFacade().getAllAlarms());
-
 				final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
-
 				final ObservableList<Alarm> tableData = alarmTable.getItems();
-				tableData.clear();
-				tableData.addAll(alarms);
 
-				refreshTable(false);
-				alarmTable.getSelectionModel().select(selectedIndex);
-				hideProgress();
+				Platform.runLater(new Runnable() {
+					public void run() {
+						tableData.clear();
+						tableData.addAll(alarms);
+
+						refreshTable(false);
+						alarmTable.getSelectionModel().select(selectedIndex);
+						hideProgress();
+					}
+				});
 
 				return null;
 			}

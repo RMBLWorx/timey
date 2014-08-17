@@ -143,11 +143,15 @@ public class AlarmEditDialogController extends Controller {
 	public void setAlarm(final Alarm alarm) {
 		this.alarm = alarm;
 
-		alarmEnabledCheckbox.setSelected(alarm.isEnabled());
-		alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar());
-		alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
-		alarmDescriptionTextField.setText(alarm.getDescription());
-		ringtone.set(alarm.getSound());
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmEnabledCheckbox.setSelected(alarm.isEnabled());
+				alarmDatePicker.setValue(DateTimeUtil.getDatePart(alarm.getDateTime()).toDateTimeAtStartOfDay().toGregorianCalendar());
+				alarmTimePicker.setTime(DateTimeUtil.getTimePart(alarm.getDateTime()));
+				alarmDescriptionTextField.setText(alarm.getDescription());
+				ringtone.set(alarm.getSound());
+			}
+		});
 	}
 
 	public void setRingtone(final String aRingtone) {
@@ -170,21 +174,17 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	@FXML
 	private void handleSelectSoundButtonClick() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				final FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle(resources.getString("sound.selectSound.title"));
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.getExtensionFilters().addAll(
-					new FileChooser.ExtensionFilter("Sound", "*.aac", "*.aif", "*.aiff", "*.m3u8", "*.m4a", "*.mp3", "*.wav")
-				);
+		final FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle(resources.getString("sound.selectSound.title"));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("Sound", "*.aac", "*.aif", "*.aiff", "*.m3u8", "*.m4a", "*.mp3", "*.wav")
+		);
 
-				final File file = fileChooser.showOpenDialog(dialogStage);
-				if (file != null) {
-					ringtone.set(file.getPath());
-				}
-			}
-		});
+		final File file = fileChooser.showOpenDialog(dialogStage);
+		if (file != null) {
+			ringtone.set(file.getPath());
+		}
 	}
 
 	/**
@@ -192,11 +192,7 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	@FXML
 	private void handleNoSoundButtonClick() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				ringtone.set(null);
-			}
-		});
+		ringtone.set(null);
 	}
 
 	/**
@@ -204,11 +200,7 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	@FXML
 	private void handlePlaySoundButtonClick() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				getGuiHelper().playSoundInThread(ringtone.get(), resources);
-			}
-		});
+		getGuiHelper().playSoundInThread(ringtone.get(), resources);
 	}
 
 	/**
@@ -216,22 +208,18 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	@FXML
 	private void handleSaveButtonClick() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				if (isInputValid()) {
-					alarm.setEnabled(alarmEnabledCheckbox.isSelected());
-					alarm.setDateTime(getDateTimeFromPickers());
-					alarm.setDescription(alarmDescriptionTextField.getText());
-					alarm.setSound(ringtone.get());
+		if (isInputValid()) {
+			alarm.setEnabled(alarmEnabledCheckbox.isSelected());
+			alarm.setDateTime(getDateTimeFromPickers());
+			alarm.setDescription(alarmDescriptionTextField.getText());
+			alarm.setSound(ringtone.get());
 
-					changed = true;
+			changed = true;
 
-					if (dialogStage != null) {
-						dialogStage.close();
-					}
-				}
+			if (dialogStage != null) {
+				dialogStage.close();
 			}
-		});
+		}
 	}
 
 	/**
@@ -239,13 +227,9 @@ public class AlarmEditDialogController extends Controller {
 	 */
 	@FXML
 	private void handleCancelButtonClick() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				if (dialogStage != null) {
-					dialogStage.close();
-				}
-			}
-		});
+		if (dialogStage != null) {
+			dialogStage.close();
+		}
 	}
 
 	/**

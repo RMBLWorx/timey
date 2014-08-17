@@ -120,10 +120,15 @@ public class StopwatchController extends Controller {
 			public Void call() {
 				getGuiHelper().getFacade().resetStopwatch();
 				stopwatchValue = 0L;
-				updateStopwatchTimeLabel();
-				stopwatchSplitTimeButton.setSelected(false);
-				stopwatchStopButton.setDisable(false);
-				stopwatchStartButton.requestFocus();
+
+				Platform.runLater(new Runnable() {
+					public void run() {
+						updateStopwatchTimeLabel();
+						stopwatchSplitTimeButton.setSelected(false);
+						stopwatchStopButton.setDisable(false);
+						stopwatchStartButton.requestFocus();
+					}
+				});
 
 				return null;
 			}
@@ -158,10 +163,14 @@ public class StopwatchController extends Controller {
 				final Config config = ConfigManager.getCurrentConfig();
 				final TimeDescriptor td = getGuiHelper().getFacade().startStopwatch();
 
-				stopwatchStartButton.setVisible(false);
-				stopwatchSplitTimeButton.setDisable(false);
-				stopwatchStopButton.setVisible(true);
-				stopwatchStopButton.requestFocus();
+				Platform.runLater(new Runnable() {
+					public void run() {
+						stopwatchStartButton.setVisible(false);
+						stopwatchSplitTimeButton.setDisable(false);
+						stopwatchStopButton.setVisible(true);
+						stopwatchStopButton.requestFocus();
+					}
+				});
 
 				while (stopwatchRunning) {
 					stopwatchValue = td.getMilliSeconds();
@@ -196,11 +205,15 @@ public class StopwatchController extends Controller {
 			public Void call() throws InterruptedException {
 				getGuiHelper().getFacade().stopStopwatch();
 
-				stopwatchStartButton.setVisible(true);
-				stopwatchStartButton.requestFocus();
-				stopwatchSplitTimeButton.setDisable(true);
-				stopwatchSplitTimeButton.setSelected(false);
-				stopwatchStopButton.setVisible(false);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						stopwatchStartButton.setVisible(true);
+						stopwatchStartButton.requestFocus();
+						stopwatchSplitTimeButton.setDisable(true);
+						stopwatchSplitTimeButton.setSelected(false);
+						stopwatchStopButton.setVisible(false);
+					}
+				});
 
 				return null;
 			}
@@ -224,11 +237,7 @@ public class StopwatchController extends Controller {
 	 */
 	private void updateStopwatchTimeLabel() {
 		if (!stopwatchRunning) {
-			Platform.runLater(new Runnable() {
-				public void run() {
-					stopwatchTimeLabel.setText(timeFormatter.format(stopwatchValue));
-				}
-			});
+			stopwatchTimeLabel.setText(timeFormatter.format(stopwatchValue));
 		}
 	}
 
