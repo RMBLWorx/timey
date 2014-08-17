@@ -94,14 +94,15 @@ public class CountdownController extends Controller implements TimeyEventListene
 			}
 		});
 
-		countdownTimePicker.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(final KeyEvent keyEvent) {
-				if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED && keyEvent.getCode() == KeyCode.ENTER) {
-					keyEvent.consume();
-					startCountdown();
-				}
-			}
-		});
+		// Betätigen einer fokussierten Schaltfläche per Enter-Taste mit JavaFX 8 nicht mehr möglich
+//		countdownTimePicker.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//			public void handle(final KeyEvent keyEvent) {
+//				if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED && keyEvent.getCode() == KeyCode.ENTER) {
+//					keyEvent.consume();
+//					startCountdown();
+//				}
+//			}
+//		});
 	}
 
 	/**
