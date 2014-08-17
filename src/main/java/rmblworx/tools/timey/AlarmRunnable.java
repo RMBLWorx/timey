@@ -41,7 +41,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 	}
 
 	private AlarmDescriptor detectAlarm() {
-		long currentTimeMillis = System.currentTimeMillis();
+		final long currentTimeMillis = System.currentTimeMillis();
 		AlarmDescriptor result = null;
 		for (AlarmDescriptor alarm : this.allAlarms) {
 			if (alarm.getIsActive()) {

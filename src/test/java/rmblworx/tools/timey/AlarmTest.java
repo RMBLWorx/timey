@@ -102,7 +102,7 @@ public class AlarmTest {
 	@Test
 	public final void testIsActivatedShouldReturnNullBecauseNoAlarmtimeWasSetBefore() {
 		this.effectiveDelegate = new Alarm(this.service, 1, TimeUnit.MINUTES);
-		AlarmDescriptor expected = null;
+		final AlarmDescriptor expected = null;
 
 		when(this.service.isActivated(expected)).thenReturn(null);
 		this.effectiveDelegate.setAlarm(expected);
