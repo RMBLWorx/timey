@@ -30,7 +30,7 @@
 		<javafx.lib.ant-javafx.jar>${java.home}/../lib/ant-javafx.jar</javafx.lib.ant-javafx.jar>
 		<joda-time.version>2.4</joda-time.version>
 		<mockito.version>1.9.5</mockito.version>
-		<cpsuite.version>1.2.5</cpsuite.version>
+		<junit-toolbox.version>1.8</junit-toolbox.version>
 		<application.dist>${project.build.directory}/distribution</application.dist>
 		<maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
 		<maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
@@ -145,10 +145,9 @@
 			<version>${mockito.version}</version>
 		</dependency>
 		<dependency>
-			<!-- ClasspathSuite (http://www.johanneslink.net/projects/cpsuite.jsp) -->
-			<groupId>cpsuite</groupId>
-			<artifactId>cpsuite</artifactId>
-			<version>${cpsuite.version}</version>
+			<groupId>com.googlecode.junit-toolbox</groupId>
+			<artifactId>junit-toolbox</artifactId>
+			<version>${junit-toolbox.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -392,11 +391,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>xwiki-externals</id>
-			<url>http://maven.xwiki.org/externals</url>
-		</repository>
-	</repositories>
 </project>
