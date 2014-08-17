@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /*
@@ -23,22 +23,26 @@ import org.junit.Test;
  */
 public class ConfigTest {
 
-	private static Locale previousLocale;
+	/**
+	 * Systemsprache vor Ausführung von Tests, um diese danach wiederherstellen zu können.
+	 */
+	private Locale previousLocale;
 
-	@BeforeClass
-	public static final void setUpClass() {
+	@Before
+	public final void setUp() {
 		previousLocale = Locale.getDefault();
+		Locale.setDefault(Locale.GERMAN);
 	}
 
-	@AfterClass
-	public static final void tearDownClass() {
+	@After
+	public final void tearDown() {
 		Locale.setDefault(previousLocale);
 	}
 
-	@Test
 	/**
 	 * Testet {@link Config#getDefaultLocale()}.
 	 */
+	@Test
 	public final void testGetDefaultLocale() {
 		final Map<Locale, Locale> testCases = new HashMap<>(4);
 		testCases.put(new Locale("blah"), Locale.ENGLISH);
