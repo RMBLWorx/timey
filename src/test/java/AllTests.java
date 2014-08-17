@@ -1,5 +1,7 @@
-import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
+
+import com.googlecode.junittoolbox.SuiteClasses;
+import com.googlecode.junittoolbox.WildcardPatternSuite;
 
 /*
  * Copyright 2014 Christian Raue
@@ -9,6 +11,11 @@ import org.junit.runner.RunWith;
  * Suite für alle Tests ohne spezifische Reihenfolge.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
-@RunWith(ClasspathSuite.class)
+@RunWith(WildcardPatternSuite.class)
+@SuiteClasses({
+	"**/*Test.class",
+	"!rmblworx/tools/timey/gui/FxmlGuiControllerTest.class",
+	"!rmblworx/tools/timey/gui/FxmlGuiTest.class",
+})
 public class AllTests {
 }
