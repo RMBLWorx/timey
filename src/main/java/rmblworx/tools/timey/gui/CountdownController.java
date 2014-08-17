@@ -146,11 +146,15 @@ public class CountdownController extends Controller implements TimeyEventListene
 				facade.setCountdownTime(timeDescriptor);
 				facade.startCountdown();
 
-				countdownStartButton.setVisible(false);
-				countdownStopButton.setVisible(true);
-				countdownStopButton.requestFocus();
-				transferTimeFromInputToLabel();
-				enableTimeInput(false);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						countdownStartButton.setVisible(false);
+						countdownStopButton.setVisible(true);
+						countdownStopButton.requestFocus();
+						transferTimeFromInputToLabel();
+						enableTimeInput(false);
+					}
+				});
 
 				while (countdownRunning) {
 					countdownValue = timeDescriptor.getMilliSeconds();
@@ -195,11 +199,15 @@ public class CountdownController extends Controller implements TimeyEventListene
 					getGuiHelper().getFacade().stopCountdown();
 				}
 
-				countdownTimePicker.setTime(new LocalTime(getMillisRoundedToWholeSeconds(countdownValue), DateTimeZone.UTC));
-				countdownStartButton.setVisible(true);
-				countdownStartButton.requestFocus();
-				countdownStopButton.setVisible(false);
-				enableTimeInput(true);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						countdownTimePicker.setTime(new LocalTime(getMillisRoundedToWholeSeconds(countdownValue), DateTimeZone.UTC));
+						countdownStartButton.setVisible(true);
+						countdownStartButton.requestFocus();
+						countdownStopButton.setVisible(false);
+						enableTimeInput(true);
+					}
+				});
 
 				return null;
 			}
@@ -239,11 +247,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 	 * Überträgt die Zeit von den Textfeldern auf das Label.
 	 */
 	private void transferTimeFromInputToLabel() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getMillisOfDay()));
-			}
-		});
+		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getMillisOfDay()));
 	}
 
 	/**
