@@ -46,7 +46,7 @@ public class AlarmTest {
 	@Mock
 	private IAlarmService service;
 
-	private Boolean assertThatTimestampIsPresent(List<AlarmDescriptor> list, AlarmDescriptor expectedDescriptor) {
+	private Boolean assertThatTimestampIsPresent(final List<AlarmDescriptor> list, final AlarmDescriptor expectedDescriptor) {
 		Boolean result = Boolean.FALSE;
 		for (AlarmDescriptor timeDescr : list) {
 			if (timeDescr.getAlarmtime().getMilliSeconds() == expectedDescriptor.getAlarmtime()

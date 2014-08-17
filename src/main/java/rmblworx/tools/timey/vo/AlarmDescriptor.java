@@ -73,11 +73,11 @@ public class AlarmDescriptor {
 		return this.alarmtime;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
-	public void setIsActive(Boolean isActive) {
+	public void setIsActive(final Boolean isActive) {
 		this.isActive = isActive;
 	}
 
