@@ -1,9 +1,8 @@
 package rmblworx.tools.timey.gui;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.joda.time.LocalDateTime;
 
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -19,7 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 public final class AlarmDescriptorConverter {
 
 	public static Alarm getAsAlarm(final AlarmDescriptor ad) {
-		final LocalDateTime dateTime = new LocalDateTime(ad.getAlarmtime().getMilliSeconds());
+		final LocalDateTime dateTime = DateTimeUtil.getLocalDateTimeFromMillis(ad.getAlarmtime().getMilliSeconds());
 		final String sound = ad.getSound();
 
 		return new Alarm(dateTime, ad.getDescription(), sound, ad.getIsActive());

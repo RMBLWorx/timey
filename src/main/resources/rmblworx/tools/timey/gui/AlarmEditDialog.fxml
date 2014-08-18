@@ -4,21 +4,18 @@
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import jfxtras.scene.control.*?>
-<?import jfxtras.scene.control.CalendarTextField?>
 <?import rmblworx.tools.timey.gui.component.*?>
 <?import rmblworx.tools.timey.gui.component.TimePicker?>
 <?scenebuilder-classpath-element ../../../../../../../target/classes?>
-<?scenebuilder-classpath-element ../../../../../../../target/distribution/lib/jfxtras-labs-8.0-r1.jar?>
 <?scenebuilder-preview-i18n-resource Timey_i18n.properties?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="rmblworx.tools.timey.gui.AlarmEditDialogController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rmblworx.tools.timey.gui.AlarmEditDialogController">
   <children>
     <AnchorPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
       <children>
         <CheckBox fx:id="alarmEnabledCheckbox" layoutX="0.0" layoutY="1.0" mnemonicParsing="false" text="%alarmEdit.active.label" />
         <Label layoutX="0.0" layoutY="27.0" text="%alarmEdit.date.label" />
-        <CalendarTextField fx:id="alarmDatePicker" layoutX="0.0" layoutY="44.0" />
+        <DatePicker fx:id="alarmDatePicker" layoutY="44.0" />
         <Label layoutX="0.0" layoutY="73.0" text="%alarmEdit.time.label" />
         <TimePicker fx:id="alarmTimePicker" layoutX="0.0" layoutY="90.0" />
         <Label layoutX="0.0" layoutY="133.0" text="%alarmDescriptionColumn.label" />

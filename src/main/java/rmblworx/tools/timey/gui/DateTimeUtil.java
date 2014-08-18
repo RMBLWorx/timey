@@ -1,11 +1,10 @@
 package rmblworx.tools.timey.gui;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /*
  * Copyright 2014 Christian Raue
@@ -17,13 +16,15 @@ import org.joda.time.LocalTime;
  */
 public final class DateTimeUtil {
 
+	public static final long MILLI_TO_NANO = 1000L * 1000L;
+
 	private static final String PATTERN_DATE_TIME = "dd.MM.yyyy HH:mm:ss";
 	private static final String PATTERN_DATE = "dd.MM.yyyy";
 	private static final String PATTERN_TIME = "HH:mm:ss";
 
 	/**
 	 * @param dateTime Datum-/Zeit-Wert
-	 * @return Datumsanteil in ms
+	 * @return Datumsanteil
 	 */
 	public static LocalDate getDatePart(final LocalDateTime dateTime) {
 		return dateTime.toLocalDate();
@@ -31,7 +32,7 @@ public final class DateTimeUtil {
 
 	/**
 	 * @param dateTime Datum-/Zeit-Wert
-	 * @return Zeitanteil in ms
+	 * @return Zeitanteil
 	 */
 	public static LocalTime getTimePart(final LocalDateTime dateTime) {
 		return dateTime.toLocalTime();
@@ -42,13 +43,7 @@ public final class DateTimeUtil {
 	 * @return {@link LocalDateTime}-Objekt mit entsprechendem Datum/Zeit-Wert
 	 */
 	public static LocalDateTime getLocalDateTimeForString(final String string) {
-		final String[] patterns = {
-			PATTERN_DATE_TIME,
-			PATTERN_DATE,
-			PATTERN_TIME,
-		};
-
-		return parseString(string, patterns);
+		return LocalDateTime.parse(string, DateTimeFormatter.ofPattern(PATTERN_DATE_TIME));
 	}
 
 	/**
@@ -56,11 +51,7 @@ public final class DateTimeUtil {
 	 * @return {@link LocalDate}-Objekt mit entsprechendem Datum-Wert
 	 */
 	public static LocalDate getLocalDateForString(final String string) {
-		final String[] patterns = {
-			PATTERN_DATE,
-		};
-
-		return getDatePart(parseString(string, patterns));
+		return LocalDate.parse(string, DateTimeFormatter.ofPattern(PATTERN_DATE));
 	}
 
 	/**
@@ -68,32 +59,23 @@ public final class DateTimeUtil {
 	 * @return {@link LocalTime}-Objekt mit entsprechendem Zeit-Wert
 	 */
 	public static LocalTime getLocalTimeForString(final String string) {
-		final String[] patterns = {
-			PATTERN_TIME,
-		};
-
-		return getTimePart(parseString(string, patterns));
+		return LocalTime.parse(string, DateTimeFormatter.ofPattern(PATTERN_TIME));
 	}
 
 	/**
-	 * @param string Datum/Zeit-Wert
-	 * @param patterns gültige Muster zum Parsen des Wertes
-	 * @return {@link LocalDateTime}-Objekt mit entsprechendem Datum/Zeit-Wert
+	 * @param dateTime Datum/Zeit-Wert
+	 * @return UTC-basierter Datum/Zeit-Wert in ms
 	 */
-	private static LocalDateTime parseString(final String string, final String[] patterns) {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat();
+	public static long getLocalDateTimeInMillis(final LocalDateTime dateTime) {
+		return LocalDateTime.of(1970, 1, 1, 0, 0, 0).until(dateTime, ChronoUnit.MILLIS);
+	}
 
-		for (final String pattern : patterns) {
-			dateFormat.applyPattern(pattern);
-
-			try {
-				return new LocalDateTime(dateFormat.parse(string));
-			} catch (final ParseException e) {
-				continue;
-			}
-		}
-
-		throw new RuntimeException(String.format("Unparseable date/time: %s", string));
+	/**
+	 * @param UTC-basierter Datum/Zeit-Wert in ms
+	 * @return Datum/Zeit-Wert
+	 */
+	public static LocalDateTime getLocalDateTimeFromMillis(final long millis) {
+		return LocalDateTime.of(1970, 1, 1, 0, 0, 0).plus(millis, ChronoUnit.MILLIS);
 	}
 
 	/**

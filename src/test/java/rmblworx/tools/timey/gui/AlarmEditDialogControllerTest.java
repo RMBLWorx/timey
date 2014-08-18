@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,10 +20,9 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import jfxtras.scene.control.CalendarTextField;
 
-import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -50,7 +50,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	// GUI-Elemente
 	private AlarmEditDialogController controller;
 	private CheckBox alarmEnabledCheckbox;
-	private CalendarTextField alarmDatePicker;
+	private DatePicker alarmDatePicker;
 	private TimePicker alarmTimePicker;
 	private TextField alarmDescriptionTextField;
 	private Button alarmSelectSoundButton;
@@ -71,7 +71,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		controller = (AlarmEditDialogController) getController();
 		alarmEnabledCheckbox = (CheckBox) scene.lookup("#alarmEnabledCheckbox");
-		alarmDatePicker = (CalendarTextField) scene.lookup("#alarmDatePicker");
+		alarmDatePicker = (DatePicker) scene.lookup("#alarmDatePicker");
 		alarmTimePicker = (TimePicker) scene.lookup("#alarmTimePicker");
 		alarmDescriptionTextField = (TextField) scene.lookup("#alarmDescriptionTextField");
 		alarmSelectSoundButton = (Button) scene.lookup("#alarmSelectSoundButton");
@@ -93,8 +93,8 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// sicherstellen, dass Formularfelder korrekt gefüllt sind
 		assertTrue(alarmEnabledCheckbox.isSelected());
-		assertEquals(DateTimeUtil.getLocalDateForString("24.12.2014").toDate(), alarmDatePicker.getCalendar().getTime());
-		assertEquals(DateTimeUtil.getLocalTimeForString("12:00:00"), alarmTimePicker.getTime());
+		assertEquals(DateTimeUtil.getLocalDateForString("24.12.2014"), alarmDatePicker.getValue());
+		assertEquals(DateTimeUtil.getLocalTimeForString("12:00:00"), alarmTimePicker.getValue());
 		assertEquals("12", hoursTextField.getText());
 		assertEquals("Test", alarmDescriptionTextField.getText());
 
@@ -115,7 +115,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		// Alarm vorgeben
-		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Bla");
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), "Bla");
 		controller.setAlarm(alarm);
 		FXTestUtils.awaitEvents();
 
@@ -125,10 +125,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				// Datum setzen
-				alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
+				alarmDatePicker.setValue(DateTimeUtil.getLocalDateForString("24.12.2014"));
 
 				// Zeit setzen
-				alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
+				alarmTimePicker.setValue(DateTimeUtil.getLocalTimeForString("12:00:00"));
 
 				// Beschreibung setzen
 				alarmDescriptionTextField.setText("Test");
@@ -175,7 +175,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Datum leeren
 		Platform.runLater(new Runnable() {
 			public void run() {
-				alarmDatePicker.setCalendar(null);
+				alarmDatePicker.setValue(null);
 			}
 		});
 		FXTestUtils.awaitEvents();
@@ -206,30 +206,30 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Anlegen/Bearbeiten eines Alarms mit Zeitstempel in Vergangenheit
 		testCases.add(new DataErrors(1, "Der Alarm-Zeitpunkt muss in der Zukunft liegen.\n",
 				null,
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm")));
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), "Alarm")));
 		// Anlegen/Bearbeiten eines Alarms mit Zeitstempel in Zukunft
 		testCases.add(new DataErrors(0, null,
 				null,
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm")));
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050 00:00:00"), "Alarm")));
 		// Anlegen/Bearbeiten eines inaktiven Alarms mit Zeitstempel in Vergangenheit
 		testCases.add(new DataErrors(0, null,
 				null,
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Alarm", null, false)));
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), "Alarm", null, false)));
 		// Anlegen/Bearbeiten eines inaktiven Alarms mit Zeitstempel in Zukunft
 		testCases.add(new DataErrors(0, null,
 				null,
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm", null, false)));
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050 00:00:00"), "Alarm", null, false)));
 
 		// Anlegen eines Alarms mit identischem Zeitstempel
 		testCases.add(new DataErrors(1, "Ein anderer Alarm mit demselben Zeitpunkt existiert bereits.\n",
-				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm1")),
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm2")));
+				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050 00:00:00"), "Alarm1")),
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050 00:00:00"), "Alarm2")));
 		// Anlegen eines Alarms mit unterschiedlichem Zeitstempel
 		testCases.add(new DataErrors(0, null,
-				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm1")),
-				new Alarm(DateTimeUtil.getLocalDateTimeForString("11.11.2160"), "Alarm2")));
+				Arrays.asList(new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050 00:00:00"), "Alarm1")),
+				new Alarm(DateTimeUtil.getLocalDateTimeForString("11.11.2160 00:00:00"), "Alarm2")));
 		// Bearbeiten eines Alarms ohne Änderung des Zeitstempels
-		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050"), "Alarm1"); // genau ein Objekt
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.2050 00:00:00"), "Alarm1"); // genau ein Objekt
 		testCases.add(new DataErrors(0, null,
 				Arrays.asList(alarm),
 				alarm));
@@ -265,7 +265,8 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		// Alarm vorgeben
-		final Alarm alarm = new Alarm(new LocalDateTime(0), "bla");
+		final LocalDateTime now = LocalDateTime.now();
+		final Alarm alarm = new Alarm(now, "bla");
 		controller.setAlarm(alarm);
 		FXTestUtils.awaitEvents();
 
@@ -275,10 +276,10 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				// Datum setzen
-				alarmDatePicker.setCalendar(DateTimeUtil.getLocalDateTimeForString("24.12.2014").toDateTime().toGregorianCalendar());
+				alarmDatePicker.setValue(DateTimeUtil.getLocalDateForString("24.12.2014"));
 
 				// Zeit setzen
-				alarmTimePicker.setTime(DateTimeUtil.getLocalTimeForString("12:00:00"));
+				alarmTimePicker.setValue(DateTimeUtil.getLocalTimeForString("12:00:00"));
 
 				// Beschreibung setzen
 				alarmDescriptionTextField.setText("Test");
@@ -300,7 +301,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// sicherstellen, dass Alarm ursprüngliche Werte hat
 		assertTrue(alarm.isEnabled());
-		assertEquals(0, alarm.getDateTime().toDate().getTime());
+		assertEquals(now, alarm.getDateTime());
 		assertEquals("bla", alarm.getDescription());
 		assertEquals(null, alarm.getSound());
 	}
@@ -317,7 +318,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// controller.setDialogStage(stage);
 
 		// Alarm vorgeben
-		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970"), "Bla");
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), "Bla");
 		controller.setAlarm(alarm);
 		FXTestUtils.awaitEvents();
 

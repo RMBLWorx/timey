@@ -2,6 +2,10 @@ package rmblworx.tools.timey.gui;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.junit.Test;
 
 /*
@@ -15,7 +19,7 @@ import org.junit.Test;
 public class DateTimeUtilTest {
 
 	/**
-	 * Testet {@link DateTimeUtil#getDatePart(org.joda.time.LocalDateTime)}.
+	 * Testet {@link DateTimeUtil#getDatePart(LocalDateTime)}.
 	 */
 	@Test
 	public final void testGetDatePart() {
@@ -26,7 +30,7 @@ public class DateTimeUtilTest {
 	}
 
 	/**
-	 * Testet {@link DateTimeUtil#getTimePart(org.joda.time.LocalDateTime)}.
+	 * Testet {@link DateTimeUtil#getTimePart(LocalDateTime)}.
 	 */
 	@Test
 	public final void testGetTimePart() {
@@ -43,12 +47,10 @@ public class DateTimeUtilTest {
 	public final void testGetLocalDateTimeForString() {
 		final String[] strings = new String[] {
 			"01.01.1970 00:00:00",
-			"01.01.1970",
-			"00:00:00",
 		};
 		for (final String string : strings) {
 			assertEquals(String.format("Failed parsing and evaluating date/time string '%s'.", string),
-					0, DateTimeUtil.getLocalDateTimeForString(string).getMillisOfDay());
+					LocalDateTime.of(1970, 1, 1, 0, 0, 0), DateTimeUtil.getLocalDateTimeForString(string));
 		}
 	}
 
@@ -62,7 +64,7 @@ public class DateTimeUtilTest {
 		};
 		for (final String string : strings) {
 			assertEquals(String.format("Failed parsing and evaluating date string '%s'.", string),
-					0, DateTimeUtil.getLocalDateForString(string).toDateTimeAtStartOfDay().getMillisOfDay());
+					LocalDate.ofEpochDay(0), DateTimeUtil.getLocalDateForString(string));
 		}
 	}
 
@@ -76,8 +78,26 @@ public class DateTimeUtilTest {
 		};
 		for (final String string : strings) {
 			assertEquals(String.format("Failed parsing and evaluating time string '%s'.", string),
-					0, DateTimeUtil.getLocalTimeForString(string).getMillisOfDay());
+					LocalTime.ofNanoOfDay(0), DateTimeUtil.getLocalTimeForString(string));
 		}
+	}
+
+	/**
+	 * Testet {@link DateTimeUtil#getLocalDateTimeInMillis(LocalDateTime)}.
+	 */
+	@Test
+	public final void testGetLocalDateTimeInMillis() {
+		assertEquals(0L, DateTimeUtil.getLocalDateTimeInMillis(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00")));
+		assertEquals(1419424496000L, DateTimeUtil.getLocalDateTimeInMillis(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:34:56")));
+	}
+
+	/**
+	 * Testet {@link DateTimeUtil#getLocalDateTimeFromMillis(long)}.
+	 */
+	@Test
+	public final void testGetLocalDateTimeFromMillis() {
+		assertEquals(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), DateTimeUtil.getLocalDateTimeFromMillis(0L));
+		assertEquals(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:34:56"), DateTimeUtil.getLocalDateTimeFromMillis(1419424496000L));
 	}
 
 	/**

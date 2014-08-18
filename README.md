@@ -63,7 +63,6 @@ können.
 * Log4j
 * CGlib
 * AspectJWeaver
-* Joda-Time
 * JUnit
 * TestFX
 * Mockito

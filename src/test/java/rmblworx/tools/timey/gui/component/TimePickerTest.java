@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,7 +17,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
-import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -262,7 +262,7 @@ public class TimePickerTest extends GuiTest {
 			final LocalTime time = DateTimeUtil.getLocalTimeForString(testCase.timeString);
 			Platform.runLater(new Runnable() {
 				public void run() {
-					timePicker.setTime(time);
+					timePicker.setValue(time);
 				}
 			});
 			FXTestUtils.awaitEvents();
@@ -293,7 +293,7 @@ public class TimePickerTest extends GuiTest {
 				}
 			});
 			FXTestUtils.awaitEvents();
-			assertEquals(time, timePicker.getTime());
+			assertEquals(time, timePicker.getValue());
 			assertEquals(time, timePicker.getTimeProperty().get());
 		}
 	}

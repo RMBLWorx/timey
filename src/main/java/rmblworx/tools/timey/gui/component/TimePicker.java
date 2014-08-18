@@ -1,6 +1,7 @@
 package rmblworx.tools.timey.gui.component;
 
 import java.io.IOException;
+import java.time.LocalTime;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,8 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-
-import org.joda.time.LocalTime;
 
 /*
  * Copyright 2014 Christian Raue
@@ -74,7 +73,7 @@ public class TimePicker extends AnchorPane {
 
 	public TimePicker() {
 		// Zeit auf 0 setzen
-		timeProperty.set(new LocalTime(0));
+		timeProperty.set(LocalTime.ofNanoOfDay(0));
 
         createGui();
     }
@@ -114,19 +113,19 @@ public class TimePicker extends AnchorPane {
 	}
 
 	/**
-	 * @param time Zeit in ms
+	 * @param time Zeit
 	 */
-	public void setTime(final LocalTime time) {
-		hoursTextField.setText(getTwoDigitValue(time.getHourOfDay()));
-		minutesTextField.setText(getTwoDigitValue(time.getMinuteOfHour()));
-		secondsTextField.setText(getTwoDigitValue(time.getSecondOfMinute()));
+	public void setValue(final LocalTime time) {
+		hoursTextField.setText(getTwoDigitValue(time.getHour()));
+		minutesTextField.setText(getTwoDigitValue(time.getMinute()));
+		secondsTextField.setText(getTwoDigitValue(time.getSecond()));
 	}
 
 	/**
-	 * @return Zeit in ms
+	 * @return Zeit
 	 */
-	public LocalTime getTime() {
-		return new LocalTime(Integer.parseInt(hoursTextField.getText()), Integer.parseInt(minutesTextField.getText()),
+	public LocalTime getValue() {
+		return LocalTime.of(Integer.parseInt(hoursTextField.getText()), Integer.parseInt(minutesTextField.getText()),
 				Integer.parseInt(secondsTextField.getText()));
 	}
 
@@ -171,7 +170,7 @@ public class TimePicker extends AnchorPane {
 					}
 
 					// Änderung an Zeit-Property durchstellen
-					timeProperty.set(getTime());
+					timeProperty.set(getValue());
 				} catch (final NumberFormatException e) {
 					// alten Wert wieder setzen (sinnvoll bei Änderung per Copy & Paste)
 					textProperty.setValue(oldValue);

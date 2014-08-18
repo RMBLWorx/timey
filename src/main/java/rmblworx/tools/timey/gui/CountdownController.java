@@ -1,23 +1,16 @@
 package rmblworx.tools.timey.gui;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalTime;
-
 import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.event.CountdownExpiredEvent;
 import rmblworx.tools.timey.event.TimeyEvent;
@@ -36,14 +29,9 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 public class CountdownController extends Controller implements TimeyEventListener {
 
 	/**
-	 * Zeitzone.
-	 */
-	private static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
-
-	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
 	 */
-	private SimpleDateFormat timeFormatter;
+	private DateTimeFormatter timeFormatter;
 
 	@FXML
 	private ResourceBundle resources;
@@ -83,7 +71,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 		countdownStartButton.setDisable(true);
 		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<LocalTime>() {
 			public void changed(final ObservableValue<? extends LocalTime> property, final LocalTime oldValue, final LocalTime newValue) {
-				countdownStartButton.setDisable(newValue.getMillisOfDay() == 0L);
+				countdownStartButton.setDisable(newValue.toNanoOfDay() == 0L);
 			}
 		});
 
@@ -129,9 +117,9 @@ public class CountdownController extends Controller implements TimeyEventListene
 			return;
 		}
 
-		final long millis = countdownTimePicker.getTime().getMillisOfDay();
+		final long nanos = countdownTimePicker.getValue().toNanoOfDay();
 
-		if (millis == 0L) {
+		if (nanos == 0L) {
 			return;
 		}
 
@@ -141,7 +129,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 			private static final long SLEEP_TIME = 100L;
 
 			public Void call() throws InterruptedException {
-				final TimeDescriptor timeDescriptor = new TimeDescriptor(millis);
+				final TimeDescriptor timeDescriptor = new TimeDescriptor(nanos / DateTimeUtil.MILLI_TO_NANO);
 
 				final ITimey facade = getGuiHelper().getFacade();
 				facade.setCountdownTime(timeDescriptor);
@@ -159,7 +147,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 
 				while (countdownRunning) {
 					countdownValue = timeDescriptor.getMilliSeconds();
-					updateMessage(timeFormatter.format(getMillisRoundedToWholeSeconds(countdownValue)));
+					updateMessage(timeFormatter.format(getCountdownTime()));
 
 					if (countdownValue == 0) {
 						break;
@@ -202,7 +190,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 
 				Platform.runLater(new Runnable() {
 					public void run() {
-						countdownTimePicker.setTime(new LocalTime(getMillisRoundedToWholeSeconds(countdownValue), DateTimeZone.UTC));
+						countdownTimePicker.setValue(getCountdownTime());
 						countdownStartButton.setVisible(true);
 						countdownStartButton.requestFocus();
 						countdownStopButton.setVisible(false);
@@ -230,8 +218,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 	 */
 	private void setupTimeFormatter() {
 		if (timeFormatter == null) {
-			timeFormatter = new SimpleDateFormat("HH:mm:ss");
-			timeFormatter.setTimeZone(TIMEZONE);
+			timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 		}
 	}
 
@@ -245,10 +232,17 @@ public class CountdownController extends Controller implements TimeyEventListene
 	}
 
 	/**
+	 * @return Countdown-Zeit (aufgerundet auf ganze Sekunden)
+	 */
+	private LocalTime getCountdownTime() {
+		return DateTimeUtil.getTimePart(DateTimeUtil.getLocalDateTimeFromMillis(getMillisRoundedToWholeSeconds(countdownValue)));
+	}
+
+	/**
 	 * Überträgt die Zeit von den Textfeldern auf das Label.
 	 */
 	private void transferTimeFromInputToLabel() {
-		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getTime().getMillisOfDay()));
+		countdownTimeLabel.setText(timeFormatter.format(countdownTimePicker.getValue()));
 	}
 
 	/**
