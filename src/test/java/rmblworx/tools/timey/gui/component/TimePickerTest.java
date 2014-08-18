@@ -20,11 +20,11 @@ import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.gui.DateTimeUtil;
+import rmblworx.tools.timey.gui.JavaFxGuiTest;
 
 import com.google.common.base.Predicate;
 
@@ -37,7 +37,7 @@ import com.google.common.base.Predicate;
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 @Category(TestFX.class)
-public class TimePickerTest extends GuiTest {
+public class TimePickerTest extends JavaFxGuiTest {
 
 	/**
 	 * Container für Elemente.
@@ -57,14 +57,14 @@ public class TimePickerTest extends GuiTest {
 	 * @return Elternknoten der GUI-Elemente
 	 */
 	protected final Parent getRootNode() {
-		return new TimePicker();
+		return WRAP_IN_CONTAINER ? wrapInContainer(new TimePicker()) : new TimePicker();
 	}
 
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
 
-		timePicker = (TimePicker) scene.getRoot();
+		timePicker = (TimePicker) (WRAP_IN_CONTAINER ? scene.getRoot().getChildrenUnmodifiable().get(0) : scene.getRoot());
 
 		hoursTextField = (TextField) scene.lookup("#hoursTextField");
 		minutesTextField = (TextField) scene.lookup("#minutesTextField");
