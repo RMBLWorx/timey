@@ -17,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
 		<junit.version>4.11</junit.version>
+		<javafx.version>8.0</javafx.version>
 		<spring.version>4.0.6.RELEASE</spring.version>
 		<slf4j.version>1.7.7</slf4j.version>
 		<apache.commons.lang.version>2.6</apache.commons.lang.version>
@@ -336,10 +337,12 @@
 									<fx:application refid="myApp" />
 
 									<manifest>
-										<attribute name="JavaFX-Class-Path" value="${manifest.classpath}" />
+										<attribute name="Class-Path" value="${manifest.classpath}" />
 										<attribute name="Implementation-Version" value="${project.version}" />
 										<attribute name="Bundle-Version" value="${project.version}" />
 									</manifest>
+
+									<fx:platform javafx="${javafx.version}" />
 
 									<!-- The target/classes folder which contains all resources and 
 										class files -->
