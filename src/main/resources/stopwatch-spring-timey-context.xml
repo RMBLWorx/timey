@@ -31,6 +31,6 @@
 		class="rmblworx.tools.timey.vo.TimeDescriptor">
 		<constructor-arg value="0"></constructor-arg>
 	</bean>
-		<aop:aspectj-autoproxy proxy-target-class="true"/>
 
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 </beans>

@@ -98,6 +98,6 @@
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	<!-- ############################ Ende Spring - Hibernate Integration ######################## -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
 
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 </beans>
