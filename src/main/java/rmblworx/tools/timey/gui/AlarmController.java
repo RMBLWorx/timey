@@ -175,7 +175,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 					getGuiHelper().runInThread(new Task<Void>() {
 						public Void call() {
 							alarmTable.getItems().add(alarm);
-							refreshTable();
+							refreshTable(false);
 							getGuiHelper().getFacade().setAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 
 							/*
@@ -183,11 +183,10 @@ public class AlarmController extends Controller implements TimeyEventListener {
 							 * Muss verzögert ausgeführt werden, um Darstellungsproblem beim Hinzufügen des ersten Alarms zu vermeiden.
 							 * (Hinweis von https://community.oracle.com/message/10389376#10389376.)
 							 */
-							final int idx = alarmTable.getItems().indexOf(alarm);
 							Platform.runLater(new Runnable() {
 								public void run() {
-									alarmTable.scrollTo(idx);
-									alarmTable.getSelectionModel().select(idx);
+									alarmTable.scrollTo(alarm);
+									alarmTable.getSelectionModel().select(alarm);
 									alarmTable.requestFocus();
 								}
 							});
@@ -325,13 +324,18 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	 * @param preserveSelection Ob die Auswahl erhalten bleiben soll.
 	 */
 	private void refreshTable(final boolean preserveSelection) {
-		final int selectedIndex = alarmTable.getSelectionModel().getSelectedIndex();
+		final Alarm selectedItem = alarmTable.getSelectionModel().getSelectedItem();
 
-		FXCollections.sort(alarmTable.getItems());
+		Platform.runLater(new Runnable() {
+			public void run() {
+				FXCollections.sort(alarmTable.getItems());
 
-		if (preserveSelection) {
-			alarmTable.getSelectionModel().select(selectedIndex);
-		}
+				if (preserveSelection) {
+					alarmTable.scrollTo(selectedItem);
+					alarmTable.getSelectionModel().select(selectedItem);
+				}
+			}
+		});
 	}
 
 	/**
