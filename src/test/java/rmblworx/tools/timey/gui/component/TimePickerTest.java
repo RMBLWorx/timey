@@ -150,6 +150,23 @@ public class TimePickerTest extends JavaFxGuiTest {
 	 */
 	@Test
 	public final void testTextFieldScrolling() {
+		/*
+		 * Zunächst vom Betriebssystem vorgegebene Scrollrichtung ermitteln.
+		 * Kann z. B. unter Mac OS X frei festgelegt werden und ist standardmäßig umgekehrt, ergo verringert hochscrollen den Wert.
+		 */
+		click(hoursTextField);
+		scroll(VerticalDirection.UP);
+		final boolean scrollingUpIncreasesValue = hoursSlider.getValue() == 1.0;
+		if (scrollingUpIncreasesValue) {
+			// ursprünglichen Zustand wiederherstellen
+			scroll(VerticalDirection.DOWN);
+		}
+
+		// Scrollrichtungen entsprechend definieren
+		final VerticalDirection increaseValue = scrollingUpIncreasesValue ? VerticalDirection.UP : VerticalDirection.DOWN;
+		final VerticalDirection decreaseValue = scrollingUpIncreasesValue ? VerticalDirection.DOWN : VerticalDirection.UP;
+
+		// nun zum eigentlichen Test ...
 		final TextFieldScrollingData[] testCases = new TextFieldScrollingData[] {
 			new TextFieldScrollingData(minutesTextField, hoursTextField, hoursSlider),
 			new TextFieldScrollingData(secondsTextField, minutesTextField, minutesSlider),
@@ -160,13 +177,13 @@ public class TimePickerTest extends JavaFxGuiTest {
 			click(testCase.focusedTextField); // anderes Feld fokussieren
 			// Scrollen über Feld ohne Fokus hat keine Auswirkung
 			move(testCase.textField);
-			scroll(VerticalDirection.UP);
+			scroll(increaseValue);
 			assertEquals(0.0, testCase.slider.getValue(), 0.0);
 
 			click(testCase.textField); // richtiges Feld fokussieren
-			scroll(VerticalDirection.UP);
+			scroll(increaseValue);
 			assertEquals(1.0, testCase.slider.getValue(), 0.0);
-			scroll(VerticalDirection.DOWN);
+			scroll(decreaseValue);
 			assertEquals(0.0, testCase.slider.getValue(), 0.0);
 		}
 	}
