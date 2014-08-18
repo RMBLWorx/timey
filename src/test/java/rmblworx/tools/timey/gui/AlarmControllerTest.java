@@ -6,16 +6,24 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.awt.TrayIcon;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -34,6 +42,7 @@ import org.mockito.ArgumentMatcher;
 
 import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.event.AlarmExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /*
@@ -356,6 +365,56 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 
 		// sicherstellen, dass Auswahl erhalten bleibt
 		assertEquals(1, alarmTable.getSelectionModel().getSelectedIndex());
+	}
+
+	/**
+	 * Testet die Verarbeitung eines Ereignisses.
+	 */
+	@Test
+	public final void testHandleEvent() {
+		final AlarmController controller = (AlarmController) getController();
+		final GuiHelper guiHelper = controller.getGuiHelper();
+
+		final Alarm alarm = new Alarm(LocalDateTime.now(), "alarm", "sound", true);
+
+		final MessageHelper messageHelper = mock(MessageHelper.class);
+		guiHelper.setMessageHelper(messageHelper);
+
+		final AudioPlayer audioPlayer = mock(AudioPlayer.class);
+		guiHelper.setAudioPlayer(audioPlayer);
+
+		// Ereignis auslösen
+		controller.handleEvent(new AlarmExpiredEvent(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm)));
+		waitForThreads();
+
+		// sicherstellen, dass Ereignis verarbeitet wird
+		verify(messageHelper).showTrayMessageWithFallbackToDialog(anyString(), eq(alarm.getDescription()), isNull(TrayIcon.class),
+				isA(ResourceBundle.class));
+		verify(audioPlayer).playInThread(isA(ThreadHelper.class), eq(alarm.getSound()), isA(Thread.UncaughtExceptionHandler.class));
+	}
+
+	/**
+	 * Testet die Verarbeitung eines unwichtigen Ereignisses.
+	 */
+	@Test
+	public final void testIgnoreEvent() {
+		final AlarmController controller = (AlarmController) getController();
+		final GuiHelper guiHelper = controller.getGuiHelper();
+
+		final MessageHelper messageHelper = mock(MessageHelper.class);
+		guiHelper.setMessageHelper(messageHelper);
+
+		final AudioPlayer audioPlayer = mock(AudioPlayer.class);
+		guiHelper.setAudioPlayer(audioPlayer);
+
+		// unwichtiges Ereignis auslösen
+		controller.handleEvent(mock(TimeyEvent.class));
+		waitForThreads();
+
+		// sicherstellen, dass Ereignis ignoriert wird
+		verify(messageHelper, never()).showTrayMessageWithFallbackToDialog(anyString(), anyString(), isNull(TrayIcon.class),
+				isA(ResourceBundle.class));
+		verify(audioPlayer, never()).playInThread(isA(ThreadHelper.class), anyString(), isA(Thread.UncaughtExceptionHandler.class));
 	}
 
 }

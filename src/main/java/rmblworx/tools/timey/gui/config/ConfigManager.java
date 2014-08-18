@@ -5,7 +5,7 @@ package rmblworx.tools.timey.gui.config;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Verwaltung der Konfiguration per Singleton.
+ * Verwaltung der GUI-Konfiguration per Singleton.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public final class ConfigManager {

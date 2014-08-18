@@ -8,7 +8,7 @@ import java.util.Locale;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Konfiguration.
+ * GUI-Konfiguration.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class Config {

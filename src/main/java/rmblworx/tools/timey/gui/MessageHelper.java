@@ -44,7 +44,7 @@ public class MessageHelper {
 	 * @param trayIcon TrayIcon
 	 * @param i18n ResourceBundle
 	 */
-	public final void showTrayMessageWithFallbackToDialog(final String caption, final String text, final TrayIcon trayIcon,
+	public void showTrayMessageWithFallbackToDialog(final String caption, final String text, final TrayIcon trayIcon,
 			final ResourceBundle i18n) {
 		if (trayIcon != null) {
 			showTrayMessage(caption, text, trayIcon);

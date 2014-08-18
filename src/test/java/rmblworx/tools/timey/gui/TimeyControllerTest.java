@@ -1,12 +1,15 @@
 package rmblworx.tools.timey.gui;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import java.awt.SystemTray;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
+
+import rmblworx.tools.timey.event.TimeyEvent;
 
 /*
  * Copyright 2014 Christian Raue
@@ -44,6 +47,20 @@ public class TimeyControllerTest extends FxmlGuiControllerTest {
 		}
 
 		assertEquals(1, SystemTray.getSystemTray().getTrayIcons().length);
+	}
+
+	/**
+	 * Testet die Verarbeitung eines Ereignisses.
+	 */
+	@Test
+	public final void testHandleEvent() {
+		final TimeyController controller = (TimeyController) getController();
+
+		// Ereignis auslösen
+		controller.handleEvent(mock(TimeyEvent.class));
+		waitForThreads();
+
+		// TODO sicherstellen, dass Ereignis verarbeitet wird
 	}
 
 }

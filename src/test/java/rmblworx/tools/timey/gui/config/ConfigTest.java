@@ -18,7 +18,7 @@ import org.junit.Test;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Test für die GUI-Konfiguration.
+ * Tests für die GUI-Konfiguration.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class ConfigTest {
