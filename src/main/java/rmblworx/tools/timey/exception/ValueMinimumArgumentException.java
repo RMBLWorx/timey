@@ -24,7 +24,7 @@ public final class ValueMinimumArgumentException extends IllegalArgumentExceptio
 
 	/**
 	 * Konstruiert eine {@code ValueMinimumArgumentException} mit frei definierbarer Fehlermeldung.
-	 * 
+	 *
 	 * @param msg
 	 *            die Fehlermeldung
 	 */

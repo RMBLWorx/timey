@@ -24,7 +24,7 @@ public final class NullArgumentException extends IllegalArgumentException {
 
 	/**
 	 * Konstruiert eine {@code NullArgumentException} mit frei definierbarer Fehlermeldung.
-	 * 
+	 *
 	 * @param msg
 	 *            die Fehlermeldung
 	 */

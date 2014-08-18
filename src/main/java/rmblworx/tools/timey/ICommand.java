@@ -12,7 +12,7 @@ interface ICommand {
 
 	/**
 	 * Ist von der konkreten Implementierung umzusetzen.
-	 * 
+	 *
 	 * @param <T>
 	 *            wird von der jeweiligen konkreten Implementierung vorgegeben.
 	 * @return T wird von der jeweiligen konkreten Implementierung vorgegeben.

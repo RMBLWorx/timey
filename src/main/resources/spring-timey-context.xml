@@ -35,17 +35,17 @@
 	<aop:config proxy-target-class="true">
 		<!-- comment one of the advisor configuration -->
 		<!-- <aop:advisor advice-ref="debugInterceptor" -->
-		<!-- pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1" 
+		<!-- pointcut="execution(public * rmblworx.tools.timey.*.*(..))" order="1"
 			/> -->
 		<aop:pointcut id="runnablesFiltered"
 			expression="within(rmblworx.tools.timey..*) and !bean(alarmRunnable) and !bean(timerRunnable) and !bean(countdownRunnable)" />
 		<aop:pointcut id="unfiltered"
 			expression="execution(public * rmblworx.tools.timey.*.*.*(..))" />
 
-		<!-- Achtung im folgenden advisor wird der Pointcut zum herausfiltern aller 
-			Methodenaufrufe innerhalb der AlarmRunnable, TimerRunnable und CountdownRunnable 
-			Implementierungen adressiert!!! Wird fuer die Fehlersuche die Logausgabe 
-			benoetigt so ist die darunter stehende, auskommentierte Pointcut-Referenz 
+		<!-- Achtung im folgenden advisor wird der Pointcut zum herausfiltern aller
+			Methodenaufrufe innerhalb der AlarmRunnable, TimerRunnable und CountdownRunnable
+			Implementierungen adressiert!!! Wird fuer die Fehlersuche die Logausgabe
+			benoetigt so ist die darunter stehende, auskommentierte Pointcut-Referenz
 			zu aktivieren -->
 		<aop:advisor advice-ref="debugInterceptorWithComposite"
 			pointcut-ref="runnablesFiltered" />

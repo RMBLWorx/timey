@@ -24,7 +24,7 @@ public final class EmptyArgumentException extends IllegalArgumentException {
 
 	/**
 	 * Konstruiert eine {@code EmptyArgumentException} mit frei definierbarer Fehlermeldung.
-	 * 
+	 *
 	 * @param msg
 	 *            die Fehlermeldung
 	 */
