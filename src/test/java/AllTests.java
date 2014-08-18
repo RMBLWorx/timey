@@ -16,6 +16,7 @@ import com.googlecode.junittoolbox.WildcardPatternSuite;
 	"**/*Test.class",
 	"!rmblworx/tools/timey/gui/FxmlGuiControllerTest.class",
 	"!rmblworx/tools/timey/gui/FxmlGuiTest.class",
+	"!rmblworx/tools/timey/gui/JavaFxGuiTest.class",
 })
 public class AllTests {
 }
