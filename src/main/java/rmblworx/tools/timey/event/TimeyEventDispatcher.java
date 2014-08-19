@@ -46,7 +46,7 @@ public class TimeyEventDispatcher {
 	 *            das Event
 	 */
 	public synchronized void dispatchEvent(final TimeyEvent timeyEvent) {
-		Iterator<TimeyEventListener> it = this.listener.iterator();
+		final Iterator<TimeyEventListener> it = this.listener.iterator();
 		while (it.hasNext()) {
 			it.next().handleEvent(timeyEvent);
 		}

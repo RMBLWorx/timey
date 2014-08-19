@@ -71,7 +71,7 @@ public final class DateTimeUtil {
 	}
 
 	/**
-	 * @param UTC-basierter Datum/Zeit-Wert in ms
+	 * @param millis UTC-basierter Datum/Zeit-Wert in ms
 	 * @return Datum/Zeit-Wert
 	 */
 	public static LocalDateTime getLocalDateTimeFromMillis(final long millis) {

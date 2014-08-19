@@ -17,7 +17,7 @@ interface ICountdownTimer {
 
 	/**
 	 * Setzt den Startwert fuer den Countdown.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Referenz auf das Werteobjekt das die darzustellende Zeit kapselt.
 	 * @return true wenn die Ausgangszeit erfolgreich gesetzt werden konnte.
@@ -32,7 +32,7 @@ interface ICountdownTimer {
 	 * @param timeUnit
 	 *            Setzt die zu verwendende Zeiteinheit fuer die
 	 *            wiederholte Aktualisierung des Werteobjekts.
-	 * 
+	 *
 	 * @return Referenz auf das Wertobjekt das die darzustellende Zeit
 	 *         kapselt. Es handelt sich hierbei um das ueber {@link #setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)} uebergebene Objekt.
 	 */
@@ -40,7 +40,7 @@ interface ICountdownTimer {
 
 	/**
 	 * Stoppt den Countdown und beendet den/die gestarteten Threads.
-	 * 
+	 *
 	 * @return true wenn erfolgreich die Uhr angehalten werden konnte sonst false.
 	 */
 	Boolean stopCountdown();

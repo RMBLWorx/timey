@@ -116,7 +116,7 @@ public class SimpleTimerTest {
 	 */
 	@Test
 	public final void testToggleTimeModeInStopwatchSimpleCase() throws InterruptedException {
-		TimeDescriptor td = new TimeDescriptor(0l);
+		TimeDescriptor td = new TimeDescriptor(0L);
 		this.timer = new SimpleTimer(td);
 		this.timer.setApplicationContext(this.springContext);
 
@@ -150,7 +150,7 @@ public class SimpleTimerTest {
 	public final void testToggleTimeModeInStopwatchExtendedCase() throws InterruptedException {
 		// testet ob TIME-Modus zuverlaessig funktioniert wenn zwischendurch die Uhr gestoppt wurde waehrend TIME-Modus
 		// aktiv
-		TimeDescriptor td = new TimeDescriptor(0l);
+		TimeDescriptor td = new TimeDescriptor(0L);
 		this.timer = new SimpleTimer(td);
 		this.timer.setApplicationContext(this.springContext);
 
@@ -166,7 +166,7 @@ public class SimpleTimerTest {
 		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
 
 		//STOP gedrueckt - Zeitmessung stoppt aber eingefrorene Zeit bleibt im Vordergrund
-		if(this.timer.stopStopwatch()) {
+		if (this.timer.stopStopwatch()) {
 			assertEquals("Werte nicht identisch obwohl TIME-Mode aktiv!", expected, actual);
 			actual = td.getMilliSeconds();
 		} else {

@@ -16,7 +16,7 @@ public interface ITimey extends IAlarm, ICountdown, IStopwatch {
 
 	/**
 	 * Liefert die Version von timey.
-	 * 
+	 *
 	 * @param globPattern
 	 *            Pattern zur Beschreibung des zu suchenden Jar-Archivs.
 	 * @return die aktuelle Version.
@@ -31,7 +31,7 @@ public interface ITimey extends IAlarm, ICountdown, IStopwatch {
 
 	/**
 	 * Registriert den uebergebenen Event-Listener.
-	 * 
+	 *
 	 * @param timeyEventListener
 	 *            zu benachrichtigender Event-Listener
 	 */

@@ -53,7 +53,7 @@ class AlarmClient {
 		return invoker.execute();
 	}
 
-	public Boolean initAlarmSetStateOfAlarmCommand(AlarmDescriptor descriptor, Boolean isActivated) {
+	public Boolean initAlarmSetStateOfAlarmCommand(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		final AlarmSetStateOfAlarmCommand cmd = new AlarmSetStateOfAlarmCommand(this.fReceiver, descriptor, isActivated);
 		final Invoker invoker = new Invoker();
 		invoker.storeCommand(cmd);

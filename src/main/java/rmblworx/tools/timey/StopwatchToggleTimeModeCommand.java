@@ -9,7 +9,7 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 /**
  * @author mmatthies
  */
-public class StopwatchToggleTimeModeCommand implements ICommand{
+public class StopwatchToggleTimeModeCommand implements ICommand {
 	/**
 	 * Referenz auf die Empfaengerimplementierung.
 	 */

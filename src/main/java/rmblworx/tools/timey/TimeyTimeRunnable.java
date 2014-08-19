@@ -38,7 +38,7 @@ abstract class TimeyTimeRunnable implements Runnable {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Zeitwertobjekt.
 	 * @param timePassed

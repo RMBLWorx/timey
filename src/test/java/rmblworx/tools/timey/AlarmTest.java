@@ -46,7 +46,7 @@ public class AlarmTest {
 	@Mock
 	private IAlarmService service;
 
-	private Boolean assertThatTimestampIsPresent(List<AlarmDescriptor> list, AlarmDescriptor expectedDescriptor) {
+	private Boolean assertThatTimestampIsPresent(final List<AlarmDescriptor> list, final AlarmDescriptor expectedDescriptor) {
 		Boolean result = Boolean.FALSE;
 		for (AlarmDescriptor timeDescr : list) {
 			if (timeDescr.getAlarmtime().getMilliSeconds() == expectedDescriptor.getAlarmtime()
@@ -102,7 +102,7 @@ public class AlarmTest {
 	@Test
 	public final void testIsActivatedShouldReturnNullBecauseNoAlarmtimeWasSetBefore() {
 		this.effectiveDelegate = new Alarm(this.service, 1, TimeUnit.MINUTES);
-		AlarmDescriptor expected = null;
+		final AlarmDescriptor expected = null;
 
 		when(this.service.isActivated(expected)).thenReturn(null);
 		this.effectiveDelegate.setAlarm(expected);

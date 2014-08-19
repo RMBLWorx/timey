@@ -78,7 +78,7 @@ class Stopwatch implements IStopwatch {
 	@Override
 	public Boolean toggleTimeModeInStopwatch() {
 		Boolean result = Boolean.FALSE;
-		if(this.timer != null){
+		if (this.timer != null) {
 			result = this.timer.toggleTimeModeInStopwatch();
 		}
 

@@ -72,7 +72,7 @@ class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextA
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
 	}
 }

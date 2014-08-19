@@ -58,8 +58,8 @@
 	<context:component-scan base-package="rmblworx.tools.timey.persistence" />
 	<tx:annotation-driven />
 
-	<!-- ausgliederung der Konfigurationswerte in eine Properties-Datei. Besonderheit 
-		hier - abhaenging vom Ablageort der Datei wird eine Test bzw. ein Produktivdatenbank 
+	<!-- ausgliederung der Konfigurationswerte in eine Properties-Datei. Besonderheit
+		hier - abhaenging vom Ablageort der Datei wird eine Test bzw. ein Produktivdatenbank
 		damit konfiguriert -->
 	<context:property-placeholder location="classpath:/db.properties" />
 
@@ -90,14 +90,14 @@
 		</property>
 	</bean>
 
-	<!-- um die Exception-Übersetzung einem HibernateDAO ohne Schablonen hinzuzufügen 
-		wird die im folgenden deklarierte Bean dem Spring-Anwendungscontext hinzugefügt. 
-		Der Postprocessor hängt einen Advisor an jede Bean die mit @Repository annotiert 
-		ist sodass alle plattformspezifischen Exceptions abgefangen und als standardisierte, 
+	<!-- um die Exception-Übersetzung einem HibernateDAO ohne Schablonen hinzuzufügen
+		wird die im folgenden deklarierte Bean dem Spring-Anwendungscontext hinzugefügt.
+		Der Postprocessor hängt einen Advisor an jede Bean die mit @Repository annotiert
+		ist sodass alle plattformspezifischen Exceptions abgefangen und als standardisierte,
 		ungeprüfte Spring-Exceptionserneut ausgelöst werden. -->
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	<!-- ############################ Ende Spring - Hibernate Integration ######################## -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
 
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 </beans>

@@ -16,14 +16,14 @@ interface IAlarm {
 
 	/**
 	 * Liefert alle Alarmzeitpunkte.
-	 * 
+	 *
 	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
 	List<AlarmDescriptor> getAllAlarms();
 
 	/**
 	 * Liefert die Aussage, ob die Alarmzeit scharf oder unscharf geschalten ist.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true oder false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden.
@@ -32,7 +32,7 @@ interface IAlarm {
 
 	/**
 	 * Loescht den Alarmzeitpunkt.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt nicht vorhanden
@@ -41,7 +41,7 @@ interface IAlarm {
 
 	/**
 	 * Setzt die Alarmzeit wobei jede nur einmalig vorkommen kann.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt bereits vorhanden
@@ -50,7 +50,7 @@ interface IAlarm {
 
 	/**
 	 * Stellt die Alarmzeit unscharf bzw. scharf.
-	 * 
+	 *
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes.
 	 * @param isActivated

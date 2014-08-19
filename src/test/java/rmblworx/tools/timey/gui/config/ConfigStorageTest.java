@@ -28,7 +28,7 @@ public class ConfigStorageTest {
 
 	/**
 	 * Testet das Speichern der Konfiguration.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
 	public final void testSaveDefaultConfig() throws IOException {
@@ -54,7 +54,7 @@ public class ConfigStorageTest {
 
 	/**
 	 * Testet das Laden einer leeren Konfiguration und Befüllung mit Standardwerten.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
 	public final void testLoadEmptyConfig() throws IOException {
@@ -75,7 +75,7 @@ public class ConfigStorageTest {
 
 	/**
 	 * Testet das Laden einer Konfiguration mit ungültige Werten.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
 	public final void testConfigWithInvalidValues() throws IOException {
@@ -109,7 +109,7 @@ public class ConfigStorageTest {
 
 	/**
 	 * Testet das Laden einer ungültigen Konfiguration.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
 	public final void testInvalidConfig() throws IOException {
@@ -130,7 +130,7 @@ public class ConfigStorageTest {
 
 	/**
 	 * Testet, ob eine Konfiguration, nachdem sie gespeichert wurde, als nicht-geändert gilt.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
 	public final void testSavingConfigWillMarkItAsUnchanged() throws IOException {
@@ -141,13 +141,13 @@ public class ConfigStorageTest {
 		// Konfiguration speichern
 		new ConfigStorage().saveConfig(config, new ByteArrayOutputStream());
 
-		// sicherstellen, dass gespeicherte Konfiguration als nicht-geändert gilt 
+		// sicherstellen, dass gespeicherte Konfiguration als nicht-geändert gilt
 		assertFalse(config.isChanged());
 	}
 
 	/**
 	 * Testet, ob eine Konfiguration, nachdem sie geladen wurde, als nicht-geändert gilt.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
 	public final void testLoadingConfigWillMarkItAsUnchanged() throws IOException {
@@ -162,7 +162,7 @@ public class ConfigStorageTest {
 		// gespeicherte Konfiguration laden, sollte dabei mit Standardwerten gefüllt werden
 		final Config emptyConfig = new ConfigStorage().loadConfig(redirectOutputToInput(outputStream));
 
-		// sicherstellen, dass geladene Konfiguration als nicht-geändert gilt 
+		// sicherstellen, dass geladene Konfiguration als nicht-geändert gilt
 		assertFalse(emptyConfig.isChanged());
 	}
 

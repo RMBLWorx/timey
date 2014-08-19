@@ -35,7 +35,7 @@ class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		final long currentTimeMillis = System.currentTimeMillis();
 
 		this.timeDelta = currentTimeMillis - this.timeStarted;
-		if(!this.isTimeModeActive){
+		if (!this.isTimeModeActive) {
 			this.timeDescriptor.setMilliSeconds(this.timePassed + this.timeDelta);
 		}
 	}

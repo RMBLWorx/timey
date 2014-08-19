@@ -25,7 +25,7 @@ public class ConfigStorage {
 	/**
 	 * @param config zu speichernde Konfiguration
 	 * @param outputStream Ausgabestream
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public final void saveConfig(final Config config, final OutputStream outputStream) throws IOException {
 		final Properties props = getConfigAsProperties(config);
@@ -36,7 +36,7 @@ public class ConfigStorage {
 	/**
 	 * @param inputStream Eingabestream
 	 * @return geladene Konfiguration
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public final Config loadConfig(final InputStream inputStream) throws IOException {
 		return loadConfig(inputStream, false);
@@ -46,7 +46,7 @@ public class ConfigStorage {
 	 * @param inputStream Eingabestream
 	 * @param ignoreErrors ob Fehler ignoriert werden sollen
 	 * @return geladene Konfiguration
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public final Config loadConfig(final InputStream inputStream, final boolean ignoreErrors) throws IOException {
 		try {

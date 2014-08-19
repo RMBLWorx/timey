@@ -41,7 +41,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 	}
 
 	private AlarmDescriptor detectAlarm() {
-		long currentTimeMillis = System.currentTimeMillis();
+		final long currentTimeMillis = System.currentTimeMillis();
 		AlarmDescriptor result = null;
 		for (AlarmDescriptor alarm : this.allAlarms) {
 			if (alarm.getIsActive()) {
@@ -60,7 +60,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 		this.lock.lock();
 		try {
 			// alarme aus der db
-			if(this.allAlarms == null || this.newOrModifiedAlarmsAvailable){
+			if (this.allAlarms == null || this.newOrModifiedAlarmsAvailable) {
 				this.allAlarms = this.alarmService.getAll();
 				this.newOrModifiedAlarmsAvailable = false;
 			}
@@ -78,7 +78,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
 		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 		this.eventDispatcher.addEventListener(this);
@@ -87,7 +87,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 
 	@Override
 	public void handleEvent(final TimeyEvent timeyEvent) {
-		if(timeyEvent instanceof AlarmsModifiedEvent){
+		if (timeyEvent instanceof AlarmsModifiedEvent) {
 			this.newOrModifiedAlarmsAvailable = true;
 		}
 	}
