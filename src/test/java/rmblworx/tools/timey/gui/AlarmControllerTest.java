@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -152,6 +153,99 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		final String descriptionCellData = (String) alarmTable.getColumns().get(1).getCellData(0);
 		assertNotNull(descriptionCellData);
 		assertEquals(alarm1.getDescription(), descriptionCellData);
+	}
+
+	/**
+	 * Testet das Bearbeiten eines Alarms.
+	 */
+	@Test
+	public final void testEditAlarm() {
+		final int noonHour = 12;
+		final int onePmHour = 13;
+
+		// Alarm anlegen
+		final LocalDateTime noon = LocalDateTime.now()
+				.plusYears(1) // +1 Jahr, um Problem mit Zeitpunkt in Vergangenheit zu vermeiden, falls Test nachmittags läuft
+				.withHour(noonHour).withMinute(0).withSecond(0) // 12:00:00
+				.withNano(0); // Sekundenbruchteil immer auf 0 setzen, da auch per GUI nur ganze Sekunden angegeben werden können
+		final LocalDateTime onePm = noon.withHour(onePmHour); // 13:00:00 am selben Tag
+		final Alarm alarm = new Alarm(noon, "alarm");
+		alarmTable.getItems().add(alarm);
+
+		final Button alarmEditButton = (Button) scene.lookup("#alarmEditButton");
+
+		// Zustand der Schaltflächen testen
+		assertTrue(alarmEditButton.isVisible());
+		assertTrue(alarmEditButton.isDisabled());
+
+		// Alarm auswählen
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmTable.getSelectionModel().select(alarm);
+			}
+		});
+		FXTestUtils.awaitEvents();
+
+		// Zustand der Schaltflächen testen
+		assertTrue(alarmEditButton.isVisible());
+		assertFalse(alarmEditButton.isDisabled());
+
+		// Alarm bearbeiten
+		click(alarmEditButton);
+
+		final Scene dialogScene = ((AlarmController) getController()).getDialogStage().getScene();
+
+		final TextField hoursTextField = (TextField) dialogScene.lookup("#hoursTextField");
+		/*
+		 * Der Versuch, den neuen Wert ins Textfeld per doubleClick(hoursTextField); type(String.valueOf(onePmHour)); einzugeben, würde auf
+		 * Travis scheitern und der Feldinhalt würde sich nicht ändern.
+		 * Selbst Fokussieren des Feldes per Platform.runLater(... hoursTextField.requestFocus(); ...) würde nicht funktionieren.
+		 * Also muss der Wert direkt gesetzt (oder alternativ per Slider geändert) werden.
+		 */
+		Platform.runLater(new Runnable() {
+			public void run() {
+				hoursTextField.setText(String.valueOf(onePmHour));
+			}
+		});
+		FXTestUtils.awaitEvents();
+		// sicherstellen, dass der Wert wirklich geändert wurde
+		assertEquals(String.valueOf(onePmHour), hoursTextField.getText());
+
+		final Button alarmSaveButton = (Button) dialogScene.lookup("#alarmSaveButton");
+		click(alarmSaveButton);
+
+		// sicherstellen, dass Alarm geändert wurde
+		assertEquals(onePm, alarm.getDateTime());
+
+		// sicherstellen, dass per Fassade alter Alarm gelöscht und neuer angelegt wurde
+		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+			public boolean matches(final Object argument) {
+				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == DateTimeUtil.getLocalDateTimeInMillis(noon);
+			}
+		}));
+		verify(getController().getGuiHelper().getFacade()).setAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+			public boolean matches(final Object argument) {
+				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == DateTimeUtil.getLocalDateTimeInMillis(onePm);
+			}
+		}));
+
+		/*
+		 * Sicherstellen, dass geänderter Alarm in der Tabelle korrekt angezeigt wird.
+		 * Wäre z. B. nicht der Fall, wenn {@code Alarm}-Klasse keine "<Attribut>Property"-Methoden hätte,
+		 * siehe http://stackoverflow.com/questions/11065140/javafx-2-1-tableview-refresh-items/24194842#24194842.
+		 * TODO Funktioniert so nicht. Selbst wenn "<Attribut>Property"-Methoden fehlen, liefert dieser Code einen anderen Wert als den,
+		 * der tatsächlich in der Tabelle sichtbar ist. Darstellungsfehler.
+		 */
+		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(0).getCellData(0);
+		assertNotNull(dateTimeCellData);
+		assertEquals(onePm, dateTimeCellData);
+
+		// sicherstellen, dass Alarm noch ausgewählt ist
+		assertEquals(alarm, alarmTable.getSelectionModel().getSelectedItem());
+
+		// Zustand der Schaltflächen testen
+		assertTrue(alarmEditButton.isVisible());
+		assertFalse(alarmEditButton.isDisabled());
 	}
 
 }

@@ -75,6 +75,8 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	@FXML
 	private Button alarmDeleteButton;
 
+	private Stage dialogStage;
+
 	@FXML
 	private void initialize() {
 		assert alarmContainer != null : "fx:id='alarmContainer' was not injected";
@@ -289,7 +291,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource("AlarmEditDialog.fxml"), resources);
 			final Parent root = (Parent) loader.load();
-			final Stage dialogStage = new Stage(StageStyle.UTILITY);
+			dialogStage = new Stage(StageStyle.UTILITY);
 			dialogStage.setScene(new Scene(root));
 			dialogStage.setTitle(title);
 			dialogStage.setResizable(false);
@@ -304,12 +306,17 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			controller.setAlarm(alarm);
 
 			dialogStage.showAndWait();
+			dialogStage = null;
 
 			return controller.isChanged();
 		} catch (final IOException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public Stage getDialogStage() {
+		return dialogStage;
 	}
 
 	/**
