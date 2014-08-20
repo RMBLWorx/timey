@@ -65,18 +65,9 @@ public class StopwatchController extends Controller {
 
 	@FXML
 	private void initialize() {
-		assert stopwatchTimeLabel != null : "fx:id='stopwatchTimeLabel' was not injected";
-		assert stopwatchStartButton != null : "fx:id='stopwatchStartButton' was not injected";
-		assert stopwatchSplitTimeButton != null : "fx:id='stopwatchSplitTimeButton' was not injected";
-		assert stopwatchStopButton != null : "fx:id='stopwatchStopButton' was not injected";
-		assert stopwatchResetButton != null : "fx:id='stopwatchResetButton' was not injected";
-		assert stopwatchShowMillisecondsCheckbox != null : "fx:id='stopwatchShowMillisecondsCheckbox' was not injected";
-
-		if (stopwatchShowMillisecondsCheckbox != null) {
-			stopwatchShowMillisecondsCheckbox.setSelected(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds());
-			setupTimeFormatter();
-			updateStopwatchTimeLabel();
-		}
+		stopwatchShowMillisecondsCheckbox.setSelected(ConfigManager.getCurrentConfig().isStopwatchShowMilliseconds());
+		setupTimeFormatter();
+		updateStopwatchTimeLabel();
 	}
 
 	/**

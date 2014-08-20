@@ -77,79 +77,56 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 	@FXML
 	private void initialize() {
-		assert alarmContainer != null : "fx:id='alarmContainer' was not injected";
-		assert alarmProgressContainer != null : "fx:id='alarmProgressContainer' was not injected";
-		assert alarmTable != null : "fx:id='alarmTable' was not injected";
-		assert alarmDateTimeColumn != null : "fx:id='alarmDateTimeColumn' was not injected";
-		assert alarmDescriptionColumn != null : "fx:id='alarmDescriptionColumn' was not injected";
-		assert alarmEditButton != null : "fx:id='alarmEditButton' was not injected";
-		assert alarmDeleteButton != null : "fx:id='alarmDeleteButton' was not injected";
+		alarmDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Alarm, LocalDateTime>("dateTime"));
 
-		if (alarmDateTimeColumn != null) {
-			alarmDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Alarm, LocalDateTime>("dateTime"));
-
-			alarmDateTimeColumn.setCellFactory(new Callback<TableColumn<Alarm, LocalDateTime>, TableCell<Alarm, LocalDateTime>>() {
-				public TableCell<Alarm, LocalDateTime> call(final TableColumn<Alarm, LocalDateTime> param) {
-					return new TableCell<Alarm, LocalDateTime>() {
-						protected void updateItem(final LocalDateTime item, final boolean empty) {
-							super.updateItem(item, empty);
-							setText(empty ? null : dateTimeFormatter.format(item));
-						}
-					};
-				}
-			});
-		}
-
-		if (alarmDescriptionColumn != null) {
-			alarmDescriptionColumn.setCellValueFactory(new PropertyValueFactory<Alarm, String>("description"));
-		}
-
-		if (alarmTable != null) {
-			// CSS-Klasse für inaktive Alarme setzen
-			alarmTable.setRowFactory(new Callback<TableView<Alarm>, TableRow<Alarm>>() {
-				public TableRow<Alarm> call(final TableView<Alarm> tableView) {
-					final TableRow<Alarm> row = new TableRow<Alarm>() {
-						protected void updateItem(final Alarm alarm, final boolean empty) {
-							super.updateItem(alarm, empty);
-							if (alarm != null && !alarm.isEnabled()) {
-								getStyleClass().add("alarm-disabled");
-							}
-						}
-					};
-					return row;
-				}
-			});
-
-			// Platzhaltertext (für Tabelle ohne Einträge) setzen
-			alarmTable.setPlaceholder(new Text(resources.getString("noAlarmsDefined.placeholder")));
-
-			// Bearbeiten- und Löschen-Schaltflächen nur aktivieren, wenn Eintrag ausgewählt
-			alarmTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Alarm>() {
-				public void changed(final ObservableValue<? extends Alarm> property, final Alarm oldValue, final Alarm newValue) {
-					final boolean isItemSelected = newValue != null;
-					if (alarmEditButton != null) {
-						alarmEditButton.setDisable(!isItemSelected);
+		alarmDateTimeColumn.setCellFactory(new Callback<TableColumn<Alarm, LocalDateTime>, TableCell<Alarm, LocalDateTime>>() {
+			public TableCell<Alarm, LocalDateTime> call(final TableColumn<Alarm, LocalDateTime> param) {
+				return new TableCell<Alarm, LocalDateTime>() {
+					protected void updateItem(final LocalDateTime item, final boolean empty) {
+						super.updateItem(item, empty);
+						setText(empty ? null : dateTimeFormatter.format(item));
 					}
-					if (alarmDeleteButton != null) {
-						alarmDeleteButton.setDisable(!isItemSelected);
+				};
+			}
+		});
+
+		alarmDescriptionColumn.setCellValueFactory(new PropertyValueFactory<Alarm, String>("description"));
+
+		// CSS-Klasse für inaktive Alarme setzen
+		alarmTable.setRowFactory(new Callback<TableView<Alarm>, TableRow<Alarm>>() {
+			public TableRow<Alarm> call(final TableView<Alarm> tableView) {
+				final TableRow<Alarm> row = new TableRow<Alarm>() {
+					protected void updateItem(final Alarm alarm, final boolean empty) {
+						super.updateItem(alarm, empty);
+						if (alarm != null && !alarm.isEnabled()) {
+							getStyleClass().add("alarm-disabled");
+						}
 					}
-				}
-			});
+				};
+				return row;
+			}
+		});
 
-			Platform.runLater(new Runnable() {
-				public void run() {
-					reloadAlarms();
-				}
-			});
-		}
+		// Platzhaltertext (für Tabelle ohne Einträge) setzen
+		alarmTable.setPlaceholder(new Text(resources.getString("noAlarmsDefined.placeholder")));
 
-		if (alarmEditButton != null) {
-			alarmEditButton.setDisable(true);
-		}
+		// Bearbeiten- und Löschen-Schaltflächen nur aktivieren, wenn Eintrag ausgewählt
+		alarmTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Alarm>() {
+			public void changed(final ObservableValue<? extends Alarm> property, final Alarm oldValue, final Alarm newValue) {
+				final boolean isItemSelected = newValue != null;
+				alarmEditButton.setDisable(!isItemSelected);
+				alarmDeleteButton.setDisable(!isItemSelected);
+			}
+		});
 
-		if (alarmDeleteButton != null) {
-			alarmDeleteButton.setDisable(true);
-		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				reloadAlarms();
+			}
+		});
+
+		alarmEditButton.setDisable(true);
+		alarmDeleteButton.setDisable(true);
 
 		final TimeyEventListener eventListener = this;
 		Platform.runLater(new Runnable() {
@@ -356,14 +333,12 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	}
 
 	private void switchProgress(final boolean visible) {
-		if (alarmProgressContainer != null && alarmContainer != null) {
-			Platform.runLater(new Runnable() {
-				public void run() {
-					alarmProgressContainer.setVisible(visible);
-					alarmContainer.setVisible(!visible);
-				}
-			});
-		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmProgressContainer.setVisible(visible);
+				alarmContainer.setVisible(!visible);
+			}
+		});
 	}
 
 	/**

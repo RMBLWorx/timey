@@ -60,11 +60,6 @@ public class CountdownController extends Controller implements TimeyEventListene
 
 	@FXML
 	private void initialize() {
-		assert countdownStartButton != null : "fx:id='countdownStartButton' was not injected";
-		assert countdownStopButton != null : "fx:id='countdownStopButton' was not injected";
-		assert countdownTimeLabel != null : "fx:id='countdownTimeLabel' was not injected";
-		assert countdownTimePicker != null : "fx:id='countdownTimePicker' was not injected";
-
 		setupTimeFormatter();
 
 		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
