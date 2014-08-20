@@ -35,41 +35,34 @@ public class OptionsController extends Controller {
 
 	@FXML
 	private void initialize() {
-		assert minimizeToTrayCheckbox != null : "fx:id='minimizeToTrayCheckbox' was not injected";
-		assert languageChoice != null : "fx:id='languageChoice' was not injected";
+		if (!SystemTray.isSupported()) {
+			minimizeToTrayCheckbox.setDisable(true);
+			minimizeToTrayCheckbox.setSelected(false);
+		} else {
+			minimizeToTrayCheckbox.setSelected(ConfigManager.getCurrentConfig().isMinimizeToTray());
+		}
 
-		if (minimizeToTrayCheckbox != null) {
-			if (!SystemTray.isSupported()) {
-				minimizeToTrayCheckbox.setDisable(true);
-				minimizeToTrayCheckbox.setSelected(false);
-			} else {
-				minimizeToTrayCheckbox.setSelected(ConfigManager.getCurrentConfig().isMinimizeToTray());
+		languageChoice.setConverter(new StringConverter<Locale>() {
+			public String toString(final Locale locale) {
+				return locale.getDisplayName();
 			}
-		}
 
-		if (languageChoice != null) {
-			languageChoice.setConverter(new StringConverter<Locale>() {
-				public String toString(final Locale locale) {
-					return locale.getDisplayName();
-				}
+			public Locale fromString(final String string) {
+				throw new UnsupportedOperationException();
+			}
+		});
 
-				public Locale fromString(final String string) {
-					throw new UnsupportedOperationException();
-				}
-			});
+		languageChoice.getItems().setAll(Arrays.asList(Config.AVAILABLE_LOCALES));
+		languageChoice.setValue(ConfigManager.getCurrentConfig().getLocale());
 
-			languageChoice.getItems().setAll(Arrays.asList(Config.AVAILABLE_LOCALES));
-			languageChoice.setValue(ConfigManager.getCurrentConfig().getLocale());
-
-			languageChoice.valueProperty().addListener(new ChangeListener<Locale>() {
-				public void changed(final ObservableValue<? extends Locale> property, final Locale oldValue, final Locale newValue) {
-					ConfigManager.getCurrentConfig().setLocale(newValue);
-					final ResourceBundle i18nNewLocale = getGuiHelper().getResourceBundle(newValue);
-					getGuiHelper().showDialogMessage(i18nNewLocale.getString("messageDialog.languageChoice.title"),
-							i18nNewLocale.getString("messageDialog.languageChoice.text"), i18nNewLocale);
-				}
-			});
-		}
+		languageChoice.valueProperty().addListener(new ChangeListener<Locale>() {
+			public void changed(final ObservableValue<? extends Locale> property, final Locale oldValue, final Locale newValue) {
+				ConfigManager.getCurrentConfig().setLocale(newValue);
+				final ResourceBundle i18nNewLocale = getGuiHelper().getResourceBundle(newValue);
+				getGuiHelper().showDialogMessage(i18nNewLocale.getString("messageDialog.languageChoice.title"),
+						i18nNewLocale.getString("messageDialog.languageChoice.text"), i18nNewLocale);
+			}
+		});
 	}
 
 	/**

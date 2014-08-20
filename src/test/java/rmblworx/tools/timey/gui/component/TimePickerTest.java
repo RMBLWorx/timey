@@ -60,11 +60,18 @@ public class TimePickerTest extends JavaFxGuiTest {
 		return WRAP_IN_CONTAINER ? wrapInContainer(new TimePicker()) : new TimePicker();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	protected final Object getComponentWithFxmlFields() {
+		return WRAP_IN_CONTAINER ? scene.getRoot().getChildrenUnmodifiable().get(0) : scene.getRoot();
+	}
+
 	@Before
 	public final void setUp() {
 		scene = stage.getScene();
 
-		timePicker = (TimePicker) (WRAP_IN_CONTAINER ? scene.getRoot().getChildrenUnmodifiable().get(0) : scene.getRoot());
+		timePicker = (TimePicker) getComponentWithFxmlFields();
 
 		hoursTextField = (TextField) scene.lookup("#hoursTextField");
 		minutesTextField = (TextField) scene.lookup("#minutesTextField");

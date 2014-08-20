@@ -1,11 +1,16 @@
 package rmblworx.tools.timey.gui;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.lang.reflect.Field;
 import java.util.Locale;
 
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
+import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 
 /*
@@ -32,6 +37,30 @@ public abstract class JavaFxGuiTest extends GuiTest {
 		// Standardsprache für alle GUI-Tests setzen (wichtig z. B. als Fallback auf Travis)
 		Locale.setDefault(TEST_LOCALE);
 	}
+
+	/**
+	 * Testet die Verfügbarkeit aller per FXML initialisierten Felder.
+	 * @throws IllegalAccessException Fehler bei Zugriff auf das Feld.
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public final void testFxmlInitializedFields() throws IllegalAccessException {
+		final Object object = getComponentWithFxmlFields();
+		final Class<Object> klass = (Class<Object>) object.getClass();
+
+		for (final Field field : klass.getDeclaredFields()) {
+			if (field.getDeclaredAnnotationsByType(FXML.class).length > 0) {
+				field.setAccessible(true);
+				assertNotNull(String.format("Feld '%s' in Objekt '%s' ist nicht initialisiert.", field.getName(), klass.getName()),
+						field.get(object));
+			}
+		}
+	}
+
+	/**
+	 * @return Objekt mit FXML-Feldern (üblicherweise ein {@link Controller} oder eine eigenständige JavaFX-Komponente).
+	 */
+	protected abstract Object getComponentWithFxmlFields();
 
 	/**
 	 * Legt einen Container um den Knoten, um die in ihm enthaltenen Steuerelemente während der Ausführung von Tests nicht am

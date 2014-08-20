@@ -85,14 +85,6 @@ public class AlarmEditDialogController extends Controller {
 
 	@FXML
 	private void initialize() {
-		assert alarmEnabledCheckbox != null : "fx:id='alarmEnabledCheckbox' was not injected";
-		assert alarmDatePicker != null : "fx:id='alarmDatePicker' was not injected";
-		assert alarmTimePicker != null : "fx:id='alarmTimePicker' was not injected";
-		assert alarmDescriptionTextField != null : "fx:id='alarmDescriptionTextField' was not injected";
-		assert alarmSelectSoundButton != null : "fx:id='alarmSelectSoundButton' was not injected";
-		assert alarmNoSoundButton != null : "fx:id='alarmNoSoundButton' was not injected";
-		assert alarmPlaySoundButton != null : "fx:id='alarmPlaySoundButton' was not injected";
-
 		alarmDatePicker.setPromptText(resources.getString("alarmEdit.datePicker.placeholder"));
 
 		alarmDatePicker.setConverter(new StringConverter<LocalDate>() {

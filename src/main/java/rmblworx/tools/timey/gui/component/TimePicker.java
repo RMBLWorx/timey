@@ -92,24 +92,9 @@ public class TimePicker extends AnchorPane {
 
 	@FXML
 	private void initialize() {
-		assert hoursTextField != null : "fx:id='hoursTextField' was not injected";
-		assert minutesTextField != null : "fx:id='minutesTextField' was not injected";
-		assert secondsTextField != null : "fx:id='secondsTextField' was not injected";
-		assert hoursSlider != null : "fx:id='hoursSlider' was not injected";
-		assert minutesSlider != null : "fx:id='minutesSlider' was not injected";
-		assert secondsSlider != null : "fx:id='secondsSlider' was not injected";
-
-		if (hoursTextField != null) {
-			bindTextInputListenersAndSlider(hoursTextField, hoursSlider, MAX_HOURS);
-		}
-
-		if (minutesTextField != null) {
-			bindTextInputListenersAndSlider(minutesTextField, minutesSlider, MAX_MINUTES);
-		}
-
-		if (secondsTextField != null) {
-			bindTextInputListenersAndSlider(secondsTextField, secondsSlider, MAX_SECONDS);
-		}
+		bindTextInputListenersAndSlider(hoursTextField, hoursSlider, MAX_HOURS);
+		bindTextInputListenersAndSlider(minutesTextField, minutesSlider, MAX_MINUTES);
+		bindTextInputListenersAndSlider(secondsTextField, secondsSlider, MAX_SECONDS);
 	}
 
 	/**

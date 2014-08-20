@@ -63,4 +63,11 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 		return controller;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	protected final Object getComponentWithFxmlFields() {
+		return controller;
+	}
+
 }
