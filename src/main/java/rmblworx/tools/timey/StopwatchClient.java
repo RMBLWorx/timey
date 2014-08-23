@@ -1,11 +1,14 @@
 package rmblworx.tools.timey;
 
+import rmblworx.tools.timey.vo.TimeDescriptor;
+
 /*
  * Copyright 2014 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
+ *
  * @author mmatthies
  */
 class StopwatchClient {
@@ -28,9 +31,9 @@ class StopwatchClient {
 	/**
 	 * @return true wenn erfolgreich sonst false
 	 */
-	public <T> T initStopwatchResetCommand() {
+	public Boolean initStopwatchResetCommand() {
 		final StopwatchResetCommand cmd = new StopwatchResetCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -39,9 +42,9 @@ class StopwatchClient {
 	/**
 	 * @return Zeitwertobjekt das die gemessene Zeit kapselt.
 	 */
-	public <T> T initStopwatchStartCommand() {
+	public TimeDescriptor initStopwatchStartCommand() {
 		final StopwatchStartCommand cmd = new StopwatchStartCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<TimeDescriptor> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -50,9 +53,9 @@ class StopwatchClient {
 	/**
 	 * @return true wenn erfolgreich gestoppt sonst false
 	 */
-	public <T> T initStopwatchStopCommand() {
+	public Boolean initStopwatchStopCommand() {
 		final StopwatchStopCommand cmd = new StopwatchStopCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -61,9 +64,9 @@ class StopwatchClient {
 	/**
 	 * @return true wenn Time-Modus erfolgreich aktiviert wurde sonst false
 	 */
-	public <T> T initStopwatchToggleTimeModeCommand() {
+	public Boolean initStopwatchToggleTimeModeCommand() {
 		final StopwatchToggleTimeModeCommand cmd = new StopwatchToggleTimeModeCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();

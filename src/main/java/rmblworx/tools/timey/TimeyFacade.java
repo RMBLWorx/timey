@@ -80,6 +80,10 @@ public final class TimeyFacade implements ITimey {
 		return new ApplicationProperties().getVersion();
 	}
 
+	/**
+	 * Initiiert den Spring-Anwendungskontext fuer die Alarmfunktionalitaet.
+	 */
+	@SuppressWarnings("resource")
 	private void initAlarmContext() {
 		if (this.alarmClient == null) {
 			final ApplicationContext alarmSpringContext;
@@ -108,6 +112,10 @@ public final class TimeyFacade implements ITimey {
 		}
 	}
 
+	/**
+	 * Initiiert den Spring-Anwendungskontext fuer die Countdownfunktionalitaet.
+	 */
+	@SuppressWarnings("resource")
 	private void intiCountdownContext() {
 		if (this.countdownClient == null) {
 			final ApplicationContext countdownSpringContext;

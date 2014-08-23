@@ -22,12 +22,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 public class StopwatchResetCommandTest {
 
-	private Invoker invoker;
-	@Mock
-	private IStopwatch mockedReceiver;
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
+	private Invoker<Boolean> invoker;
+	@Mock
+	private IStopwatch mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -36,7 +36,7 @@ public class StopwatchResetCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new StopwatchResetCommand(this.mockedReceiver);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -51,13 +51,12 @@ public class StopwatchResetCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.StopwatchResetCommand#StopwatchResetCommand(rmblworx.tools.timey.IStopwatch)}.
+	 * Test method for {@link rmblworx.tools.timey.StopwatchResetCommand#execute()}.
 	 */
 	@Test
-	public final void testStopwatchResetCommand() {
-		this.command = new StopwatchResetCommand(this.mockedReceiver);
-		assertNotNull("Falscher Rueckgabewert!", this.command);
+	public final void testExecute() {
+		when(this.mockedReceiver.resetStopwatch()).thenReturn(Boolean.TRUE);
+		assertTrue("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
@@ -70,11 +69,12 @@ public class StopwatchResetCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.StopwatchResetCommand#execute()}.
+	 * Test method for
+	 * {@link rmblworx.tools.timey.StopwatchResetCommand#StopwatchResetCommand(rmblworx.tools.timey.IStopwatch)}.
 	 */
 	@Test
-	public final void testExecute() {
-		when(this.mockedReceiver.resetStopwatch()).thenReturn(Boolean.TRUE);
-		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+	public final void testStopwatchResetCommand() {
+		this.command = new StopwatchResetCommand(this.mockedReceiver);
+		assertNotNull("Falscher Rueckgabewert!", this.command);
 	}
 }

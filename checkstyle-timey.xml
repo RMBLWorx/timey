@@ -105,6 +105,7 @@
     <module name="FinalLocalVariable">
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
     </module>
+    <module name="JUnitTestCase"/>
   </module>
   <module name="JavadocPackage"/>
   <module name="Translation"/>

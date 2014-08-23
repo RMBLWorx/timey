@@ -1,6 +1,5 @@
 package rmblworx.tools.timey;
 
-import java.util.concurrent.ScheduledExecutorService;
 
 /*
  * Copyright 2014 Christian Raue
@@ -8,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 /**
  * Helferklasse mit haeufig benoetigten Funktionen.
+ * 
  * @author mmatthies
  */
 public final class TimeyUtils {
@@ -29,9 +29,9 @@ public final class TimeyUtils {
 	 */
 	private static final String WINDOWS = "windows";
 
-
 	/**
 	 * Liefert den Namen des Betriebsystems.
+	 * 
 	 * @return Namenkuerzel des OS.
 	 */
 	public static String getOsName() {
@@ -80,7 +80,7 @@ public final class TimeyUtils {
 	public static boolean isNullOrEmpty(final String... string) {
 		boolean result = false;
 
-		for (String str : string) {
+		for (final String str : string) {
 			if (isNull(str) || isEmpty(str)) {
 				result = true;
 				break;
@@ -108,22 +108,6 @@ public final class TimeyUtils {
 	public static boolean isWindowsSystem() {
 		final String osName = getOsName();
 		return osName.indexOf(WINDOWS) != -1;
-	}
-
-	/**
-	 * Veranlasst die fuer die Zeitnahme verwendete Implementierung sich zu beenden. Es wird so lange gewartet bis sie
-	 * beendet wurde.
-	 *
-	 * @param scheduler
-	 *            Referenz auf den Scheduler.
-	 */
-	public static void shutdownScheduler(final ScheduledExecutorService scheduler) {
-		if (null != scheduler) {
-			scheduler.shutdownNow();
-			while (!scheduler.isTerminated()) {
-				// wir warten solange bis alle Threads beendet wurden
-			}
-		}
 	}
 
 	/**

@@ -19,17 +19,28 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Implementierung eines einfachen Timer's zum ausfuehren einer Zeitmessung.
+ *
  * @author mmatthies
  */
 class SimpleTimer implements ITimer, ApplicationContextAware {
 
+	/**
+	 * Maszzahl fuer die Ausfuehrungsverzoegerung des Threads.
+	 */
 	private static final int DELAY = 1;
+	/**
+	 * Groesze des Thread-Pools.
+	 */
 	private static final int THREAD_POOL_SIZE = 1;
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
 	 * ausfuehren zu lassen.
 	 */
 	private ScheduledExecutorService scheduler;
+	/**
+	 * Spring-Kontext.
+	 */
+	private ApplicationContext springContext;
 	/**
 	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
 	 */
@@ -39,15 +50,17 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 	 */
 	private long timePassed = 0;
 	/**
+	 * Referenz auf die Zeitmessungsimplementierung.
+	 */
+	private TimerRunnable timer;
+
+	/**
 	 * Referenz auf das Future-Objekt der aktuellen Zeitmessung.
 	 */
 	private ScheduledFuture<?> timerFuture;
 	/**
-	 * Spring-Kontext.
+	 * Merker. Gibt an ob der Timer bereits zuvor gestoppt wurde.
 	 */
-	private ApplicationContext springContext;
-
-	private TimerRunnable timer;
 	private boolean wasStoppedBefore = false;
 
 	/**
@@ -78,6 +91,11 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 			this.startStopwatch(1, TimeUnit.MILLISECONDS);
 		}
 		return isRunningAtTheMoment;
+	}
+
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
 	}
 
 	/*
@@ -113,11 +131,6 @@ class SimpleTimer implements ITimer, ApplicationContextAware {
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 		this.wasStoppedBefore = true;
 		return Boolean.TRUE;
-	}
-
-	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
 	}
 
 	@Override

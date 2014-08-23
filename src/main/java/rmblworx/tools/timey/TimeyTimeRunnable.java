@@ -11,6 +11,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Abstrakte Klasse fuer alle timey Zeitmessungsimplementierungen.
+ *
  * @author mmatthies
  */
 abstract class TimeyTimeRunnable implements Runnable {
@@ -18,23 +19,23 @@ abstract class TimeyTimeRunnable implements Runnable {
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
 	 */
-	final Lock lock = new ReentrantLock();
+	protected final Lock lock = new ReentrantLock();
 	/**
 	 * Differenz zwischen Startzeit und aktueller Zeit.
 	 */
-	long timeDelta;
+	protected long timeDelta;
 	/**
 	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
 	 */
-	final TimeDescriptor timeDescriptor;
+	protected final TimeDescriptor timeDescriptor;
 	/**
 	 * Beschreibt die vergangene Zeit in Millisekunden.
 	 */
-	final long timePassed;
+	protected final long timePassed;
 	/**
 	 * Beschreibt wann der Startvorgang ausgeloest wurde in Millisekunden.
 	 */
-	final long timeStarted;
+	protected final long timeStarted;
 
 	/**
 	 * Konstruktor.

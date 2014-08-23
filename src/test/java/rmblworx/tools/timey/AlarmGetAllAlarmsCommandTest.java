@@ -24,19 +24,19 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 public class AlarmGetAllAlarmsCommandTest {
 
-	private Invoker invoker;
-	@Mock
-	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
 	private AlarmDescriptor descriptor;
+	private Invoker<List<AlarmDescriptor>> invoker;
 	private List<AlarmDescriptor> list;
+	@Mock
+	private Alarm mockedReceiver;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmGetAllAlarmsCommand(this.mockedReceiver);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 		this.list = new ArrayList<>();
 		this.list.add(this.descriptor);

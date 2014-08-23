@@ -8,9 +8,13 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Diese Thread-sichere Implementierung dient der Zeitmessung in Millisekunden.
+ *
  * @author mmatthies
  */
 class TimerRunnable extends TimeyTimeRunnable implements Runnable {
+	/**
+	 * Merker. Gibt an ob der Time-Modus aktiv ist.
+	 */
 	private boolean isTimeModeActive = false;
 
 	/**
@@ -50,8 +54,13 @@ class TimerRunnable extends TimeyTimeRunnable implements Runnable {
 		}
 	}
 
+	/**
+	 * Schaltet den Time-Mode hin und her.
+	 *
+	 * @return true wenn erfolgreich, sonst false
+	 */
 	public Boolean toggleTimeMode() {
-		this.isTimeModeActive = this.isTimeModeActive ? false : true;
+		this.isTimeModeActive = !this.isTimeModeActive;
 		return this.isTimeModeActive;
 	}
 }

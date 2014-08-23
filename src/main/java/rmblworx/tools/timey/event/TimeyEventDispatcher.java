@@ -10,6 +10,7 @@ import java.util.List;
  */
 /**
  * Verwaltet die Listener und verteilt die Events.
+ *
  * @author mmatthies
  */
 public class TimeyEventDispatcher {
@@ -29,17 +30,6 @@ public class TimeyEventDispatcher {
 	}
 
 	/**
-	 * Macht die Registrierung einer Listener-Implementierung wieder rueckgaengig. Der Listener wird fortan nicht mehr
-	 * benachrichtigt.
-	 *
-	 * @param timeyEventListener
-	 *            Referenz auf die Listener-Implementierung
-	 */
-	public synchronized void removeEventListener(final TimeyEventListener timeyEventListener) {
-		this.listener.remove(timeyEventListener);
-	}
-
-	/**
 	 * Verteilt/ benachrichtigt alle registrierten Listener ueber das uebergebene Event.
 	 *
 	 * @param timeyEvent
@@ -50,6 +40,17 @@ public class TimeyEventDispatcher {
 		while (it.hasNext()) {
 			it.next().handleEvent(timeyEvent);
 		}
+	}
+
+	/**
+	 * Macht die Registrierung einer Listener-Implementierung wieder rueckgaengig. Der Listener wird fortan nicht mehr
+	 * benachrichtigt.
+	 *
+	 * @param timeyEventListener
+	 *            Referenz auf die Listener-Implementierung
+	 */
+	public synchronized void removeEventListener(final TimeyEventListener timeyEventListener) {
+		this.listener.remove(timeyEventListener);
 	}
 
 }

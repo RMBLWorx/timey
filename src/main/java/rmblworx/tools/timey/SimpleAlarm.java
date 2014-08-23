@@ -20,13 +20,27 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
  */
 class SimpleAlarm implements ApplicationContextAware {
 
+	/**
+	 * Groesze des Thread-Pools.
+	 */
 	private static final int THREAD_POOL_SIZE = 1;
+	/**
+	 * Spring-Anwendungskontext.
+	 */
 	private ApplicationContext springContext;
+
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
+	}
 
 	/**
 	 * Startet die Alarmerkennung.
-	 * @param delayPerThread Maszzahl fuer den Ausfuehrungsintervall
-	 * @param timeUnit Einheit fuer den Ausfuehrungsintervall
+	 *
+	 * @param delayPerThread
+	 *            Maszzahl fuer den Ausfuehrungsintervall
+	 * @param timeUnit
+	 *            Einheit fuer den Ausfuehrungsintervall
 	 */
 	public void startAlarmdetection(final int delayPerThread, final TimeUnit timeUnit) {
 		if (delayPerThread < 1) {
@@ -38,10 +52,5 @@ class SimpleAlarm implements ApplicationContextAware {
 		final AlarmRunnable alarmDetection = (AlarmRunnable) this.springContext.getBean("alarmRunnable");
 
 		scheduler.scheduleAtFixedRate(alarmDetection, 0, delayPerThread, timeUnit);
-	}
-
-	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
 	}
 }

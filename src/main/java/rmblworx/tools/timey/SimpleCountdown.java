@@ -23,20 +23,32 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Implementierung eines einfachen Timer's zum ausfuehren einer Zeitmessung.
+ * 
  * @author mmatthies
  */
 class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
 
+	/**
+	 * Maszzahl fuer die Ausfuehrungsverzoegerung des Threads.
+	 */
 	private static final int DELAY = 1;
 	/**
 	 * Beschreibt die Groesze des vom Scheduler verwalteten Threadpools.
 	 */
 	private static final int THREAD_POOL_SIZE = 1;
 	/**
+	 * Referenz auf das Future-Objekt der aktuellen Zeitmessung.
+	 */
+	private ScheduledFuture<?> countdownFuture;
+	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
 	 * ausfuehren zu lassen.
 	 */
 	private ScheduledExecutorService scheduler;
+	/**
+	 * Spring-Kontext.
+	 */
+	private ApplicationContext springContext;
 	/**
 	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
 	 */
@@ -45,14 +57,6 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 	 * Die bereits vergangene Zeit in Millisekunden.
 	 */
 	private long timePassed = 0;
-	/**
-	 * Referenz auf das Future-Objekt der aktuellen Zeitmessung.
-	 */
-	private ScheduledFuture<?> countdownFuture;
-	/**
-	 * Spring-Kontext.
-	 */
-	private ApplicationContext springContext;
 
 	/**
 	 * Erweiterter Konstruktor.
@@ -62,6 +66,18 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 	 */
 	public SimpleCountdown(final TimeyEventDispatcher timeyEventDispatcher) {
 		timeyEventDispatcher.addEventListener(this);
+	}
+
+	@Override
+	public void handleEvent(final TimeyEvent timeyEvent) {
+		if (timeyEvent instanceof CountdownExpiredEvent) {
+			this.stopCountdown();
+		}
+	}
+
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
 	}
 
 	@Override
@@ -98,17 +114,5 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 		this.timePassed = this.timeDescriptor.getMilliSeconds();
 
 		return Boolean.TRUE;
-	}
-
-	@Override
-	public void handleEvent(final TimeyEvent timeyEvent) {
-		if (timeyEvent instanceof CountdownExpiredEvent) {
-			this.stopCountdown();
-		}
-	}
-
-	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
 	}
 }

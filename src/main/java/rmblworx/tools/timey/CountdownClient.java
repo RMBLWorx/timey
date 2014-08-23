@@ -8,6 +8,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
+ * 
  * @author mmatthies
  */
 class CountdownClient {
@@ -30,7 +31,7 @@ class CountdownClient {
 	 */
 	public TimeDescriptor initCountdownStartCommand() {
 		final CountdownStartCommand cmd = new CountdownStartCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<TimeDescriptor> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -41,7 +42,7 @@ class CountdownClient {
 	 */
 	public Boolean initCountdownStopCommand() {
 		final CountdownStopCommand cmd = new CountdownStopCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -54,7 +55,7 @@ class CountdownClient {
 	 */
 	public Boolean initSetCountdownTimeCommand(final TimeDescriptor descriptor) {
 		final CountdownSetTimeCommand cmd = new CountdownSetTimeCommand(this.fReceiver, descriptor);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();

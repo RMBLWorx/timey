@@ -20,12 +20,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class StopwatchStartCommandTest {
-	private Invoker invoker;
-	@Mock
-	private IStopwatch mockedReceiver;
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
+	private Invoker<TimeDescriptor> invoker;
+	@Mock
+	private IStopwatch mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -34,7 +34,7 @@ public class StopwatchStartCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new StopwatchStartCommand(this.mockedReceiver);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -49,13 +49,12 @@ public class StopwatchStartCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.StopwatchStartCommand#StopwatchStartCommand(rmblworx.tools.timey.IStopwatch)}.
+	 * Test method for {@link rmblworx.tools.timey.StopwatchStartCommand#execute()}.
 	 */
 	@Test
-	public final void testStopwatchStartCommand() {
-		this.command = new StopwatchStartCommand(this.mockedReceiver);
-		assertNotNull(this.command);
+	public final void testExecute() {
+		when(this.mockedReceiver.startStopwatch()).thenReturn(this.descriptor);
+		assertNotNull(this.invoker.execute());
 	}
 
 	/**
@@ -68,12 +67,13 @@ public class StopwatchStartCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.StopwatchStartCommand#execute()}.
+	 * Test method for
+	 * {@link rmblworx.tools.timey.StopwatchStartCommand#StopwatchStartCommand(rmblworx.tools.timey.IStopwatch)}.
 	 */
 	@Test
-	public final void testExecute() {
-		when(this.mockedReceiver.startStopwatch()).thenReturn(this.descriptor);
-		assertNotNull(this.invoker.execute());
+	public final void testStopwatchStartCommand() {
+		this.command = new StopwatchStartCommand(this.mockedReceiver);
+		assertNotNull(this.command);
 	}
 
 }
