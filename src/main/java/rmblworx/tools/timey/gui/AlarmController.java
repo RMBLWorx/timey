@@ -3,6 +3,7 @@ package rmblworx.tools.timey.gui;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -95,16 +96,23 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		alarmDescriptionColumn.setCellValueFactory(new PropertyValueFactory<Alarm, String>("description"));
 
 		// CSS-Klasse für inaktive Alarme setzen
+		final String disabledAlarmStyleClass = "alarm-disabled";
 		alarmTable.setRowFactory(new Callback<TableView<Alarm>, TableRow<Alarm>>() {
 			public TableRow<Alarm> call(final TableView<Alarm> tableView) {
 				final TableRow<Alarm> row = new TableRow<Alarm>() {
 					protected void updateItem(final Alarm alarm, final boolean empty) {
 						super.updateItem(alarm, empty);
+						final ObservableList<String> styleClass = getStyleClass();
 						if (alarm != null && !alarm.isEnabled()) {
-							getStyleClass().add("alarm-disabled");
+							if (!styleClass.contains(disabledAlarmStyleClass)) {
+								styleClass.add(disabledAlarmStyleClass);
+							}
+						} else {
+							styleClass.removeAll(Collections.singleton(disabledAlarmStyleClass));
 						}
 					}
 				};
+
 				return row;
 			}
 		});
