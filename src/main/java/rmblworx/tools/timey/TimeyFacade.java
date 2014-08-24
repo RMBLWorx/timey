@@ -10,8 +10,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import rmblworx.tools.timey.event.TimeyEventDispatcher;
 import rmblworx.tools.timey.event.TimeyEventListener;
-import rmblworx.tools.timey.exception.EmptyArgumentException;
-import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
@@ -43,10 +41,6 @@ public final class TimeyFacade implements ITimey {
 	 * Verwaltet die sich registrierenden Listener und erzeugt die Events.
 	 */
 	private final TimeyEventDispatcher eventDispatcher;
-	/**
-	 * Referenz auf die Implementierung zur Erkennung der Programmversion.
-	 */
-	private JarVersionDetector jarVersionDetector;
 	/**
 	 * Referenz auf den Spring Context.
 	 */
@@ -82,10 +76,8 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	@Override
-	public String getVersion(final String globPattern) throws IllegalStateException, EmptyArgumentException,
-	NullArgumentException {
-		this.initJarversionDetectorContext();
-		return this.jarVersionDetector.detectJarVersion(globPattern);
+	public String getVersion() {
+		return new ApplicationProperties().getVersion();
 	}
 
 	private void initAlarmContext() {
@@ -99,12 +91,6 @@ public final class TimeyFacade implements ITimey {
 				throw e;
 			}
 			this.alarmClient = (AlarmClient) alarmSpringContext.getBean("alarmClient");
-		}
-	}
-
-	private void initJarversionDetectorContext() {
-		if (this.jarVersionDetector == null) {
-			this.jarVersionDetector = (JarVersionDetector) this.springContext.getBean("jarVersionDetector");
 		}
 	}
 

@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 import rmblworx.tools.timey.gui.config.Config;
 import rmblworx.tools.timey.gui.config.ConfigManager;
@@ -32,6 +34,9 @@ public class OptionsController extends Controller {
 
 	@FXML
 	private ComboBox<Locale> languageChoice;
+
+	@FXML
+	private Label appVersionLabel;
 
 	@FXML
 	private void initialize() {
@@ -61,6 +66,12 @@ public class OptionsController extends Controller {
 				final ResourceBundle i18nNewLocale = getGuiHelper().getResourceBundle(newValue);
 				getGuiHelper().showDialogMessage(i18nNewLocale.getString("messageDialog.languageChoice.title"),
 						i18nNewLocale.getString("messageDialog.languageChoice.text"), i18nNewLocale);
+			}
+		});
+
+		Platform.runLater(new Runnable() {
+			public void run() {
+				appVersionLabel.setText(getGuiHelper().getFacade().getVersion());
 			}
 		});
 	}

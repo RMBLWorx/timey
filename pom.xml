@@ -153,6 +153,26 @@
 	</profiles>
 
 	<build>
+		<resources>
+			<!--
+				Ersetzt in Datei src/main/resources/app.properties alle Platzhalter durch deren Werte.
+				Quelle: http://stackoverflow.com/questions/11740618/is-there-a-way-to-use-maven-property-in-java-class-during-compilation
+			-->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>app.properties</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<!-- Alle anderen Dateien unverändert kopieren. -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>app.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
