@@ -82,6 +82,11 @@ public class TimePickerTest extends JavaFxGuiTest {
 		secondsSlider = (Slider) scene.lookup("#secondsSlider");
 	}
 
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
+	}
+
 	/**
 	 * Testet den Ausgangszustand der Komponente.
 	 */

@@ -61,6 +61,11 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		countdownTimePicker = (TimePicker) scene.lookup("#countdownTimePicker");
 	}
 
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
+	}
+
 	/**
 	 * Testet den Zustand der Schaltflächen je nach Zustand des Countdowns.
 	 */

@@ -1,5 +1,6 @@
 package rmblworx.tools.timey.gui;
 
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
 
@@ -19,6 +20,11 @@ public class OptionsControllerTest extends FxmlGuiControllerTest {
 	 */
 	protected final String getFxmlFilename() {
 		return "Options.fxml";
+	}
+
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
 	}
 
 }

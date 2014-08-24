@@ -80,6 +80,11 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		alarmSaveButton = (Button) scene.lookup("#alarmSaveButton");
 	}
 
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
+	}
+
 	/**
 	 * Testet den Zustand der Steuerelemente nach Öffnen des Dialogs.
 	 */

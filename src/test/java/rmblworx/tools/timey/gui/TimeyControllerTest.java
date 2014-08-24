@@ -33,6 +33,11 @@ public class TimeyControllerTest extends FxmlGuiControllerTest {
 		((TimeyController) getController()).setStage(stage);
 	}
 
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
+	}
+
 	/**
 	 * Testet das Hinzufügen des Tray-Symbols.
 	 */

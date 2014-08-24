@@ -61,6 +61,11 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 		stopwatchResetButton = (Button) scene.lookup("#stopwatchResetButton");
 	}
 
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
+	}
+
 	/**
 	 * Testet den Zustand der Schaltflächen je nach Zustand der Stoppuhr.
 	 */
