@@ -34,7 +34,6 @@
 		<maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
 		<maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
 		<timey.main.class>rmblworx.tools.timey.gui.Main</timey.main.class>
-		<timey.gui-test-marker.class>org.loadui.testfx.categories.TestFX</timey.gui-test-marker.class>
 	</properties>
 
 	<dependencies>
@@ -132,25 +131,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>all-tests</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration combine.self="override">
-							<includes>
-								<include>GuiFirstTests.java</include>
-							</includes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<build>
 		<resources>
@@ -317,7 +297,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven.surefire.plugin.version}</version>
 				<configuration>
-					<excludedGroups>${timey.gui-test-marker.class}</excludedGroups>
+					<includes>
+						<include>FixedOrderTests.java</include>
+					</includes>
 				</configuration>
 			</plugin>
 			<plugin>
