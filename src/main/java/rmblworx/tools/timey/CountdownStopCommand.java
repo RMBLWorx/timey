@@ -13,7 +13,7 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 class CountdownStopCommand implements ICommand {
 
 	/**
-	 * Referenz der Empfaengerimplementierung.
+	 * Referenz der Empfängerimplementierung.
 	 */
 	private final ICountdown fReceiver;
 
@@ -21,7 +21,7 @@ class CountdownStopCommand implements ICommand {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz der Empfaengerimplementierung
+	 *            Referenz der Empfängerimplementierung
 	 */
 	public CountdownStopCommand(final ICountdown receiver) {
 		if (receiver == null) {

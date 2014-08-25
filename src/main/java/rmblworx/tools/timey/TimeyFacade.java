@@ -18,7 +18,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Fassade fuer das Backendsystem von timey. Bietet das API fuer saemtliche fuer das Frontend (GUI-Implementierung)
+ * Fassade für das Backendsystem von timey. Bietet das API für sämtliche für das Frontend (GUI-Implementierung)
  * relevanten timey-Funktionen an.
  * @author mmatthies
  */
@@ -81,7 +81,7 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	/**
-	 * Initiiert den Spring-Anwendungskontext fuer die Alarmfunktionalitaet.
+	 * Initiiert den Spring-Anwendungskontext für die Alarmfunktionalität.
 	 */
 	@SuppressWarnings("resource")
 	private void initAlarmContext() {
@@ -113,7 +113,7 @@ public final class TimeyFacade implements ITimey {
 	}
 
 	/**
-	 * Initiiert den Spring-Anwendungskontext fuer die Countdownfunktionalitaet.
+	 * Initiiert den Spring-Anwendungskontext für die Countdownfunktionalität.
 	 */
 	@SuppressWarnings("resource")
 	private void intiCountdownContext() {

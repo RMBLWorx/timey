@@ -8,13 +8,13 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Kommando zum Loeschen eines Alarmzeitpunktes.
+ * Kommando zum Löschen eines Alarmzeitpunktes.
  * @author mmatthies
  */
 class AlarmDeleteAlarmCommand implements ICommand {
 
 	/**
-	 * Speichert die Empfaenger-Instanz.
+	 * Speichert die Empfänger-Instanz.
 	 */
 	private final IAlarm fReceiver;
 	/**
@@ -26,7 +26,7 @@ class AlarmDeleteAlarmCommand implements ICommand {
 	 * Erweiterter Konstruktor.
 	 *
 	 * @param receiver
-	 *            Empfaengerimplementierung
+	 *            Empfängerimplementierung
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes
 	 */

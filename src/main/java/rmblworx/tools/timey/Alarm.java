@@ -27,7 +27,7 @@ class Alarm implements IAlarm, ApplicationContextAware {
 	 */
 	private SimpleAlarm alarmdetector;
 	/**
-	 * Maszzahl fuer den Ausfuehrungsintervall.
+	 * Maßzahl für den Ausfuehrungsintervall.
 	 */
 	private final int delayPerThread;
 	/**
@@ -39,7 +39,7 @@ class Alarm implements IAlarm, ApplicationContextAware {
 	 */
 	private ApplicationContext springContext;
 	/**
-	 * Maszeinheit fuer den Ausfuehrungsintervall.
+	 * Maßeinheit für den Ausfuehrungsintervall.
 	 */
 	private final TimeUnit timeUnit;
 
@@ -49,9 +49,9 @@ class Alarm implements IAlarm, ApplicationContextAware {
 	 * @param service
 	 *            Von dieser Klasse zu verwendende Serviceimplementierung
 	 * @param delay
-	 *            Maszzahl fuer den Erkennungsintervall
+	 *            Maßzahl für den Erkennungsintervall
 	 * @param unit
-	 *            Einheit fuer den Erkennungsintervall
+	 *            Einheit für den Erkennungsintervall
 	 */
 	public Alarm(final IAlarmService service, final int delay, final TimeUnit unit) {
 		if (service == null || unit == null) {
@@ -71,7 +71,7 @@ class Alarm implements IAlarm, ApplicationContextAware {
 	}
 
 	/**
-	 * Initialisiert die Implementation fuer die Alarmerkennung.
+	 * Initialisiert die Implementation für die Alarmerkennung.
 	 */
 	private void initAlarmdetection() {
 		this.alarmdetector = (SimpleAlarm) this.springContext.getBean("simpleAlarm");

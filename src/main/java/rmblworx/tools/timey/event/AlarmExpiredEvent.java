@@ -14,7 +14,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 public class AlarmExpiredEvent implements TimeyEvent {
 
 	/**
-	 * Groesze des StringBuilder bei Instanziierung.
+	 * Größe des StringBuilder bei Instanziierung.
 	 */
 	private static final int SIZE = 1024;
 	/**
@@ -23,7 +23,7 @@ public class AlarmExpiredEvent implements TimeyEvent {
 	private final AlarmDescriptor alarmDescriptor;
 
 	/**
-	 * Erweiterter Konstruktor. Der Alarm, welcher dieses Ereignis ausloeste kann direkt uebergeben werden.
+	 * Erweiterter Konstruktor. Der Alarm, welcher dieses Ereignis auslöste kann direkt uebergeben werden.
 	 *
 	 * @param alarmDescriptor
 	 *            Beschreibung des Alarmzeitpunktes

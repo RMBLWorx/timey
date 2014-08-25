@@ -5,7 +5,7 @@ package rmblworx.tools.timey.event;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Marker-Event fuer den Fall das ein/ mehrere Alarme modifiziert, geloescht wurden.
+ * Marker-Event für den Fall das ein/ mehrere Alarme modifiziert, gelöscht wurden.
  * @author mmatthies
  */
 public class AlarmsModifiedEvent implements TimeyEvent {

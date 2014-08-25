@@ -23,7 +23,7 @@ class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextA
 	 */
 	private ApplicationContext springContext;
 	/**
-	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
+	 * Die vom Nutzer gesetzte, herunter zu zählende Zeit in Millisekunden.
 	 */
 	private final long timeCountdown;
 	/**

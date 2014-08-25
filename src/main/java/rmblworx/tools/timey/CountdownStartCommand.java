@@ -8,13 +8,13 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Diese Kommandoimplementierung ermoeglicht das Starten eines Countdowns.
+ * Diese Kommandoimplementierung ermöglicht das Starten eines Countdowns.
  * @author mmatthies
  */
 class CountdownStartCommand implements ICommand {
 
 	/**
-	 * Referenz der Empfaengerimplementierung.
+	 * Referenz der Empfängerimplementierung.
 	 */
 	private final ICountdown fReceiver;
 
@@ -22,7 +22,7 @@ class CountdownStartCommand implements ICommand {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz der Empfaengerimplementierung
+	 *            Referenz der Empfängerimplementierung
 	 */
 	public CountdownStartCommand(final ICountdown receiver) {
 		if (receiver == null) {

@@ -7,8 +7,8 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die fuer den
- * Countdown, den Alarm und die Stopuhr benoetigt wird.
+ * Nicht-Thread-sicheres Werteobjekt zum kapseln der Zeitangabe die für den
+ * Countdown, den Alarm und die Stopuhr benötigt wird.
  * @author mmatthies
  */
 public class TimeDescriptor {
@@ -20,7 +20,7 @@ public class TimeDescriptor {
 
 	/**
 	 * Konstruktor der die direkte Angabe der zu setzenden Millisekunden
-	 * ermoeglicht.
+	 * ermöglicht.
 	 *
 	 * @param milliSeconds
 	 *            Anzahl der Millisekunden. Es findet keine Pruefung auf

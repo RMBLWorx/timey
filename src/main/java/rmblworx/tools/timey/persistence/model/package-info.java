@@ -3,7 +3,7 @@
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Enthaelt die in timey zu persistierenden Entitaeten.
+ * Enthält die in timey zu persistierenden Entitäten.
  * @author mmatthies
  */
 package rmblworx.tools.timey.persistence.model;

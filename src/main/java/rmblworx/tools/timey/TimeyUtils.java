@@ -6,7 +6,7 @@ package rmblworx.tools.timey;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Helferklasse mit haeufig benoetigten Funktionen.
+ * Helferklasse mit häufig benötigten Funktionen.
  * 
  * @author mmatthies
  */
@@ -21,7 +21,7 @@ public final class TimeyUtils {
 	 */
 	private static final String MAC_OS_X = "mac os x";
 	/**
-	 * Konstante fuer das Property zum erfragen des Betriebsystems.
+	 * Konstante für das Property zum erfragen des Betriebsystems.
 	 */
 	private static final String SYSTEM_PROPERTY_OS_NAME = "os.name";
 	/**
@@ -39,11 +39,11 @@ public final class TimeyUtils {
 	}
 
 	/**
-	 * Prueft die Zeichenkette ob sie {@code Laenge == 0} aufweist.
+	 * Prueft die Zeichenkette ob sie {@code Länge == 0} aufweist.
 	 *
 	 * @param string
 	 *            zu pruefende Zeichenkette.
-	 * @return true wenn {@code Laenge == 0}.
+	 * @return true wenn {@code Länge == 0}.
 	 */
 	public static boolean isEmpty(final String string) {
 		return string.length() < 1;
@@ -71,11 +71,11 @@ public final class TimeyUtils {
 	}
 
 	/**
-	 * Prueft die Zeichenkette(n) ob sie {@code null} referenzieren oder die {@code Laenge == 0} aufweisen.
+	 * Prueft die Zeichenkette(n) ob sie {@code null} referenzieren oder die {@code Länge == 0} aufweisen.
 	 *
 	 * @param string
 	 *            zu pruefende Zeichenkette.
-	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die {@code Laenge == 0} aufweist.
+	 * @return true wenn auch nur eine Zeichenkette {@code null} oder die {@code Länge == 0} aufweist.
 	 */
 	public static boolean isNullOrEmpty(final String... string) {
 		boolean result = false;

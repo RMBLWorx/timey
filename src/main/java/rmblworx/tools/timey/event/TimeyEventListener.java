@@ -6,13 +6,13 @@ package rmblworx.tools.timey.event;
  */
 /**
  * Von einem timey-Eventlistener zu implementierende Schnittstelle. Dieser kann dann über die Fassade registriert werden
- * und wird bei Ereignis zurueckgerufen.
+ * und wird bei Ereignis zurückgerufen.
  * @author mmatthies
  */
 public interface TimeyEventListener {
 
 	/**
-	 * Wird vom {@link TimeyEventDispatcher } gerufen. Welche konkreten Aktionen auszufuehren sind, bleibt dem
+	 * Wird vom {@link TimeyEventDispatcher } gerufen. Welche konkreten Aktionen auszuführen sind, bleibt dem
 	 * implementierenden Listener-Objekt ueberlassen.
 	 *
 	 * @param timeyEvent

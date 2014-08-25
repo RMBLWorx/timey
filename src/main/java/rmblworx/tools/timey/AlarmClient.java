@@ -9,13 +9,13 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
+ * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfängerimplementierungen.
  *
  * @author mmatthies
  */
 class AlarmClient {
 	/**
-	 * Speichert die Empfaenger-Instanz.
+	 * Speichert die Empfänger-Instanz.
 	 */
 	private final IAlarm fReceiver;
 
@@ -23,7 +23,7 @@ class AlarmClient {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz auf die Empfaenger-Instanz.
+	 *            Referenz auf die Empfänger-Instanz.
 	 */
 	public AlarmClient(final IAlarm receiver) {
 		this.fReceiver = receiver;
@@ -57,7 +57,7 @@ class AlarmClient {
 	}
 
 	/**
-	 * Initiiert das Kommando. Ermoeglicht die Zustandsaenderung eines Alarms.
+	 * Initiiert das Kommando. Ermöglicht die Zustandsänderung eines Alarms.
 	 *
 	 * @param descriptor
 	 *            Referenz auf das Alarmobjekt.
@@ -74,9 +74,9 @@ class AlarmClient {
 	}
 
 	/**
-	 * Initiiert das Kommando. Ermoeglicht die Abfrage aller Alarmzeitpunkte.
+	 * Initiiert das Kommando. Ermöglicht die Abfrage aller Alarmzeitpunkte.
 	 *
-	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
+	 * @return unveränderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
 	public List<AlarmDescriptor> initGetAllAlarms() {
 		final AlarmGetAllAlarmsCommand cmd = new AlarmGetAllAlarmsCommand(this.fReceiver);

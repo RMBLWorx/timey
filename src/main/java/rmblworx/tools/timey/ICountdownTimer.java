@@ -9,7 +9,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Countdown-Objekts das die konkrete Zeitmessung
+ * Einfach ausgelegte Schnittstelle für die Implementierung eines Countdown-Objekts das die konkrete Zeitmessung
  * implementiert.
  * 
  * @author mmatthies
@@ -17,7 +17,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 interface ICountdownTimer {
 
 	/**
-	 * Setzt den Startwert fuer den Countdown.
+	 * Setzt den Startwert für den Countdown.
 	 *
 	 * @param descriptor
 	 *            Referenz auf das Werteobjekt das die darzustellende Zeit kapselt.
@@ -29,10 +29,10 @@ interface ICountdownTimer {
 	 * Startet den Countdown.
 	 *
 	 * @param delayPerThread
-	 *            Setzt die Verzoegerung pro Thread. Die Maszeinheit
+	 *            Setzt die Verzögerung pro Thread. Die Maszeinheit
 	 *            wird mittels des TimeUnit-Enum gesetzt.
 	 * @param timeUnit
-	 *            Setzt die zu verwendende Zeiteinheit fuer die
+	 *            Setzt die zu verwendende Zeiteinheit für die
 	 *            wiederholte Aktualisierung des Werteobjekts.
 	 * @return Referenz auf das Wertobjekt das die darzustellende Zeit
 	 *         kapselt. Es handelt sich hierbei um das ueber

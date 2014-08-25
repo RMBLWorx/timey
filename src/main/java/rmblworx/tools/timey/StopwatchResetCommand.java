@@ -13,7 +13,7 @@ import rmblworx.tools.timey.exception.NullArgumentException;
 class StopwatchResetCommand implements ICommand {
 
 	/**
-	 * Speichert die Empfaenger-Instanz.
+	 * Speichert die Empfänger-Instanz.
 	 */
 	private final IStopwatch fReceiver;
 
@@ -21,7 +21,7 @@ class StopwatchResetCommand implements ICommand {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
+	 *            Referenz auf die Empfängerimplementierung die von diesem Kommando gesteuert wird.
 	 */
 	public StopwatchResetCommand(final IStopwatch receiver) {
 		if (receiver == null) {
@@ -31,7 +31,7 @@ class StopwatchResetCommand implements ICommand {
 	}
 
 	/**
-	 * @return true wenn erfolgreich zurueckgesetzt werden konnte sonst false
+	 * @return true wenn erfolgreich zurückgesetzt werden konnte sonst false
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

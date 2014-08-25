@@ -17,7 +17,7 @@ interface IAlarm {
 	/**
 	 * Liefert alle Alarmzeitpunkte.
 	 *
-	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
+	 * @return unveränderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
 	List<AlarmDescriptor> getAllAlarms();
 
@@ -31,7 +31,7 @@ interface IAlarm {
 	Boolean isAlarmActivated(AlarmDescriptor descriptor);
 
 	/**
-	 * Loescht den Alarmzeitpunkt.
+	 * Löscht den Alarmzeitpunkt.
 	 *
 	 * @param descriptor
 	 *            Beschreibung des Alarmzeitpunktes.

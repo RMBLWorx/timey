@@ -136,7 +136,7 @@ class AlarmDao implements IAlarmDao {
 	}
 
 	/**
-	 * Liefert das Alarmzeitpunktobjekt das den vom Deskriptor beschriebenen Alarmzeitpunkt enthaelt.
+	 * Liefert das Alarmzeitpunktobjekt das den vom Deskriptor beschriebenen Alarmzeitpunkt enthält.
 	 *
 	 * @param descriptor
 	 *            der Alarmzeitpunkt

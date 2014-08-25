@@ -10,13 +10,13 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Kommando ermoeglicht das Abrufen aller erfassten Alarmzeitpunkte.
+ * Kommando ermöglicht das Abrufen aller erfassten Alarmzeitpunkte.
  * @author mmatthies
  */
 class AlarmGetAllAlarmsCommand implements ICommand {
 
 	/**
-	 * Speichert die Empfaenger-Instanz.
+	 * Speichert die Empfänger-Instanz.
 	 */
 	private final IAlarm fReceiver;
 
@@ -24,7 +24,7 @@ class AlarmGetAllAlarmsCommand implements ICommand {
 	 * Erweiterter Konstruktor.
 	 *
 	 * @param receiver
-	 *            Empfaengerimplementierung
+	 *            Empfängerimplementierung
 	 */
 	public AlarmGetAllAlarmsCommand(final IAlarm receiver) {
 		if (receiver == null) {
@@ -34,7 +34,7 @@ class AlarmGetAllAlarmsCommand implements ICommand {
 	}
 
 	/**
-	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
+	 * @return unveränderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

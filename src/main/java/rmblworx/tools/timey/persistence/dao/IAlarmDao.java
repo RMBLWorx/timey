@@ -10,7 +10,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Schnittstellenbeschreibung fuer das Datenzugriffobjekt zum persistieren von Alarm-Objekten.
+ * Schnittstellenbeschreibung für das Datenzugriffobjekt zum persistieren von Alarm-Objekten.
  * @author mmatthies
  */
 public interface IAlarmDao {
@@ -35,7 +35,7 @@ public interface IAlarmDao {
 	/**
 	 * Liefert alle Alarmzeitpunkte.
 	 *
-	 * @return unveraenderliche Liste mit allen Alarmzeitpunkten.
+	 * @return unveränderliche Liste mit allen Alarmzeitpunkten.
 	 */
 	List<AlarmDescriptor> findAll();
 
@@ -49,7 +49,7 @@ public interface IAlarmDao {
 	Boolean isActivated(AlarmDescriptor descriptor);
 
 	/**
-	 * Ermoeglicht das Aktivierung/ Deaktivierung des {@link AlarmEntity}-Objekts.
+	 * Ermöglicht das Aktivierung/ Deaktivierung des {@link AlarmEntity}-Objekts.
 	 *
 	 * @param descriptor
 	 *            der Alarmzeitpunkt

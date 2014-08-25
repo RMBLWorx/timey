@@ -7,20 +7,20 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
+ * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfängerimplementierungen.
  * 
  * @author mmatthies
  */
 class CountdownClient {
 
-	/** Speichert die Empfaenger Instanz des Klient. */
+	/** Speichert die Empfänger Instanz des Klient. */
 	private final ICountdown fReceiver;
 
 	/**
-	 * Erzeugt eine Klient-Instanz und speichert die uebergebene Empfaengerimplementierung.
+	 * Erzeugt eine Klient-Instanz und speichert die uebergebene Empfängerimplementierung.
 	 *
 	 * @param receiver
-	 *            Empfaenger-Referenz.
+	 *            Empfänger-Referenz.
 	 */
 	public CountdownClient(final ICountdown receiver) {
 		this.fReceiver = receiver;

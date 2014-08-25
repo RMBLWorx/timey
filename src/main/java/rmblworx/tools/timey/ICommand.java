@@ -5,7 +5,7 @@ package rmblworx.tools.timey;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Sehr allgemein gehaltene Schnittstellenbeschreibung fuer Kommandoimplementierungen.
+ * Sehr allgemein gehaltene Schnittstellenbeschreibung für Kommandoimplementierungen.
  * @author mmatthies
  */
 interface ICommand {

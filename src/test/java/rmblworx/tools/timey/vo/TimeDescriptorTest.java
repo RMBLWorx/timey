@@ -24,7 +24,7 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 public class TimeDescriptorTest {
 
 	/**
-	 * Konstante fuer den erwarteten Testwert.
+	 * Konstante für den erwarteten Testwert.
 	 */
 	private static final int EXPECTED_MILLISECONDS = 100;
 

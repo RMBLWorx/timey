@@ -55,7 +55,7 @@ public class AlarmGetAllAlarmsCommandTest {
 	@Test
 	public final void testExecute() {
 		when(this.mockedReceiver.getAllAlarms()).thenReturn(this.list);
-		assertNotNull("null zurueckgegeben!", this.invoker.execute());
+		assertNotNull("null zurückgegeben!", this.invoker.execute());
 	}
 
 	/**

@@ -7,19 +7,19 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
+ * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfängerimplementierungen.
  *
  * @author mmatthies
  */
 class StopwatchClient {
 
 	/**
-	 * Referenz auf die Empfaengerimplementierung.
+	 * Referenz auf die Empfängerimplementierung.
 	 */
 	private final IStopwatch fReceiver;
 
 	/**
-	 * Erzeugt eine Instanz dieses Klients und speichert die Referenz auf die Empfaengerimplementierung.
+	 * Erzeugt eine Instanz dieses Klients und speichert die Referenz auf die Empfängerimplementierung.
 	 *
 	 * @param receiver
 	 *            Referenz auf die Implementierung die dieser Client den Kommandos uebergeben soll.
