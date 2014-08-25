@@ -21,12 +21,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class CountdownStopCommandTest {
-	private Invoker invoker;
-	@Mock
-	private ICountdown mockedReceiver;
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
+	private Invoker<Boolean> invoker;
+	@Mock
+	private ICountdown mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -35,7 +35,7 @@ public class CountdownStopCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new CountdownStopCommand(this.mockedReceiver);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -50,21 +50,12 @@ public class CountdownStopCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.CountdownStopCommand#CountdownStopCommand(rmblworx.tools.timey.ICountdown)}.
-	 */
-	@Test(expected = NullArgumentException.class)
-	public final void testShouldFailBecauseReceiverIsNull() {
-		this.command = new CountdownStopCommand(null);
-	}
-
-	/**
 	 * Test method for {@link rmblworx.tools.timey.CountdownStopCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
 		when(this.mockedReceiver.stopCountdown()).thenReturn(Boolean.TRUE);
-		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertTrue("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
@@ -73,7 +64,16 @@ public class CountdownStopCommandTest {
 	@Test
 	public final void testExecuteIfCountdownCouldNotBeStoppedSuccessfully() {
 		when(this.mockedReceiver.stopCountdown()).thenReturn(Boolean.FALSE);
-		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertFalse("Falscher Rueckgabewert!", this.invoker.execute());
+	}
+
+	/**
+	 * Test method for
+	 * {@link rmblworx.tools.timey.CountdownStopCommand#CountdownStopCommand(rmblworx.tools.timey.ICountdown)}.
+	 */
+	@Test(expected = NullArgumentException.class)
+	public final void testShouldFailBecauseReceiverIsNull() {
+		this.command = new CountdownStopCommand(null);
 	}
 
 }

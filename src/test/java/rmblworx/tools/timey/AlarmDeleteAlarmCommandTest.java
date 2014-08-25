@@ -21,16 +21,17 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 /**
  * Testet das Kommando zum loeschen von Alarmzeitpunkten aus der Datenbank wobei ausschliesslich die Logik des Kommandos
  * getestet wird und nicht die Funktionalitaet der anderen Akteure.
+ *
  * @author mmatthies
  */
 public class AlarmDeleteAlarmCommandTest {
 
-	private Invoker invoker;
-	@Mock
-	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
 	private AlarmDescriptor descriptor;
+	private Invoker<Boolean> invoker;
+	@Mock
+	private Alarm mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -39,7 +40,7 @@ public class AlarmDeleteAlarmCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmDeleteAlarmCommand(this.mockedReceiver, this.descriptor);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -59,7 +60,7 @@ public class AlarmDeleteAlarmCommandTest {
 	@Test
 	public final void testExecuteOnExistingTimestamp() {
 		when(this.mockedReceiver.removeAlarm(this.descriptor)).thenReturn(Boolean.TRUE);
-		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertTrue("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
@@ -68,7 +69,7 @@ public class AlarmDeleteAlarmCommandTest {
 	@Test
 	public final void testExecuteOnNonExistingTimestamp() {
 		when(this.mockedReceiver.removeAlarm(null)).thenReturn(Boolean.FALSE);
-		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertFalse("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
@@ -82,7 +83,8 @@ public class AlarmDeleteAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
+	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
@@ -91,7 +93,8 @@ public class AlarmDeleteAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
+	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {

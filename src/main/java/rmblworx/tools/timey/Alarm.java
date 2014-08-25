@@ -23,12 +23,24 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 class Alarm implements IAlarm, ApplicationContextAware {
 
 	/**
+	 * Referenz auf die verwendete Alarmimplementierung.
+	 */
+	private SimpleAlarm alarmdetector;
+	/**
+	 * Maszzahl fuer den Ausfuehrungsintervall.
+	 */
+	private final int delayPerThread;
+	/**
 	 * Service zur Verwaltung der Alarmzeitpunkte in der Datenbank.
 	 */
 	private final IAlarmService service;
+	/**
+	 * Spring Anwendungskontext.
+	 */
 	private ApplicationContext springContext;
-	private SimpleAlarm alarmdetector;
-	private final int delayPerThread;
+	/**
+	 * Maszeinheit fuer den Ausfuehrungsintervall.
+	 */
 	private final TimeUnit timeUnit;
 
 	/**
@@ -53,18 +65,16 @@ class Alarm implements IAlarm, ApplicationContextAware {
 		this.service = service;
 	}
 
-	private void startAlarmdetection() {
-		this.initAlarmdetection();
-		this.alarmdetector.startAlarmdetection(this.delayPerThread, this.timeUnit);
-	}
-
-	private void initAlarmdetection() {
-		this.alarmdetector = (SimpleAlarm) this.springContext.getBean("simpleAlarm");
-	}
-
 	@Override
 	public List<AlarmDescriptor> getAllAlarms() {
 		return this.service.getAll();
+	}
+
+	/**
+	 * Initialisiert die Implementation fuer die Alarmerkennung.
+	 */
+	private void initAlarmdetection() {
+		this.alarmdetector = (SimpleAlarm) this.springContext.getBean("simpleAlarm");
 	}
 
 	@Override
@@ -83,13 +93,21 @@ class Alarm implements IAlarm, ApplicationContextAware {
 	}
 
 	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
+		this.startAlarmdetection();
+	}
+
+	@Override
 	public Boolean setStateOfAlarm(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		return this.service.setState(descriptor, isActivated);
 	}
 
-	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
-		this.startAlarmdetection();
+	/**
+	 * Startet die Alarmerkennung.
+	 */
+	private void startAlarmdetection() {
+		this.initAlarmdetection();
+		this.alarmdetector.startAlarmdetection(this.delayPerThread, this.timeUnit);
 	}
 }

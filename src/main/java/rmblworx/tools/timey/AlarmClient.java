@@ -1,5 +1,7 @@
 package rmblworx.tools.timey;
 
+import java.util.List;
+
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /*
@@ -8,6 +10,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 /**
  * Erzeugt die konkreten Kommandoimplementierungen und setzt deren Empfaengerimplementierungen.
+ *
  * @author mmatthies
  */
 class AlarmClient {
@@ -33,7 +36,7 @@ class AlarmClient {
 	 */
 	public Boolean initAlarmDeleteAlarm(final AlarmDescriptor descriptor) {
 		final AlarmDeleteAlarmCommand cmd = new AlarmDeleteAlarmCommand(this.fReceiver, descriptor);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
@@ -47,35 +50,54 @@ class AlarmClient {
 	 */
 	public Boolean initAlarmGetStateOfAlarmCommand(final AlarmDescriptor descriptor) {
 		final AlarmGetStateOfAlarmCommand cmd = new AlarmGetStateOfAlarmCommand(this.fReceiver, descriptor);
-		final Invoker invoker = new Invoker();
-		invoker.storeCommand(cmd);
-
-		return invoker.execute();
-	}
-
-	public Boolean initAlarmSetStateOfAlarmCommand(final AlarmDescriptor descriptor, final Boolean isActivated) {
-		final AlarmSetStateOfAlarmCommand cmd = new AlarmSetStateOfAlarmCommand(this.fReceiver, descriptor, isActivated);
-		final Invoker invoker = new Invoker();
-		invoker.storeCommand(cmd);
-
-		return invoker.execute();
-	}
-
-	public <T> T initGetAllAlarms() {
-		final AlarmGetAllAlarmsCommand cmd = new AlarmGetAllAlarmsCommand(this.fReceiver);
-		final Invoker invoker = new Invoker();
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();
 	}
 
 	/**
-	 * This method creates a ConcreteCommand instance and specifies a Receiver
-	 * object.
+	 * Initiiert das Kommando. Ermoeglicht die Zustandsaenderung eines Alarms.
+	 *
+	 * @param descriptor
+	 *            Referenz auf das Alarmobjekt.
+	 * @param isActivated
+	 *            Gibt an, ob der Alarm aktiv oder inaktiv geschaltet werden soll.
+	 * @return true wenn erfolgreich sonst false oder null wenn Alarmzeitpunkt nicht vorhanden
 	 */
-	public <T> T initSetAlarmCommand(final AlarmDescriptor td) {
-		final AlarmSetTimeCommand cmd = new AlarmSetTimeCommand(this.fReceiver, td);
-		final Invoker invoker = new Invoker();
+	public Boolean initAlarmSetStateOfAlarmCommand(final AlarmDescriptor descriptor, final Boolean isActivated) {
+		final AlarmSetStateOfAlarmCommand cmd = new AlarmSetStateOfAlarmCommand(this.fReceiver, descriptor, isActivated);
+		final Invoker<Boolean> invoker = new Invoker<>();
+		invoker.storeCommand(cmd);
+
+		return invoker.execute();
+	}
+
+	/**
+	 * Initiiert das Kommando. Ermoeglicht die Abfrage aller Alarmzeitpunkte.
+	 *
+	 * @return unveraenderliche Liste mit den bekannten Alarmzeitpunkten oder leere Liste
+	 */
+	public List<AlarmDescriptor> initGetAllAlarms() {
+		final AlarmGetAllAlarmsCommand cmd = new AlarmGetAllAlarmsCommand(this.fReceiver);
+		final Invoker<List<AlarmDescriptor>> invoker = new Invoker<>();
+		invoker.storeCommand(cmd);
+
+		return invoker.execute();
+	}
+
+	/**
+	 * Initiiert das Kommando zum Setzen eines Alarmzeitpunktes.
+	 *
+	 * @param alarmDescriptor
+	 *            Wertobjekt zur Beschreibung des Alarmzeitpunktes.
+	 * @return true wenn erfolgreich sonst false oder null wenn Alarmzeitpunkt bereits vorhanden
+	 *         Wertobjekt zur Beschreibung des Alarmzeitpunktes.
+	 * @return true wenn erfolgreich sonst false oder null wenn Alarmzeitpunkt bereits vorhanden
+	 */
+	public Boolean initSetAlarmCommand(final AlarmDescriptor alarmDescriptor) {
+		final AlarmSetTimeCommand cmd = new AlarmSetTimeCommand(this.fReceiver, alarmDescriptor);
+		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
 		return invoker.execute();

@@ -22,17 +22,33 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 /**
  * Diese Thread-sichere Implementierung setzt einen Countdown-Zähler um. Zeitnahme findet in Millisekunden statt.
+ *
  * @author mmatthies
  */
 class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventListener {
+	/**
+	 * Referenz auf den Alarmservice.
+	 */
+	private IAlarmService alarmService;
+	/**
+	 * Liste mit allen Alarmzeitpunkten.
+	 */
+	private List<AlarmDescriptor> allAlarms;
+	/**
+	 * Referenz auf die Events-verteilende Implementierung.
+	 */
 	private TimeyEventDispatcher eventDispatcher;
 	/**
 	 * Von dieser Timerimplementierung verwendete Lock-Mechanismus.
 	 */
 	private final Lock lock = new ReentrantLock();
-	private IAlarmService alarmService;
-	private List<AlarmDescriptor> allAlarms;
+	/**
+	 * Merker. Kennzeichnet ob es neue oder modifizierte Alarme gibt. Beeinflusst das DB-Abfrageverhalten.
+	 */
 	private boolean newOrModifiedAlarmsAvailable = false;
+	/**
+	 * Spring-Anwendungskontext.
+	 */
 	private ApplicationContext springContext;
 
 	/**
@@ -40,10 +56,15 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 	public AlarmRunnable() {
 	}
 
+	/**
+	 * Prueft ob ein Alarm zeitlich eingetreten ist.
+	 * 
+	 * @return das den Alarm beschreibende Werteobjekt.
+	 */
 	private AlarmDescriptor detectAlarm() {
 		final long currentTimeMillis = System.currentTimeMillis();
 		AlarmDescriptor result = null;
-		for (AlarmDescriptor alarm : this.allAlarms) {
+		for (final AlarmDescriptor alarm : this.allAlarms) {
 			if (alarm.getIsActive()) {
 				if (alarm.getAlarmtime().getMilliSeconds() <= currentTimeMillis) {
 					result = alarm;
@@ -52,6 +73,13 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public void handleEvent(final TimeyEvent timeyEvent) {
+		if (timeyEvent instanceof AlarmsModifiedEvent) {
+			this.newOrModifiedAlarmsAvailable = true;
+		}
 	}
 
 	@Override
@@ -69,7 +97,8 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 			if (result != null) {
 				// wenn erreicht event feuern sonst weiter abgleichen
 				this.alarmService.setState(result, false);
-				final AlarmExpiredEvent event = (AlarmExpiredEvent) this.springContext.getBean("alarmExpiredEvent", result);
+				final AlarmExpiredEvent event = (AlarmExpiredEvent) this.springContext.getBean("alarmExpiredEvent",
+						result);
 				this.eventDispatcher.dispatchEvent(event);
 			}
 		} finally {
@@ -83,12 +112,5 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 		this.eventDispatcher.addEventListener(this);
 		this.alarmService = (IAlarmService) this.springContext.getBean("alarmService");
-	}
-
-	@Override
-	public void handleEvent(final TimeyEvent timeyEvent) {
-		if (timeyEvent instanceof AlarmsModifiedEvent) {
-			this.newOrModifiedAlarmsAvailable = true;
-		}
 	}
 }

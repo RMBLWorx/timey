@@ -6,9 +6,12 @@ package rmblworx.tools.timey;
  */
 /**
  * Aufruferimplementierung die das uebergebene Kommando ausfuehrt.
+ *
  * @author mmatthies
+ * @param <T>
+ *            Bennent den von der Methode {@link #execute()} erwarteten Rueckgabetyp
  */
-class Invoker {
+class Invoker<T> {
 
 	/**
 	 * Referenz auf die Komandoimplementierung.
@@ -35,11 +38,8 @@ class Invoker {
 
 	/**
 	 * @return den durch das jeweilige Kommando definierte Rueckgabewert.
-	 * @param <T>
-	 *            generischer Rueckgabetyp. Was konkret geliefert wird, legt die Implementierung des Kommandos fest.
 	 */
-	@SuppressWarnings("unchecked")
-	public final <T> T execute() {
+	public final T execute() {
 		return this.fCommand.execute();
 	}
 

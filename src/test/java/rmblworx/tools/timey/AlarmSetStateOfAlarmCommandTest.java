@@ -23,13 +23,13 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 public class AlarmSetStateOfAlarmCommandTest {
 
-	private Invoker invoker;
-	@Mock
-	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
 	private AlarmDescriptor descriptor;
+	private Invoker<Boolean> invoker;
 	private Boolean isActivated;
+	@Mock
+	private Alarm mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -39,7 +39,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 		MockitoAnnotations.initMocks(this);
 		this.isActivated = Boolean.TRUE;
 		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, this.descriptor, this.isActivated);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -60,7 +60,16 @@ public class AlarmSetStateOfAlarmCommandTest {
 	@Test
 	public final void testExecute() {
 		when(this.mockedReceiver.setStateOfAlarm(this.descriptor, this.isActivated)).thenReturn(Boolean.TRUE);
-		assertTrue("Falsches Ergebnis!", (Boolean) this.invoker.execute());
+		assertTrue("Falsches Ergebnis!", this.invoker.execute());
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
+	 */
+	@Test
+	public final void testExecuteShouldReturnFalseBecauseCouldNotBeSet() {
+		when(this.mockedReceiver.setStateOfAlarm(this.descriptor, this.isActivated)).thenReturn(Boolean.FALSE);
+		assertFalse("Falsches Ergebnis!", this.invoker.execute());
 	}
 
 	/**
@@ -73,27 +82,20 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
-	 */
-	@Test
-	public final void testExecuteShouldReturnFalseBecauseCouldNotBeSet() {
-		when(this.mockedReceiver.setStateOfAlarm(this.descriptor, this.isActivated)).thenReturn(Boolean.FALSE);
-		assertFalse("Falsches Ergebnis!", (Boolean) this.invoker.execute());
-	}
-
-	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
+	 * .
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
-	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {
-		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, null, Boolean.TRUE);
+	public final void testShouldFailBecauseIsActivatedReferencesNull() {
+		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, this.descriptor, null);
 	}
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
+	 * .
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
@@ -103,11 +105,12 @@ public class AlarmSetStateOfAlarmCommandTest {
 
 	/**
 	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}.
+	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
+	 * .
 	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
-	public final void testShouldFailBecauseIsActivatedReferencesNull() {
-		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, this.descriptor, null);
+	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {
+		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, null, Boolean.TRUE);
 	}
 }

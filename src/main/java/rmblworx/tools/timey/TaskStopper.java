@@ -12,9 +12,23 @@ import java.util.concurrent.ScheduledFuture;
  */
 class TaskStopper implements Runnable {
 
+	/**
+	 * Referenz auf die zu stoppende Implementierung.
+	 */
 	private final ScheduledFuture<?> future;
+	/**
+	 * Referenz auf den Scheduleservice die den zu stoppenden Task verwaltet.
+	 */
 	private final ScheduledExecutorService scheduler;
 
+	/**
+	 * Erweiterter Konstruktor.
+	 * 
+	 * @param scheduler
+	 *            Referenz auf den ExecutorService welcher den zu stoppenden Task verwaltet.
+	 * @param taskToStopFuture
+	 *            Referenz auf den zu stoppenden Task.
+	 */
 	public TaskStopper(final ScheduledExecutorService scheduler, final ScheduledFuture<?> taskToStopFuture) {
 		this.future = taskToStopFuture;
 		this.scheduler = scheduler;

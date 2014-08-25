@@ -14,15 +14,22 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Diese Thread-sichere Implementierung setzt einen Countdown-Zähler um. Zeitnahme findet in Millisekunden statt.
+ *
  * @author mmatthies
  */
 class CountdownRunnable extends TimeyTimeRunnable implements ApplicationContextAware {
 	/**
+	 * Spring-Anwendugnskontext.
+	 */
+	private ApplicationContext springContext;
+	/**
 	 * Die vom Nutzer gesetzte, herunter zu zaehlende Zeit in Millisekunden.
 	 */
 	private final long timeCountdown;
+	/**
+	 * Merker. Gibt Auskunft darüber ob das Event bereits gefeuert wurde.
+	 */
 	private boolean wasEventFired = false;
-	private ApplicationContext springContext;
 
 	/**
 	 * @param descriptor

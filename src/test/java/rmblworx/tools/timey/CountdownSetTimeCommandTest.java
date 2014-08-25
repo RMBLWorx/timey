@@ -22,12 +22,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 public class CountdownSetTimeCommandTest {
 
-	private Invoker invoker;
-	@Mock
-	private ICountdown mockedReceiver;
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
+	private Invoker<Boolean> invoker;
+	@Mock
+	private ICountdown mockedReceiver;
 
 	/**
 	 * @throws Exception
@@ -36,7 +36,7 @@ public class CountdownSetTimeCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new CountdownSetTimeCommand(this.mockedReceiver, this.descriptor);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -56,7 +56,7 @@ public class CountdownSetTimeCommandTest {
 	@Test
 	public final void testExecuteIfTimeCouldBeSetSuccessfully() {
 		when(this.mockedReceiver.setCountdownTime(this.descriptor)).thenReturn(Boolean.TRUE);
-		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertTrue("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class CountdownSetTimeCommandTest {
 	@Test
 	public final void testExecuteIfTimeCouldNotBeSetSuccessfully() {
 		when(this.mockedReceiver.setCountdownTime(this.descriptor)).thenReturn(Boolean.FALSE);
-		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertFalse("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**

@@ -33,38 +33,41 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring-timey-context.xml", "/stopwatch-spring-timey-context.xml" })
 public class SimpleTimerTest {
-	@Autowired
-	ApplicationContext springContext;
-	@Autowired
-	private SimpleTimer timer;
+	/**
+	 * Beschreibt die Zeit fuer die der Thread ruhen soll.
+	 */
+	private static final int DELAY = 10;
+	/**
+	 * Referenz auf das gemockte TimeDescriptor-Objekt.
+	 */
 	@Mock
 	private TimeDescriptor mockedDescriptor;
+	/**
+	 * Referenz auf den Spring-Anwendungskontext.
+	 */
+	@Autowired
+	private ApplicationContext springContext;
+	/**
+	 * Referenz auf die zu testende Implementierung.
+	 */
+	@Autowired
+	private SimpleTimer timer;
 
 	/**
 	 * @throws java.lang.Exception
+	 *             wenn beim setzen des Spring-Anwendungskontextes eine Ausnahme auftrat
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.timer = new SimpleTimer(this.mockedDescriptor);
 		this.timer.setApplicationContext(this.springContext);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.mockedDescriptor = null;
 		this.timer = null;
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#SimpleTimer(rmblworx.tools.timey.vo.TimeDescriptor)}.
-	 */
-	@Test(expected = NullArgumentException.class)
-	public final void testShouldFailBecauseTimeDescriptorIsNull() {
-		this.timer = new SimpleTimer(null);
 	}
 
 	/**
@@ -79,17 +82,17 @@ public class SimpleTimerTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
 	 */
-	@Test
-	public final void testStartStopwatch() {
-		assertNotNull(this.timer.startStopwatch(1, TimeUnit.NANOSECONDS));
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
-	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseDelayIsLessThanOne() {
 		this.timer.startStopwatch(0, TimeUnit.NANOSECONDS);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#SimpleTimer(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 */
+	@Test(expected = NullArgumentException.class)
+	public final void testShouldFailBecauseTimeDescriptorIsNull() {
+		this.timer = new SimpleTimer(null);
 	}
 
 	/**
@@ -98,6 +101,14 @@ public class SimpleTimerTest {
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeUnitIsNull() {
 		this.timer.startStopwatch(1, null);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
+	 */
+	@Test
+	public final void testStartStopwatch() {
+		assertNotNull(this.timer.startStopwatch(1, TimeUnit.NANOSECONDS));
 	}
 
 	/**
@@ -113,38 +124,7 @@ public class SimpleTimerTest {
 	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#toggleTimeModeInStopwatch()}.
 	 *
 	 * @throws InterruptedException
-	 */
-	@Test
-	public final void testToggleTimeModeInStopwatchSimpleCase() throws InterruptedException {
-		TimeDescriptor td = new TimeDescriptor(0L);
-		this.timer = new SimpleTimer(td);
-		this.timer.setApplicationContext(this.springContext);
-
-		td = this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
-		Thread.sleep(10);
-		assertTrue("Stoppuhr laeuft nicht!", td.getMilliSeconds() > 0);
-
-		// TIME-Mode ein
-		this.timer.toggleTimeModeInStopwatch();
-		long expected = td.getMilliSeconds();
-		Thread.sleep(10);
-		long actual = td.getMilliSeconds();
-		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
-
-		// TIME-Mode aus
-		this.timer.toggleTimeModeInStopwatch();
-		expected = td.getMilliSeconds();
-		Thread.sleep(10);
-		actual = td.getMilliSeconds();
-		assertNotEquals("Stoppuhr hat den TIME-Modus nicht deaktiviert!", expected, actual);
-
-		this.timer.stopStopwatch();
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#toggleTimeModeInStopwatch()}.
-	 *
-	 * @throws InterruptedException
+	 *             wenn beim unterbrechen des Threads ein Ausnahme auftrat
 	 */
 	@Test
 	public final void testToggleTimeModeInStopwatchExtendedCase() throws InterruptedException {
@@ -155,17 +135,17 @@ public class SimpleTimerTest {
 		this.timer.setApplicationContext(this.springContext);
 
 		td = this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
-		Thread.sleep(10);
+		Thread.sleep(DELAY);
 		assertTrue("Stoppuhr laeuft nicht!", td.getMilliSeconds() > 0);
 
 		// TIME-Mode ein
 		this.timer.toggleTimeModeInStopwatch();
 		final long expected = td.getMilliSeconds();
-		Thread.sleep(10);
+		Thread.sleep(DELAY);
 		long actual = td.getMilliSeconds();
 		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
 
-		//STOP gedrueckt - Zeitmessung stoppt aber eingefrorene Zeit bleibt im Vordergrund
+		// STOP gedrueckt - Zeitmessung stoppt aber eingefrorene Zeit bleibt im Vordergrund
 		if (this.timer.stopStopwatch()) {
 			assertEquals("Werte nicht identisch obwohl TIME-Mode aktiv!", expected, actual);
 			actual = td.getMilliSeconds();
@@ -178,5 +158,38 @@ public class SimpleTimerTest {
 		Thread.sleep(1);
 		actual = td.getMilliSeconds();
 		assertNotEquals("Stoppuhr hat den TIME-Modus nicht deaktiviert!", expected, actual);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#toggleTimeModeInStopwatch()}.
+	 *
+	 * @throws InterruptedException
+	 *             wenn beim schlafenlegen des Threads eine Ausnahme auftrat
+	 */
+	@Test
+	public final void testToggleTimeModeInStopwatchSimpleCase() throws InterruptedException {
+		TimeDescriptor td = new TimeDescriptor(0L);
+		this.timer = new SimpleTimer(td);
+		this.timer.setApplicationContext(this.springContext);
+
+		td = this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
+		Thread.sleep(DELAY);
+		assertTrue("Stoppuhr laeuft nicht!", td.getMilliSeconds() > 0);
+
+		// TIME-Mode ein
+		this.timer.toggleTimeModeInStopwatch();
+		long expected = td.getMilliSeconds();
+		Thread.sleep(DELAY);
+		long actual = td.getMilliSeconds();
+		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
+
+		// TIME-Mode aus
+		this.timer.toggleTimeModeInStopwatch();
+		expected = td.getMilliSeconds();
+		Thread.sleep(DELAY);
+		actual = td.getMilliSeconds();
+		assertNotEquals("Stoppuhr hat den TIME-Modus nicht deaktiviert!", expected, actual);
+
+		this.timer.stopStopwatch();
 	}
 }

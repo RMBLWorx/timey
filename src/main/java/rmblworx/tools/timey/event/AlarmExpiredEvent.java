@@ -8,10 +8,15 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 /**
  * Informiert den Listener ueber den Ablauf eines Alarms.
+ *
  * @author mmatthies
  */
 public class AlarmExpiredEvent implements TimeyEvent {
 
+	/**
+	 * Groesze des StringBuilder bei Instanziierung.
+	 */
+	private static final int SIZE = 1024;
 	/**
 	 * Alarmobjekt.
 	 */
@@ -32,13 +37,13 @@ public class AlarmExpiredEvent implements TimeyEvent {
 	 *
 	 * @return Alarmzeitpunktobjekt oder {@code null} wenn nicht gesetzt bei Instantiierung
 	 */
-	public AlarmDescriptor getAlarmDescriptor() {
+	public final AlarmDescriptor getAlarmDescriptor() {
 		return this.alarmDescriptor;
 	}
 
 	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder(1024);
+	public final String toString() {
+		StringBuilder sb = new StringBuilder(SIZE);
 		String result;
 		sb.append("By AlarmExpiredEvent capsuled AlarmDescriptor-State:");
 		sb.append(this.alarmDescriptor);

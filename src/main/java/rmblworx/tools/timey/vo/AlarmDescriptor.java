@@ -6,9 +6,18 @@ package rmblworx.tools.timey.vo;
  */
 /**
  * Werteobjekt zur Beschreibung eines Alarms.
+ *
  * @author mmatthies
  */
 public class AlarmDescriptor {
+	/**
+	 * Definiert die Groesze bei Initialisierung des StringBuilder-Objekts.
+	 */
+	private static final int SIZE = 1024;
+	/**
+	 * Beschreibung des eigentlichen Alarmzeitpunktes.
+	 */
+	private TimeDescriptor alarmtime;
 	/**
 	 * Beschreibung zum Alarmzeitpunkt.
 	 */
@@ -25,10 +34,6 @@ public class AlarmDescriptor {
 	 * Abzuspielender Sound beim Eintreten des Alarms.
 	 */
 	private String sound;
-	/**
-	 * Beschreibung des eigentlichen Alarmzeitpunktes.
-	 */
-	private TimeDescriptor alarmtime;
 
 	/**
 	 * Erweiterter Konstruktor.
@@ -53,49 +58,108 @@ public class AlarmDescriptor {
 		this.snooze = snooze;
 	}
 
-	public String getDescription() {
-		return this.description;
-	}
-
-	public Boolean getIsActive() {
-		return this.isActive;
-	}
-
-	public TimeDescriptor getSnooze() {
-		return this.snooze;
-	}
-
-	public String getSound() {
-		return this.sound;
-	}
-
+	/**
+	 * Liefert die Alarmzeit.
+	 *
+	 * @return Wert >= 0
+	 */
 	public TimeDescriptor getAlarmtime() {
 		return this.alarmtime;
 	}
 
-	public void setDescription(final String description) {
-		this.description = description;
+	/**
+	 * Liefert den nutzerdefinierten Beschreibungstext zum Alarm.
+	 *
+	 * @return Beschreibungstext oder <code>null</code>
+	 */
+	public String getDescription() {
+		return this.description;
 	}
 
-	public void setIsActive(final Boolean isActive) {
-		this.isActive = isActive;
+	/**
+	 * Liefert den Status des Alarms.
+	 *
+	 * @return true wenn aktiviert, sonst false oder <code>null</code>
+	 */
+	public Boolean getIsActive() {
+		return this.isActive;
 	}
 
-	public void setSnooze(final TimeDescriptor snooze) {
-		this.snooze = snooze;
+	/**
+	 * Liefert den Zeitpunkt an dem der Alarm erneut ausgeloest werden soll.
+	 *
+	 * @return Werteobjekt zur Kapselung des Zeitpunktes oder <code>null</code>.
+	 */
+	public TimeDescriptor getSnooze() {
+		return this.snooze;
 	}
 
-	public void setSound(final String sound) {
-		this.sound = sound;
+	/**
+	 * Liefert den optional, definierbaren Klang der im Falle des Alarmzeitpunktes abgespielt werden soll.
+	 *
+	 * @return Pfad zur Klangdatei oder <code>null</code>
+	 */
+	public String getSound() {
+		return this.sound;
 	}
 
+	/**
+	 * Setzt die Alarmzeit.
+	 *
+	 * @param timeDescriptor
+	 *            Werteobjekt zum Beschreiben des Alarmzeitpunktes. Es wird nicht auf die Referenzierung von
+	 *            <code>null</code> geprueft!
+	 */
 	public void setAlarmtime(final TimeDescriptor timeDescriptor) {
 		this.alarmtime = timeDescriptor;
 	}
 
+	/**
+	 * Setzt den optionalen Beschreibungstext zum Alarm.
+	 *
+	 * @param description
+	 *            zu verwendender Beschreibungstext. Es wird nicht auf die Referenzierung von <code>null</code>
+	 *            geprueft!
+	 */
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Setzt den Zustand des Alarms.
+	 *
+	 * @param isActive
+	 *            true wenn aktiviert sonst false. Es wird nicht auf die Referenzierung von <code>null</code> geprueft!
+	 */
+	public void setIsActive(final Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	/**
+	 * Setzt den Zeitpunkt an welchem der bereits mindestens einmal ausgeloeste Alarm wieder erneut ausgeloest werden
+	 * soll.
+	 *
+	 * @param snooze
+	 *            Werteobjekt zur Beschreibung des Zeitpunkts. Es wird nicht auf die Referenzierung von
+	 *            <code>null</code> geprueft!
+	 */
+	public void setSnooze(final TimeDescriptor snooze) {
+		this.snooze = snooze;
+	}
+
+	/**
+	 * Setzt den Klang der beim Eintreten des Alarmzeitpunktes abgespielt werden soll.
+	 *
+	 * @param sound
+	 *            Pfad zur Klanngdatei. Es wird nicht auf die Referenzierung von <code>null</code> geprueft!
+	 */
+	public final void setSound(final String sound) {
+		this.sound = sound;
+	}
+
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(1024);
+		StringBuilder sb = new StringBuilder(SIZE);
 		String result;
 		sb.append("AlarmDescriptor-State:");
 		sb.append("Description:");

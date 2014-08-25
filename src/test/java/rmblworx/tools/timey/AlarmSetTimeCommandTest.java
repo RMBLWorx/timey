@@ -23,12 +23,12 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 public class AlarmSetTimeCommandTest {
 
-	private Invoker invoker;
-	@Mock
-	private Alarm mockedReceiver;
 	private ICommand command;
 	@Mock
 	private AlarmDescriptor descriptor;
+	private Invoker<Boolean> invoker;
+	@Mock
+	private Alarm mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -37,7 +37,7 @@ public class AlarmSetTimeCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmSetTimeCommand(this.mockedReceiver, this.descriptor);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
@@ -55,9 +55,9 @@ public class AlarmSetTimeCommandTest {
 	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#execute()}.
 	 */
 	@Test
-	public final void testExecuteSettingTimestampWasSuccessfully() {
-		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(Boolean.TRUE);
-		assertTrue("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+	public final void testExecuteSettingTimestampExists() {
+		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(null);
+		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
@@ -66,20 +66,22 @@ public class AlarmSetTimeCommandTest {
 	@Test
 	public final void testExecuteSettingTimestampWasNotSuccessfully() {
 		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(Boolean.FALSE);
-		assertFalse("Falscher Rueckgabewert!", (Boolean) this.invoker.execute());
+		assertFalse("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
 	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#execute()}.
 	 */
 	@Test
-	public final void testExecuteSettingTimestampExists() {
-		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(null);
-		assertNull("Falscher Rueckgabewert!", this.invoker.execute());
+	public final void testExecuteSettingTimestampWasSuccessfully() {
+		when(this.mockedReceiver.setAlarm(this.descriptor)).thenReturn(Boolean.TRUE);
+		assertTrue("Falscher Rueckgabewert!", this.invoker.execute());
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
+	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverReferencesNull() {
@@ -87,7 +89,9 @@ public class AlarmSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for
+	 * {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
+	 * .
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {

@@ -20,12 +20,12 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class CountdownStartCommandTest {
-	private Invoker invoker;
-	@Mock
-	private ICountdown mockedReceiver;
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
+	private Invoker<TimeDescriptor> invoker;
+	@Mock
+	private ICountdown mockedReceiver;
 
 	/**
 	 * @throws java.lang.Exception
@@ -34,7 +34,7 @@ public class CountdownStartCommandTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.command = new CountdownStartCommand(this.mockedReceiver);
-		this.invoker = new Invoker();
+		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
