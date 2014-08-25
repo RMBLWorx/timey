@@ -38,7 +38,7 @@ public final class AlarmEntity implements Serializable {
 	@Column(nullable = true)
 	private String description;
 	/**
-	 * Primaerschluessel des Alarmzeitpunktes.
+	 * Primärschluessel des Alarmzeitpunktes.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -141,14 +141,14 @@ public final class AlarmEntity implements Serializable {
 	 * Setzt die eineindeutige Id des Alarm-Objektes.
 	 *
 	 * @param id
-	 *            Id fuer dieses Objekt.
+	 *            Id für dieses Objekt.
 	 */
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/**
-	 * Ermoeglicht das Setzen des Aktivierungsstatus.
+	 * Ermöglicht das Setzen des Aktivierungsstatus.
 	 *
 	 * @param isActivated
 	 *            booleaschen Wert.
@@ -158,7 +158,7 @@ public final class AlarmEntity implements Serializable {
 	}
 
 	/**
-	 * Setzt den Zeitpunkt an welchem der Alarm wiederholt ausgeloest werden soll.
+	 * Setzt den Zeitpunkt an welchem der Alarm wiederholt ausgelöst werden soll.
 	 * @param snooze
 	 *            Der zu setzende Wiederholungszeitpunkt
 	 */

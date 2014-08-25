@@ -11,7 +11,7 @@ package rmblworx.tools.timey.vo;
  */
 public class AlarmDescriptor {
 	/**
-	 * Definiert die Groesze bei Initialisierung des StringBuilder-Objekts.
+	 * Definiert die Größe bei Initialisierung des StringBuilder-Objekts.
 	 */
 	private static final int SIZE = 1024;
 	/**
@@ -86,7 +86,7 @@ public class AlarmDescriptor {
 	}
 
 	/**
-	 * Liefert den Zeitpunkt an dem der Alarm erneut ausgeloest werden soll.
+	 * Liefert den Zeitpunkt an dem der Alarm erneut ausgelöst werden soll.
 	 *
 	 * @return Werteobjekt zur Kapselung des Zeitpunktes oder <code>null</code>.
 	 */
@@ -136,7 +136,7 @@ public class AlarmDescriptor {
 	}
 
 	/**
-	 * Setzt den Zeitpunkt an welchem der bereits mindestens einmal ausgeloeste Alarm wieder erneut ausgeloest werden
+	 * Setzt den Zeitpunkt an welchem der bereits mindestens einmal ausgelöste Alarm wieder erneut ausgelöst werden
 	 * soll.
 	 *
 	 * @param snooze

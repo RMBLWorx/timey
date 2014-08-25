@@ -10,7 +10,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Schnittstellenbeschreibung fuer den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
+ * Schnittstellenbeschreibung für den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
  * @author mmatthies
  * @see AlarmEntity
  */
@@ -36,7 +36,7 @@ public interface IAlarmService {
 	/**
 	 * Liefert alle Alarmzeitpunkte in der Datenbank.
 	 *
-	 * @return unveraenderliche Liste mit allen Alarmzeitpunkten oder leere Liste
+	 * @return unveränderliche Liste mit allen Alarmzeitpunkten oder leere Liste
 	 */
 	List<AlarmDescriptor> getAll();
 

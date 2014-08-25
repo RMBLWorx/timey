@@ -14,7 +14,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Ermoeglicht die Zeitmessung in Form eines Countdowns.
+ * Ermöglicht die Zeitmessung in Form eines Countdowns.
  * @author mmatthies
  */
 class Countdown implements ICountdown, ApplicationContextAware {
@@ -27,7 +27,7 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	 */
 	private ICountdownTimer countdownTimer;
 	/**
-	 * Gibt die Maszzahl fuer die Zeiteinheit an.
+	 * Gibt die Maßzahl für die Zeiteinheit an.
 	 *
 	 * @see #timeUnit
 	 */
@@ -40,9 +40,9 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	/**
 	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
 	 * @param delay
-	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurueckgeliefert wird.
+	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurückgeliefert wird.
 	 * @param unit
-	 *            Maszeinheit fuer den Intervall.
+	 *            Maßeinheit für den Intervall.
 	 */
 	public Countdown(final int delay, final TimeUnit unit) {
 		this.delayPerThread = delay;

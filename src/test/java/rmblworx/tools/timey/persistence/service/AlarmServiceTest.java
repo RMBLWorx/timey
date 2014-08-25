@@ -31,7 +31,7 @@ public class AlarmServiceTest {
 
 	private static final int EXPECTED_MILLISECONDS = 1000;
 	private static final String KEIN_ALARMZEITPUNKT_ERZEUGT = "Kein Alarmzeitpunkt erzeugt!";
-	private static final String NOT_NULL_MSG = "Es wurde kein null zurueckgegeben!";
+	private static final String NOT_NULL_MSG = "Es wurde kein null zurückgegeben!";
 	private AlarmDescriptor expectedAlarmDescriptor;
 
 	@Qualifier("alarmService")
@@ -100,7 +100,7 @@ public class AlarmServiceTest {
 		final List<AlarmDescriptor> actualList = this.service.getAll();
 		for (AlarmDescriptor timeDescriptor : actualList) {
 			if (timeDescriptor.getAlarmtime().getMilliSeconds() == this.expectedAlarmDescriptor.getAlarmtime().getMilliSeconds()) {
-				fail("Alarmzeitpunkt wurde nicht geloescht!");
+				fail("Alarmzeitpunkt wurde nicht gelöscht!");
 			}
 		}
 	}

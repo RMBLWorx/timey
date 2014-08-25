@@ -9,7 +9,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Einfach ausgelegte Schnittstelle fuer die Implementierung eines Stoppuhr-Objekts.
+ * Einfach ausgelegte Schnittstelle für die Implementierung eines Stoppuhr-Objekts.
  *
  * @author mmatthies
  */
@@ -26,10 +26,10 @@ interface ITimer {
 	 * Startet den Stopvorgang.
 	 *
 	 * @param delayPerThread
-	 *            Setzt die Verzoegerung pro Thread. Die Maszeinheit
+	 *            Setzt die Verzögerung pro Thread. Die Maßeinheit
 	 *            wird mittels des TimeUnit-Enum gesetzt.
 	 * @param timeUnit
-	 *            Setzt die zu verwendende Zeiteinheit fuer die
+	 *            Setzt die zu verwendende Zeiteinheit für die
 	 *            wiederholte Aktualisierung des Werteobjekts.
 	 * @return Referenz auf das Wertobjekt das die darzustellende Zeit
 	 *         kapselt. Es handelt sich hierbei um das im Konstruktor

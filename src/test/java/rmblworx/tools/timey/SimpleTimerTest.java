@@ -34,7 +34,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 @ContextConfiguration(locations = { "/spring-timey-context.xml", "/stopwatch-spring-timey-context.xml" })
 public class SimpleTimerTest {
 	/**
-	 * Beschreibt die Zeit fuer die der Thread ruhen soll.
+	 * Beschreibt die Zeit für die der Thread ruhen soll.
 	 */
 	private static final int DELAY = 10;
 	/**
@@ -128,7 +128,7 @@ public class SimpleTimerTest {
 	 */
 	@Test
 	public final void testToggleTimeModeInStopwatchExtendedCase() throws InterruptedException {
-		// testet ob TIME-Modus zuverlaessig funktioniert wenn zwischendurch die Uhr gestoppt wurde waehrend TIME-Modus
+		// testet ob TIME-Modus zuverlässig funktioniert wenn zwischendurch die Uhr gestoppt wurde während TIME-Modus
 		// aktiv
 		TimeDescriptor td = new TimeDescriptor(0L);
 		this.timer = new SimpleTimer(td);
@@ -136,14 +136,14 @@ public class SimpleTimerTest {
 
 		td = this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
 		Thread.sleep(DELAY);
-		assertTrue("Stoppuhr laeuft nicht!", td.getMilliSeconds() > 0);
+		assertTrue("Stoppuhr läuft nicht!", td.getMilliSeconds() > 0);
 
 		// TIME-Mode ein
 		this.timer.toggleTimeModeInStopwatch();
 		final long expected = td.getMilliSeconds();
 		Thread.sleep(DELAY);
 		long actual = td.getMilliSeconds();
-		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
+		assertEquals("Stoppuhr zählt weiter obwohl TIME-Mode aktiv!", expected, actual);
 
 		// STOP gedrueckt - Zeitmessung stoppt aber eingefrorene Zeit bleibt im Vordergrund
 		if (this.timer.stopStopwatch()) {
@@ -174,14 +174,14 @@ public class SimpleTimerTest {
 
 		td = this.timer.startStopwatch(1, TimeUnit.NANOSECONDS);
 		Thread.sleep(DELAY);
-		assertTrue("Stoppuhr laeuft nicht!", td.getMilliSeconds() > 0);
+		assertTrue("Stoppuhr läuft nicht!", td.getMilliSeconds() > 0);
 
 		// TIME-Mode ein
 		this.timer.toggleTimeModeInStopwatch();
 		long expected = td.getMilliSeconds();
 		Thread.sleep(DELAY);
 		long actual = td.getMilliSeconds();
-		assertEquals("Stoppuhr zaehlt weiter obwohl TIME-Mode aktiv!", expected, actual);
+		assertEquals("Stoppuhr zählt weiter obwohl TIME-Mode aktiv!", expected, actual);
 
 		// TIME-Mode aus
 		this.timer.toggleTimeModeInStopwatch();

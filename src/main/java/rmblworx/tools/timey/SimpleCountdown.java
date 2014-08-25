@@ -22,18 +22,18 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Implementierung eines einfachen Timer's zum ausfuehren einer Zeitmessung.
+ * Implementierung eines einfachen Timer's zum ausführen einer Zeitmessung.
  * 
  * @author mmatthies
  */
 class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
 
 	/**
-	 * Maszzahl fuer die Ausfuehrungsverzoegerung des Threads.
+	 * Maßzahl für die Ausfuehrungsverzögerung des Threads.
 	 */
 	private static final int DELAY = 1;
 	/**
-	 * Beschreibt die Groesze des vom Scheduler verwalteten Threadpools.
+	 * Beschreibt die Größe des vom Scheduler verwalteten Threadpools.
 	 */
 	private static final int THREAD_POOL_SIZE = 1;
 	/**
@@ -42,7 +42,7 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 	private ScheduledFuture<?> countdownFuture;
 	/**
 	 * Scheduler wird verwendet um die Threads zu verwalten und wiederholt
-	 * ausfuehren zu lassen.
+	 * ausführen zu lassen.
 	 */
 	private ScheduledExecutorService scheduler;
 	/**
@@ -50,7 +50,7 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 	 */
 	private ApplicationContext springContext;
 	/**
-	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
+	 * Wertobjekt das die Zeit für die GUI kapselt und liefert.
 	 */
 	private TimeDescriptor timeDescriptor;
 	/**

@@ -14,7 +14,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 class StopwatchStartCommand implements ICommand {
 
 	/**
-	 * Referenz auf die Empfaengerinstanz die von diesem Kommando gesteuert wird.
+	 * Referenz auf die Empfängerinstanz die von diesem Kommando gesteuert wird.
 	 */
 	private final IStopwatch fReceiver;
 
@@ -22,7 +22,7 @@ class StopwatchStartCommand implements ICommand {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
+	 *            Referenz auf die Empfängerimplementierung die von diesem Kommando gesteuert wird.
 	 */
 	public StopwatchStartCommand(final IStopwatch receiver) {
 		if (receiver == null) {

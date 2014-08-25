@@ -14,7 +14,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 class CountdownSetTimeCommand implements ICommand {
 
 	/**
-	 * Referenz der Empfaengerimplementierung.
+	 * Referenz der Empfängerimplementierung.
 	 */
 	private final ICountdown fReceiver;
 	/**
@@ -26,7 +26,7 @@ class CountdownSetTimeCommand implements ICommand {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz der Empfaengerimplementierung.
+	 *            Referenz der Empfängerimplementierung.
 	 * @param descriptor
 	 *            Referenz des Zeitbeschreibungsobjektes.
 	 */

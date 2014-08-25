@@ -54,7 +54,7 @@ public class GetVersionTest {
 			LOG.debug("OS X erkannt...");
 		}
 
-		assertNotNull("Test fehlgeschlagen da keine Version zurueckgeliefert wurde.", this.facade.getVersion());
+		assertNotNull("Test fehlgeschlagen da keine Version zurückgeliefert wurde.", this.facade.getVersion());
 	}
 
 }

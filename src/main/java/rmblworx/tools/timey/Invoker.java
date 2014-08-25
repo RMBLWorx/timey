@@ -29,7 +29,7 @@ class Invoker<T> {
 	 * Konstruktor.
 	 *
 	 * @param cmd
-	 *            Referenz der auszufuehrenden Kommandoimplementierung.
+	 *            Referenz der auszuführenden Kommandoimplementierung.
 	 */
 	public Invoker(final ICommand cmd) {
 		super();

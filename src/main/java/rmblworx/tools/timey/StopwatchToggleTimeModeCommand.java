@@ -11,7 +11,7 @@ import rmblworx.tools.timey.exception.NullArgumentException;
  */
 public class StopwatchToggleTimeModeCommand implements ICommand {
 	/**
-	 * Referenz auf die Empfaengerimplementierung.
+	 * Referenz auf die Empfängerimplementierung.
 	 */
 	private final IStopwatch fReceiver;
 
@@ -19,7 +19,7 @@ public class StopwatchToggleTimeModeCommand implements ICommand {
 	 * Konstruktor.
 	 *
 	 * @param receiver
-	 *            Referenz auf die Empfaengerimplementierung die von diesem Kommando gesteuert wird.
+	 *            Referenz auf die Empfängerimplementierung die von diesem Kommando gesteuert wird.
 	 */
 	public StopwatchToggleTimeModeCommand(final IStopwatch receiver) {
 		if (receiver == null) {

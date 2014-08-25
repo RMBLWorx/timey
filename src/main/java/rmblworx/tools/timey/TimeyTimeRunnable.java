@@ -10,7 +10,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Abstrakte Klasse fuer alle timey Zeitmessungsimplementierungen.
+ * Abstrakte Klasse für alle timey Zeitmessungsimplementierungen.
  *
  * @author mmatthies
  */
@@ -25,7 +25,7 @@ abstract class TimeyTimeRunnable implements Runnable {
 	 */
 	protected long timeDelta;
 	/**
-	 * Wertobjekt das die Zeit fuer die GUI kapselt und liefert.
+	 * Wertobjekt das die Zeit für die GUI kapselt und liefert.
 	 */
 	protected final TimeDescriptor timeDescriptor;
 	/**
@@ -33,7 +33,7 @@ abstract class TimeyTimeRunnable implements Runnable {
 	 */
 	protected final long timePassed;
 	/**
-	 * Beschreibt wann der Startvorgang ausgeloest wurde in Millisekunden.
+	 * Beschreibt wann der Startvorgang ausgelöst wurde in Millisekunden.
 	 */
 	protected final long timeStarted;
 
@@ -54,7 +54,7 @@ abstract class TimeyTimeRunnable implements Runnable {
 	}
 
 	/**
-	 * Welche Berechnungen diese Methode durchfuehrt, haengt von der jeweiligen Implementierung ab.
+	 * Welche Berechnungen diese Methode durchfuehrt, hängt von der jeweiligen Implementierung ab.
 	 */
 	protected abstract void computeTime();
 }

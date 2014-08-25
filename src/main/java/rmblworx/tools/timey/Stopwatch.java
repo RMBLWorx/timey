@@ -17,7 +17,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 class Stopwatch implements IStopwatch {
 
 	/**
-	 * Gibt die Maszzahl fuer die Zeiteinheit an.
+	 * Gibt die Maßzahl für die Zeiteinheit an.
 	 *
 	 * @see #timeUnit
 	 */
@@ -37,7 +37,7 @@ class Stopwatch implements IStopwatch {
 	 * @param timer
 	 *            Implementierung einer Stoppuhr
 	 * @param delay
-	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurueckgeliefert wird.
+	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurückgeliefert wird.
 	 * @param unit
 	 * 			  Zeiteinheit.
 	 */

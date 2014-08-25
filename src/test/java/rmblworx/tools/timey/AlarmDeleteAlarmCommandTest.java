@@ -19,8 +19,8 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Testet das Kommando zum loeschen von Alarmzeitpunkten aus der Datenbank wobei ausschliesslich die Logik des Kommandos
- * getestet wird und nicht die Funktionalitaet der anderen Akteure.
+ * Testet das Kommando zum löschen von Alarmzeitpunkten aus der Datenbank wobei ausschliesslich die Logik des Kommandos
+ * getestet wird und nicht die Funktionalität der anderen Akteure.
  *
  * @author mmatthies
  */

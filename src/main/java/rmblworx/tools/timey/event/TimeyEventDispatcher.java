@@ -43,7 +43,7 @@ public class TimeyEventDispatcher {
 	}
 
 	/**
-	 * Macht die Registrierung einer Listener-Implementierung wieder rueckgaengig. Der Listener wird fortan nicht mehr
+	 * Macht die Registrierung einer Listener-Implementierung wieder rueckgängig. Der Listener wird fortan nicht mehr
 	 * benachrichtigt.
 	 *
 	 * @param timeyEventListener

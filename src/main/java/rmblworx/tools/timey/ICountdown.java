@@ -13,7 +13,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 interface ICountdown {
 
 	/**
-	 * Setzt die Zeit die heruntergezaehlt werden soll.
+	 * Setzt die Zeit die heruntergezählt werden soll.
 	 *
 	 * @param descriptor
 	 *            Werteobjekt das die Zeitangabe kapselt.
