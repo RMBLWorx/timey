@@ -333,7 +333,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final AudioPlayer player = mock(AudioPlayer.class);
 		controller.getGuiHelper().setAudioPlayer(player);
 		click(alarmPlaySoundButton);
-		verify(player).playInThread(eq("Sound"), isA(Thread.UncaughtExceptionHandler.class));
+		verify(player).playInThread(isA(ThreadHelper.class), eq("Sound"), isA(Thread.UncaughtExceptionHandler.class));
 
 		// Sound-Löschen-Schaltfläche betätigen
 		click(alarmNoSoundButton);

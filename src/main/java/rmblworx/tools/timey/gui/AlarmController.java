@@ -172,9 +172,11 @@ public class AlarmController extends Controller implements TimeyEventListener {
 							 */
 							Platform.runLater(new Runnable() {
 								public void run() {
-									alarmTable.scrollTo(alarm);
-									alarmTable.getSelectionModel().select(alarm);
 									alarmTable.requestFocus();
+									final int selectedIndex = alarmTable.getItems().indexOf(alarm);
+									alarmTable.scrollTo(selectedIndex);
+									alarmTable.getSelectionModel().select(selectedIndex);
+									alarmTable.getFocusModel().focus(selectedIndex);
 								}
 							});
 
@@ -322,9 +324,15 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			public void run() {
 				FXCollections.sort(alarmTable.getItems());
 
+				// Aktualisierung der Tabelle erzwingen
+				alarmTable.setItems(FXCollections.observableList(alarmTable.getItems()));
+
 				if (preserveSelection) {
-					alarmTable.scrollTo(selectedItem);
-					alarmTable.getSelectionModel().select(selectedItem);
+					alarmTable.requestFocus();
+					final int selectedIndex = alarmTable.getItems().indexOf(selectedItem);
+					alarmTable.scrollTo(selectedIndex);
+					alarmTable.getSelectionModel().select(selectedIndex);
+					alarmTable.getFocusModel().focus(selectedIndex);
 				}
 			}
 		});
@@ -375,6 +383,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 						refreshTable(false);
 						alarmTable.getSelectionModel().select(selectedIndex);
+						alarmTable.getFocusModel().focus(selectedIndex);
 						hideProgress();
 					}
 				});

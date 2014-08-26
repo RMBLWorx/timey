@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.SwingUtilities;
-
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -19,6 +17,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import javax.swing.SwingUtilities;
+
 import rmblworx.tools.timey.ITimey;
 
 /*
@@ -37,6 +38,11 @@ public class GuiHelper {
 	private AudioPlayer audioPlayer = new AudioPlayer();
 
 	/**
+	 * Erzeugt und startet Threads.
+	 */
+	private ThreadHelper threadHelper = new ThreadHelper();
+
+	/**
 	 * Fassade.
 	 */
 	private ITimey facade;
@@ -46,8 +52,21 @@ public class GuiHelper {
 	 */
 	private TrayIcon trayIcon;
 
+	/**
+	 * Ob Hinweise unterdrückt werden sollen. Sinnvoll für Tests.
+	 */
+	private boolean suppressMessages = false;
+
 	public void setAudioPlayer(final AudioPlayer audioPlayer) {
 		this.audioPlayer = audioPlayer;
+	}
+
+	public final void setThreadHelper(final ThreadHelper threadHelper) {
+		this.threadHelper = threadHelper;
+	}
+
+	public final ThreadHelper getThreadHelper() {
+		return threadHelper;
 	}
 
 	public final void setFacade(final ITimey facade) {
@@ -60,6 +79,10 @@ public class GuiHelper {
 
 	public final void setTrayIcon(final TrayIcon trayIcon) {
 		this.trayIcon = trayIcon;
+	}
+
+	public final void setSuppressMessages(final boolean suppress) {
+		suppressMessages = suppress;
 	}
 
 	/**
@@ -108,6 +131,10 @@ public class GuiHelper {
 	 * @param i18n ResourceBundle
 	 */
 	public void showDialogMessage(final String title, final String text, final ResourceBundle i18n) {
+		if (suppressMessages) {
+			return;
+		}
+
 		Platform.runLater(new Runnable() {
 			public void run() {
 				try {
@@ -147,7 +174,7 @@ public class GuiHelper {
 			return;
 		}
 
-		audioPlayer.playInThread(path, new Thread.UncaughtExceptionHandler() {
+		audioPlayer.playInThread(threadHelper, path, new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(final Thread thread, final Throwable exception) {
 				showDialogMessage(i18n.getString("messageDialog.error.title"),
 						String.format(i18n.getString("sound.play.error"), exception.getLocalizedMessage()), i18n);
@@ -161,15 +188,11 @@ public class GuiHelper {
 	 * @param i18n ResourceBundle
 	 */
 	public final void runInThread(final Task<Void> task, final ResourceBundle i18n) {
-		final Thread thread = new Thread(task);
-		thread.setDaemon(true);
-		thread.setPriority(Thread.MIN_PRIORITY);
-		thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+		threadHelper.run(task, new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(final Thread thread, final Throwable exception) {
 				showDialogMessage(i18n.getString("messageDialog.error.title"), exception.getLocalizedMessage(), i18n);
 			}
 		});
-		thread.start();
 	}
 
 }

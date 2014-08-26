@@ -5,10 +5,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -24,6 +31,8 @@ import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.utils.FXTestUtils;
 import org.mockito.ArgumentMatcher;
 
+import rmblworx.tools.timey.ITimey;
+import rmblworx.tools.timey.event.AlarmExpiredEvent;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /*
@@ -246,6 +255,110 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmEditButton.isVisible());
 		assertFalse(alarmEditButton.isDisabled());
+	}
+
+	/**
+	 * Testet, ob die Auswahl eines Alarms erhalten bleibt, wenn sich dessen Position in der Tabelle durch Bearbeiten des Zeitpunktes
+	 * verschiebt.
+	 */
+	@Test
+	public final void testKeepAlarmSelectionOnPositionChange() {
+		// Alarme anlegen
+		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		final LocalDateTime now = LocalDateTime.now().withNano(0);
+		final Alarm selectedAlarm = new Alarm(now.minusYears(1), "ausgewählter Alarm");
+		final Alarm otherAlarm = new Alarm(now, "anderer Alarm");
+		tableData.addAll(selectedAlarm, otherAlarm);
+
+		// einen Alarm auswählen
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmTable.getSelectionModel().select(selectedAlarm);
+			}
+		});
+		FXTestUtils.awaitEvents();
+
+		// Alarmzeitpunkt ändern, sodass sich Alarm innerhalb der Tabelle verschiebt
+		Platform.runLater(new Runnable() {
+			public void run() {
+				selectedAlarm.setDateTime(selectedAlarm.getDateTime().plusYears(2));
+
+				final AlarmController controller = (AlarmController) getController();
+				// private Methode controller.refreshTable() aufrufen
+				try {
+					@SuppressWarnings("unchecked")
+					final Class<AlarmController> klass = (Class<AlarmController>) controller.getClass();
+					final Method refreshTableMethod = klass.getDeclaredMethod("refreshTable");
+					refreshTableMethod.setAccessible(true);
+					refreshTableMethod.invoke(controller);
+				} catch (final NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+					fail(e.getLocalizedMessage());
+				}
+			}
+		});
+		FXTestUtils.awaitEvents();
+
+		// sicherstellen, dass Auswahl erhalten bleibt
+		assertEquals(1, alarmTable.getSelectionModel().getSelectedIndex());
+	}
+
+	/**
+	 * Testet, ob die Auswahl eines Alarms erhalten bleibt, wenn nach Eintritt eines Ereignisses die Tabelle neu geladen wird.
+	 */
+	@Test
+	public final void testKeepAlarmSelectionWhileReloadOnEvent() {
+		final AlarmController controller = (AlarmController) getController();
+		final GuiHelper guiHelper = controller.getGuiHelper();
+		final ITimey facade = guiHelper.getFacade();
+		final ThreadHelper threadHelper = guiHelper.getThreadHelper();
+
+		// Alarme anlegen
+		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		final LocalDateTime now = LocalDateTime.now().withNano(0);
+		final Alarm otherDisabledAlarm = new Alarm(now.minusYears(1), "alarm0", "", false);
+		final Alarm selectedAlarm = new Alarm(now, "alarm1");
+		final Alarm otherEnabledAlarm = new Alarm(now.plusYears(1), "alarm2");
+		tableData.addAll(otherDisabledAlarm, selectedAlarm, otherEnabledAlarm);
+
+		// einen Alarm auswählen
+		Platform.runLater(new Runnable() {
+			public void run() {
+				alarmTable.getSelectionModel().select(selectedAlarm);
+			}
+		});
+		FXTestUtils.awaitEvents();
+
+		// sicherstellen, dass Alarm ausgewählt ist
+		assertEquals(1, alarmTable.getSelectionModel().getSelectedIndex());
+
+		// Neuladen der Alarme simulieren, dabei den ausgewählten als deaktiviert markieren
+		final List<AlarmDescriptor> newAlarms = new ArrayList<>();
+		for (final Alarm alarm : tableData) {
+			Alarm newAlarm;
+			if (alarm == selectedAlarm) {
+				newAlarm = new Alarm(alarm.getDateTime(), alarm.getDescription() + " neu", "", false);
+			} else {
+				newAlarm = alarm;
+			}
+			newAlarms.add(AlarmDescriptorConverter.getAsAlarmDescriptor(newAlarm));
+		}
+		when(facade.getAllAlarms()).thenReturn(newAlarms);
+
+		// Ereignis auslösen
+		guiHelper.setSuppressMessages(true);
+		threadHelper.setTrackThreads(true);
+		controller.handleEvent(new AlarmExpiredEvent(AlarmDescriptorConverter.getAsAlarmDescriptor(selectedAlarm)));
+		try {
+			threadHelper.waitForThreads();
+		} catch (final InterruptedException e) {
+			fail(e.getLocalizedMessage());
+		}
+		FXTestUtils.awaitEvents();
+
+		verify(facade, atLeastOnce()).getAllAlarms();
+
+		// sicherstellen, dass Auswahl erhalten bleibt
+		assertEquals(1, alarmTable.getSelectionModel().getSelectedIndex());
 	}
 
 }
