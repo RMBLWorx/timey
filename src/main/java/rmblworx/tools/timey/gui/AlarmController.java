@@ -190,11 +190,8 @@ public class AlarmController extends Controller implements TimeyEventListener {
 							 */
 							Platform.runLater(new Runnable() {
 								public void run() {
-									alarmTable.requestFocus();
-									final int selectedIndex = alarmTable.getItems().indexOf(alarm);
-									alarmTable.scrollTo(selectedIndex);
-									alarmTable.getSelectionModel().select(selectedIndex);
-									alarmTable.getFocusModel().focus(selectedIndex);
+									alarmTable.scrollTo(alarm);
+									alarmTable.getSelectionModel().select(alarm);
 								}
 							});
 
@@ -342,15 +339,9 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			public void run() {
 				FXCollections.sort(alarmTable.getItems());
 
-				// Aktualisierung der Tabelle erzwingen
-				alarmTable.setItems(FXCollections.observableList(alarmTable.getItems()));
-
 				if (preserveSelection) {
-					alarmTable.requestFocus();
-					final int selectedIndex = alarmTable.getItems().indexOf(selectedItem);
-					alarmTable.scrollTo(selectedIndex);
-					alarmTable.getSelectionModel().select(selectedIndex);
-					alarmTable.getFocusModel().focus(selectedIndex);
+					alarmTable.scrollTo(selectedItem);
+					alarmTable.getSelectionModel().select(selectedItem);
 				}
 			}
 		});
@@ -377,7 +368,10 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				alarmProgressContainer.setVisible(visible);
-				alarmContainer.setVisible(!visible);
+				/*
+				 * Sichtbarkeit vom alarmContainer nicht ändern, um Probleme bei der Fokussierung von Tabellenzeilen (bzw. der Tabelle
+				 * insgesamt) zu vermeiden. Stattdessen mit Hintergrundfarbe für alarmProgressContainer arbeiten.
+				 */
 			}
 		});
 	}
@@ -400,8 +394,9 @@ public class AlarmController extends Controller implements TimeyEventListener {
 						tableData.addAll(alarms);
 
 						refreshTable(false);
+
 						alarmTable.getSelectionModel().select(selectedIndex);
-						alarmTable.getFocusModel().focus(selectedIndex);
+
 						hideProgress();
 					}
 				});
@@ -416,10 +411,9 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	 */
 	public final void handleEvent(final TimeyEvent event) {
 		if (event instanceof AlarmExpiredEvent) {
-			final Alarm alarm = AlarmDescriptorConverter.getAsAlarm(((AlarmExpiredEvent) event).getAlarmDescriptor());
-
 			reloadAlarms();
 
+			final Alarm alarm = AlarmDescriptorConverter.getAsAlarm(((AlarmExpiredEvent) event).getAlarmDescriptor());
 			getGuiHelper().showTrayMessageWithFallbackToDialog(resources.getString("alarm.event.triggered.title"), alarm.getDescription(),
 					resources);
 			getGuiHelper().playSoundInThread(alarm.getSound(), resources);

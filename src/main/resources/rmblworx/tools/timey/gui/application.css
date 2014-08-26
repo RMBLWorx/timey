@@ -10,6 +10,11 @@
 	-fx-font-size: 30px;
 }
 
+/* andere Elemente (Tabelle, Schaltflächen) beim Laden von Alarmen verdecken */
+#alarmProgressContainer {
+	-fx-background-color: #fff;
+}
+
 /* kein Gitternetz für leere Zellen */
 .table-row-cell:empty {
 	-fx-background-color: transparent;
