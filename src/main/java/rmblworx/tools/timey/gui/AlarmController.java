@@ -3,7 +3,6 @@ package rmblworx.tools.timey.gui;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -19,11 +18,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -71,6 +70,9 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	private TableColumn<Alarm, String> alarmDescriptionColumn;
 
 	@FXML
+	private TableColumn<Alarm, Boolean> alarmEnabledColumn;
+
+	@FXML
 	private Button alarmEditButton;
 
 	@FXML
@@ -80,40 +82,56 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 	@FXML
 	private void initialize() {
-		alarmDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Alarm, LocalDateTime>("dateTime"));
+		// Spalten mit Attributen verknüpfen
+		alarmEnabledColumn
+				.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Alarm, Boolean>, ObservableValue<Boolean>>() {
+					public ObservableValue<Boolean> call(final CellDataFeatures<Alarm, Boolean> param) {
+						return param.getValue().enabledProperty();
+					}
+				});
+		alarmDateTimeColumn
+				.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Alarm, LocalDateTime>, ObservableValue<LocalDateTime>>() {
+					public ObservableValue<LocalDateTime> call(final CellDataFeatures<Alarm, LocalDateTime> param) {
+						return param.getValue().dateTimeProperty();
+					}
+				});
+		alarmDescriptionColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Alarm, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(final CellDataFeatures<Alarm, String> param) {
+				return param.getValue().descriptionProperty();
+			}
+		});
 
-		alarmDateTimeColumn.setCellFactory(new Callback<TableColumn<Alarm, LocalDateTime>, TableCell<Alarm, LocalDateTime>>() {
-			public TableCell<Alarm, LocalDateTime> call(final TableColumn<Alarm, LocalDateTime> param) {
-				return new TableCell<Alarm, LocalDateTime>() {
-					protected void updateItem(final LocalDateTime item, final boolean empty) {
+		// Checkbox in "aktiviert"-Spalte rendern
+		alarmEnabledColumn.setCellFactory(new Callback<TableColumn<Alarm, Boolean>, TableCell<Alarm, Boolean>>() {
+			public TableCell<Alarm, Boolean> call(final TableColumn<Alarm, Boolean> param) {
+				return new TableCell<Alarm, Boolean>() {
+					protected void updateItem(final Boolean item, final boolean empty) {
 						super.updateItem(item, empty);
-						setText(empty ? null : dateTimeFormatter.format(item));
+
+						if (empty || item == null) {
+							setGraphic(null);
+							return;
+						}
+
+						final CheckBox checkBox = new CheckBox();
+						checkBox.setDisable(true);
+						checkBox.setSelected(item);
+						setGraphic(checkBox);
 					}
 				};
 			}
 		});
 
-		alarmDescriptionColumn.setCellValueFactory(new PropertyValueFactory<Alarm, String>("description"));
+		// Formatierung der Datum/Zeit-Spalte
+		alarmDateTimeColumn.setCellFactory(new Callback<TableColumn<Alarm, LocalDateTime>, TableCell<Alarm, LocalDateTime>>() {
+			public TableCell<Alarm, LocalDateTime> call(final TableColumn<Alarm, LocalDateTime> param) {
+				return new TableCell<Alarm, LocalDateTime>() {
+					protected void updateItem(final LocalDateTime item, final boolean empty) {
+						super.updateItem(item, empty);
 
-		// CSS-Klasse für inaktive Alarme setzen
-		final String disabledAlarmStyleClass = "alarm-disabled";
-		alarmTable.setRowFactory(new Callback<TableView<Alarm>, TableRow<Alarm>>() {
-			public TableRow<Alarm> call(final TableView<Alarm> tableView) {
-				final TableRow<Alarm> row = new TableRow<Alarm>() {
-					protected void updateItem(final Alarm alarm, final boolean empty) {
-						super.updateItem(alarm, empty);
-						final ObservableList<String> styleClass = getStyleClass();
-						if (alarm != null && !alarm.isEnabled()) {
-							if (!styleClass.contains(disabledAlarmStyleClass)) {
-								styleClass.add(disabledAlarmStyleClass);
-							}
-						} else {
-							styleClass.removeAll(Collections.singleton(disabledAlarmStyleClass));
-						}
+						setText(empty ? null : dateTimeFormatter.format(item));
 					}
 				};
-
-				return row;
 			}
 		});
 

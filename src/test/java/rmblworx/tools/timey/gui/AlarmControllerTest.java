@@ -21,6 +21,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -148,20 +149,23 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	public final void testAlarmTableRendering() {
 		// Alarm anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
-		final Alarm alarm1 = new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test");
-		tableData.add(alarm1);
+		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("24.12.2014 12:00:00"), "Test");
+		tableData.add(alarm);
 
 		/*
 		 * Sicherstellen, dass Zellen die korrekten Objekte enthalten.
 		 * Wäre z. B. nicht der Fall, wenn der Name des Alarm-Attributs nicht mit dem Namen der Spalte übereinstimmt.
 		 */
-		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(0).getCellData(0);
-		assertNotNull(dateTimeCellData);
-		assertEquals(alarm1.getDateTime(), dateTimeCellData);
+		final Boolean enabledCellData = (Boolean) alarmTable.getColumns().get(0).getCellData(0);
+		assertEquals(alarm.isEnabled(), enabledCellData);
 
-		final String descriptionCellData = (String) alarmTable.getColumns().get(1).getCellData(0);
+		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(1).getCellData(0);
+		assertNotNull(dateTimeCellData);
+		assertEquals(alarm.getDateTime(), dateTimeCellData);
+
+		final String descriptionCellData = (String) alarmTable.getColumns().get(2).getCellData(0);
 		assertNotNull(descriptionCellData);
-		assertEquals(alarm1.getDescription(), descriptionCellData);
+		assertEquals(alarm.getDescription(), descriptionCellData);
 	}
 
 	/**
@@ -199,10 +203,14 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertTrue(alarmEditButton.isVisible());
 		assertFalse(alarmEditButton.isDisabled());
 
-		// Alarm bearbeiten
+		// Bearbeiten-Dialog öffnen
 		click(alarmEditButton);
 
 		final Scene dialogScene = ((AlarmController) getController()).getDialogStage().getScene();
+
+		// Alarm deaktivieren
+		final CheckBox alarmEnabledCheckbox = (CheckBox) dialogScene.lookup("#alarmEnabledCheckbox");
+		click(alarmEnabledCheckbox);
 
 		final TextField hoursTextField = (TextField) dialogScene.lookup("#hoursTextField");
 		/*
@@ -224,6 +232,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		click(alarmSaveButton);
 
 		// sicherstellen, dass Alarm geändert wurde
+		assertFalse(alarm.isEnabled());
 		assertEquals(onePm, alarm.getDateTime());
 
 		// sicherstellen, dass per Fassade alter Alarm gelöscht und neuer angelegt wurde
@@ -245,7 +254,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		 * TODO Funktioniert so nicht. Selbst wenn "<Attribut>Property"-Methoden fehlen, liefert dieser Code einen anderen Wert als den,
 		 * der tatsächlich in der Tabelle sichtbar ist. Darstellungsfehler.
 		 */
-		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(0).getCellData(0);
+		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(1).getCellData(0);
 		assertNotNull(dateTimeCellData);
 		assertEquals(onePm, dateTimeCellData);
 
