@@ -12,6 +12,7 @@
       <children>
         <TableView fx:id="alarmTable" onMouseClicked="#handleTableClick" GridPane.columnIndex="0" GridPane.rowIndex="0">
           <columns>
+            <TableColumn editable="false" prefWidth="23.0" resizable="false" sortable="false" fx:id="alarmEnabledColumn" />
             <TableColumn editable="false" prefWidth="120.0" resizable="false" sortable="false" text="%alarmDateTimeColumn.label" fx:id="alarmDateTimeColumn" />
             <TableColumn editable="false" prefWidth="150.0" resizable="false" sortable="false" text="%alarmDescriptionColumn.label" fx:id="alarmDescriptionColumn" />
           </columns>
