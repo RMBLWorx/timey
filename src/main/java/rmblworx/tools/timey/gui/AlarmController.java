@@ -230,7 +230,6 @@ public class AlarmController extends Controller implements TimeyEventListener {
 
 					getGuiHelper().runInThread(new Task<Void>() {
 						public Void call() {
-							alarmTable.getSelectionModel().clearSelection(); // Auswahl aufheben
 							alarmTable.getItems().remove(alarm);
 							getGuiHelper().getFacade().removeAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
 

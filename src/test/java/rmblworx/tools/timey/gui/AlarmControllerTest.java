@@ -3,7 +3,7 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.argThat;
@@ -78,6 +78,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testDeleteAlarm() {
+		final GuiHelper guiHelper = getController().getGuiHelper();
+		final ThreadHelper threadHelper = guiHelper.getThreadHelper();
+
 		// zwei Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		final LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -105,8 +108,17 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertFalse(alarmDeleteButton.isDisabled());
 
 		// Alarm löschen
+		threadHelper.setTrackThreads(true);
 		click(alarmDeleteButton);
-		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+		try {
+			threadHelper.waitForThreads();
+		} catch (final InterruptedException e) {
+			fail(e.getLocalizedMessage());
+		}
+		FXTestUtils.awaitEvents();
+
+		// sicherstellen, dass Alarm gelöscht wurde
+		verify(guiHelper.getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
 			}
@@ -116,23 +128,17 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertTrue(tableData.contains(alarm1));
 		assertFalse(tableData.contains(alarm2));
 
-		// sicherstellen, dass kein anderer Alarm ausgewählt ist
-		assertNull(alarmTable.getSelectionModel().getSelectedItem());
-
-		// Zustand der Schaltflächen testen
-		assertTrue(alarmDeleteButton.isVisible());
-		assertTrue(alarmDeleteButton.isDisabled());
-
-		// ersten Alarm auswählen
-		Platform.runLater(new Runnable() {
-			public void run() {
-				alarmTable.getSelectionModel().select(alarm1);
-			}
-		});
-		FXTestUtils.awaitEvents();
+		// sicherstellen, dass erster Alarm ausgewählt ist
+		assertSame(alarm1, alarmTable.getSelectionModel().getSelectedItem());
 
 		// Alarm löschen
 		click(alarmDeleteButton);
+		try {
+			threadHelper.waitForThreads();
+		} catch (final InterruptedException e) {
+			fail(e.getLocalizedMessage());
+		}
+		FXTestUtils.awaitEvents();
 
 		// sicherstellen, dass keine Alarme mehr existieren
 		assertTrue(tableData.isEmpty());
