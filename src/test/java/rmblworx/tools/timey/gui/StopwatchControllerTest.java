@@ -3,7 +3,7 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import javafx.scene.Scene;
@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
 
+import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /*
@@ -65,6 +66,8 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchButtonStates() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
 		assertFalse(stopwatchStartButton.isDisabled());
@@ -80,7 +83,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Stoppuhr starten
 		click(stopwatchStartButton);
-		verify(getController().getGuiHelper().getFacade()).startStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).startStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(stopwatchStartButton.isVisible());
@@ -99,7 +102,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Zwischenzeit aktivieren
 		click(stopwatchSplitTimeButton);
-		verify(getController().getGuiHelper().getFacade()).toggleTimeModeInStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).toggleTimeModeInStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(stopwatchStartButton.isVisible());
@@ -118,7 +121,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Zwischenzeit deaktivieren
 		click(stopwatchSplitTimeButton);
-		verify(getController().getGuiHelper().getFacade(), times(2)).toggleTimeModeInStopwatch(); // zweiter Aufruf
+		verify(facade, timeout(WAIT_FOR_EVENT).times(2)).toggleTimeModeInStopwatch(); // zweiter Aufruf
 
 		// Zustand der Schaltflächen testen
 		assertFalse(stopwatchStartButton.isVisible());
@@ -137,7 +140,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Stoppuhr stoppen
 		click(stopwatchStopButton);
-		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).stopStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
@@ -156,7 +159,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Stoppuhr zurücksetzen
 		click(stopwatchResetButton);
-		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).resetStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStartButton.isVisible());
@@ -199,24 +202,28 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchStartStopTimeMeasured() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Stoppuhr starten
-		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
+		when(facade.startStopwatch()).thenReturn(new TimeDescriptor(50));
 		click(stopwatchStartButton);
 
 		// Stoppuhr stoppen
 		click(stopwatchStopButton);
 
 		// gemessene Zeit muss angezeigt sein
+		waitForThreads();
 		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
 
 		// Stoppuhr wieder starten, um zweite (additive) Messung zu berücksichtigen
-		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(200));
+		when(facade.startStopwatch()).thenReturn(new TimeDescriptor(200));
 		click(stopwatchStartButton);
 
 		// Stoppuhr wieder stoppen
 		click(stopwatchStopButton);
 
 		// gemessene Zeit muss angezeigt sein
+		waitForThreads();
 		assertEquals("00:00:00.200", stopwatchTimeLabel.getText());
 	}
 
@@ -225,15 +232,17 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchReset() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Stoppuhr zurücksetzen, ohne sie vorher gestartet zu haben
 		click(stopwatchResetButton);
-		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).resetStopwatch();
 
 		// angezeigte Zeit muss zurückgesetzt sein
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 
 		// Stoppuhr starten
-		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(9876));
+		when(facade.startStopwatch()).thenReturn(new TimeDescriptor(9876));
 		click(stopwatchStartButton);
 
 		// gemessene Zeit muss angezeigt sein
@@ -246,6 +255,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 		click(stopwatchResetButton);
 
 		// angezeigte Zeit muss zurückgesetzt sein
+		waitForThreads();
 		assertEquals("00:00:00.000", stopwatchTimeLabel.getText());
 	}
 
@@ -254,21 +264,23 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchResetWhileRunning() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Stoppuhr starten
-		when(getController().getGuiHelper().getFacade().startStopwatch()).thenReturn(new TimeDescriptor(50));
+		when(facade.startStopwatch()).thenReturn(new TimeDescriptor(50));
 		click(stopwatchStartButton);
-		verify(getController().getGuiHelper().getFacade()).startStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).startStopwatch();
 
 		// Stoppuhr zurücksetzen
 		click(stopwatchResetButton);
-		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).resetStopwatch();
 
 		// gemessene Zeit muss angezeigt sein
 		assertEquals("00:00:00.050", stopwatchTimeLabel.getText());
 
 		// Stoppuhr stoppen
 		click(stopwatchStopButton);
-		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).stopStopwatch();
 	}
 
 	/**
@@ -276,17 +288,19 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStopwatchResetWhileRunningWithSplitTime() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Stoppuhr starten
 		click(stopwatchStartButton);
-		verify(getController().getGuiHelper().getFacade()).startStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).startStopwatch();
 
 		// Zwischenzeit aktivieren
 		click(stopwatchSplitTimeButton);
-		verify(getController().getGuiHelper().getFacade()).toggleTimeModeInStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).toggleTimeModeInStopwatch();
 
 		// Stoppuhr zurücksetzen
 		click(stopwatchResetButton);
-		verify(getController().getGuiHelper().getFacade()).resetStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).resetStopwatch();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(stopwatchStopButton.isVisible());
@@ -301,7 +315,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 
 		// Stoppuhr stoppen
 		click(stopwatchStopButton);
-		verify(getController().getGuiHelper().getFacade()).stopStopwatch();
+		verify(facade, timeout(WAIT_FOR_EVENT)).stopStopwatch();
 	}
 
 }

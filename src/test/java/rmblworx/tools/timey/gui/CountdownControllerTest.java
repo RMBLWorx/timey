@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.utils.FXTestUtils;
 
+import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.gui.component.TimePicker;
 
 /*
@@ -64,6 +66,8 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testStartStopButtonStates() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
 		assertTrue(countdownStartButton.isDisabled());
@@ -85,7 +89,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 		// Countdown starten
 		click(countdownStartButton);
-		verify(getController().getGuiHelper().getFacade()).startCountdown();
+		verify(facade, timeout(WAIT_FOR_EVENT)).startCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertFalse(countdownStartButton.isVisible());
@@ -97,7 +101,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 		// Countdown stoppen
 		click(countdownStopButton);
-		verify(getController().getGuiHelper().getFacade()).stopCountdown();
+		verify(facade, timeout(WAIT_FOR_EVENT)).stopCountdown();
 
 		// Zustand der Schaltflächen testen
 		assertTrue(countdownStartButton.isVisible());
@@ -158,6 +162,8 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 	@Test
 	@Ignore("Betätigen einer fokussierten Schaltfläche per Enter-Taste mit JavaFX 8 nicht mehr möglich")
 	public final void testStartStopPerKeyboard() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// Sekunden-Feld fokussieren
 		click(scene.lookup("#secondsTextField"));
 
@@ -171,7 +177,7 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 		// bei Zeit = 0 darf sich Countdown nicht starten lassen
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade(), never()).startCountdown();
+		verify(facade, never()).startCountdown();
 
 		// Zeit setzen
 		Platform.runLater(new Runnable() {
@@ -183,11 +189,11 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 
 		// Countdown starten
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade()).startCountdown();
+		verify(facade).startCountdown();
 
 		// Countdown stoppen
 		type(KeyCode.ENTER);
-		verify(getController().getGuiHelper().getFacade()).stopCountdown();
+		verify(facade).stopCountdown();
 	}
 
 }

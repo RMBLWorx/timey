@@ -1,25 +1,10 @@
 package rmblworx.tools.timey.gui;
 
 import java.awt.TrayIcon;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import javax.swing.SwingUtilities;
-
 import rmblworx.tools.timey.ITimey;
 
 /*
@@ -38,6 +23,11 @@ public class GuiHelper {
 	private AudioPlayer audioPlayer = new AudioPlayer();
 
 	/**
+	 * Zeigt Hinweise an.
+	 */
+	private MessageHelper messageHelper = new MessageHelper();
+
+	/**
 	 * Erzeugt und startet Threads.
 	 */
 	private ThreadHelper threadHelper = new ThreadHelper();
@@ -52,13 +42,16 @@ public class GuiHelper {
 	 */
 	private TrayIcon trayIcon;
 
-	/**
-	 * Ob Hinweise unterdrückt werden sollen. Sinnvoll für Tests.
-	 */
-	private boolean suppressMessages = false;
-
 	public void setAudioPlayer(final AudioPlayer audioPlayer) {
 		this.audioPlayer = audioPlayer;
+	}
+
+	public final void setMessageHelper(final MessageHelper messageHelper) {
+		this.messageHelper = messageHelper;
+	}
+
+	public final MessageHelper getMessageHelper() {
+		return messageHelper;
 	}
 
 	public final void setThreadHelper(final ThreadHelper threadHelper) {
@@ -81,10 +74,6 @@ public class GuiHelper {
 		this.trayIcon = trayIcon;
 	}
 
-	public final void setSuppressMessages(final boolean suppress) {
-		suppressMessages = suppress;
-	}
-
 	/**
 	 * @param locale Sprache
 	 * @return ResourceBundle für die jeweilige Sprache
@@ -100,11 +89,7 @@ public class GuiHelper {
 	 * @param i18n ResourceBundle
 	 */
 	public final void showTrayMessageWithFallbackToDialog(final String caption, final String text, final ResourceBundle i18n) {
-		if (trayIcon != null) {
-			showTrayMessage(caption, text);
-		} else {
-			showDialogMessage(caption, text, i18n);
-		}
+		messageHelper.showTrayMessageWithFallbackToDialog(caption, text, trayIcon, i18n);
 	}
 
 	/**
@@ -113,15 +98,7 @@ public class GuiHelper {
 	 * @param text Text
 	 */
 	public final void showTrayMessage(final String caption, final String text) {
-		if (trayIcon == null) {
-			throw new RuntimeException("There's no system tray icon.");
-		}
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				trayIcon.displayMessage(caption, text, TrayIcon.MessageType.INFO);
-			}
-		});
+		messageHelper.showTrayMessage(caption, text, trayIcon);
 	}
 
 	/**
@@ -130,37 +107,8 @@ public class GuiHelper {
 	 * @param text Text
 	 * @param i18n ResourceBundle
 	 */
-	public void showDialogMessage(final String title, final String text, final ResourceBundle i18n) {
-		if (suppressMessages) {
-			return;
-		}
-
-		Platform.runLater(new Runnable() {
-			public void run() {
-				try {
-					final Stage stage = new Stage(StageStyle.UTILITY);
-					final Parent root = FXMLLoader.load(getClass().getResource("MessageDialog.fxml"), i18n);
-
-					final Label message = (Label) root.lookup("#message");
-					message.setText(text);
-
-					final Button okButton = (Button) root.lookup("#okButton");
-					okButton.setOnAction(new EventHandler<ActionEvent>() {
-						public void handle(final ActionEvent event) {
-							stage.close();
-						}
-					});
-
-					stage.setScene(new Scene(root));
-					stage.setTitle(title);
-					stage.setResizable(false);
-					stage.initModality(Modality.APPLICATION_MODAL);
-					stage.showAndWait();
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public final void showDialogMessage(final String title, final String text, final ResourceBundle i18n) {
+		messageHelper.showDialogMessage(title, text, i18n);
 	}
 
 	/**
@@ -176,7 +124,7 @@ public class GuiHelper {
 
 		audioPlayer.playInThread(threadHelper, path, new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(final Thread thread, final Throwable exception) {
-				showDialogMessage(i18n.getString("messageDialog.error.title"),
+				messageHelper.showDialogMessage(i18n.getString("messageDialog.error.title"),
 						String.format(i18n.getString("sound.play.error"), exception.getLocalizedMessage()), i18n);
 			}
 		});
@@ -190,7 +138,7 @@ public class GuiHelper {
 	public final void runInThread(final Task<Void> task, final ResourceBundle i18n) {
 		threadHelper.run(task, new Thread.UncaughtExceptionHandler() {
 			public void uncaughtException(final Thread thread, final Throwable exception) {
-				showDialogMessage(i18n.getString("messageDialog.error.title"), exception.getLocalizedMessage(), i18n);
+				messageHelper.showDialogMessage(i18n.getString("messageDialog.error.title"), exception.getLocalizedMessage(), i18n);
 			}
 		});
 	}
