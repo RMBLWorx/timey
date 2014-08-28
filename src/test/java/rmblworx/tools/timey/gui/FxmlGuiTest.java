@@ -1,5 +1,6 @@
 package rmblworx.tools.timey.gui;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
@@ -7,6 +8,9 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+
+import org.loadui.testfx.utils.FXTestUtils;
+
 import rmblworx.tools.timey.ITimey;
 
 /*
@@ -18,6 +22,11 @@ import rmblworx.tools.timey.ITimey;
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public abstract class FxmlGuiTest extends JavaFxGuiTest {
+
+	/**
+	 * Max. Zeit (in ms), die auf das Eintreten eines Ereignisses gewartet werden soll.
+	 */
+	protected static final int WAIT_FOR_EVENT = 5000;
 
 	/**
 	 * Mit der GUI verbundener Controller.
@@ -36,6 +45,7 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 	protected final Parent getRootNode() {
 		final GuiHelper guiHelper = new GuiHelper();
 		guiHelper.setFacade(mock(ITimey.class)); // Fassade für Tests mocken
+		guiHelper.getThreadHelper().setTrackThreads(true); // Threads für Tests erfassen
 		final ResourceBundle i18n = guiHelper.getResourceBundle(TEST_LOCALE);
 		try {
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(getFxmlFilename()), i18n);
@@ -68,6 +78,20 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 	 */
 	protected final Object getComponentWithFxmlFields() {
 		return controller;
+	}
+
+	/**
+	 * Wartet auf Beendigung aller erfassten Threads. Im Fall einer Exception schlägt der Test fehl.
+	 */
+	protected final void waitForThreads() {
+		try {
+			controller.getGuiHelper().getThreadHelper().waitForThreads();
+		} catch (final InterruptedException e) {
+			fail(e.getLocalizedMessage());
+		}
+
+		// zusätzlich auf Abarbeitung aller JavaFX-Ereignisse warten, die evtl. durch die Threads ausgelöst wurden
+		FXTestUtils.awaitEvents();
 	}
 
 }

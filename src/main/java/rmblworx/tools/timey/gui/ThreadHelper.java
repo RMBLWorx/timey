@@ -3,8 +3,6 @@ package rmblworx.tools.timey.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.concurrent.Task;
-
 /*
  * Copyright 2014 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
@@ -46,6 +44,10 @@ public class ThreadHelper {
 		trackThreads = enabled;
 	}
 
+	/**
+	 * Wartet auf Beendigung aller erfassten Threads.
+	 * @throws InterruptedException Fehler beim Warten auf einen Thread.
+	 */
 	public final void waitForThreads() throws InterruptedException {
 		for (int i = runningThreads.size() - 1; i >= 0; --i) {
 			runningThreads.get(i).join();

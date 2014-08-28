@@ -3,7 +3,7 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.argThat;
@@ -106,6 +106,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 
 		// Alarm löschen
 		click(alarmDeleteButton);
+		waitForThreads();
+
+		// sicherstellen, dass Alarm gelöscht wurde
 		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
@@ -116,23 +119,12 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertTrue(tableData.contains(alarm1));
 		assertFalse(tableData.contains(alarm2));
 
-		// sicherstellen, dass kein anderer Alarm ausgewählt ist
-		assertNull(alarmTable.getSelectionModel().getSelectedItem());
-
-		// Zustand der Schaltflächen testen
-		assertTrue(alarmDeleteButton.isVisible());
-		assertTrue(alarmDeleteButton.isDisabled());
-
-		// ersten Alarm auswählen
-		Platform.runLater(new Runnable() {
-			public void run() {
-				alarmTable.getSelectionModel().select(alarm1);
-			}
-		});
-		FXTestUtils.awaitEvents();
+		// sicherstellen, dass erster Alarm ausgewählt ist
+		assertSame(alarm1, alarmTable.getSelectionModel().getSelectedItem());
 
 		// Alarm löschen
 		click(alarmDeleteButton);
+		waitForThreads();
 
 		// sicherstellen, dass keine Alarme mehr existieren
 		assertTrue(tableData.isEmpty());
@@ -205,12 +197,14 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 
 		// Bearbeiten-Dialog öffnen
 		click(alarmEditButton);
+		waitForThreads();
 
 		final Scene dialogScene = ((AlarmController) getController()).getDialogStage().getScene();
 
 		// Alarm deaktivieren
 		final CheckBox alarmEnabledCheckbox = (CheckBox) dialogScene.lookup("#alarmEnabledCheckbox");
 		click(alarmEnabledCheckbox);
+		waitForThreads();
 
 		final TextField hoursTextField = (TextField) dialogScene.lookup("#hoursTextField");
 		/*
@@ -230,6 +224,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 
 		final Button alarmSaveButton = (Button) dialogScene.lookup("#alarmSaveButton");
 		click(alarmSaveButton);
+		waitForThreads();
 
 		// sicherstellen, dass Alarm geändert wurde
 		assertFalse(alarm.isEnabled());
@@ -319,7 +314,6 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		final AlarmController controller = (AlarmController) getController();
 		final GuiHelper guiHelper = controller.getGuiHelper();
 		final ITimey facade = guiHelper.getFacade();
-		final ThreadHelper threadHelper = guiHelper.getThreadHelper();
 
 		// Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
@@ -354,15 +348,9 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		when(facade.getAllAlarms()).thenReturn(newAlarms);
 
 		// Ereignis auslösen
-		guiHelper.setSuppressMessages(true);
-		threadHelper.setTrackThreads(true);
+		guiHelper.getMessageHelper().setSuppressMessages(true);
 		controller.handleEvent(new AlarmExpiredEvent(AlarmDescriptorConverter.getAsAlarmDescriptor(selectedAlarm)));
-		try {
-			threadHelper.waitForThreads();
-		} catch (final InterruptedException e) {
-			fail(e.getLocalizedMessage());
-		}
-		FXTestUtils.awaitEvents();
+		waitForThreads();
 
 		verify(facade, atLeastOnce()).getAllAlarms();
 

@@ -121,6 +121,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// deaktivieren
 		click(alarmEnabledCheckbox);
+		waitForThreads();
 
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -142,6 +143,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// Speichern-Schaltfläche betätigen
 		click(alarmSaveButton);
+		waitForThreads();
 
 		// TODO auf Schließen des Dialogs warten
 
@@ -180,14 +182,15 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		});
 		FXTestUtils.awaitEvents();
 
-		final GuiHelper guiHelper = mock(GuiHelper.class);
-		controller.setGuiHelper(guiHelper);
+		final MessageHelper messageHelper = mock(MessageHelper.class);
+		controller.getGuiHelper().setMessageHelper(messageHelper);
 
 		// Speichern-Schaltfläche betätigen
 		click(alarmSaveButton);
+		waitForThreads();
 
 		// sicherstellen, dass Fehlermeldung erscheint
-		verify(guiHelper).showDialogMessage(anyString(), eq("Ein Datum muss angegeben werden.\n"), isA(ResourceBundle.class));
+		verify(messageHelper).showDialogMessage(anyString(), eq("Ein Datum muss angegeben werden.\n"), isA(ResourceBundle.class));
 	}
 
 	/**
@@ -239,14 +242,15 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 			controller.setAlarm(testCase.alarm);
 			FXTestUtils.awaitEvents();
 
-			final GuiHelper guiHelper = mock(GuiHelper.class);
-			controller.setGuiHelper(guiHelper);
+			final MessageHelper messageHelper = mock(MessageHelper.class);
+			controller.getGuiHelper().setMessageHelper(messageHelper);
 
 			// Speichern-Schaltfläche betätigen
 			click(alarmSaveButton);
+			waitForThreads();
 
 			// sicherstellen, dass Fehlermeldung erscheint bzw. nicht
-			verify(guiHelper, times(testCase.numberOfCalls)).showDialogMessage(anyString(),
+			verify(messageHelper, times(testCase.numberOfCalls)).showDialogMessage(anyString(),
 					testCase.errorMessage == null ? anyString() : eq(testCase.errorMessage), isA(ResourceBundle.class));
 		}
 	}
@@ -272,6 +276,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// deaktivieren
 		click(alarmEnabledCheckbox);
+		waitForThreads();
 
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -293,6 +298,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 
 		// Abbrechen-Schaltfläche betätigen
 		click(alarmCancelButton);
+		waitForThreads();
 
 		// TODO auf Schließen des Dialogs warten
 
@@ -333,10 +339,12 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		final AudioPlayer player = mock(AudioPlayer.class);
 		controller.getGuiHelper().setAudioPlayer(player);
 		click(alarmPlaySoundButton);
+		waitForThreads();
 		verify(player).playInThread(isA(ThreadHelper.class), eq("Sound"), isA(Thread.UncaughtExceptionHandler.class));
 
 		// Sound-Löschen-Schaltfläche betätigen
 		click(alarmNoSoundButton);
+		waitForThreads();
 
 		assertEquals("kein Klingelton gewählt", alarmSelectSoundButton.getText());
 	}
