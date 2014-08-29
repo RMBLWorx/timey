@@ -21,7 +21,7 @@ public class CountdownClientTest {
 	/**
 	 * Text für die Meldung eines unerwarteten Ergebnisses.
 	 */
-	private static final String UNEXPECTED_RETURN_VALUE = "Es wurde ein falscher Rückgabewert geliefert!";
+	private static final String TEXT_UNERWARTETER_RUECKGABEWERT = "Es wurde ein falscher Rückgabewert geliefert!";
 
 	/**
 	 * Zu testende Implementierung.
@@ -78,7 +78,7 @@ public class CountdownClientTest {
 	public final void testInitCountdownStartCommand() {
 		final TimeDescriptor actual = this.countdownClient.initCountdownStartCommand();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class CountdownClientTest {
 	public final void testInitCountdownStopCommand() {
 		final Boolean actual = this.countdownClient.initCountdownStopCommand();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class CountdownClientTest {
 	public final void testInitSetCountdownTimeCommand() {
 		final Boolean actual = this.countdownClient.initSetCountdownTimeCommand(this.timeDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 }

@@ -1,13 +1,12 @@
 package rmblworx.tools.timey;
 
-
 /*
  * Copyright 2014 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
  * Helferklasse mit häufig benötigten Funktionen.
- * 
+ *
  * @author mmatthies
  */
 public final class TimeyUtils {
@@ -31,7 +30,7 @@ public final class TimeyUtils {
 
 	/**
 	 * Liefert den Namen des Betriebsystems.
-	 * 
+	 *
 	 * @return Namenkuerzel des OS.
 	 */
 	public static String getOsName() {
@@ -67,7 +66,8 @@ public final class TimeyUtils {
 	 * @return true wenn {@code null} referenziert wird.
 	 */
 	public static boolean isNull(final String string) {
-		return string == null;
+		final boolean result = string == null;
+		return result;
 	}
 
 	/**

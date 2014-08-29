@@ -21,7 +21,7 @@ public class StopwatchClientTest {
 	/**
 	 * Text für die Meldung eines unerwarteten Ergebnisses.
 	 */
-	private static final String UNEXPECTED_RETURN_VALUE = "Es wurde ein falscher Rückgabewert geliefert!";
+	private static final String TEXT_UNERWARTETER_RUECKGABEWERT = "Es wurde ein falscher Rückgabewert geliefert!";
 	/**
 	 * Mock der Empfängerimplementierung.
 	 */
@@ -78,7 +78,7 @@ public class StopwatchClientTest {
 	public final void testInitStopwatchResetCommand() {
 		final Boolean actual = this.stopwatchClient.initStopwatchResetCommand();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class StopwatchClientTest {
 	public final void testInitStopwatchStartCommand() {
 		final TimeDescriptor actual = this.stopwatchClient.initStopwatchStartCommand();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class StopwatchClientTest {
 	public final void testInitStopwatchStopCommand() {
 		final Boolean actual = this.stopwatchClient.initStopwatchStopCommand();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -108,6 +108,6 @@ public class StopwatchClientTest {
 	public final void testInitStopwatchToggleTimeModeCommand() {
 		final Boolean actual = this.stopwatchClient.initStopwatchToggleTimeModeCommand();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 }

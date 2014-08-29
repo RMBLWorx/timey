@@ -24,7 +24,7 @@ public class AlarmClientTest {
 	/**
 	 * Text für die Meldung eines unerwarteten Ergebnisses.
 	 */
-	private static final String UNEXPECTED_RETURN_VALUE = "Es wurde ein falscher Rückgabewert geliefert!";
+	private static final String TEXT_UNERWARTETER_RUECKGABEWERT = "Es wurde ein falscher Rückgabewert geliefert!";
 	/**
 	 * Zu testende Implementierung.
 	 */
@@ -87,7 +87,7 @@ public class AlarmClientTest {
 	public final void testInitAlarmDeleteAlarm() {
 		final Boolean actual = this.alarmClient.initAlarmDeleteAlarm(this.alarmDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class AlarmClientTest {
 	public final void testInitAlarmGetStateOfAlarmCommand() {
 		final Boolean actual = this.alarmClient.initAlarmGetStateOfAlarmCommand(this.alarmDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class AlarmClientTest {
 	public final void testInitAlarmSetStateOfAlarmCommand() {
 		final Boolean actual = this.alarmClient.initAlarmSetStateOfAlarmCommand(this.alarmDescriptor, Boolean.TRUE);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class AlarmClientTest {
 	public final void testInitGetAllAlarms() {
 		final List<AlarmDescriptor> actual = this.alarmClient.initGetAllAlarms();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -127,6 +127,6 @@ public class AlarmClientTest {
 	public final void testInitSetAlarmCommand() {
 		final Boolean actual = this.alarmClient.initSetAlarmCommand(this.alarmDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 }

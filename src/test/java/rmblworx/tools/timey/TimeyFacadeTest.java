@@ -37,7 +37,7 @@ public class TimeyFacadeTest {
 	/**
 	 * Text für die Meldung eines unerwarteten Ergebnisses.
 	 */
-	private static final String UNEXPECTED_RETURN_VALUE = "Es wurde ein falscher Rückgabewert geliefert!";
+	private static final String TEXT_UNERWARTETER_RUECKGABEWERT = "Es wurde ein falscher Rückgabewert geliefert!";
 
 	/**
 	 * @throws java.lang.Exception
@@ -187,7 +187,7 @@ public class TimeyFacadeTest {
 	public final void testAddEventListener() {
 		final Boolean actual = this.facade.addEventListener(this.timeyEventListener);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class TimeyFacadeTest {
 	public final void testGetAllAlarms() {
 		final List<AlarmDescriptor> actual = this.facade.getAllAlarms();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -207,7 +207,7 @@ public class TimeyFacadeTest {
 	public final void testGetVersion() {
 		final String actual = this.facade.getVersion();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class TimeyFacadeTest {
 	public final void testIsAlarmActivated() {
 		final Boolean actual = this.facade.isAlarmActivated(this.alarmDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class TimeyFacadeTest {
 	public final void testRemoveAlarm() {
 		final Boolean actual = this.facade.removeAlarm(this.alarmDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -237,7 +237,7 @@ public class TimeyFacadeTest {
 	public final void testResetStopwatch() {
 		final Boolean actual = this.facade.resetStopwatch();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 
 	}
 
@@ -248,7 +248,7 @@ public class TimeyFacadeTest {
 	public final void testSetAlarm() {
 		final Boolean actual = this.facade.setAlarm(this.alarmDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class TimeyFacadeTest {
 	public final void testSetCountdownTime() {
 		final Boolean actual = this.facade.setCountdownTime(this.timeDescriptor);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class TimeyFacadeTest {
 	public final void testSetStateOfAlarm() {
 		final Boolean actual = this.facade.setStateOfAlarm(this.alarmDescriptor, Boolean.TRUE);
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class TimeyFacadeTest {
 	public final void testStartCountdown() {
 		final TimeDescriptor actual = this.facade.startCountdown();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class TimeyFacadeTest {
 	public final void testStartStopwatch() {
 		final TimeDescriptor actual = this.facade.startStopwatch();
 
-		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+		assertNotNull(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class TimeyFacadeTest {
 	public final void testStopCountdown() {
 		final Boolean actual = this.facade.stopCountdown();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -308,7 +308,7 @@ public class TimeyFacadeTest {
 	public final void testStopStopwatch() {
 		final Boolean actual = this.facade.stopStopwatch();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 
 	/**
@@ -318,6 +318,6 @@ public class TimeyFacadeTest {
 	public final void testToggleTimeModeInStopwatch() {
 		final Boolean actual = this.facade.toggleTimeModeInStopwatch();
 
-		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
 	}
 }
