@@ -81,7 +81,7 @@ public class AlarmClientTest {
 	}
 
 	/**
-	 * Test method for {@link AlarmClient#initAlarmDeleteAlarm(vo.AlarmDescriptor)}.
+	 * Test method for {@link AlarmClient#initAlarmDeleteAlarm(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testInitAlarmDeleteAlarm() {
@@ -91,7 +91,7 @@ public class AlarmClientTest {
 	}
 
 	/**
-	 * Test method for {@link AlarmClient#initAlarmGetStateOfAlarmCommand(vo.AlarmDescriptor)}.
+	 * Test method for {@link AlarmClient#initAlarmGetStateOfAlarmCommand(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testInitAlarmGetStateOfAlarmCommand() {
@@ -101,7 +101,7 @@ public class AlarmClientTest {
 	}
 
 	/**
-	 * Test method for {@link AlarmClient#initAlarmSetStateOfAlarmCommand(vo.AlarmDescriptor, java.lang.Boolean)}.
+	 * Test method for {@link AlarmClient#initAlarmSetStateOfAlarmCommand(AlarmDescriptor, java.lang.Boolean)}.
 	 */
 	@Test
 	public final void testInitAlarmSetStateOfAlarmCommand() {
@@ -121,7 +121,7 @@ public class AlarmClientTest {
 	}
 
 	/**
-	 * Test method for {@link AlarmClient#initSetAlarmCommand(vo.AlarmDescriptor)}.
+	 * Test method for {@link AlarmClient#initSetAlarmCommand(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testInitSetAlarmCommand() {
