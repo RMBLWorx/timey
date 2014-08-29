@@ -25,8 +25,9 @@ public class TimeyEventDispatcher {
 	 * @param timeyEventListener
 	 *            Referenz auf die Listener-Implementierung
 	 */
-	public synchronized void addEventListener(final TimeyEventListener timeyEventListener) {
+	public synchronized Boolean addEventListener(final TimeyEventListener timeyEventListener) {
 		this.listener.add(timeyEventListener);
+		return Boolean.TRUE;
 	}
 
 	/**

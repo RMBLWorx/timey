@@ -30,7 +30,7 @@ class ApplicationProperties {
 	/**
 	 * @return Versionskennung
 	 */
-	public final String getVersion() {
+	public String getVersion() {
 		InputStream inputStream = null;
 		try {
 			inputStream = new ClassPathResource(PROPERTY_FILENAME).getInputStream();
