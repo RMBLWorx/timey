@@ -35,6 +35,14 @@ public class AlarmDescriptorConverterTest {
 	}
 
 	/**
+	 * Testet {@link AlarmDescriptorConverter#getAsAlarm(AlarmDescriptor)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testGetAsAlarmWithNullArgument() {
+		AlarmDescriptorConverter.getAsAlarm(null);
+	}
+
+	/**
 	 * Testet {@link AlarmDescriptorConverter#getAsAlarmDescriptor(Alarm)}.
 	 */
 	@Test
@@ -47,6 +55,14 @@ public class AlarmDescriptorConverterTest {
 		assertEquals("alarm", ad.getDescription());
 		assertEquals("/path/to/sound", ad.getSound().toString());
 		assertFalse(ad.getIsActive());
+	}
+
+	/**
+	 * Testet {@link AlarmDescriptorConverter#getAsAlarmDescriptor(Alarm)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public final void testGetAsAlarmDescriptorWithNullArgument() {
+		AlarmDescriptorConverter.getAsAlarmDescriptor(null);
 	}
 
 }

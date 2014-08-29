@@ -3,9 +3,17 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.isNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
+
+import java.awt.TrayIcon;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +28,8 @@ import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.utils.FXTestUtils;
 
 import rmblworx.tools.timey.ITimey;
+import rmblworx.tools.timey.event.CountdownExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
 import rmblworx.tools.timey.gui.component.TimePicker;
 
 /*
@@ -199,6 +209,44 @@ public class CountdownControllerTest extends FxmlGuiControllerTest {
 		// Countdown stoppen
 		type(KeyCode.ENTER);
 		verify(facade).stopCountdown();
+	}
+
+	/**
+	 * Testet die Verarbeitung eines Ereignisses.
+	 */
+	@Test
+	public final void testHandleEvent() {
+		final CountdownController controller = (CountdownController) getController();
+
+		final MessageHelper messageHelper = mock(MessageHelper.class);
+		controller.getGuiHelper().setMessageHelper(messageHelper);
+
+		// Ereignis auslösen
+		controller.handleEvent(new CountdownExpiredEvent());
+		waitForThreads();
+
+		// sicherstellen, dass Ereignis verarbeitet wird
+		verify(messageHelper).showTrayMessageWithFallbackToDialog(anyString(), anyString(), isNull(TrayIcon.class),
+				isA(ResourceBundle.class));
+	}
+
+	/**
+	 * Testet die Verarbeitung eines unwichtigen Ereignisses.
+	 */
+	@Test
+	public final void testIgnoreEvent() {
+		final CountdownController controller = (CountdownController) getController();
+
+		final MessageHelper messageHelper = mock(MessageHelper.class);
+		controller.getGuiHelper().setMessageHelper(messageHelper);
+
+		// unwichtiges Ereignis auslösen
+		controller.handleEvent(mock(TimeyEvent.class));
+		waitForThreads();
+
+		// sicherstellen, dass Ereignis ignoriert wird
+		verify(messageHelper, never()).showTrayMessageWithFallbackToDialog(anyString(), anyString(), isNull(TrayIcon.class),
+				isA(ResourceBundle.class));
 	}
 
 }

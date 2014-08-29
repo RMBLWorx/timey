@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Speichern/Laden der Konfiguration auf Basis einer Datei.
+ * Speichern/Laden der GUI-Konfiguration auf Basis einer Datei.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class FileConfigStorage extends ConfigStorage {

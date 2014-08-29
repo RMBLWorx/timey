@@ -12,7 +12,7 @@ import java.util.Properties;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Speichern/Laden der Konfiguration.
+ * Speichern/Laden der GUI-Konfiguration.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class ConfigStorage {

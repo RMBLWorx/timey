@@ -18,6 +18,10 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 public final class AlarmDescriptorConverter {
 
 	public static Alarm getAsAlarm(final AlarmDescriptor ad) {
+		if (ad == null) {
+			throw new IllegalArgumentException("null");
+		}
+
 		final LocalDateTime dateTime = DateTimeUtil.getLocalDateTimeFromMillis(ad.getAlarmtime().getMilliSeconds());
 		final String sound = ad.getSound();
 
@@ -25,6 +29,10 @@ public final class AlarmDescriptorConverter {
 	}
 
 	public static AlarmDescriptor getAsAlarmDescriptor(final Alarm alarm) {
+		if (alarm == null) {
+			throw new IllegalArgumentException("null");
+		}
+
 		final TimeDescriptor time = new TimeDescriptor(alarm.getDateTimeInMillis());
 		final String sound = alarm.getSound();
 

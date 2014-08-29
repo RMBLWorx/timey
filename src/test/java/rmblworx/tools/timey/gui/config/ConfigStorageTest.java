@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -21,7 +22,7 @@ import org.junit.Test;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Test fürs Speichern/Laden der GUI-Konfiguration.
+ * Tests fürs Speichern/Laden der GUI-Konfiguration.
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class ConfigStorageTest {
@@ -53,6 +54,34 @@ public class ConfigStorageTest {
 	}
 
 	/**
+	 * Testet das Laden einer Konfiguration.
+	 * @throws IOException
+	 */
+	@Test
+	public final void testLoadConfig() throws IOException {
+		// Werte festlegen, die von Standardkonfiguration abweichen
+		final Config expectedConfig = ConfigManager.getNewDefaultConfig();
+		expectedConfig.setLocale(expectedConfig.getDefaultLocale() == Locale.ENGLISH ? Locale.GERMAN : Locale.ENGLISH);
+		expectedConfig.setMinimizeToTray(!expectedConfig.isMinimizeToTray());
+		expectedConfig.setStopwatchShowMilliseconds(!expectedConfig.isStopwatchShowMilliseconds());
+		expectedConfig.setActiveTab(expectedConfig.getActiveTab() + 1);
+
+		// Konfiguration speichern
+		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			new ConfigStorage().getConfigAsProperties(expectedConfig).storeToXML(outputStream, null);
+		} catch (final IOException e) {
+			fail(e.getLocalizedMessage());
+		}
+
+		// gespeicherte Konfiguration laden
+		final Config actualConfig = new ConfigStorage().loadConfig(redirectOutputToInput(outputStream));
+
+		// sicherstellen, dass geladene Konfiguration der erwarteten Konfiguration entspricht
+		assertEquals(getConfigAsString(expectedConfig), getConfigAsString(actualConfig));
+	}
+
+	/**
 	 * Testet das Laden einer leeren Konfiguration und Befüllung mit Standardwerten.
 	 * @throws IOException
 	 */
@@ -74,12 +103,12 @@ public class ConfigStorageTest {
 	}
 
 	/**
-	 * Testet das Laden einer Konfiguration mit ungültige Werten.
+	 * Testet das Laden einer Konfiguration mit ungültigen Werten.
 	 * @throws IOException
 	 */
 	@Test
-	public final void testConfigWithInvalidValues() throws IOException {
-		// ungültige Werte festlegen
+	public final void testLoadConfigWithInvalidValues() throws IOException {
+		// Werte festlegen
 		final Properties props = new Properties();
 		final String invalidValue = "blabla";
 		props.put(ConfigStorage.PROP_LOCALE, invalidValue);
@@ -112,8 +141,8 @@ public class ConfigStorageTest {
 	 * @throws IOException
 	 */
 	@Test
-	public final void testInvalidConfig() throws IOException {
-		// Konfiguration speichern
+	public final void testLoadInvalidConfig() throws IOException {
+		// ungültige Konfiguration speichern
 		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			outputStream.write("kein gültiges XML-Dokument".getBytes("UTF-8"));
@@ -126,6 +155,24 @@ public class ConfigStorageTest {
 
 		// sicherstellen, dass geladene Konfiguration der Standardkonfiguration entspricht
 		assertEquals(getConfigAsString(ConfigManager.getNewDefaultConfig()), getConfigAsString(emptyConfig));
+	}
+
+	/**
+	 * Testet das Werfen einer {@link IOException} beim Laden einer ungültigen Konfiguration.
+	 * @throws IOException
+	 */
+	@Test(expected = IOException.class)
+	public final void testLoadInvalidConfigThrowException() throws IOException {
+		// ungültige Konfiguration speichern
+		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			outputStream.write("kein gültiges XML-Dokument".getBytes("UTF-8"));
+		} catch (final IOException e) {
+			fail(e.getLocalizedMessage());
+		}
+
+		// versuchen, gespeicherte Konfiguration zu laden
+		new ConfigStorage().loadConfig(redirectOutputToInput(outputStream));
 	}
 
 	/**

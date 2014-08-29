@@ -3,7 +3,6 @@ package rmblworx.tools.timey.gui;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -230,10 +229,7 @@ public class AlarmEditDialogController extends Controller {
 	 * @return kombinierter Zeitstempel aus DatePicker und TimePicker
 	 */
 	private LocalDateTime getDateTimeFromPickers() {
-		final LocalDate date = alarmDatePicker.getValue();
-		final LocalTime time = alarmTimePicker.getValue();
-
-		return LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute(), time.getSecond());
+		return LocalDateTime.of(alarmDatePicker.getValue(), alarmTimePicker.getValue());
 	}
 
 	/**
