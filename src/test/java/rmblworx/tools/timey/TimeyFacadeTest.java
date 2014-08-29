@@ -34,6 +34,9 @@ public class TimeyFacadeTest {
 	 * Wert der vom Mock-Objekt erwarteten Version.
 	 */
 	private static final String EXPECTED_VERSION = "x.xx.x";
+	/**
+	 * Text für die Meldung eines unerwarteten Ergebnisses.
+	 */
 	private static final String UNEXPECTED_RETURN_VALUE = "Es wurde ein falscher Rückgabewert geliefert!";
 
 	/**

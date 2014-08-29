@@ -1,0 +1,132 @@
+package rmblworx.tools.timey;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import rmblworx.tools.timey.vo.AlarmDescriptor;
+
+/**
+ * Tests für den AlarmClient.
+ *
+ * @author mmatthies
+ */
+public class AlarmClientTest {
+	/**
+	 * Text für die Meldung eines unerwarteten Ergebnisses.
+	 */
+	private static final String UNEXPECTED_RETURN_VALUE = "Es wurde ein falscher Rückgabewert geliefert!";
+	/**
+	 * Zu testende Implementierung.
+	 */
+	private AlarmClient alarmClient;
+
+	/**
+	 * Mock des AlarmDescriptor.
+	 */
+	@Mock
+	private AlarmDescriptor alarmDescriptor;
+
+	/**
+	 * Liste mit gemockten Alarmen.
+	 */
+	private List<AlarmDescriptor> alarms;
+	/**
+	 * Mock der Empfängerimplementierung.
+	 */
+	@Mock
+	private IAlarm receiver;
+
+	/**
+	 * @throws java.lang.Exception
+	 *             wenn eine Ausnahme auftritt.
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		this.alarms = Arrays.asList(this.alarmDescriptor, this.alarmDescriptor);
+		this.setupMockedReceiver();
+		this.alarmClient = new AlarmClient(this.receiver);
+	}
+
+	/**
+	 * Setup-Methode für das zu mockende Empfängerobjekt.
+	 */
+	private void setupMockedReceiver() {
+		when(this.receiver.getAllAlarms()).thenReturn(this.alarms);
+		when(this.receiver.isAlarmActivated(this.alarmDescriptor)).thenReturn(Boolean.TRUE);
+		when(this.receiver.removeAlarm(this.alarmDescriptor)).thenReturn(Boolean.TRUE);
+		when(this.receiver.setAlarm(this.alarmDescriptor)).thenReturn(Boolean.TRUE);
+		when(this.receiver.setStateOfAlarm(this.alarmDescriptor, Boolean.TRUE)).thenReturn(Boolean.TRUE);
+	}
+
+	/**
+	 * @throws java.lang.Exception
+	 *             wenn eine Ausnahme auftritt.
+	 */
+	@After
+	public final void tearDown() throws Exception {
+		this.receiver = null;
+		this.alarmDescriptor = null;
+		this.alarms = null;
+	}
+
+	/**
+	 * Test method for {@link AlarmClient#initAlarmDeleteAlarm(vo.AlarmDescriptor)}.
+	 */
+	@Test
+	public final void testInitAlarmDeleteAlarm() {
+		final Boolean actual = this.alarmClient.initAlarmDeleteAlarm(this.alarmDescriptor);
+
+		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+	}
+
+	/**
+	 * Test method for {@link AlarmClient#initAlarmGetStateOfAlarmCommand(vo.AlarmDescriptor)}.
+	 */
+	@Test
+	public final void testInitAlarmGetStateOfAlarmCommand() {
+		final Boolean actual = this.alarmClient.initAlarmGetStateOfAlarmCommand(this.alarmDescriptor);
+
+		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+	}
+
+	/**
+	 * Test method for {@link AlarmClient#initAlarmSetStateOfAlarmCommand(vo.AlarmDescriptor, java.lang.Boolean)}.
+	 */
+	@Test
+	public final void testInitAlarmSetStateOfAlarmCommand() {
+		final Boolean actual = this.alarmClient.initAlarmSetStateOfAlarmCommand(this.alarmDescriptor, Boolean.TRUE);
+
+		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+	}
+
+	/**
+	 * Test method for {@link AlarmClient#initGetAllAlarms()}.
+	 */
+	@Test
+	public final void testInitGetAllAlarms() {
+		final List<AlarmDescriptor> actual = this.alarmClient.initGetAllAlarms();
+
+		assertNotNull(UNEXPECTED_RETURN_VALUE, actual);
+	}
+
+	/**
+	 * Test method for {@link AlarmClient#initSetAlarmCommand(vo.AlarmDescriptor)}.
+	 */
+	@Test
+	public final void testInitSetAlarmCommand() {
+		final Boolean actual = this.alarmClient.initSetAlarmCommand(this.alarmDescriptor);
+
+		assertTrue(UNEXPECTED_RETURN_VALUE, actual);
+	}
+}
