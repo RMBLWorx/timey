@@ -10,7 +10,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
-import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 
 /*
@@ -40,9 +39,9 @@ public abstract class JavaFxGuiTest extends GuiTest {
 
 	/**
 	 * Testet die Verfügbarkeit aller per FXML initialisierten Felder.
+	 * Muss explizit durch einen Test in ableitender Klasse aufgerufen werden, um in Integrationstests nicht erneut ausgeführt zu werden.
 	 * @throws IllegalAccessException Fehler bei Zugriff auf das Feld.
 	 */
-	@Test
 	@SuppressWarnings("unchecked")
 	public final void testFxmlInitializedFields() throws IllegalAccessException {
 		final Object object = getComponentWithFxmlFields();

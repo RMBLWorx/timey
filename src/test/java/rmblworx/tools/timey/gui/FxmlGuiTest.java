@@ -44,7 +44,7 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 	 */
 	protected final Parent getRootNode() {
 		final GuiHelper guiHelper = new GuiHelper();
-		guiHelper.setFacade(mock(ITimey.class)); // Fassade für Tests mocken
+		guiHelper.setFacade(setUpFacade());
 		guiHelper.getThreadHelper().setTrackThreads(true); // Threads für Tests erfassen
 		final ResourceBundle i18n = guiHelper.getResourceBundle(TEST_LOCALE);
 		try {
@@ -58,6 +58,15 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * Die Standardimplementierung liefert eine gemockte Fassade.
+	 * Kann überschrieben werden, um z. B. für Integrationstests die echte Fassade zu nutzen.
+	 * @return für Tests zu verwendende Fassade
+	 */
+	protected ITimey setUpFacade() {
+		return mock(ITimey.class);
 	}
 
 	/**

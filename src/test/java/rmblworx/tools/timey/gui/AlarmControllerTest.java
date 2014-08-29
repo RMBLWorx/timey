@@ -73,6 +73,11 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		alarmTable.getItems().clear();
 	}
 
+	@Test
+	public final void testInitializedFields() throws IllegalAccessException {
+		super.testFxmlInitializedFields();
+	}
+
 	/**
 	 * Testet das Löschen von Alarmen.
 	 */
