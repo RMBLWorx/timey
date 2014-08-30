@@ -23,7 +23,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Implementierung eines einfachen Timer's zum ausführen einer Zeitmessung.
- * 
+ *
  * @author mmatthies
  */
 class SimpleCountdown implements ICountdownTimer, TimeyEventListener, ApplicationContextAware {
@@ -73,6 +73,15 @@ class SimpleCountdown implements ICountdownTimer, TimeyEventListener, Applicatio
 		if (timeyEvent instanceof CountdownExpiredEvent) {
 			this.stopCountdown();
 		}
+	}
+
+	/**
+	 * Gibt Auskunft darüber ob der Timer läuft.
+	 *
+	 * @return true wenn er läuft sonst false
+	 */
+	Boolean isRunning() {
+		return !this.countdownFuture.isDone();
 	}
 
 	@Override
