@@ -15,6 +15,10 @@ import rmblworx.tools.timey.gui.AlarmController;
 import rmblworx.tools.timey.gui.CountdownController;
 import rmblworx.tools.timey.gui.TimeyController;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Tests für die TimeyEventDispatcher-Implementierung.
  *
@@ -82,7 +86,7 @@ public class TimeyEventDispatcherTest {
 	@Test
 	public final void testAddEventListener() {
 		this.timeyEventDispatcher.addEventListener(EXPECTED_LISTENER);
-		final List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegistredListener();
+		final List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegisteredListeners();
 
 		assertNotNull(UNERWARTETER_RUECKGABEWERT, actual);
 		assertTrue(UNERWARTETER_RUECKGABEWERT, this.containsListener(actual, EXPECTED_LISTENER));
@@ -100,15 +104,15 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.event.TimeyEventDispatcher#getRegistredListener()}.
+	 * Test method for {@link rmblworx.tools.timey.event.TimeyEventDispatcher#getRegisteredListeners()}.
 	 */
 	@Test
 	public final void testGetRegistredListener() {
-		List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegistredListener();
+		List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegisteredListeners();
 		assertNotNull(UNERWARTETER_RUECKGABEWERT, actual);
 
 		this.timeyEventDispatcher.addEventListener(EXPECTED_LISTENER);
-		actual = this.timeyEventDispatcher.getRegistredListener();
+		actual = this.timeyEventDispatcher.getRegisteredListeners();
 
 		assertNotNull(UNERWARTETER_RUECKGABEWERT, actual);
 		assertTrue(UNERWARTETER_RUECKGABEWERT, this.containsListener(actual, EXPECTED_LISTENER));
@@ -117,11 +121,11 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.event.TimeyEventDispatcher#getRegistredListener()}.
+	 * Test method for {@link rmblworx.tools.timey.event.TimeyEventDispatcher#getRegisteredListeners()}.
 	 */
 	@Test(expected = UnsupportedOperationException.class)
 	public final void testGetRegistredListenerShouldThrowUnsupportedOperationException() {
-		final List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegistredListener();
+		final List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegisteredListeners();
 		actual.clear();
 	}
 
@@ -134,7 +138,7 @@ public class TimeyEventDispatcherTest {
 	public final void testRemoveEventListener() {
 		this.timeyEventDispatcher.addEventListener(EXPECTED_LISTENER);
 		this.timeyEventDispatcher.removeEventListener(EXPECTED_LISTENER);
-		final List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegistredListener();
+		final List<TimeyEventListener> actual = this.timeyEventDispatcher.getRegisteredListeners();
 
 		assertFalse(UNERWARTETER_RUECKGABEWERT, this.containsListener(actual, EXPECTED_LISTENER));
 	}

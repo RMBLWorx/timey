@@ -44,7 +44,6 @@ public class ApplicationPropertiesTest {
 	 * @throws IOException
 	 *             wenn IOException auftritt.
 	 */
-	@SuppressWarnings("unchecked")
 	private void setupMockedInputStream() throws IOException {
 		// when(this.inputStream.close()).thenThrow(IOException.class);
 		doThrow(new IOException()).when(this.inputStream).close();

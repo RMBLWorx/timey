@@ -6,6 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Tests für die EmptyArgumentException-Klasse.
  *

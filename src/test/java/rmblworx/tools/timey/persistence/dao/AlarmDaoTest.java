@@ -8,6 +8,10 @@ import org.junit.Test;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Testet die Klasse AlarmDao auf korrektes Exception-Handling bei Datenbankproblemen. Das heißt, das von der Klasse
  * erwartet wird, das sie keine Exceptions wirft - stattdessen lediglich einen Logeintrag erzeugt.

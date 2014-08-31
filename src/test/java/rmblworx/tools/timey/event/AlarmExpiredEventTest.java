@@ -11,6 +11,10 @@ import org.junit.Test;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Tests für die Klasse AlarmExpiredEvent.
  *

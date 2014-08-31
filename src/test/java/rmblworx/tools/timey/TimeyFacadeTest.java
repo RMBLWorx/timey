@@ -1,6 +1,3 @@
-/**
- *
- */
 package rmblworx.tools.timey;
 
 import static org.junit.Assert.assertNotNull;
@@ -11,9 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,6 +18,10 @@ import rmblworx.tools.timey.event.TimeyEventListener;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
+/*
+ * Copyright 2014 Christian Raue
+ * MIT License http://opensource.org/licenses/mit-license.php
+ */
 /**
  * Testimplementierung für die timey-Fassade.
  *
@@ -38,22 +37,6 @@ public class TimeyFacadeTest {
 	 * Text für die Meldung eines unerwarteten Ergebnisses.
 	 */
 	private static final String TEXT_UNERWARTETER_RUECKGABEWERT = "Es wurde ein falscher Rückgabewert geliefert!";
-
-	/**
-	 * @throws java.lang.Exception
-	 *             wenn eine Ausnahme auftritt.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 *             wenn eine Ausnahme auftritt.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	/**
 	 * Mock des AlarmClient.

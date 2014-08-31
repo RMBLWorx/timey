@@ -66,8 +66,7 @@ public final class TimeyUtils {
 	 * @return true wenn {@code null} referenziert wird.
 	 */
 	public static boolean isNull(final String string) {
-		final boolean result = string == null;
-		return result;
+		return string == null;
 	}
 
 	/**
