@@ -11,7 +11,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 /**
  * Einfach ausgelegte Schnittstelle für die Implementierung eines Countdown-Objekts das die konkrete Zeitmessung
  * implementiert.
- * 
+ *
  * @author mmatthies
  */
 interface ICountdownTimer {
@@ -36,7 +36,7 @@ interface ICountdownTimer {
 	 *            wiederholte Aktualisierung des Werteobjekts.
 	 * @return Referenz auf das Wertobjekt das die darzustellende Zeit
 	 *         kapselt. Es handelt sich hierbei um das ueber
-	 *         {@link #setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)} uebergebene Objekt.
+	 *         {@link #setCountdownTime(TimeDescriptor)} uebergebene Objekt.
 	 */
 	TimeDescriptor startCountdown(int delayPerThread, TimeUnit timeUnit);
 

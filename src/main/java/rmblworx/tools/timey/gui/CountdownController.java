@@ -31,7 +31,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 	/**
 	 * Formatiert Zeitstempel als Zeit-Werte.
 	 */
-	private DateTimeFormatter timeFormatter;
+	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 	@FXML
 	private ResourceBundle resources;
@@ -60,8 +60,6 @@ public class CountdownController extends Controller implements TimeyEventListene
 
 	@FXML
 	private void initialize() {
-		setupTimeFormatter();
-
 		// Start-Schaltfläche nur aktivieren, wenn Zeit > 0
 		countdownStartButton.setDisable(true);
 		countdownTimePicker.getTimeProperty().addListener(new ChangeListener<LocalTime>() {
@@ -206,15 +204,6 @@ public class CountdownController extends Controller implements TimeyEventListene
 		countdownTimeLabel.setVisible(!enabled);
 		countdownTimePicker.setVisible(enabled);
 		countdownTimePicker.setDisable(!enabled);
-	}
-
-	/**
-	 * Initialisiert den Zeitformatierer.
-	 */
-	private void setupTimeFormatter() {
-		if (timeFormatter == null) {
-			timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-		}
 	}
 
 	/**

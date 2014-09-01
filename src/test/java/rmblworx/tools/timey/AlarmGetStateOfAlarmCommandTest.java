@@ -31,7 +31,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	private Alarm mockedReceiver;
 
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmGetStateOfAlarmCommand(this.mockedReceiver, this.descriptor);
 		this.invoker = new Invoker<>();
@@ -39,14 +39,14 @@ public class AlarmGetStateOfAlarmCommandTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#execute()}.
+	 * Test method for {@link AlarmGetStateOfAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteTimestampIsActivated() {
@@ -55,7 +55,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#execute()}.
+	 * Test method for {@link AlarmGetStateOfAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteTimestampIsNotActivated() {
@@ -64,7 +64,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#execute()}.
+	 * Test method for {@link AlarmGetStateOfAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteTimestampIsNotPresent() {
@@ -73,9 +73,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseDescriptorIsNull() {
@@ -83,9 +81,7 @@ public class AlarmGetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link AlarmGetStateOfAlarmCommand#AlarmGetStateOfAlarmCommand(IAlarm, AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {

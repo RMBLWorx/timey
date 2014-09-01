@@ -164,7 +164,7 @@ public class TimeyFacadeTest {
 	}
 
 	/**
-	 * Test method for {@link TimeyFacade#addEventListener(rmblworx.tools.timey.event.TimeyEventListener)}.
+	 * Test method for {@link TimeyFacade#addEventListener(TimeyEventListener)}.
 	 */
 	@Test
 	public final void testAddEventListener() {
@@ -194,7 +194,7 @@ public class TimeyFacadeTest {
 	}
 
 	/**
-	 * Test method for {@link TimeyFacade#isAlarmActivated(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for {@link TimeyFacade#isAlarmActivated(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testIsAlarmActivated() {
@@ -204,7 +204,7 @@ public class TimeyFacadeTest {
 	}
 
 	/**
-	 * Test method for {@link TimeyFacade#removeAlarm(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for {@link TimeyFacade#removeAlarm(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testRemoveAlarm() {
@@ -225,7 +225,7 @@ public class TimeyFacadeTest {
 	}
 
 	/**
-	 * Test method for {@link TimeyFacade#setAlarm(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for {@link TimeyFacade#setAlarm(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testSetAlarm() {
@@ -235,7 +235,7 @@ public class TimeyFacadeTest {
 	}
 
 	/**
-	 * Test method for {@link TimeyFacade#setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)} .
+	 * Test method for {@link TimeyFacade#setCountdownTime(TimeDescriptor)} .
 	 */
 	@Test
 	public final void testSetCountdownTime() {
@@ -245,7 +245,7 @@ public class TimeyFacadeTest {
 	}
 
 	/**
-	 * Test method for {@link TimeyFacade#setStateOfAlarm(rmblworx.tools.timey.vo.AlarmDescriptor, java.lang.Boolean)} .
+	 * Test method for {@link TimeyFacade#setStateOfAlarm(AlarmDescriptor, Boolean)} .
 	 */
 	@Test
 	public final void testSetStateOfAlarm() {

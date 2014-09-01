@@ -43,21 +43,15 @@ public class SimpleCountdownTest {
 	 */
 	private TimeyEvent timeyEvent;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		this.descriptor.setMilliSeconds(COUNTDOWN_START);
 		this.countdown.setCountdownTime(this.descriptor);
 		this.timeyEvent = new CountdownExpiredEvent();
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.countdown = null;
 		this.descriptor = null;
 	}
@@ -80,7 +74,7 @@ public class SimpleCountdownTest {
 
 	@Test
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#handleEvent(TimeyEvent)}.
+	 * Test method for {@link SimpleCountdown#handleEvent(TimeyEvent)}.
 	 */
 	public void testHandleEvent() throws InterruptedException {
 		this.countdown.handleEvent(this.timeyEvent);
@@ -91,7 +85,7 @@ public class SimpleCountdownTest {
 
 	@Test
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#isRunning()}.
+	 * Test method for {@link SimpleCountdown#isRunning()}.
 	 */
 	public void testIsRunning() throws InterruptedException {
 		this.countdown.handleEvent(this.timeyEvent);
@@ -101,7 +95,7 @@ public class SimpleCountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, TimeUnit)}.
+	 * Test method for {@link SimpleCountdown#startCountdown(int, TimeUnit)}.
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public void testShouldFailBecauseDelayLessThanOne() {
@@ -109,7 +103,7 @@ public class SimpleCountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#setCountdownTime(TimeDescriptor)}.
+	 * Test method for {@link SimpleCountdown#setCountdownTime(TimeDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public void testShouldFailBecauseTimeDescriptorIsNull() {
@@ -117,7 +111,7 @@ public class SimpleCountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#startCountdown(int, TimeUnit)}.
+	 * Test method for {@link SimpleCountdown#startCountdown(int, TimeUnit)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public void testShouldFailBecauseTimeUnitIsNull() {

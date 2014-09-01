@@ -31,11 +31,8 @@ public class AlarmSetStateOfAlarmCommandTest {
 	@Mock
 	private Alarm mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.isActivated = Boolean.TRUE;
 		this.command = new AlarmSetStateOfAlarmCommand(this.mockedReceiver, this.descriptor, this.isActivated);
@@ -43,11 +40,8 @@ public class AlarmSetStateOfAlarmCommandTest {
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
@@ -55,7 +49,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
+	 * Test method for {@link AlarmSetStateOfAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
@@ -64,7 +58,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
+	 * Test method for {@link AlarmSetStateOfAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteShouldReturnFalseBecauseCouldNotBeSet() {
@@ -73,7 +67,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#execute()}.
+	 * Test method for {@link AlarmSetStateOfAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteShouldReturnNullBecauseAlarmDoesntExist() {
@@ -82,10 +76,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
-	 * .
-	 * .
+	 * Test method for {@link AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, AlarmDescriptor, Boolean)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseIsActivatedReferencesNull() {
@@ -93,10 +84,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
-	 * .
-	 * .
+	 * Test method for {@link AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, AlarmDescriptor, Boolean)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverReferencesNull() {
@@ -104,10 +92,7 @@ public class AlarmSetStateOfAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
-	 * .
-	 * .
+	 * Test method for {@link AlarmSetStateOfAlarmCommand#AlarmSetStateOfAlarmCommand(IAlarm, AlarmDescriptor, Boolean)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {

@@ -1,5 +1,8 @@
 package rmblworx.tools.timey;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 /*
  * Copyright 2014 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
@@ -107,6 +110,21 @@ public final class TimeyUtils {
 	public static boolean isWindowsSystem() {
 		final String osName = getOsName();
 		return osName.indexOf(WINDOWS) != -1;
+	}
+
+	/**
+	 * Schließt eine Ressource. Eventuell auftretende Fehler werden ignoriert.
+	 *
+	 * @param closeable Ressource
+	 */
+	public static void closeQuietly(final Closeable closeable) {
+		if (closeable != null) {
+			try {
+				closeable.close();
+			} catch (final IOException e) {
+				// ignorieren
+			}
+		}
 	}
 
 	/**

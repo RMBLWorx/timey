@@ -3,7 +3,9 @@ package rmblworx.tools.timey;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
 
 /*
  * Copyright 2014 Christian Raue
@@ -25,17 +28,24 @@ import org.mockito.MockitoAnnotations;
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class ApplicationPropertiesTest {
+
+	/**
+	 * Gemockter Logger, um das Log nicht unnötig zuzumüllen.
+	 */
+	@Mock
+	private Logger logger;
+
 	@Mock
 	private InputStream inputStream;
+
 	@Mock
 	private Properties props;
 
 	@Before
-	public void setup() throws IOException {
+	public final void setUp() throws IOException {
 		MockitoAnnotations.initMocks(this);
-		// this.inputStream = new ClassPathResource("app.properties").getInputStream();
-		this.setupMockedInputStream();
-		this.setupMockedProperties();
+		setupMockedInputStream();
+		setupMockedProperties();
 	}
 
 	/**
@@ -45,8 +55,7 @@ public class ApplicationPropertiesTest {
 	 *             wenn IOException auftritt.
 	 */
 	private void setupMockedInputStream() throws IOException {
-		// when(this.inputStream.close()).thenThrow(IOException.class);
-		doThrow(new IOException()).when(this.inputStream).close();
+		doThrow(new IOException()).when(inputStream).close();
 	}
 
 	/**
@@ -54,7 +63,7 @@ public class ApplicationPropertiesTest {
 	 */
 	@SuppressWarnings("unchecked")
 	private void setupMockedProperties() {
-		when(this.props.getProperty("application.version")).thenThrow(IOException.class);
+		when(props.getProperty(ApplicationProperties.PROP_APP_VERSION)).thenThrow(IOException.class);
 	}
 
 	/**
@@ -70,13 +79,15 @@ public class ApplicationPropertiesTest {
 	}
 
 	/**
-	 * Löst gezielt eine IOException aus um das korrekte Verhalten der Methode zu testen. Erwartet wird lediglich eine
-	 * Fehlermeldung im Log und die Rückgabe von <code>null</code>.
+	 * Löst gezielt eine IOException aus, um das korrekte Verhalten der Methode zu testen. Erwartet wird lediglich eine Fehlermeldung im
+	 * Log und die Rückgabe von <code>null</code>.
 	 */
 	@Test
 	public final void testGetVersionShouldReturnNullIfIOExceptionOccurs() {
-		assertNull("Es wurde eine Referenz geliefert!",
-				new ApplicationProperties(this.props, this.inputStream).getVersion());
+		final String version = new ApplicationProperties(props, inputStream, logger).getVersion();
+
+		verify(logger).error(anyString());
+		assertNull("Es wurde eine Referenz geliefert!", version);
 	}
 
 }

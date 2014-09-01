@@ -18,7 +18,7 @@ import org.junit.Test;
 public class EmptyArgumentExceptionTest {
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.exception.EmptyArgumentException#EmptyArgumentException()}.
+	 * Test method for {@link EmptyArgumentException#EmptyArgumentException()}.
 	 */
 	@Test
 	public final void testEmptyArgumentException() {
@@ -30,8 +30,7 @@ public class EmptyArgumentExceptionTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.exception.EmptyArgumentException#EmptyArgumentException(java.lang.String)}.
+	 * Test method for {@link EmptyArgumentException#EmptyArgumentException(java.lang.String)}.
 	 */
 	@Test
 	public final void testEmptyArgumentExceptionString() {

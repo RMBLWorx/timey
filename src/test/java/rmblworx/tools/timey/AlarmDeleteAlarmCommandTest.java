@@ -33,29 +33,23 @@ public class AlarmDeleteAlarmCommandTest {
 	@Mock
 	private Alarm mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmDeleteAlarmCommand(this.mockedReceiver, this.descriptor);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#execute()}.
+	 * Test method for {@link AlarmDeleteAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteOnExistingTimestamp() {
@@ -64,7 +58,7 @@ public class AlarmDeleteAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#execute()}.
+	 * Test method for {@link AlarmDeleteAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteOnNonExistingTimestamp() {
@@ -73,7 +67,7 @@ public class AlarmDeleteAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#execute()}.
+	 * Test method for {@link AlarmDeleteAlarmCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteOnTimestampCantBeDeleted() {
@@ -82,9 +76,7 @@ public class AlarmDeleteAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
@@ -92,9 +84,7 @@ public class AlarmDeleteAlarmCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link AlarmDeleteAlarmCommand#AlarmDeleteAlarmCommand(IAlarm, AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {

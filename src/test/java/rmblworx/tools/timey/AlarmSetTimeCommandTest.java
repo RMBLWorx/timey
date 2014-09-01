@@ -30,29 +30,23 @@ public class AlarmSetTimeCommandTest {
 	@Mock
 	private Alarm mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmSetTimeCommand(this.mockedReceiver, this.descriptor);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#execute()}.
+	 * Test method for {@link AlarmSetTimeCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteSettingTimestampExists() {
@@ -61,7 +55,7 @@ public class AlarmSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#execute()}.
+	 * Test method for {@link AlarmSetTimeCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteSettingTimestampWasNotSuccessfully() {
@@ -70,7 +64,7 @@ public class AlarmSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmSetTimeCommand#execute()}.
+	 * Test method for {@link AlarmSetTimeCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteSettingTimestampWasSuccessfully() {
@@ -79,9 +73,7 @@ public class AlarmSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverReferencesNull() {
@@ -89,9 +81,7 @@ public class AlarmSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link AlarmSetTimeCommand#AlarmSetTimeCommand(IAlarm, AlarmDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorReferencesNull() {

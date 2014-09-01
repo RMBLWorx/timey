@@ -2,7 +2,6 @@ package rmblworx.tools.timey.persistence.dao;
 
 import java.util.List;
 
-import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /*
@@ -24,7 +23,7 @@ public interface IAlarmDao {
 	Boolean createAlarm(AlarmDescriptor descriptor);
 
 	/**
-	 * Entfernt das {@link AlarmEntity}-Objekt aus der Datenbank.
+	 * Entfernt das {@link rmblworx.tools.timey.persistence.model.AlarmEntity}-Objekt aus der Datenbank.
 	 *
 	 * @param descriptor
 	 *            der zu entfernende Alarmzeitpunkt.
@@ -49,7 +48,7 @@ public interface IAlarmDao {
 	Boolean isActivated(AlarmDescriptor descriptor);
 
 	/**
-	 * Ermöglicht das Aktivierung/ Deaktivierung des {@link AlarmEntity}-Objekts.
+	 * Ermöglicht das Aktivierung/ Deaktivierung des {@link rmblworx.tools.timey.persistence.model.AlarmEntity}-Objekts.
 	 *
 	 * @param descriptor
 	 *            der Alarmzeitpunkt

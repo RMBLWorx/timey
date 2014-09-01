@@ -25,7 +25,7 @@ interface ICountdown {
 	 * Startet den Countdown.
 	 *
 	 * @return Werteobjekt mit den gesetzten Zeitwerten.Es handelt sich hierbei um das ueber
-	 *         {@link #setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)} uebergebene Objekt.
+	 *         {@link #setCountdownTime(TimeDescriptor)} uebergebene Objekt.
 	 */
 	TimeDescriptor startCountdown();
 

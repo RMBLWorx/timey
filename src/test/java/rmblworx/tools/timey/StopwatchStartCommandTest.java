@@ -20,6 +20,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class StopwatchStartCommandTest {
+
 	private ICommand command;
 	@Mock
 	private TimeDescriptor descriptor;
@@ -27,29 +28,23 @@ public class StopwatchStartCommandTest {
 	@Mock
 	private IStopwatch mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new StopwatchStartCommand(this.mockedReceiver);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.StopwatchStartCommand#execute()}.
+	 * Test method for {@link StopwatchStartCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
@@ -58,8 +53,7 @@ public class StopwatchStartCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.StopwatchStartCommand#StopwatchStartCommand(rmblworx.tools.timey.IStopwatch)}.
+	 * Test method for {@link StopwatchStartCommand#StopwatchStartCommand(IStopwatch)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
@@ -67,8 +61,7 @@ public class StopwatchStartCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.StopwatchStartCommand#StopwatchStartCommand(rmblworx.tools.timey.IStopwatch)}.
+	 * Test method for {@link StopwatchStartCommand#StopwatchStartCommand(IStopwatch)}.
 	 */
 	@Test
 	public final void testStopwatchStartCommand() {

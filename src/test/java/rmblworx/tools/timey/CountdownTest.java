@@ -97,7 +97,7 @@ public class CountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Countdown#setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * Test method for {@link Countdown#setCountdownTime(TimeDescriptor)}.
 	 */
 	@Test
 	public final void testSetCountdownTime() {
@@ -107,7 +107,7 @@ public class CountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Countdown#setCountdownTime(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * Test method for {@link Countdown#setCountdownTime(TimeDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testSetCountdownTimeShouldThrowNullArgumentException() {
@@ -116,7 +116,7 @@ public class CountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Countdown#startCountdown()}.
+	 * Test method for {@link Countdown#startCountdown()}.
 	 */
 	@Test
 	public final void testStartCountdown() {
@@ -126,7 +126,7 @@ public class CountdownTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Countdown#stopCountdown()}.
+	 * Test method for {@link Countdown#stopCountdown()}.
 	 */
 	@Test
 	public final void testStopCountdown() {

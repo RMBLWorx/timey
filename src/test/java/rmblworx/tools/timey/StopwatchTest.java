@@ -24,34 +24,27 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class StopwatchTest {
+
 	private IStopwatch stopwatch;
 	@Mock
 	private ITimer mockedTimer;
 	@Mock
 	private TimeDescriptor mockedDescriptor;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.stopwatch = new Stopwatch(this.mockedTimer, 1, TimeUnit.MILLISECONDS);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.mockedTimer = null;
 		this.stopwatch = null;
 	}
 
 	/**
-	 * Test method for
-	 * {@link Stopwatch#Stopwatch(ITimer, int, java.util.concurrent.TimeUnit)}
-	 * .
+	 * Test method for {@link Stopwatch#Stopwatch(ITimer, int, TimeUnit)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testStopwatchShouldFailBecauseTimerIsNull() {
@@ -59,9 +52,7 @@ public class StopwatchTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link Stopwatch#Stopwatch(ITimer, int, java.util.concurrent.TimeUnit)}
-	 * .
+	 * Test method for {@link Stopwatch#Stopwatch(ITimer, int, TimeUnit)}.
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testStopwatchShouldFailBecauseDelayIsLessThanOne() {
@@ -69,9 +60,7 @@ public class StopwatchTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link Stopwatch#Stopwatch(ITimer, int, java.util.concurrent.TimeUnit)}
-	 * .
+	 * Test method for {@link Stopwatch#Stopwatch(ITimer, int, TimeUnit)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testStopwatchShouldFailBecauseTimeUnitIsNull() {
@@ -79,7 +68,7 @@ public class StopwatchTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Stopwatch#resetStopwatch()}.
+	 * Test method for {@link Stopwatch#resetStopwatch()}.
 	 */
 	@Test
 	public final void testResetStopwatch() {
@@ -88,7 +77,7 @@ public class StopwatchTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Stopwatch#startStopwatch()}.
+	 * Test method for {@link Stopwatch#startStopwatch()}.
 	 */
 	@Test
 	public final void testStartStopwatch() {
@@ -97,10 +86,11 @@ public class StopwatchTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.Stopwatch#stopStopwatch()}.
+	 * Test method for {@link Stopwatch#stopStopwatch()}.
 	 */
 	@Test
 	public final void testStopStopwatch() {
 		assertTrue(this.stopwatch.stopStopwatch());
 	}
+
 }

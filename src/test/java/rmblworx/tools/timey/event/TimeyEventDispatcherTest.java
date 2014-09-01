@@ -79,9 +79,7 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.event.TimeyEventDispatcher#addEventListener(rmblworx.tools.timey.event.TimeyEventListener)}
-	 * .
+	 * Test method for {@link TimeyEventDispatcher#addEventListener(TimeyEventListener)}.
 	 */
 	@Test
 	public final void testAddEventListener() {
@@ -95,8 +93,7 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.event.TimeyEventDispatcher#dispatchEvent(rmblworx.tools.timey.event.TimeyEvent)}.
+	 * Test method for {@link TimeyEventDispatcher#dispatchEvent(TimeyEvent)}.
 	 */
 	@Test
 	public final void testDispatchEvent() {
@@ -104,7 +101,7 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.event.TimeyEventDispatcher#getRegisteredListeners()}.
+	 * Test method for {@link TimeyEventDispatcher#getRegisteredListeners()}.
 	 */
 	@Test
 	public final void testGetRegistredListener() {
@@ -121,7 +118,7 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.event.TimeyEventDispatcher#getRegisteredListeners()}.
+	 * Test method for {@link TimeyEventDispatcher#getRegisteredListeners()}.
 	 */
 	@Test(expected = UnsupportedOperationException.class)
 	public final void testGetRegistredListenerShouldThrowUnsupportedOperationException() {
@@ -130,9 +127,7 @@ public class TimeyEventDispatcherTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.event.TimeyEventDispatcher#removeEventListener(rmblworx.tools.timey.event.TimeyEventListener)}
-	 * .
+	 * Test method for {@link TimeyEventDispatcher#removeEventListener(TimeyEventListener)}.
 	 */
 	@Test
 	public final void testRemoveEventListener() {

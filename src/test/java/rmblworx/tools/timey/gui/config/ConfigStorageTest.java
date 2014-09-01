@@ -61,7 +61,7 @@ public class ConfigStorageTest {
 	public final void testLoadConfig() throws IOException {
 		// Werte festlegen, die von Standardkonfiguration abweichen
 		final Config expectedConfig = ConfigManager.getNewDefaultConfig();
-		expectedConfig.setLocale(expectedConfig.getDefaultLocale() == Locale.ENGLISH ? Locale.GERMAN : Locale.ENGLISH);
+		expectedConfig.setLocale(expectedConfig.getDefaultLocale().equals(Locale.ENGLISH) ? Locale.GERMAN : Locale.ENGLISH);
 		expectedConfig.setMinimizeToTray(!expectedConfig.isMinimizeToTray());
 		expectedConfig.setStopwatchShowMilliseconds(!expectedConfig.isStopwatchShowMilliseconds());
 		expectedConfig.setActiveTab(expectedConfig.getActiveTab() + 1);

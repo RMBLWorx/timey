@@ -58,7 +58,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	/**
 	 * Formatiert Zeitstempel als Datum/Zeit-Werte.
 	 */
-	private DateTimeFormatter dateTimeFormatter;
+	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
 	@FXML
 	private ResourceBundle resources;
@@ -196,8 +196,6 @@ public class AlarmController extends Controller implements TimeyEventListener {
 				getGuiHelper().getFacade().addEventListener(eventListener);
 			}
 		});
-
-		setupDateTimeFormatter();
 	}
 
 	/**
@@ -438,8 +436,6 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			dialogStage.setTitle(title);
 			dialogStage.setResizable(false);
 			dialogStage.initModality(Modality.APPLICATION_MODAL);
-//			dialogStage.initModality(Modality.WINDOW_MODAL);
-//			dialogStage.initOwner(primaryStage);
 
 			final AlarmEditDialogController controller = loader.getController();
 			controller.setGuiHelper(getGuiHelper());
@@ -485,15 +481,6 @@ public class AlarmController extends Controller implements TimeyEventListener {
 				}
 			}
 		});
-	}
-
-	/**
-	 * Initialisiert den Datum/Zeit-Formatierer.
-	 */
-	private void setupDateTimeFormatter() {
-		if (dateTimeFormatter == null) {
-			dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-		}
 	}
 
 	private void showProgress() {

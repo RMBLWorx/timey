@@ -61,7 +61,7 @@ public class MessageHelper {
 	 */
 	public final void showTrayMessage(final String caption, final String text, final TrayIcon trayIcon) {
 		if (trayIcon == null) {
-			throw new RuntimeException("There's no system tray icon.");
+			throw new UnsupportedOperationException("There's no system tray icon.");
 		}
 
 		SwingUtilities.invokeLater(new Runnable() {
