@@ -1,7 +1,5 @@
 package rmblworx.tools.timey;
 
-import static org.junit.Assert.fail;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,10 +17,6 @@ import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
  * @author mmatthies
  */
 public class SimpleAlarmTest {
-	/**
-	 * Fehlermeldungstext.
-	 */
-	private static final String KEINE_AUSNAHME = "Es wurde keine Ausnahme geworfen!";
 	/**
 	 * Zu testende Klasse.
 	 */
@@ -52,7 +46,6 @@ public class SimpleAlarmTest {
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testStartAlarmdetection() {
 		this.simpleAlarm.startAlarmdetection(0, null);
-		fail(KEINE_AUSNAHME);
 	}
 
 	/**
@@ -61,6 +54,5 @@ public class SimpleAlarmTest {
 	@Test(expected = NullArgumentException.class)
 	public final void testStartAlarmdetectionShouldThrowNullArgumentException() {
 		this.simpleAlarm.startAlarmdetection(1, null);
-		fail(KEINE_AUSNAHME);
 	}
 }
