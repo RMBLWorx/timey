@@ -36,7 +36,7 @@ class AlarmDao implements IAlarmDao {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(AlarmDao.class);
+	private static Logger log = LoggerFactory.getLogger(AlarmDao.class);
 	/**
 	 * SessionFactory.
 	 */
@@ -47,8 +47,9 @@ class AlarmDao implements IAlarmDao {
 	 *            Referenz auf die SessionFactory.
 	 */
 	@Autowired
-	public AlarmDao(final SessionFactory sessionFactory) {
+	public AlarmDao(final SessionFactory sessionFactory, final Logger logger) {
 		this.sessionFactory = sessionFactory;
+		AlarmDao.log = logger;
 	}
 
 	@Override
@@ -189,7 +190,7 @@ class AlarmDao implements IAlarmDao {
 		final StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		final String excDetails = sw.toString();
-		LOG.error(excDetails);
+		log.error(excDetails);
 	}
 
 	@Override

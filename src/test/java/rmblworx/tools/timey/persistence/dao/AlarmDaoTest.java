@@ -4,6 +4,9 @@ import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
 
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -19,11 +22,11 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  * @author mmatthies
  */
 public class AlarmDaoTest {
-
 	/**
 	 * Zeitpunkt für den TimeDescriptor.
 	 */
 	private static final int ZEITWERT = 1000;
+
 	/**
 	 * AlarmDescriptor.
 	 */
@@ -32,6 +35,11 @@ public class AlarmDaoTest {
 	 * Zu testende Implementierung.
 	 */
 	private AlarmDao dao;
+	/**
+	 * Gemockter Logger um den Log nicht unnötig zuzumüllen.
+	 */
+	@Mock
+	private Logger logger;
 	/**
 	 * SessionFactory.
 	 */
@@ -47,11 +55,12 @@ public class AlarmDaoTest {
 	 */
 	@Before
 	public final void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
 		// explizites setzen auf null da Persistence für diese Tests nicht vorhanden sein soll
 		this.sessionFactory = null;
 		this.timeDescriptor = new TimeDescriptor(ZEITWERT);
 		this.alarmDescriptor = new AlarmDescriptor(this.timeDescriptor, true, "leer", "/bla", this.timeDescriptor);
-		this.dao = new AlarmDao(this.sessionFactory);
+		this.dao = new AlarmDao(this.sessionFactory, this.logger);
 	}
 
 	/**
