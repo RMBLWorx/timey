@@ -21,7 +21,7 @@ class AlarmSetStateInAlarmDescriptorCommand implements ICommand {
 	/**
 	 * Speichert die Empfänger-Instanz.
 	 */
-	private final IAlarm fReceiver;
+	private final Alarm fReceiver;
 	/**
 	 * Status des Alarmzeitpunktes.
 	 */
@@ -37,7 +37,7 @@ class AlarmSetStateInAlarmDescriptorCommand implements ICommand {
 	 * @param isActivated
 	 *            Aussage ob der Alarmzeitpunkt aktiviert sein soll
 	 */
-	public AlarmSetStateInAlarmDescriptorCommand(final IAlarm receiver, final AlarmDescriptor descriptor,
+	public AlarmSetStateInAlarmDescriptorCommand(final Alarm receiver, final AlarmDescriptor descriptor,
 			final Boolean isActivated) {
 		if (receiver == null || descriptor == null || isActivated == null) {
 			throw new NullArgumentException();

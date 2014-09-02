@@ -50,16 +50,6 @@ interface IAlarm {
 	Boolean setAlarm(AlarmDescriptor descriptor);
 
 	/**
-	 * Setzt den Zustand im übergebenen AlarmDescriptor.
-	 *
-	 * @param alarmDescriptor
-	 *            zu aktualisierender AlarmDescriptor.
-	 * @param isActivated
-	 *            im AlarmDescriptor zu setzender Aktivierungszustand.
-	 */
-	void setStateInAlarmDescriptor(AlarmDescriptor alarmDescriptor, Boolean isActivated);
-
-	/**
 	 * Stellt die Alarmzeit unscharf bzw. scharf.
 	 *
 	 * @param descriptor

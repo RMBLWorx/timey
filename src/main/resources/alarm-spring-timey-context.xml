@@ -23,9 +23,6 @@
 	</bean>
 	<bean id="simpleAlarm" name="simpleAlarm" class="rmblworx.tools.timey.SimpleAlarm">
 	</bean>
-	<bean id="alarmExpiredEvent" class="rmblworx.tools.timey.event.AlarmExpiredEvent" scope="prototype">
-		<constructor-arg ref="alarmDescriptor" />
-	</bean>
 	<bean id="alarmsModifiedEvent" class="rmblworx.tools.timey.event.AlarmsModifiedEvent"/>
 
 	<!-- ############################# Werteobjekte ################################## -->

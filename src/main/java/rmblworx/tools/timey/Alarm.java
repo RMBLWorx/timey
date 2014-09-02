@@ -99,7 +99,14 @@ class Alarm implements IAlarm, ApplicationContextAware {
 		this.startAlarmdetection();
 	}
 
-	@Override
+	/**
+	 * Setzt den Zustand im übergebenen AlarmDescriptor.
+	 *
+	 * @param alarmDescriptor
+	 *            zu aktualisierender AlarmDescriptor.
+	 * @param isActivated
+	 *            im AlarmDescriptor zu setzender Aktivierungszustand.
+	 */
 	public void setStateInAlarmDescriptor(final AlarmDescriptor alarmDescriptor, final Boolean isActivated) {
 		alarmDescriptor.setIsActive(isActivated);
 	}
