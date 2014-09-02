@@ -536,6 +536,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void handleEvent(final TimeyEvent event) {
 		if (event instanceof AlarmExpiredEvent) {
 			reloadAlarms();

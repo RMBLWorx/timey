@@ -25,6 +25,7 @@ public class TimeyControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Timey.fxml";
 	}
@@ -32,6 +33,7 @@ public class TimeyControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final void controllerLoaded() {
 		((TimeyController) getController()).setStage(stage);
 	}

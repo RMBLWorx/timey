@@ -18,6 +18,7 @@ public class OptionsControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Options.fxml";
 	}

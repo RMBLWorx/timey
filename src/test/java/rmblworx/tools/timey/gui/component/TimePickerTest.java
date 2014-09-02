@@ -56,6 +56,7 @@ public class TimePickerTest extends JavaFxGuiTest {
 	/**
 	 * @return Elternknoten der GUI-Elemente
 	 */
+	@Override
 	protected final Parent getRootNode() {
 		return WRAP_IN_CONTAINER ? wrapInContainer(new TimePicker()) : new TimePicker();
 	}
@@ -63,6 +64,7 @@ public class TimePickerTest extends JavaFxGuiTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final Object getComponentWithFxmlFields() {
 		return WRAP_IN_CONTAINER ? scene.getRoot().getChildrenUnmodifiable().get(0) : scene.getRoot();
 	}

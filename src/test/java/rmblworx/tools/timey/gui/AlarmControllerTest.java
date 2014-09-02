@@ -70,6 +70,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Alarm.fxml";
 	}

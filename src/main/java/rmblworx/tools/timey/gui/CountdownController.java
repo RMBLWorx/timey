@@ -232,6 +232,7 @@ public class CountdownController extends Controller implements TimeyEventListene
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void handleEvent(final TimeyEvent event) {
 		if (event instanceof CountdownExpiredEvent) {
 			stopCountdown(true);
