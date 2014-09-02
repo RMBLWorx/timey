@@ -36,8 +36,7 @@ class AlarmClient {
 	 */
 	public Boolean initAlarmDeleteAlarm(final AlarmDescriptor descriptor) {
 		final AlarmDeleteAlarmCommand cmd = new AlarmDeleteAlarmCommand(this.fReceiver, descriptor);
-		final Invoker<Boolean> invoker = new Invoker<>();
-		invoker.storeCommand(cmd);
+		final Invoker<Boolean> invoker = new Invoker<>(cmd);
 
 		return invoker.execute();
 

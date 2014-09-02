@@ -8,9 +8,19 @@ import rmblworx.tools.timey.event.TimeyEventListener;
  */
 /**
  * Schnittstellenbeschreibung des timey-Systems.
+ * 
  * @author mmatthies
  */
 public interface ITimey extends IAlarm, ICountdown, IStopwatch {
+
+	/**
+	 * Registriert den uebergebenen Event-Listener.
+	 *
+	 * @param timeyEventListener
+	 *            zu benachrichtigender Event-Listener
+	 * @return true wenn erfolgreich sonst false
+	 */
+	Boolean addEventListener(TimeyEventListener timeyEventListener);
 
 	/**
 	 * Liefert die Version von timey.
@@ -18,12 +28,4 @@ public interface ITimey extends IAlarm, ICountdown, IStopwatch {
 	 * @return die aktuelle Version.
 	 */
 	String getVersion();
-
-	/**
-	 * Registriert den uebergebenen Event-Listener.
-	 *
-	 * @param timeyEventListener
-	 *            zu benachrichtigender Event-Listener
-	 */
-	void addEventListener(TimeyEventListener timeyEventListener);
 }

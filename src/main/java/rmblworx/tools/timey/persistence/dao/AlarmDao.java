@@ -1,5 +1,7 @@
 package rmblworx.tools.timey.persistence.dao;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +26,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Data Access Object-Implementierung zum verwalten der Alarmzeiten in timey.
+ *
  * @author mmatthies
  */
 @Repository
@@ -33,7 +36,7 @@ class AlarmDao implements IAlarmDao {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(AlarmDao.class);
+	private static Logger log = LoggerFactory.getLogger(AlarmDao.class);
 	/**
 	 * SessionFactory.
 	 */
@@ -48,25 +51,40 @@ class AlarmDao implements IAlarmDao {
 		this.sessionFactory = sessionFactory;
 	}
 
+    /**
+     * Instantiiert ein neues AlarmDao. Dieser Konstruktor ist ausschliesslich für Testzwecke gedacht.
+     *
+     * @param sessionFactory die gemockte Session Factory
+     * @param logger der gemockte Logger
+     */
+    AlarmDao(final SessionFactory sessionFactory, final Logger logger) {
+        this(sessionFactory);
+		AlarmDao.log = logger;
+	}
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public Boolean createAlarm(final AlarmDescriptor descriptor) {
 		Boolean result = Boolean.FALSE;
 		if (descriptor != null) {
-			final AlarmEntity entity = new AlarmEntity();
-			final Timestamp timestamp = new Timestamp(descriptor.getAlarmtime().getMilliSeconds());
-			final String sound = descriptor.getSound();
-			Timestamp snooze = null;
-			if (descriptor.getSnooze() != null) {
-				snooze = new Timestamp(descriptor.getSnooze().getMilliSeconds());
+			try {
+				final AlarmEntity entity = new AlarmEntity();
+				final Timestamp timestamp = new Timestamp(descriptor.getAlarmtime().getMilliSeconds());
+				final String sound = descriptor.getSound();
+				Timestamp snooze = null;
+				if (descriptor.getSnooze() != null) {
+					snooze = new Timestamp(descriptor.getSnooze().getMilliSeconds());
+				}
+				entity.setAlarm(timestamp);
+				entity.setIsActivated(descriptor.getIsActive());
+				entity.setDescription(descriptor.getDescription());
+				entity.setSnooze(snooze);
+				entity.setSound(sound);
+				this.currentSession().save(entity);
+				result = Boolean.TRUE;
+			} catch (final Exception e) {
+				this.logError(e);
 			}
-			entity.setAlarm(timestamp);
-			entity.setIsActivated(descriptor.getIsActive());
-			entity.setDescription(descriptor.getDescription());
-			entity.setSnooze(snooze);
-			entity.setSound(sound);
-			this.currentSession().save(entity);
-			result = Boolean.TRUE;
 		}
 		// TODO: Noch umzusetzen : Jeder Zeitpunkt darf nur von einem Alarm beschrieben und persistent sein
 		return result;
@@ -84,9 +102,9 @@ class AlarmDao implements IAlarmDao {
 	public Boolean deleteAlarm(final AlarmDescriptor descriptor) {
 		Boolean result = Boolean.FALSE;
 		if (null != descriptor) {
-			final List<AlarmEntity> allAlarms = this.getAll();
 			try {
-				for (AlarmEntity alarm : allAlarms) {
+				final List<AlarmEntity> allAlarms = this.getAll();
+				for (final AlarmEntity alarm : allAlarms) {
 					final long milliseconds = alarm.getAlarm().getTime();
 					if (milliseconds == descriptor.getAlarmtime().getMilliSeconds()) {
 						this.currentSession().delete(alarm);
@@ -96,7 +114,7 @@ class AlarmDao implements IAlarmDao {
 				}
 			} catch (final Exception e) {
 				// TODO: throwing Advice implementieren und somit per Interceptor die Exceptions behandeln
-				LOG.error(e.getMessage());
+				this.logError(e);
 				result = null;
 			}
 		} else {
@@ -108,19 +126,25 @@ class AlarmDao implements IAlarmDao {
 
 	@Override
 	public List<AlarmDescriptor> findAll() {
-		final List<AlarmEntity> entities = this.getAll();
-		final List<AlarmDescriptor> result = new ArrayList<>(entities.size());
-		for (AlarmEntity alarm : entities) {
-			final TimeDescriptor timeDescriptor = new TimeDescriptor(alarm.getAlarm().getTime());
-			final Boolean isActive = alarm.getIsActivated();
-			final String description = alarm.getDescription();
-			TimeDescriptor snooze = null;
-			if (alarm.getSnooze() != null) {
-				snooze = new TimeDescriptor(alarm.getSnooze().getTime());
+		List<AlarmDescriptor> result = new ArrayList<AlarmDescriptor>();
+		try {
+			final List<AlarmEntity> entities = this.getAll();
+			result = new ArrayList<>(entities.size());
+			for (final AlarmEntity alarm : entities) {
+				final TimeDescriptor timeDescriptor = new TimeDescriptor(alarm.getAlarm().getTime());
+				final Boolean isActive = alarm.getIsActivated();
+				final String description = alarm.getDescription();
+				TimeDescriptor snooze = null;
+				if (alarm.getSnooze() != null) {
+					snooze = new TimeDescriptor(alarm.getSnooze().getTime());
+				}
+				final String sound = alarm.getSound();
+				final AlarmDescriptor descriptor = new AlarmDescriptor(timeDescriptor, isActive, description, sound,
+						snooze);
+				result.add(descriptor);
 			}
-			final String sound = alarm.getSound();
-			final AlarmDescriptor descriptor = new AlarmDescriptor(timeDescriptor, isActive, description, sound, snooze);
-			result.add(descriptor);
+		} catch (final Exception e) {
+			this.logError(e);
 		}
 		return Collections.unmodifiableList(result);
 	}
@@ -146,7 +170,7 @@ class AlarmDao implements IAlarmDao {
 		AlarmEntity result = null;
 		if (null != descriptor) {
 			final List<AlarmEntity> all = this.getAll();
-			for (AlarmEntity alarm : all) {
+			for (final AlarmEntity alarm : all) {
 				if (alarm.getAlarm().getTime() == descriptor.getAlarmtime().getMilliSeconds()) {
 					result = alarm;
 					break;
@@ -160,12 +184,23 @@ class AlarmDao implements IAlarmDao {
 	public Boolean isActivated(final AlarmDescriptor descriptor) {
 		Boolean result = null;
 		if (null != descriptor) {
-			final AlarmEntity timestamp = this.getByTime(descriptor);
-			if (timestamp != null) {
-				result = timestamp.getIsActivated();
+			try {
+				final AlarmEntity timestamp = this.getByTime(descriptor);
+				if (timestamp != null) {
+					result = timestamp.getIsActivated();
+				}
+			} catch (final Exception e) {
+				this.logError(e);
 			}
 		}
 		return result;
+	}
+
+	private void logError(final Exception e) {
+		final StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		final String excDetails = sw.toString();
+		log.error(excDetails);
 	}
 
 	@Override
@@ -179,7 +214,7 @@ class AlarmDao implements IAlarmDao {
 				this.currentSession().save(timestamp);
 				result = Boolean.TRUE;
 			} catch (final Exception e) {
-				LOG.error(e.getMessage());
+				this.logError(e);
 				result = null;
 			}
 		} else {

@@ -1,5 +1,6 @@
 package rmblworx.tools.timey;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import rmblworx.tools.timey.event.CountdownExpiredEvent;
+import rmblworx.tools.timey.event.TimeyEvent;
 import rmblworx.tools.timey.exception.NullArgumentException;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 import rmblworx.tools.timey.vo.TimeDescriptor;
@@ -35,12 +38,18 @@ public class SimpleCountdownTest {
 	private TimeDescriptor descriptor;
 
 	/**
+	 * TimeyEvent.
+	 */
+	private TimeyEvent timeyEvent;
+
+	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 		this.descriptor.setMilliSeconds(COUNTDOWN_START);
 		this.countdown.setCountdownTime(this.descriptor);
+		this.timeyEvent = new CountdownExpiredEvent();
 	}
 
 	/**
@@ -68,12 +77,22 @@ public class SimpleCountdownTest {
 		assertTrue(this.descriptor.getMilliSeconds() + "", actualCountdownTime < time);
 	}
 
+	@Test
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#setCountdownTime(TimeDescriptor)}.
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#handleEvent(TimeyEvent)}.
 	 */
-	@Test(expected = NullArgumentException.class)
-	public void testShouldFailBecauseTimeDescriptorIsNull() {
-		this.countdown.setCountdownTime(null);
+	public void testHandleEvent() throws InterruptedException {
+		this.countdown.handleEvent(this.timeyEvent);
+		assertFalse(this.countdown.isRunning());
+	}
+
+	@Test
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#isRunning()}.
+	 */
+	public void testIsRunning() {
+		this.countdown.handleEvent(this.timeyEvent);
+		assertFalse(this.countdown.isRunning());
 	}
 
 	/**
@@ -82,6 +101,14 @@ public class SimpleCountdownTest {
 	@Test(expected = ValueMinimumArgumentException.class)
 	public void testShouldFailBecauseDelayLessThanOne() {
 		this.countdown.startCountdown(0, TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#setCountdownTime(TimeDescriptor)}.
+	 */
+	@Test(expected = NullArgumentException.class)
+	public void testShouldFailBecauseTimeDescriptorIsNull() {
+		this.countdown.setCountdownTime(null);
 	}
 
 	/**

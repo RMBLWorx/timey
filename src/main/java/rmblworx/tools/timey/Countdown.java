@@ -15,6 +15,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
  */
 /**
  * Ermöglicht die Zeitmessung in Form eines Countdowns.
+ *
  * @author mmatthies
  */
 class Countdown implements ICountdown, ApplicationContextAware {
@@ -38,7 +39,23 @@ class Countdown implements ICountdown, ApplicationContextAware {
 	private final TimeUnit timeUnit;
 
 	/**
+	 * Erweiterter Konstruktor. Ausschliesslich für Testzwecke.
+	 * 
+	 * @param countdownTimer
+	 *            Referenz auf die CountdownTimer-Implementierung.
+	 * @param delay
+	 *            Ausführungsverzögerung des Zeitmessungs-Threads
+	 * @param unit
+	 *            Zeiteinheit für die zuvor angegebene Ausführungsverzögerung
+	 */
+	Countdown(final ICountdownTimer countdownTimer, final int delay, final TimeUnit unit) {
+		this(delay, unit);
+		this.countdownTimer = countdownTimer;
+	}
+
+	/**
 	 * Konstruktor welcher eine Instanz dieses Receiver erzeugt.
+	 *
 	 * @param delay
 	 *            Bestimmt den Intervall in welchem die vom Thread gemessene Zeit zurückgeliefert wird.
 	 * @param unit

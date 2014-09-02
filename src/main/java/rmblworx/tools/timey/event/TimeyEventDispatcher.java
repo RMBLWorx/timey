@@ -1,5 +1,6 @@
 package rmblworx.tools.timey.event;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,9 +25,18 @@ public class TimeyEventDispatcher {
 	 *
 	 * @param timeyEventListener
 	 *            Referenz auf die Listener-Implementierung
+	 * @return true wenn erfolgreich sonst false
 	 */
-	public synchronized void addEventListener(final TimeyEventListener timeyEventListener) {
-		this.listener.add(timeyEventListener);
+	public synchronized boolean addEventListener(final TimeyEventListener timeyEventListener) {
+		boolean result = false;
+		try {
+			this.listener.add(timeyEventListener);
+			result = true;
+		} catch (final Exception e) {
+			// momentan ignorieren
+		}
+
+		return result;
 	}
 
 	/**
@@ -40,6 +50,15 @@ public class TimeyEventDispatcher {
 		while (it.hasNext()) {
 			it.next().handleEvent(timeyEvent);
 		}
+	}
+
+	/**
+	 * Liefert alle von der Implementierung verwalteten Listener zurück.
+	 *
+	 * @return unveränderliche Liste mit allen verwalteten Listenern.
+	 */
+	public synchronized List<TimeyEventListener> getRegisteredListeners() {
+		return Collections.unmodifiableList(this.listener);
 	}
 
 	/**

@@ -26,7 +26,14 @@ class Invoker<T> {
 	}
 
 	/**
-	 * Konstruktor.
+	 * Erweiterter Konstruktor. Ermöglicht die direkte Angabe des vom Invoker auszuführenden Kommandos.
+	 * Entspricht der Ausführung der folgenden Aufrufe.
+	 * <p>
+	 * <code>Invoker<T> invoker = new Invoker<T>();</code>
+	 * </p>
+	 * <p>
+	 * <code>invoker.storeCommand(cmd);</code>
+	 * </p>
 	 *
 	 * @param cmd
 	 *            Referenz der auszuführenden Kommandoimplementierung.

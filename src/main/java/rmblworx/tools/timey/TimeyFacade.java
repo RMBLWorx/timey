@@ -20,6 +20,7 @@ import rmblworx.tools.timey.vo.TimeDescriptor;
 /**
  * Fassade für das Backendsystem von timey. Bietet das API für sämtliche für das Frontend (GUI-Implementierung)
  * relevanten timey-Funktionen an.
+ *
  * @author mmatthies
  */
 public final class TimeyFacade implements ITimey {
@@ -33,10 +34,14 @@ public final class TimeyFacade implements ITimey {
 	 */
 	private AlarmClient alarmClient;
 	/**
+	 * Kapselt die Attribute der timey-Anwendung in diesem Objekt.
+	 */
+	private ApplicationProperties applicationProperties = new ApplicationProperties();
+
+	/**
 	 * Countdown-Klient.
 	 */
 	private CountdownClient countdownClient;
-
 	/**
 	 * Verwaltet die sich registrierenden Listener und erzeugt die Events.
 	 */
@@ -64,9 +69,33 @@ public final class TimeyFacade implements ITimey {
 		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 
+	/**
+	 * Erweiterter Konstruktor. Nur für Testzwecke!
+	 *
+	 * @param alarmClient
+	 *            Referenz auf die gemockte AlarmClient-Implementierung.
+	 * @param stopwatchClient
+	 *            Referenz auf die gemockte StopwatchClient-Implementierung.
+	 * @param countdownClient
+	 *            Referenz auf die gemockte CountdownClient-Implementierung.
+	 * @param eventDispatcher
+	 *            Referenz auf die gemockte TimeyEventDispatcher-Implementierung.
+	 * @param applicationProperties
+	 *            Referenz auf die gemockte timey-Attribut-Implementierung.
+	 */
+	TimeyFacade(final AlarmClient alarmClient, final StopwatchClient stopwatchClient,
+			final CountdownClient countdownClient, final TimeyEventDispatcher eventDispatcher,
+			final ApplicationProperties applicationProperties) {
+		this.alarmClient = alarmClient;
+		this.stopwatchClient = stopwatchClient;
+		this.countdownClient = countdownClient;
+		this.eventDispatcher = eventDispatcher;
+		this.applicationProperties = applicationProperties;
+	}
+
 	@Override
-	public void addEventListener(final TimeyEventListener timeyEventListener) {
-		this.eventDispatcher.addEventListener(timeyEventListener);
+	public Boolean addEventListener(final TimeyEventListener timeyEventListener) {
+		return this.eventDispatcher.addEventListener(timeyEventListener);
 	}
 
 	@Override
@@ -77,7 +106,7 @@ public final class TimeyFacade implements ITimey {
 
 	@Override
 	public String getVersion() {
-		return new ApplicationProperties().getVersion();
+		return this.applicationProperties.getVersion();
 	}
 
 	/**
