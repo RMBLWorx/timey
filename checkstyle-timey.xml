@@ -81,8 +81,7 @@
     <module name="ArrayTypeStyle"/>
     <module name="FinalParameters"/>
     <module name="TodoComment">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+      <property name="format" value="TODO"/>
     </module>
     <module name="UpperEll"/>
     <module name="GenericWhitespace"/>
@@ -106,6 +105,17 @@
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
     </module>
     <module name="JUnitTestCase"/>
+    <module name="MissingDeprecated"/>
+    <module name="MissingOverride"/>
+    <module name="PackageAnnotation"/>
+    <module name="SuppressWarnings"/>
+    <module name="OuterTypeNumber"/>
+    <module name="MethodCount"/>
+    <module name="DefaultComesLast"/>
+    <module name="IllegalCatch"/>
+    <module name="IllegalThrows"/>
+    <module name="PackageDeclaration"/>
+    <module name="OuterTypeFilename"/>
   </module>
   <module name="JavadocPackage"/>
   <module name="Translation"/>
@@ -117,4 +127,5 @@
     <property name="severity" value="ignore"/>
     <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
   </module>
+  <module name="UniqueProperties"/>
 </module>
