@@ -10,6 +10,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 /**
  * Schnittstellenbeschreibung des Alarmsystems.
+ *
  * @author mmatthies
  */
 interface IAlarm {
@@ -47,6 +48,16 @@ interface IAlarm {
 	 * @return true wenn erfolgreich sonst false oder {@code null} wenn Alarmzeitpunkt bereits vorhanden
 	 */
 	Boolean setAlarm(AlarmDescriptor descriptor);
+
+	/**
+	 * Setzt den Zustand im übergebenen AlarmDescriptor.
+	 *
+	 * @param alarmDescriptor
+	 *            zu aktualisierender AlarmDescriptor.
+	 * @param isActivated
+	 *            im AlarmDescriptor zu setzender Aktivierungszustand.
+	 */
+	void setStateInAlarmDescriptor(AlarmDescriptor alarmDescriptor, Boolean isActivated);
 
 	/**
 	 * Stellt die Alarmzeit unscharf bzw. scharf.
