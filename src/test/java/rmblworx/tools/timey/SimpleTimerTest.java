@@ -36,7 +36,7 @@ public class SimpleTimerTest {
 	/**
 	 * Beschreibt die Zeit für die der Thread ruhen soll.
 	 */
-	private static final int DELAY = 10;
+	private static final long DELAY = 1000L;
 	/**
 	 * Referenz auf das gemockte TimeDescriptor-Objekt.
 	 */
