@@ -47,8 +47,18 @@ class AlarmDao implements IAlarmDao {
 	 *            Referenz auf die SessionFactory.
 	 */
 	@Autowired
-	public AlarmDao(final SessionFactory sessionFactory, final Logger logger) {
+	public AlarmDao(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+    /**
+     * Instantiiert ein neues AlarmDao. Dieser Konstruktor ist ausschliesslich für Testzwecke gedacht.
+     *
+     * @param sessionFactory die gemockte Session Factory
+     * @param logger der gemockte Logger
+     */
+    AlarmDao(final SessionFactory sessionFactory, final Logger logger) {
+        this(sessionFactory);
 		AlarmDao.log = logger;
 	}
 
