@@ -32,6 +32,7 @@ public class SimpleCountdownTest {
 
 	private static final long COUNTDOWN_START = 10000L;
 	private static final int TIME_TO_WAIT = 1000;
+	private static final long WARTEZEIT = 3000L;
 	@Autowired
 	private SimpleCountdown countdown;
 	@Autowired
@@ -83,6 +84,8 @@ public class SimpleCountdownTest {
 	 */
 	public void testHandleEvent() throws InterruptedException {
 		this.countdown.handleEvent(this.timeyEvent);
+		// dem future Task muss Zeit gegeben werden damit er beendet wird
+		Thread.sleep(WARTEZEIT);
 		assertFalse(this.countdown.isRunning());
 	}
 
@@ -90,8 +93,10 @@ public class SimpleCountdownTest {
 	/**
 	 * Test method for {@link rmblworx.tools.timey.SimpleCountdown#isRunning()}.
 	 */
-	public void testIsRunning() {
+	public void testIsRunning() throws InterruptedException {
 		this.countdown.handleEvent(this.timeyEvent);
+		// dem future Task muss Zeit gegeben werden damit er beendet wird
+		Thread.sleep(WARTEZEIT);
 		assertFalse(this.countdown.isRunning());
 	}
 
