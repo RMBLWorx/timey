@@ -14,6 +14,7 @@ import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -88,7 +90,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	}
 
 	/**
-	 * Testet das Löschen von Alarmen.
+	 * Testet das Löschen einzelner Alarme.
 	 */
 	@Test
 	public final void testDeleteAlarm() {
@@ -146,6 +148,68 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
 		assertTrue(alarmDeleteButton.isDisabled());
+	}
+
+	/**
+	 * Testet das Löschen aller Alarme.
+	 */
+	@Test
+	public final void testDeleteAllAlarms() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
+		// zwei Alarme anlegen
+		final ObservableList<Alarm> tableData = alarmTable.getItems();
+		final LocalDateTime now = LocalDateTime.now().withNano(0);
+		final Alarm alarm1 = new Alarm(now.plusSeconds(5), "alarm1");
+		final Alarm alarm2 = new Alarm(now.plusSeconds(10), "alarm2");
+		tableData.add(alarm1);
+		tableData.add(alarm2);
+		final int alarmsCount = tableData.size();
+
+		final Button alarmDeleteAllButton = (Button) scene.lookup("#alarmDeleteAllButton");
+		final Button alarmDeleteButton = (Button) scene.lookup("#alarmDeleteButton");
+
+		// Zustand der Schaltflächen testen
+		assertTrue(alarmDeleteAllButton.isVisible());
+		assertFalse(alarmDeleteAllButton.isDisabled());
+
+		// Schaltfläche nur kurz anklicken
+		click(alarmDeleteAllButton);
+		waitForThreads();
+
+		// sicherstellen, dass kein Alarm gelöscht wurde
+		verify(facade, never()).removeAlarm(isA(AlarmDescriptor.class));
+		assertTrue(tableData.contains(alarm1));
+		assertTrue(tableData.contains(alarm2));
+
+		// Schaltfläche lang genug drücken, aber Maus wegbewegen
+		move(alarmDeleteAllButton);
+		press(MouseButton.PRIMARY);
+		sleep(AlarmController.TIME_TO_PRESS_DELETE_ALL_BUTTON);
+		move(alarmDeleteButton);
+		release(MouseButton.PRIMARY);
+		waitForThreads();
+
+		// sicherstellen, dass kein Alarm gelöscht wurde
+		verify(facade, never()).removeAlarm(isA(AlarmDescriptor.class));
+		assertTrue(tableData.contains(alarm1));
+		assertTrue(tableData.contains(alarm2));
+
+		// Schaltfläche lang genug anklicken, um Löschvorgang auslösen zu können
+		move(alarmDeleteAllButton);
+		press(MouseButton.PRIMARY);
+		sleep(AlarmController.TIME_TO_PRESS_DELETE_ALL_BUTTON);
+		release(MouseButton.PRIMARY);
+		waitForThreads();
+
+		// sicherstellen, dass alle Alarme gelöscht wurden
+		verify(facade, timeout(WAIT_FOR_EVENT).times(alarmsCount)).removeAlarm(isA(AlarmDescriptor.class));
+		assertFalse(tableData.contains(alarm1));
+		assertFalse(tableData.contains(alarm2));
+
+		// Zustand der Schaltflächen testen
+		assertTrue(alarmDeleteAllButton.isVisible());
+		assertTrue(alarmDeleteAllButton.isDisabled());
 	}
 
 	/**
