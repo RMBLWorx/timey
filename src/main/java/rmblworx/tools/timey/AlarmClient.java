@@ -68,10 +68,10 @@ class AlarmClient {
 			final Boolean isActivated) {
 		final AlarmSetStateInAlarmDescriptorCommand cmd = new AlarmSetStateInAlarmDescriptorCommand(
 				(Alarm) this.fReceiver, descriptor, isActivated);
-		final Invoker<AlarmDescriptor> invoker = new Invoker<>();
+		final Invoker<Void> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
-		return invoker.execute();
+		return descriptor;
 	}
 
 	/**
