@@ -12,18 +12,24 @@
       <children>
         <TableView fx:id="alarmTable" onMouseClicked="#handleTableClick" GridPane.columnIndex="0" GridPane.rowIndex="0">
           <columns>
-            <TableColumn editable="false" prefWidth="23.0" resizable="false" sortable="false" fx:id="alarmEnabledColumn" />
-            <TableColumn editable="false" prefWidth="120.0" resizable="false" sortable="false" text="%alarmDateTimeColumn.label" fx:id="alarmDateTimeColumn" />
-            <TableColumn editable="false" prefWidth="150.0" resizable="false" sortable="false" text="%alarmDescriptionColumn.label" fx:id="alarmDescriptionColumn" />
+            <TableColumn fx:id="alarmEnabledColumn" editable="false" prefWidth="23.0" resizable="false" sortable="false" />
+            <TableColumn fx:id="alarmDateTimeColumn" editable="false" prefWidth="120.0" resizable="false" sortable="false" text="%alarmDateTimeColumn.label" />
+            <TableColumn fx:id="alarmDescriptionColumn" editable="false" prefWidth="200.0" resizable="false" sortable="false" text="%alarmDescriptionColumn.label" />
           </columns>
         </TableView>
         <GridPane GridPane.columnIndex="0" GridPane.rowIndex="1">
           <children>
-            <Button fx:id="alarmAddButton" mnemonicParsing="false" onAction="#handleAddButtonAction" text="%alarmAddButton.label" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-            <Button fx:id="alarmEditButton" mnemonicParsing="false" onAction="#handleEditButtonAction" text="%alarmEditButton.label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-            <Button fx:id="alarmDeleteButton" mnemonicParsing="false" onAction="#handleDeleteButtonAction" text="%alarmDeleteButton.label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+            <Button fx:id="alarmAddButton" mnemonicParsing="false" onAction="#handleAddButtonAction" prefHeight="24.0" text="%alarmAddButton.label" GridPane.columnIndex="0" GridPane.halignment="CENTER" />
+            <Button fx:id="alarmEditButton" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="24.0" text="%alarmEditButton.label" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="alarmDeleteButton" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="24.0" text="%alarmDeleteButton.label" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+            <Button fx:id="alarmDeleteAllButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="90.0" text="%alarmDeleteAllButton.label" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+              <graphic>
+                <ProgressBar fx:id="alarmDeleteAllProgress" mouseTransparent="true" prefHeight="18.0" prefWidth="80.0" progress="0.0" />
+              </graphic>
+            </Button>
           </children>
           <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />

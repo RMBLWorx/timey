@@ -10,8 +10,11 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -45,6 +49,11 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * @author Christian Raue {@literal <christian.raue@gmail.com>}
  */
 public class AlarmController extends Controller implements TimeyEventListener {
+
+	/**
+	 * Wie lange (in ms) die "alle löschen"-Schaltfläche gedrückt werden muss, um die Aktion tatsächlich auszulösen.
+	 */
+	public static final long TIME_TO_PRESS_DELETE_ALL_BUTTON = 1000L;
 
 	/**
 	 * Formatiert Zeitstempel als Datum/Zeit-Werte.
@@ -78,7 +87,18 @@ public class AlarmController extends Controller implements TimeyEventListener {
 	@FXML
 	private Button alarmDeleteButton;
 
+	@FXML
+	private Button alarmDeleteAllButton;
+
+	@FXML
+	private ProgressBar alarmDeleteAllProgress;
+
 	private Stage dialogStage;
+
+	/**
+	 * Zeit (in ms), wann die "alle löschen"-Schaltfläche gedrückt wurde.
+	 */
+	private volatile Long deleteAllButtonPressed;
 
 	@FXML
 	private void initialize() {
@@ -141,9 +161,24 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		// Bearbeiten- und Löschen-Schaltflächen nur aktivieren, wenn Eintrag ausgewählt
 		alarmTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Alarm>() {
 			public void changed(final ObservableValue<? extends Alarm> property, final Alarm oldValue, final Alarm newValue) {
-				final boolean isItemSelected = newValue != null;
-				alarmEditButton.setDisable(!isItemSelected);
-				alarmDeleteButton.setDisable(!isItemSelected);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						final boolean isItemSelected = newValue != null;
+						alarmEditButton.setDisable(!isItemSelected);
+						alarmDeleteButton.setDisable(!isItemSelected);
+					}
+				});
+			}
+		});
+
+		// "alle löschen"-Schaltfläche nur aktivieren, wenn Einträge vorhanden
+		alarmTable.getItems().addListener(new ListChangeListener<Alarm>() {
+			public void onChanged(final ListChangeListener.Change<? extends Alarm> change) {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						alarmDeleteAllButton.setDisable(change.getList().isEmpty());
+					}
+				});
 			}
 		});
 
@@ -153,8 +188,7 @@ public class AlarmController extends Controller implements TimeyEventListener {
 			}
 		});
 
-		alarmEditButton.setDisable(true);
-		alarmDeleteButton.setDisable(true);
+		initializeDeleteAllButton();
 
 		final TimeyEventListener eventListener = this;
 		Platform.runLater(new Runnable() {
@@ -164,6 +198,113 @@ public class AlarmController extends Controller implements TimeyEventListener {
 		});
 
 		setupDateTimeFormatter();
+	}
+
+	/**
+	 * Initialisiert die "alle löschen"-Schaltfläche mit allen nötigen {@code EventHandler}n.
+	 */
+	private void initializeDeleteAllButton() {
+		// Initialzustand für "alle löschen"-Schaltfläche
+		alarmEditButton.setDisable(true);
+		alarmDeleteButton.setDisable(true);
+		alarmDeleteAllButton.setDisable(true);
+		alarmDeleteAllButton.setGraphic(null);
+
+		// beim Drücken der "alle löschen"-Schaltfläche Fortschrittsbalken einblenden
+		alarmDeleteAllButton.setOnMousePressed(new EventHandler<Event>() {
+			public void handle(final Event event) {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						alarmDeleteAllButton.setText(null);
+						alarmDeleteAllButton.setGraphic(alarmDeleteAllProgress);
+					}
+				});
+
+				final Task<Void> task = new Task<Void>() {
+					private static final long SLEEP_TIME = 10L;
+
+					public Void call() throws InterruptedException {
+						deleteAllButtonPressed = System.currentTimeMillis();
+
+						while (deleteAllButtonPressed != null) {
+							try {
+								final long duration = System.currentTimeMillis() - deleteAllButtonPressed;
+
+								updateProgress(duration, TIME_TO_PRESS_DELETE_ALL_BUTTON);
+
+								if (duration >= TIME_TO_PRESS_DELETE_ALL_BUTTON) {
+									break;
+								}
+
+								Thread.sleep(SLEEP_TIME);
+							} catch (final NullPointerException e) {
+								// Könnte beim Zugriff auf deleteAllButtonPressed auftreten. Nicht vorher prüfbar, da volatil.
+								break;
+							}
+						}
+
+						return null;
+					}
+				};
+
+				task.progressProperty().addListener(new ChangeListener<Number>() {
+					public void changed(final ObservableValue<? extends Number> property, final Number oldValue, final Number newValue) {
+						alarmDeleteAllProgress.setProgress(newValue.doubleValue());
+					}
+				});
+
+				getGuiHelper().runInThread(task, resources);
+			}
+		});
+
+		// beim Verlassen der "alle löschen"-Schaltfläche Fortschrittsbalken stoppen
+		alarmDeleteAllButton.setOnMouseExited(new EventHandler<Event>() {
+			public void handle(final Event event) {
+				deleteAllButtonPressed = null;
+			}
+		});
+
+		// beim Loslassen der "alle löschen"-Schaltfläche Fortschrittsbalken ausblenden und evtl. alle Alarme löschen, wenn vollständig
+		alarmDeleteAllButton.setOnMouseReleased(new EventHandler<Event>() {
+			public void handle(final Event event) {
+				if (deleteAllButtonPressed != null && alarmDeleteAllProgress.getProgress() >= 1) {
+					deleteAllButtonPressed = null;
+
+					showProgress();
+
+					getGuiHelper().runInThread(new Task<Void>() {
+						public Void call() {
+							final ITimey facade = getGuiHelper().getFacade();
+							for (final Alarm alarm : alarmTable.getItems()) {
+								facade.removeAlarm(AlarmDescriptorConverter.getAsAlarmDescriptor(alarm));
+							}
+
+							Platform.runLater(new Runnable() {
+								public void run() {
+									reloadAlarms();
+
+									alarmDeleteAllButton.setText(resources.getString("alarmDeleteAllButton.label"));
+									alarmDeleteAllButton.setGraphic(null);
+
+									hideProgress();
+								}
+							});
+
+							return null;
+						}
+					}, resources);
+				} else {
+					deleteAllButtonPressed = null;
+
+					Platform.runLater(new Runnable() {
+						public void run() {
+							alarmDeleteAllButton.setText(resources.getString("alarmDeleteAllButton.label"));
+							alarmDeleteAllButton.setGraphic(null);
+						}
+					});
+				}
+			}
+		});
 	}
 
 	/**
