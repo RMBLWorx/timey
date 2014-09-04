@@ -70,6 +70,7 @@ class AlarmClient {
 				(Alarm) this.fReceiver, descriptor, isActivated);
 		final Invoker<Void> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
+		invoker.execute();
 
 		return descriptor;
 	}
