@@ -27,6 +27,10 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventListener {
 	/**
+	 * Referenz auf die AlarmClient-Implementierung.
+	 */
+	private AlarmClient alarmClient;
+	/**
 	 * Referenz auf den Alarmservice.
 	 */
 	private IAlarmService alarmService;
@@ -58,7 +62,7 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 
 	/**
 	 * Prueft ob ein Alarm zeitlich eingetreten ist.
-	 * 
+	 *
 	 * @return das den Alarm beschreibende Werteobjekt.
 	 */
 	private AlarmDescriptor detectAlarm() {
@@ -96,10 +100,10 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 			final AlarmDescriptor result = this.detectAlarm();
 			if (result != null) {
 				// wenn erreicht event feuern sonst weiter abgleichen
-				this.alarmService.setState(result, false);
-				final AlarmExpiredEvent event = (AlarmExpiredEvent) this.springContext.getBean("alarmExpiredEvent",
-						result);
-				this.eventDispatcher.dispatchEvent(event);
+				this.alarmClient.initAlarmSetStateOfAlarmCommand(result, false);
+				this.alarmClient.initAlarmSetStateInAlarmDescriptorCommand(result, false);
+
+				this.eventDispatcher.dispatchEvent(new AlarmExpiredEvent(result));
 			}
 		} finally {
 			this.lock.unlock();
@@ -112,5 +116,6 @@ class AlarmRunnable implements Runnable, ApplicationContextAware, TimeyEventList
 		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 		this.eventDispatcher.addEventListener(this);
 		this.alarmService = (IAlarmService) this.springContext.getBean("alarmService");
+		this.alarmClient = (AlarmClient) this.springContext.getBean("alarmClient");
 	}
 }

@@ -10,6 +10,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 /**
  * Schnittstellenbeschreibung des Alarmsystems.
+ *
  * @author mmatthies
  */
 interface IAlarm {

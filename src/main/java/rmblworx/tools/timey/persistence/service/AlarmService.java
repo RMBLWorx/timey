@@ -20,7 +20,9 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Serviceimplementierung zur Persistierung von {@link rmblworx.tools.timey.persistence.model.AlarmEntity Alarmzeitpunkt}en.
+ * Serviceimplementierung zur Persistierung von {@link rmblworx.tools.timey.persistence.model.AlarmEntity
+ * Alarmzeitpunkt}en.
+ *
  * @author mmatthies
  */
 @Service
@@ -45,12 +47,6 @@ class AlarmService implements IAlarmService, ApplicationContextAware {
 		return result;
 	}
 
-	private void fireAlarmModifiedEvent() {
-		final AlarmsModifiedEvent alarmsModifiedEvent = (AlarmsModifiedEvent) this.springContext
-				.getBean("alarmsModifiedEvent");
-		this.eventDispatcher.dispatchEvent(alarmsModifiedEvent);
-	}
-
 	@Override
 	public Boolean delete(final AlarmDescriptor descriptor) {
 		Boolean result;
@@ -58,6 +54,12 @@ class AlarmService implements IAlarmService, ApplicationContextAware {
 		this.fireAlarmModifiedEvent();
 
 		return result;
+	}
+
+	private void fireAlarmModifiedEvent() {
+		final AlarmsModifiedEvent alarmsModifiedEvent = (AlarmsModifiedEvent) this.springContext
+				.getBean("alarmsModifiedEvent");
+		this.eventDispatcher.dispatchEvent(alarmsModifiedEvent);
 	}
 
 	@Override
@@ -82,17 +84,17 @@ class AlarmService implements IAlarmService, ApplicationContextAware {
 	}
 
 	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+		this.springContext = applicationContext;
+		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
+	}
+
+	@Override
 	public Boolean setState(final AlarmDescriptor descriptor, final Boolean isActivated) {
 		Boolean result;
 		result = this.dao.setIsActivated(descriptor, isActivated);
 		this.fireAlarmModifiedEvent();
 
 		return result;
-	}
-
-	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-		this.springContext = applicationContext;
-		this.eventDispatcher = (TimeyEventDispatcher) this.springContext.getBean("timeyEventDispatcher");
 	}
 }

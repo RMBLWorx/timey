@@ -18,6 +18,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  */
 /**
  * Diese Implementierung dient der Steuerung des Alarmsystems.
+ *
  * @author mmatthies
  */
 class Alarm implements IAlarm, ApplicationContextAware {
@@ -96,6 +97,18 @@ class Alarm implements IAlarm, ApplicationContextAware {
 	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.springContext = applicationContext;
 		this.startAlarmdetection();
+	}
+
+	/**
+	 * Setzt den Zustand im übergebenen AlarmDescriptor.
+	 *
+	 * @param alarmDescriptor
+	 *            zu aktualisierender AlarmDescriptor.
+	 * @param isActivated
+	 *            im AlarmDescriptor zu setzender Aktivierungszustand.
+	 */
+	public void setStateInAlarmDescriptor(final AlarmDescriptor alarmDescriptor, final Boolean isActivated) {
+		alarmDescriptor.setIsActive(isActivated);
 	}
 
 	@Override

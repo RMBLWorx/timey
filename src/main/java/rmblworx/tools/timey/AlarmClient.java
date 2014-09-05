@@ -56,6 +56,26 @@ class AlarmClient {
 	}
 
 	/**
+	 * Initiiert das Kommando. Ermöglicht das Setzen des Aktivierungszustandes in einem AlarmDescriptor.
+	 *
+	 * @param descriptor
+	 *            Referenz auf das Alarmobjekt.
+	 * @param isActivated
+	 *            Gibt an, ob der Alarm aktiv oder inaktiv geschaltet werden soll.
+	 * @return bearbeitetes AlarmDescriptor-Objekt.
+	 */
+	public AlarmDescriptor initAlarmSetStateInAlarmDescriptorCommand(final AlarmDescriptor descriptor,
+			final Boolean isActivated) {
+		final AlarmSetStateInAlarmDescriptorCommand cmd = new AlarmSetStateInAlarmDescriptorCommand(
+				(Alarm) this.fReceiver, descriptor, isActivated);
+		final Invoker<Void> invoker = new Invoker<>();
+		invoker.storeCommand(cmd);
+		invoker.execute();
+
+		return descriptor;
+	}
+
+	/**
 	 * Initiiert das Kommando. Ermöglicht die Zustandsänderung eines Alarms.
 	 *
 	 * @param descriptor
@@ -69,7 +89,10 @@ class AlarmClient {
 		final Invoker<Boolean> invoker = new Invoker<>();
 		invoker.storeCommand(cmd);
 
-		return invoker.execute();
+		final Boolean result = invoker.execute();
+		this.initAlarmSetStateInAlarmDescriptorCommand(descriptor, isActivated);
+
+		return result;
 	}
 
 	/**

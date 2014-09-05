@@ -45,6 +45,14 @@ public class AlarmClientTest {
 	 */
 	private List<AlarmDescriptor> alarms;
 	/**
+	 * Mock der Empfängerimplementierung - Besonderheit - die Klasse Alarm hat eine nicht im Interface deklarierte
+	 * Methode die jedoch in einem Subkommando zum Setzen des Zustandes im AlarmDescriptor genutzt wird. Dieser Mock ist
+	 * vorrübergehend dazu da um eine ClassCastException zu verhindern.
+	 */
+	@Mock
+	// TODO - siehe Javadoc
+	private Alarm mockedReceiverImpl;
+	/**
 	 * Mock der Empfängerimplementierung.
 	 */
 	@Mock
@@ -71,6 +79,7 @@ public class AlarmClientTest {
 		when(this.receiver.removeAlarm(this.alarmDescriptor)).thenReturn(Boolean.TRUE);
 		when(this.receiver.setAlarm(this.alarmDescriptor)).thenReturn(Boolean.TRUE);
 		when(this.receiver.setStateOfAlarm(this.alarmDescriptor, Boolean.TRUE)).thenReturn(Boolean.TRUE);
+		when(this.mockedReceiverImpl.setStateOfAlarm(this.alarmDescriptor, Boolean.TRUE)).thenReturn(Boolean.TRUE);
 	}
 
 	/**
@@ -109,6 +118,7 @@ public class AlarmClientTest {
 	 */
 	@Test
 	public final void testInitAlarmSetStateOfAlarmCommand() {
+		this.alarmClient = new AlarmClient(this.mockedReceiverImpl);
 		final Boolean actual = this.alarmClient.initAlarmSetStateOfAlarmCommand(this.alarmDescriptor, Boolean.TRUE);
 
 		assertTrue(TEXT_UNERWARTETER_RUECKGABEWERT, actual);
