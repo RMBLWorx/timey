@@ -39,22 +39,21 @@ public class AlarmServiceTest {
 	private IAlarmService service;
 
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		this.expectedAlarmDescriptor = new AlarmDescriptor(new TimeDescriptor(EXPECTED_MILLISECONDS), true, "Text",
 				"/bla", new TimeDescriptor(EXPECTED_MILLISECONDS + 1));
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.expectedAlarmDescriptor = null;
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#create(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for {@link IAlarmService#create(AlarmDescriptor)}.
 	 */
 	@Test
-	public void testCreate() {
+	public final void testCreate() {
 		boolean found = false;
 
 		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(this.expectedAlarmDescriptor));
@@ -73,7 +72,7 @@ public class AlarmServiceTest {
 	 * Testet das Speichern eines Alarms ohne Klingelton.
 	 */
 	@Test
-	public void testCreateAlarmWithoutSound() {
+	public final void testCreateAlarmWithoutSound() {
 		final AlarmDescriptor alarm = new AlarmDescriptor(new TimeDescriptor(0), true, "Text", null, null);
 
 		try {
@@ -92,12 +91,10 @@ public class AlarmServiceTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#delete(rmblworx.tools.timey.vo.AlarmDescriptor)} .
+	 * Test method for {@link IAlarmService#delete(AlarmDescriptor)}.
 	 */
 	@Test
-	public void testDeleteAlarm() {
-
+	public final void testDeleteAlarm() {
 		assertTrue(KEIN_ALARMZEITPUNKT_ERZEUGT, this.service.create(this.expectedAlarmDescriptor));
 		assertTrue(this.service.delete(this.expectedAlarmDescriptor));
 		final List<AlarmDescriptor> actualList = this.service.getAll();
@@ -110,18 +107,15 @@ public class AlarmServiceTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#delete(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for {@link IAlarmService#delete(AlarmDescriptor)}.
 	 */
 	@Test
-	public void testDeleteAlarmShouldFailBecauseDescriptorIsNull() {
+	public final void testDeleteAlarmShouldFailBecauseDescriptorIsNull() {
 		assertNull(NOT_NULL_MSG, this.service.delete(null));
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#isActivated(rmblworx.tools.timey.vo.AlarmDescriptor)}
-	 * .
+	 * Test method for {@link IAlarmService#isActivated(AlarmDescriptor)}.
 	 */
 	@Test
 	public void testIsActivatedShouldReturnNullBecauseTimestampIsNotPresent() {
@@ -130,12 +124,10 @@ public class AlarmServiceTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#setState(rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
-	 * .
+	 * Test method for {@link IAlarmService#setState(AlarmDescriptor, Boolean)}.
 	 */
 	@Test
-	public void testSetIsActivated() {
+	public final void testSetIsActivated() {
 		final Boolean expectedState = Boolean.TRUE;
 		this.service.create(this.expectedAlarmDescriptor);
 		this.service.setState(this.expectedAlarmDescriptor, expectedState);
@@ -145,12 +137,11 @@ public class AlarmServiceTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.service.IAlarmService#setState(rmblworx.tools.timey.vo.AlarmDescriptor, Boolean)}
-	 * .
+	 * Test method for {@link IAlarmService#setState(AlarmDescriptor, Boolean)}.
 	 */
 	@Test
-	public void testSetIsActivatedShouldFailBecauseDescriptorIsNull() {
+	public final void testSetIsActivatedShouldFailBecauseDescriptorIsNull() {
 		assertNull(NOT_NULL_MSG, this.service.setState(null, Boolean.FALSE));
 	}
+
 }

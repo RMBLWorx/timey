@@ -114,8 +114,6 @@ class AlarmClient {
 	 * @param alarmDescriptor
 	 *            Wertobjekt zur Beschreibung des Alarmzeitpunktes.
 	 * @return true wenn erfolgreich sonst false oder null wenn Alarmzeitpunkt bereits vorhanden
-	 *         Wertobjekt zur Beschreibung des Alarmzeitpunktes.
-	 * @return true wenn erfolgreich sonst false oder null wenn Alarmzeitpunkt bereits vorhanden
 	 */
 	public Boolean initSetAlarmCommand(final AlarmDescriptor alarmDescriptor) {
 		final AlarmSetTimeCommand cmd = new AlarmSetTimeCommand(this.fReceiver, alarmDescriptor);

@@ -41,7 +41,7 @@ public final class ConfigManager {
 	}
 
 	/**
-	 * Privater Konstruktor.
+	 * Instanziierung verhindern.
 	 */
 	private ConfigManager() {
 	}

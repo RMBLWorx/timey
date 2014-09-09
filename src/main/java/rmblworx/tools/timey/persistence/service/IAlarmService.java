@@ -2,7 +2,6 @@ package rmblworx.tools.timey.persistence.service;
 
 import java.util.List;
 
-import rmblworx.tools.timey.persistence.model.AlarmEntity;
 import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /*
@@ -10,9 +9,8 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
- * Schnittstellenbeschreibung für den Dienst zum verwalten von {@link AlarmEntity Alarmzeitpunkten}.
+ * Schnittstellenbeschreibung für den Dienst zum verwalten von {@link rmblworx.tools.timey.persistence.model.AlarmEntity Alarmzeitpunkten}.
  * @author mmatthies
- * @see AlarmEntity
  */
 public interface IAlarmService {
 	/**

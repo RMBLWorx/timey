@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,11 +55,11 @@ public class SimpleTimerTest {
 	private SimpleTimer timer;
 
 	/**
-	 * @throws java.lang.Exception
+	 * @throws BeansException
 	 *             wenn beim setzen des Spring-Anwendungskontextes eine Ausnahme auftrat
 	 */
 	@Before
-	public final void setUp() throws Exception {
+	public final void setUp() throws BeansException {
 		MockitoAnnotations.initMocks(this);
 		this.timer = new SimpleTimer(this.mockedDescriptor);
 		this.timer.setApplicationContext(this.springContext);
@@ -71,7 +72,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#resetStopwatch()}.
+	 * Test method for {@link SimpleTimer#resetStopwatch()}.
 	 */
 	@Test
 	public final void testResetStopwatch() {
@@ -80,7 +81,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
+	 * Test method for {@link SimpleTimer#startStopwatch(int, TimeUnit)}.
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseDelayIsLessThanOne() {
@@ -88,7 +89,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#SimpleTimer(rmblworx.tools.timey.vo.TimeDescriptor)}.
+	 * Test method for {@link SimpleTimer#SimpleTimer(TimeDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {
@@ -96,7 +97,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
+	 * Test method for {@link SimpleTimer#startStopwatch(int, TimeUnit)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeUnitIsNull() {
@@ -104,7 +105,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#startStopwatch(int, java.util.concurrent.TimeUnit)}.
+	 * Test method for {@link SimpleTimer#startStopwatch(int, TimeUnit)}.
 	 */
 	@Test
 	public final void testStartStopwatch() {
@@ -112,7 +113,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#stopStopwatch()}.
+	 * Test method for {@link SimpleTimer#stopStopwatch()}.
 	 */
 	@Test
 	public final void testStopStopwatch() {
@@ -121,7 +122,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#toggleTimeModeInStopwatch()}.
+	 * Test method for {@link SimpleTimer#toggleTimeModeInStopwatch()}.
 	 *
 	 * @throws InterruptedException
 	 *             wenn beim unterbrechen des Threads ein Ausnahme auftrat
@@ -161,7 +162,7 @@ public class SimpleTimerTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.SimpleTimer#toggleTimeModeInStopwatch()}.
+	 * Test method for {@link SimpleTimer#toggleTimeModeInStopwatch()}.
 	 *
 	 * @throws InterruptedException
 	 *             wenn beim schlafenlegen des Threads eine Ausnahme auftrat

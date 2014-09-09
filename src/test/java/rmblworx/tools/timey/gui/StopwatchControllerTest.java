@@ -46,6 +46,7 @@ public class StopwatchControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Stopwatch.fxml";
 	}

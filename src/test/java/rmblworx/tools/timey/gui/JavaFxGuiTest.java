@@ -23,14 +23,14 @@ import org.loadui.testfx.GuiTest;
 public abstract class JavaFxGuiTest extends GuiTest {
 
 	/**
-	 * Ob der Elternknoten von einem Container umhüllt werden soll.
-	 */
-	protected static final boolean WRAP_IN_CONTAINER = true;
-
-	/**
 	 * Sprache für GUI-Tests.
 	 */
 	public static final Locale TEST_LOCALE = Locale.GERMAN;
+
+	/**
+	 * Ob der Elternknoten von einem Container umhüllt werden soll.
+	 */
+	protected static final boolean WRAP_IN_CONTAINER = true;
 
 	static {
 		// Standardsprache für alle GUI-Tests setzen (wichtig z. B. als Fallback auf Travis)

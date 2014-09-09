@@ -21,28 +21,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring-timey-context.xml" })
 public class GetVersionTest {
+
 	private static final Logger LOG = LoggerFactory.getLogger(GetVersionTest.class);
 
 	private TimeyFacade facade;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public final void setUp() throws Exception {
+	public final void setUp() {
 		this.facade = new TimeyFacade();
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public final void tearDown() throws Exception {
+	public final void tearDown() {
 		this.facade = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyFacade#getVersion()}.
+	 * Test method for {@link TimeyFacade#getVersion()}.
 	 */
 	@Test
 	public final void testGetVersion() {

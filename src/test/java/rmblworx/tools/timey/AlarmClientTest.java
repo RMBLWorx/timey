@@ -114,7 +114,7 @@ public class AlarmClientTest {
 	}
 
 	/**
-	 * Test method for {@link AlarmClient#initAlarmSetStateOfAlarmCommand(AlarmDescriptor, java.lang.Boolean)}.
+	 * Test method for {@link AlarmClient#initAlarmSetStateOfAlarmCommand(AlarmDescriptor, Boolean)}.
 	 */
 	@Test
 	public final void testInitAlarmSetStateOfAlarmCommand() {

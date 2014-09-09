@@ -29,29 +29,23 @@ public class CountdownSetTimeCommandTest {
 	@Mock
 	private ICountdown mockedReceiver;
 
-	/**
-	 * @throws Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new CountdownSetTimeCommand(this.mockedReceiver, this.descriptor);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownSetTimeCommand#execute()}.
+	 * Test method for {@link CountdownSetTimeCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteIfTimeCouldBeSetSuccessfully() {
@@ -60,7 +54,7 @@ public class CountdownSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownSetTimeCommand#execute()}.
+	 * Test method for {@link CountdownSetTimeCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteIfTimeCouldNotBeSetSuccessfully() {
@@ -69,8 +63,7 @@ public class CountdownSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.CountdownSetTimeCommand#CountdownSetTimeCommand(ICountdown, TimeDescriptor)}.
+	 * Test method for {@link CountdownSetTimeCommand#CountdownSetTimeCommand(ICountdown, TimeDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
@@ -78,8 +71,7 @@ public class CountdownSetTimeCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.CountdownSetTimeCommand#CountdownSetTimeCommand(ICountdown, TimeDescriptor)}.
+	 * Test method for {@link CountdownSetTimeCommand#CountdownSetTimeCommand(ICountdown, TimeDescriptor)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseTimeDescriptorIsNull() {

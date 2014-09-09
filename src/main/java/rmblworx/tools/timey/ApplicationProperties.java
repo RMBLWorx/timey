@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
@@ -21,16 +22,25 @@ class ApplicationProperties {
 	/**
 	 * Name des Attributs für die Versionskennung.
 	 */
-	private static final String PROP_APP_VERSION = "application.version";
+	static final String PROP_APP_VERSION = "application.version";
 
 	/**
 	 * Name der Datei.
 	 */
 	private static final String PROPERTY_FILENAME = "app.properties";
+
+	/**
+	 * Logger.
+	 */
+	private static Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
+
+	/**
+	 * Stream zum Auslesen der Attribute.
+	 */
 	private InputStream inputStream;
 
 	/**
-	 * Properties.
+	 * Attribute.
 	 */
 	private Properties properties;
 
@@ -41,42 +51,40 @@ class ApplicationProperties {
 	}
 
 	/**
-	 * Erweiterter Konstruktor. Lediglich für Testzwecke.
+	 * Konstruktor für Testzwecke.
 	 *
-	 * @param properties
-	 *            Referenz auf die Properties-Instanz.
+	 * @param properties Attribute.
+	 * @param inputStream Stream zum Auslesen der Attribute.
+	 * @param logger Logger.
 	 */
-	ApplicationProperties(final Properties properties, final InputStream inputStream) {
+	ApplicationProperties(final Properties properties, final InputStream inputStream, final Logger logger) {
 		this.properties = properties;
 		this.inputStream = inputStream;
+		log = logger;
 	}
 
 	/**
-	 * @return Versionskennung oder null wenn beim auslesen der Version eine Ausnahme auftrat.
+	 * @return Versionskennung oder {@code null}, wenn sie nicht ermittelt werden kann.
 	 */
 	public String getVersion() {
 		try {
-			if (this.inputStream == null) {
-				this.inputStream = new ClassPathResource(PROPERTY_FILENAME).getInputStream();
+			if (inputStream == null) {
+				inputStream = new ClassPathResource(PROPERTY_FILENAME).getInputStream();
 			}
 
-			if (this.properties == null) {
-				this.properties = new Properties();
+			if (properties == null) {
+				properties = new Properties();
 			}
-			this.properties.load(this.inputStream);
-			return this.properties.getProperty(PROP_APP_VERSION);
+
+			properties.load(inputStream);
+
+			return properties.getProperty(PROP_APP_VERSION);
 		} catch (final IOException e) {
-			LoggerFactory.getLogger(this.getClass()).error(
-					"Error while trying to read the property file: " + e.getLocalizedMessage());
+			log.error("Error while trying to read the property file: " + e.getLocalizedMessage());
 			return null;
 		} finally {
-			if (this.inputStream != null) {
-				try {
-					this.inputStream.close();
-				} catch (final IOException e) {
-					// ignorieren
-				}
-			}
+			TimeyUtils.closeQuietly(inputStream);
 		}
 	}
+
 }

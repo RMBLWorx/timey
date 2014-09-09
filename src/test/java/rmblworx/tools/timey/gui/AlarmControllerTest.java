@@ -3,6 +3,7 @@ package rmblworx.tools.timey.gui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -69,6 +70,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Alarm.fxml";
 	}
@@ -94,6 +96,8 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testDeleteAlarm() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
 		// zwei Alarme anlegen
 		final ObservableList<Alarm> tableData = alarmTable.getItems();
 		final LocalDateTime now = LocalDateTime.now().withNano(0);
@@ -125,7 +129,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		waitForThreads();
 
 		// sicherstellen, dass Alarm gelöscht wurde
-		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+		verify(facade, timeout(WAIT_FOR_EVENT)).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm2.getDateTimeInMillis();
 			}
@@ -142,8 +146,18 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		click(alarmDeleteButton);
 		waitForThreads();
 
+		// sicherstellen, dass zweiter Alarm auch gelöscht wurde
+		verify(facade, timeout(WAIT_FOR_EVENT)).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+			public boolean matches(final Object argument) {
+				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == alarm1.getDateTimeInMillis();
+			}
+		}));
+
 		// sicherstellen, dass keine Alarme mehr existieren
 		assertTrue(tableData.isEmpty());
+
+		// sicherstellen, dass kein Alarm mehr ausgewählt ist
+		assertNull(alarmTable.getSelectionModel().getSelectedItem());
 
 		// Zustand der Schaltflächen testen
 		assertTrue(alarmDeleteButton.isVisible());
@@ -309,12 +323,13 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		assertEquals(onePm, alarm.getDateTime());
 
 		// sicherstellen, dass per Fassade alter Alarm gelöscht und neuer angelegt wurde
-		verify(getController().getGuiHelper().getFacade()).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+		verify(facade, timeout(WAIT_FOR_EVENT)).removeAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == DateTimeUtil.getLocalDateTimeInMillis(noon);
 			}
 		}));
-		verify(getController().getGuiHelper().getFacade()).setAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
+		verify(facade, timeout(WAIT_FOR_EVENT)).setAlarm(argThat(new ArgumentMatcher<AlarmDescriptor>() {
 			public boolean matches(final Object argument) {
 				return ((AlarmDescriptor) argument).getAlarmtime().getMilliSeconds() == DateTimeUtil.getLocalDateTimeInMillis(onePm);
 			}
@@ -324,8 +339,6 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		 * Sicherstellen, dass geänderter Alarm in der Tabelle korrekt angezeigt wird.
 		 * Wäre z. B. nicht der Fall, wenn {@code Alarm}-Klasse keine "<Attribut>Property"-Methoden hätte,
 		 * siehe http://stackoverflow.com/questions/11065140/javafx-2-1-tableview-refresh-items/24194842#24194842.
-		 * TODO Funktioniert so nicht. Selbst wenn "<Attribut>Property"-Methoden fehlen, liefert dieser Code einen anderen Wert als den,
-		 * der tatsächlich in der Tabelle sichtbar ist. Darstellungsfehler.
 		 */
 		final LocalDateTime dateTimeCellData = (LocalDateTime) alarmTable.getColumns().get(1).getCellData(0);
 		assertNotNull(dateTimeCellData);

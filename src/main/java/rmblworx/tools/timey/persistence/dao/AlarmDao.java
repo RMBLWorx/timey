@@ -51,14 +51,14 @@ class AlarmDao implements IAlarmDao {
 		this.sessionFactory = sessionFactory;
 	}
 
-    /**
-     * Instantiiert ein neues AlarmDao. Dieser Konstruktor ist ausschliesslich für Testzwecke gedacht.
-     *
-     * @param sessionFactory die gemockte Session Factory
-     * @param logger der gemockte Logger
-     */
-    AlarmDao(final SessionFactory sessionFactory, final Logger logger) {
-        this(sessionFactory);
+	/**
+	 * Instantiiert ein neues AlarmDao. Dieser Konstruktor ist ausschließlich für Testzwecke gedacht.
+	 *
+	 * @param sessionFactory die gemockte Session Factory
+	 * @param logger der gemockte Logger
+	 */
+	AlarmDao(final SessionFactory sessionFactory, final Logger logger) {
+		this(sessionFactory);
 		AlarmDao.log = logger;
 	}
 

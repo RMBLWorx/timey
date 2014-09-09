@@ -66,7 +66,7 @@ public class AlarmExpiredEventTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.event.AlarmExpiredEvent#getAlarmDescriptor()}.
+	 * Test method for {@link AlarmExpiredEvent#getAlarmDescriptor()}.
 	 */
 	@Test
 	public final void testGetAlarmDescriptor() {
@@ -77,7 +77,7 @@ public class AlarmExpiredEventTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.event.AlarmExpiredEvent#toString()}.
+	 * Test method for {@link AlarmExpiredEvent#toString()}.
 	 */
 	@Test
 	public final void testToString() {

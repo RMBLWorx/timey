@@ -27,29 +27,23 @@ public class CountdownStartCommandTest {
 	@Mock
 	private ICountdown mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new CountdownStartCommand(this.mockedReceiver);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownStartCommand#execute()}.
+	 * Test method for {@link CountdownStartCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
@@ -58,7 +52,7 @@ public class CountdownStartCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownStartCommand#CountdownStartCommand(ICountdown)}.
+	 * Test method for {@link CountdownStartCommand#CountdownStartCommand(ICountdown)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testExecuteShouldFailBecauseReceiverIsNull() {

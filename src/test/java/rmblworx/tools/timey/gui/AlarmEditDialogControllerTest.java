@@ -7,6 +7,9 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -22,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,8 +63,15 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	private Button alarmSaveButton;
 
 	/**
+	 * Stage mocken, da das Schließen des echten Dialogs dafür sorgen würde, dass das Fenster (Stage) für andere Tests nicht mehr zur
+	 * Verfügung stünde.
+	 */
+	private Stage mockedDialogStage = mock(Stage.class);
+
+	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "AlarmEditDialog.fxml";
 	}
@@ -113,11 +124,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testApplyChanges() {
-		/*
-		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
-		 * Verfügung steht.
-		 */
-		// controller.setDialogStage(stage);
+		controller.setDialogStage(mockedDialogStage);
 
 		// Alarm vorgeben
 		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), "Bla");
@@ -150,10 +157,8 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		click(alarmSaveButton);
 		waitForThreads();
 
-		// TODO auf Schließen des Dialogs warten
-
-		// TODO sicherstellen, dass Dialog geschlossen wurde
-		// assertFalse(stage.isShowing());
+		// sicherstellen, dass Dialog geschlossen worden wäre
+		verify(mockedDialogStage, timeout(WAIT_FOR_EVENT)).close();
 
 		// sicherstellen, dass Alarm neue Werte hat
 		assertFalse(alarm.isEnabled());
@@ -167,11 +172,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testErrorDateEmpty() {
-		/*
-		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
-		 * Verfügung steht.
-		 */
-		// controller.setDialogStage(stage);
+		controller.setDialogStage(mockedDialogStage);
 
 		controller.setExistingAlarms(Arrays.asList(new Alarm()));
 
@@ -194,6 +195,9 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		click(alarmSaveButton);
 		waitForThreads();
 
+		// sicherstellen, dass nicht Dialog geschlossen worden wäre
+		verify(mockedDialogStage, never()).close();
+
 		// sicherstellen, dass Fehlermeldung erscheint
 		verify(messageHelper).showDialogMessage(anyString(), eq("Ein Datum muss angegeben werden.\n"), isA(ResourceBundle.class));
 	}
@@ -203,12 +207,6 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testErrorWhenSavingAlarm() {
-		/*
-		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
-		 * Verfügung steht.
-		 */
-		// controller.setDialogStage(stage);
-
 		final List<DataErrors> testCases = new Vector<>();
 
 		// Anlegen/Bearbeiten eines Alarms mit Zeitstempel in Vergangenheit
@@ -243,6 +241,9 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 				alarm));
 
 		for (final DataErrors testCase : testCases) {
+			reset(mockedDialogStage);
+			controller.setDialogStage(mockedDialogStage);
+
 			controller.setExistingAlarms(testCase.existingAlarms);
 			controller.setAlarm(testCase.alarm);
 			FXTestUtils.awaitEvents();
@@ -253,6 +254,9 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 			// Speichern-Schaltfläche betätigen
 			click(alarmSaveButton);
 			waitForThreads();
+
+			// sicherstellen, dass nicht Dialog geschlossen worden wäre
+			verify(mockedDialogStage, testCase.numberOfCalls > 0 ? never() : times(1)).close();
 
 			// sicherstellen, dass Fehlermeldung erscheint bzw. nicht
 			verify(messageHelper, times(testCase.numberOfCalls)).showDialogMessage(anyString(),
@@ -265,13 +269,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testCancel() {
-		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
-
-		/*
-		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
-		 * Verfügung steht.
-		 */
-		// controller.setDialogStage(stage);
+		controller.setDialogStage(mockedDialogStage);
 
 		// Alarm vorgeben
 		final LocalDateTime now = LocalDateTime.now();
@@ -302,13 +300,12 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		FXTestUtils.awaitEvents();
 
 		// Abbrechen-Schaltfläche betätigen
+		final Button alarmCancelButton = (Button) scene.lookup("#alarmCancelButton");
 		click(alarmCancelButton);
 		waitForThreads();
 
-		// TODO auf Schließen des Dialogs warten
-
-		// TODO sicherstellen, dass Dialog geschlossen wurde
-		// assertFalse(stage.isShowing());
+		// sicherstellen, dass Dialog geschlossen worden wäre
+		verify(mockedDialogStage, timeout(WAIT_FOR_EVENT)).close();
 
 		// sicherstellen, dass Alarm ursprüngliche Werte hat
 		assertTrue(alarm.isEnabled());
@@ -322,11 +319,7 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 	 */
 	@Test
 	public final void testSoundSelection() {
-		/*
-		 * Für Tests nicht setzen, da das Schließen des Dialogs sonst sorgt dafür, dass das Fenster (Stage) für andere Tests nicht mehr zur
-		 * Verfügung steht.
-		 */
-		// controller.setDialogStage(stage);
+		controller.setDialogStage(mockedDialogStage);
 
 		// Alarm vorgeben
 		final Alarm alarm = new Alarm(DateTimeUtil.getLocalDateTimeForString("01.01.1970 00:00:00"), "Bla");
@@ -350,6 +343,9 @@ public class AlarmEditDialogControllerTest extends FxmlGuiControllerTest {
 		// Sound-Löschen-Schaltfläche betätigen
 		click(alarmNoSoundButton);
 		waitForThreads();
+
+		// sicherstellen, dass nicht Dialog geschlossen worden wäre
+		verify(mockedDialogStage, never()).close();
 
 		assertEquals("kein Klingelton gewählt", alarmSelectSoundButton.getText());
 	}

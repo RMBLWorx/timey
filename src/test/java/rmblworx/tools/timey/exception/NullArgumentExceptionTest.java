@@ -18,7 +18,7 @@ import org.junit.Test;
 public class NullArgumentExceptionTest {
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.exception.NullArgumentException#NullArgumentException()}.
+	 * Test method for {@link NullArgumentException#NullArgumentException()}.
 	 */
 	@Test
 	public final void testNullArgumentException() {
@@ -28,8 +28,7 @@ public class NullArgumentExceptionTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.exception.NullArgumentException#NullArgumentException(java.lang.String)}.
+	 * Test method for {@link NullArgumentException#NullArgumentException(String)}.
 	 */
 	@Test
 	public final void testNullArgumentExceptionString() {

@@ -18,8 +18,7 @@ import org.junit.Test;
 public class ValueMinimumArgumentExceptionTest {
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.exception.ValueMinimumArgumentException#ValueMinimumArgumentException()}.
+	 * Test method for {@link ValueMinimumArgumentException#ValueMinimumArgumentException()}.
 	 */
 	@Test
 	public final void testValueMinimumArgumentException() {
@@ -30,9 +29,7 @@ public class ValueMinimumArgumentExceptionTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.exception.ValueMinimumArgumentException#ValueMinimumArgumentException(java.lang.String)}
-	 * .
+	 * Test method for {@link ValueMinimumArgumentException#ValueMinimumArgumentException(String)}.
 	 */
 	@Test
 	public final void testValueMinimumArgumentExceptionString() {

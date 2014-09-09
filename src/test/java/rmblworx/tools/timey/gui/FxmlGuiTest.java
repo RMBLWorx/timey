@@ -42,6 +42,7 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 	 * Lädt die GUI aus der FXML-Datei.
 	 * @return Elternknoten der GUI-Elemente
 	 */
+	@Override
 	protected final Parent getRootNode() {
 		final GuiHelper guiHelper = new GuiHelper();
 		guiHelper.setFacade(setUpFacade());
@@ -85,6 +86,7 @@ public abstract class FxmlGuiTest extends JavaFxGuiTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final Object getComponentWithFxmlFields() {
 		return controller;
 	}

@@ -29,29 +29,23 @@ public class StopwatchResetCommandTest {
 	@Mock
 	private IStopwatch mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new StopwatchResetCommand(this.mockedReceiver);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.StopwatchResetCommand#execute()}.
+	 * Test method for {@link StopwatchResetCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
@@ -60,8 +54,7 @@ public class StopwatchResetCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.StopwatchResetCommand#StopwatchResetCommand(rmblworx.tools.timey.IStopwatch)}.
+	 * Test method for {@link StopwatchResetCommand#StopwatchResetCommand(IStopwatch)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {
@@ -69,12 +62,12 @@ public class StopwatchResetCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.StopwatchResetCommand#StopwatchResetCommand(rmblworx.tools.timey.IStopwatch)}.
+	 * Test method for {@link StopwatchResetCommand#StopwatchResetCommand(IStopwatch)}.
 	 */
 	@Test
 	public final void testStopwatchResetCommand() {
 		this.command = new StopwatchResetCommand(this.mockedReceiver);
 		assertNotNull("Falscher Rueckgabewert!", this.command);
 	}
+
 }

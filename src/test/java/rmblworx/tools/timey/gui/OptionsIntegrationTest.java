@@ -25,6 +25,7 @@ public class OptionsIntegrationTest extends FxmlGuiTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Options.fxml";
 	}
@@ -32,6 +33,7 @@ public class OptionsIntegrationTest extends FxmlGuiTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final ITimey setUpFacade() {
 		return new TimeyFacade();
 	}

@@ -27,7 +27,7 @@ public final class Main {
 	}
 
 	/**
-	 * Privater Konstruktor.
+	 * Instanziierung verhindern.
 	 */
 	private Main() {
 	}

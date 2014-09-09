@@ -33,7 +33,7 @@ public class AlarmGetAllAlarmsCommandTest {
 	private Alarm mockedReceiver;
 
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new AlarmGetAllAlarmsCommand(this.mockedReceiver);
 		this.invoker = new Invoker<>();
@@ -43,14 +43,14 @@ public class AlarmGetAllAlarmsCommandTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmsCommand#execute()}.
+	 * Test method for {@link AlarmGetAllAlarmsCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
@@ -59,7 +59,7 @@ public class AlarmGetAllAlarmsCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.AlarmGetAllAlarmsCommand#AlarmGetAllAlarmsCommand(IAlarm)}.
+	 * Test method for {@link AlarmGetAllAlarmsCommand#AlarmGetAllAlarmsCommand(IAlarm)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {

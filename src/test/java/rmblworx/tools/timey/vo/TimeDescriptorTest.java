@@ -31,17 +31,13 @@ public class TimeDescriptorTest {
 	@Autowired
 	private TimeDescriptor descriptor;
 
-	/**
-	 * @throws java.lang.Exception
-	 *             Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.descriptor = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.vo.TimeDescriptor}.
+	 * Test method for {@link TimeDescriptor}.
 	 */
 	@Test
 	public final void testCorrectBehaviorOfTheVo() {
@@ -52,7 +48,7 @@ public class TimeDescriptorTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.vo.TimeDescriptor#setMilliSeconds(long)}.
+	 * Test method for {@link TimeDescriptor#setMilliSeconds(long)}.
 	 */
 	@Test(expected = ValueMinimumArgumentException.class)
 	public final void testShouldFailBecauseValueLessThanZero() {

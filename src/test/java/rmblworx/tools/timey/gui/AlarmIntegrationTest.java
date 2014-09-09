@@ -44,6 +44,7 @@ public class AlarmIntegrationTest extends FxmlGuiTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final String getFxmlFilename() {
 		return "Alarm.fxml";
 	}
@@ -51,6 +52,7 @@ public class AlarmIntegrationTest extends FxmlGuiTest {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final ITimey setUpFacade() {
 		return new TimeyFacade();
 	}

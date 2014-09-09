@@ -79,7 +79,7 @@ public final class DateTimeUtil {
 	}
 
 	/**
-	 * Privater Konstruktor.
+	 * Instanziierung verhindern.
 	 */
 	private DateTimeUtil() {
 	}

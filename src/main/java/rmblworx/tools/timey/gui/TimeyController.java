@@ -287,6 +287,7 @@ public class TimeyController extends Controller implements TimeyEventListener {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void handleEvent(final TimeyEvent event) {
 		// blinken, falls Fenster bei Eintreten des Ereignisses nicht sichtbar ist
 		trayIconBlinking = !isAppVisible();

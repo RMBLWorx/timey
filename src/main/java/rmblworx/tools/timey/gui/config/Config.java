@@ -51,7 +51,7 @@ public class Config {
 	/**
 	 * @return Systemsprache, falls unterstützt, sonst Fallback
 	 */
-	public Locale getDefaultLocale() {
+	public final Locale getDefaultLocale() {
 		final Locale defaultLocale = Locale.forLanguageTag(Locale.getDefault().getLanguage());
 
 		if (Arrays.asList(AVAILABLE_LOCALES).contains(defaultLocale)) {
@@ -61,15 +61,24 @@ public class Config {
 		return FALLBACK_LOCALE;
 	}
 
-	public void setChanged(final boolean changed) {
+	/**
+	 * @param changed Ob die Konfiguration geändert wurde.
+	 */
+	public final void setChanged(final boolean changed) {
 		this.changed = changed;
 	}
 
-	public boolean isChanged() {
+	/**
+	 * @return Ob die Konfiguration geändert wurde.
+	 */
+	public final boolean isChanged() {
 		return changed;
 	}
 
-	public void setLocale(final Locale locale) {
+	/**
+	 * @param locale Sprache.
+	 */
+	public final void setLocale(final Locale locale) {
 		if (this.locale != locale) {
 			changed = true;
 		}
@@ -77,11 +86,17 @@ public class Config {
 		this.locale = locale;
 	}
 
-	public Locale getLocale() {
+	/**
+	 * @return Sprache.
+	 */
+	public final Locale getLocale() {
 		return locale;
 	}
 
-	public void setMinimizeToTray(final boolean minimizeToTray) {
+	/**
+	 * @param minimizeToTray Ob die Anwendung ins System-Tray minimiert werden soll.
+	 */
+	public final void setMinimizeToTray(final boolean minimizeToTray) {
 		if (this.minimizeToTray != minimizeToTray) {
 			changed = true;
 		}
@@ -89,11 +104,17 @@ public class Config {
 		this.minimizeToTray = minimizeToTray;
 	}
 
-	public boolean isMinimizeToTray() {
+	/**
+	 * @return Ob die Anwendung ins System-Tray minimiert werden soll.
+	 */
+	public final boolean isMinimizeToTray() {
 		return minimizeToTray;
 	}
 
-	public void setStopwatchShowMilliseconds(final boolean stopwatchShowMilliseconds) {
+	/**
+	 * @param stopwatchShowMilliseconds Ob für die Stoppuhr auch der Millisekunden-Anteil sichtbar sein soll.
+	 */
+	public final void setStopwatchShowMilliseconds(final boolean stopwatchShowMilliseconds) {
 		if (this.stopwatchShowMilliseconds != stopwatchShowMilliseconds) {
 			changed = true;
 		}
@@ -101,11 +122,17 @@ public class Config {
 		this.stopwatchShowMilliseconds = stopwatchShowMilliseconds;
 	}
 
-	public boolean isStopwatchShowMilliseconds() {
+	/**
+	 * @return Ob für die Stoppuhr auch der Millisekunden-Anteil sichtbar sein soll.
+	 */
+	public final boolean isStopwatchShowMilliseconds() {
 		return stopwatchShowMilliseconds;
 	}
 
-	public void setActiveTab(final int activeTab) {
+	/**
+	 * @param activeTab Aktiver Tab.
+	 */
+	public final void setActiveTab(final int activeTab) {
 		if (this.activeTab != activeTab) {
 			changed = true;
 		}
@@ -113,7 +140,10 @@ public class Config {
 		this.activeTab = activeTab;
 	}
 
-	public int getActiveTab() {
+	/**
+	 * @return Aktiver Tab.
+	 */
+	public final int getActiveTab() {
 		return activeTab;
 	}
 

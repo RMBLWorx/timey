@@ -41,9 +41,9 @@ public class AlarmDaoTest {
 	@Mock
 	private Logger logger;
 	/**
-	 * SessionFactory.
+	 * SessionFactory. Explizites setzen auf null da Persistence für diese Tests nicht vorhanden sein soll.
 	 */
-	private SessionFactory sessionFactory;
+	private final SessionFactory sessionFactory = null;
 	/**
 	 * TimeDescriptor.
 	 */
@@ -56,8 +56,6 @@ public class AlarmDaoTest {
 	@Before
 	public final void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		// explizites setzen auf null da Persistence für diese Tests nicht vorhanden sein soll
-		this.sessionFactory = null;
 		this.timeDescriptor = new TimeDescriptor(ZEITWERT);
 		this.alarmDescriptor = new AlarmDescriptor(this.timeDescriptor, true, "leer", "/bla", this.timeDescriptor);
 		this.dao = new AlarmDao(this.sessionFactory, this.logger);
@@ -72,12 +70,10 @@ public class AlarmDaoTest {
 		this.dao = null;
 		this.timeDescriptor = null;
 		this.alarmDescriptor = null;
-		this.sessionFactory = null;
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.dao.AlarmDao#createAlarm(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for{@link AlarmDao#createAlarm(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testCreateAlarm() {
@@ -85,8 +81,7 @@ public class AlarmDaoTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.dao.AlarmDao#deleteAlarm(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for{@link AlarmDao#deleteAlarm(AlarmDescriptor)}.
 	 */
 	@Test()
 	public final void testDeleteAlarm() {
@@ -94,7 +89,7 @@ public class AlarmDaoTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.persistence.dao.AlarmDao#findAll()}.
+	 * Test method for {@link AlarmDao#findAll()}.
 	 */
 	@Test
 	public final void testFindAll() {
@@ -102,8 +97,7 @@ public class AlarmDaoTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.dao.AlarmDao#isActivated(rmblworx.tools.timey.vo.AlarmDescriptor)}.
+	 * Test method for{@link AlarmDao#isActivated(AlarmDescriptor)}.
 	 */
 	@Test
 	public final void testIsActivated() {
@@ -111,9 +105,7 @@ public class AlarmDaoTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.persistence.dao.AlarmDao#setIsActivated(rmblworx.tools.timey.vo.AlarmDescriptor, java.lang.Boolean)}
-	 * .
+	 * Test method for {@link AlarmDao#setIsActivated(AlarmDescriptor, Boolean)}.
 	 */
 	@Test
 	public final void testSetIsActivated() {

@@ -28,29 +28,23 @@ public class CountdownStopCommandTest {
 	@Mock
 	private ICountdown mockedReceiver;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public final void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.command = new CountdownStopCommand(this.mockedReceiver);
 		this.invoker = new Invoker<>();
 		this.invoker.storeCommand(this.command);
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() {
 		this.invoker = null;
 		this.mockedReceiver = null;
 		this.command = null;
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownStopCommand#execute()}.
+	 * Test method for {@link CountdownStopCommand#execute()}.
 	 */
 	@Test
 	public final void testExecute() {
@@ -59,7 +53,7 @@ public class CountdownStopCommandTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.CountdownStopCommand#execute()}.
+	 * Test method for {@link CountdownStopCommand#execute()}.
 	 */
 	@Test
 	public final void testExecuteIfCountdownCouldNotBeStoppedSuccessfully() {
@@ -68,8 +62,7 @@ public class CountdownStopCommandTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link rmblworx.tools.timey.CountdownStopCommand#CountdownStopCommand(rmblworx.tools.timey.ICountdown)}.
+	 * Test method for {@link CountdownStopCommand#CountdownStopCommand(ICountdown)}.
 	 */
 	@Test(expected = NullArgumentException.class)
 	public final void testShouldFailBecauseReceiverIsNull() {

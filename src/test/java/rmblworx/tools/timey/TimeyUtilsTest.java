@@ -4,8 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /*
@@ -26,7 +24,7 @@ public class TimeyUtilsTest {
 	/**
 	 * Für die Tests benötigte, leere Zeichenkette.
 	 */
-	private String emptyString;
+	private final String emptyString = "";
 	/**
 	 * Für die Tests benötigte, leere Zeichenkette.
 	 */
@@ -34,30 +32,10 @@ public class TimeyUtilsTest {
 	/**
 	 * Den für die Tests benötigten, null referenzierenden Typ einer Zeichenkette.
 	 */
-	private String nullString = null;
+	private final String nullString = null;
 
 	/**
-	 * @throws java.lang.Exception
-	 *             wenn eine Ausnahme auftritt. wenn eine Ausnahme auftritt.
-	 */
-	@Before
-	public final void setUp() throws Exception {
-		this.emptyString = "";
-		this.nullString = null;
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 *             wenn eine Ausnahme auftritt.
-	 */
-	@After
-	public final void tearDown() throws Exception {
-		this.emptyString = null;
-		this.nullString = null;
-	}
-
-	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#getOsName()}.
+	 * Test method for {@link TimeyUtils#getOsName()}.
 	 */
 	@Test
 	public final void testGetOsName() {
@@ -66,7 +44,7 @@ public class TimeyUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#isEmpty(java.lang.String)}.
+	 * Test method for {@link TimeyUtils#isEmpty(String)}.
 	 */
 	@Test
 	public final void testIsEmpty() {
@@ -74,7 +52,7 @@ public class TimeyUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#isLinuxSystem()}.
+	 * Test method for {@link TimeyUtils#isLinuxSystem()}.
 	 */
 	@Test
 	public final void testIsLinuxSystem() {
@@ -82,7 +60,7 @@ public class TimeyUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#isNull(java.lang.String)}.
+	 * Test method for {@link TimeyUtils#isNull(String)}.
 	 */
 	@Test
 	public final void testIsNull() {
@@ -91,7 +69,7 @@ public class TimeyUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#isNullOrEmpty(java.lang.String[])}.
+	 * Test method for {@link TimeyUtils#isNullOrEmpty(String[])}.
 	 */
 	@Test
 	public final void testIsNullOrEmpty() {
@@ -103,7 +81,7 @@ public class TimeyUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#isOSXSystem()}.
+	 * Test method for {@link TimeyUtils#isOSXSystem()}.
 	 */
 	@Test
 	public final void testIsOSXSystem() {
@@ -111,7 +89,7 @@ public class TimeyUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link rmblworx.tools.timey.TimeyUtils#isWindowsSystem()}.
+	 * Test method for {@link TimeyUtils#isWindowsSystem()}.
 	 */
 	@Test
 	public final void testIsWindowsSystem() {
