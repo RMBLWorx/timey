@@ -29,7 +29,7 @@ import rmblworx.tools.timey.gui.JavaFxGuiTest;
 import com.google.common.base.Predicate;
 
 /*
- * Copyright 2014 Christian Raue
+ * Copyright 2014-2015 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**

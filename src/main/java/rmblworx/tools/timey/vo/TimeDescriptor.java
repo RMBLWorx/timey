@@ -3,7 +3,7 @@ package rmblworx.tools.timey.vo;
 import rmblworx.tools.timey.exception.ValueMinimumArgumentException;
 
 /*
- * Copyright 2014 Christian Raue
+ * Copyright 2014-2015 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**

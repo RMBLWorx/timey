@@ -1,7 +1,7 @@
 package rmblworx.tools.timey.gui.config;
 
 /*
- * Copyright 2014 Christian Raue
+ * Copyright 2014-2015 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
