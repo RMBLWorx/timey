@@ -44,14 +44,39 @@ public class AlarmEventsTest {
 
 	private final ArgumentCaptor<TimeyEvent> eventCaptor = ArgumentCaptor.forClass(TimeyEvent.class);
 
+	private final long now = System.currentTimeMillis();
+	private final long oneHourAgo = now - 60 * 60 * 1000;
+	private final long inOneMinute = now + 60 * 1000;
+
+	/**
+	 * Inaktiver Alarm, der vor einer Stunde ausgelöst wurde.
+	 */
+	private final AlarmDescriptor alarmOneHourAgo = new AlarmDescriptor(new TimeDescriptor(oneHourAgo), false, "alter Alarm", "", null);
+
+	/**
+	 * Alarm, der in einer Minute ausgelöst wird.
+	 */
+	private final AlarmDescriptor alarmInOneMinute = new AlarmDescriptor(new TimeDescriptor(inOneMinute), true, "Zukunftsalarm", "", null);
+
+	/**
+	 * Jetzt auzulösender Alarm.
+	 */
+	private final AlarmDescriptor alarmNow = new AlarmDescriptor(new TimeDescriptor(now), true, "relevanter Alarm", "", null);
+
 	private ITimey facade;
 
 	private TimeyEventListener eventListener;
 
 	@Before
 	public void setUp() {
-		eventListener = mock(TimeyEventListener.class);
 		facade = new TimeyFacade();
+
+		// alle Alarme löschen
+		for (final AlarmDescriptor alarm : facade.getAllAlarms()) {
+			facade.removeAlarm(alarm);
+		}
+
+		eventListener = mock(TimeyEventListener.class);
 		facade.addEventListener(eventListener);
 	}
 
@@ -60,10 +85,7 @@ public class AlarmEventsTest {
 	 */
 	@Test
 	public final void testCreateDisabledAlarmNoExpiredEvent() {
-		final long oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000;
-
-		// inaktiven Alarm per Fassade hinzufügen
-		facade.setAlarm(new AlarmDescriptor(new TimeDescriptor(oneHourAgo), false, "alter Alarm", "", null));
+		facade.setAlarm(alarmOneHourAgo);
 
 		final Class<?>[] expectedEvents = new Class<?>[] { AlarmsModifiedEvent.class };
 
@@ -79,10 +101,7 @@ public class AlarmEventsTest {
 	 */
 	@Test
 	public final void testCreateFutureAlarmNoExpiredEvent() {
-		final long inOneMinute = System.currentTimeMillis() + 60 * 1000;
-
-		// zukünftigen Alarm per Fassade hinzufügen
-		facade.setAlarm(new AlarmDescriptor(new TimeDescriptor(inOneMinute), true, "Zukunftsalarm", "", null));
+		facade.setAlarm(alarmInOneMinute);
 
 		final Class<?>[] expectedEvents = new Class<?>[] { AlarmsModifiedEvent.class };
 
@@ -97,14 +116,14 @@ public class AlarmEventsTest {
 	 * Testet Ereignisse beim Anlegen eines jetzt auzulösenden Alarms.
 	 */
 	@Test
-	public final void testCreateAlarmExpiredEvent() {
-		final String alarmDescription = "relevanter Alarm";
+	public final void testCreateAlarmEvents() {
+		facade.setAlarm(alarmNow);
 
-		// relevanten Alarm per Fassade hinzufügen
-		facade.setAlarm(new AlarmDescriptor(new TimeDescriptor(System.currentTimeMillis()), true, alarmDescription, "", null));
-
-		// zwei AlarmsModifiedEvents: eins durch Anlegen des Alarms und eins durch Deaktivierung des Alarms beim Auslösen
-		final Class<?>[] expectedEvents = new Class<?>[] { AlarmsModifiedEvent.class, AlarmsModifiedEvent.class, AlarmExpiredEvent.class };
+		final Class<?>[] expectedEvents = new Class<?>[] {
+			AlarmsModifiedEvent.class, // Anlegen des Alarms
+			AlarmsModifiedEvent.class, // Deaktivierung des Alarms beim Auslösen
+			AlarmExpiredEvent.class, // Auslösen des Alarms
+		};
 
 		// sicherstellen, dass erwartete Ereignisse ausgelöst wurden
 		verify(eventListener, timeout(WAIT_FOR_EVENT).times(expectedEvents.length)).handleEvent(eventCaptor.capture());
@@ -115,10 +134,34 @@ public class AlarmEventsTest {
 			if (event instanceof AlarmExpiredEvent) {
 				final AlarmDescriptor alarm = ((AlarmExpiredEvent) event).getAlarmDescriptor();
 				assertNotNull(alarm);
-				assertEquals(alarmDescription, alarm.getDescription());
+				assertEquals(alarmNow.getDescription(), alarm.getDescription());
 				assertFalse(alarm.getIsActive());
 			}
 		}
+	}
+
+	/**
+	 * Testet Ereignisse beim Anlegen mehrerer Alarme.
+	 */
+	@Test
+	public final void testCreateSeveralAlarmsEvents() {
+		facade.setAlarm(alarmOneHourAgo);
+		facade.setAlarm(alarmInOneMinute);
+		facade.setAlarm(alarmNow);
+
+		final Class<?>[] expectedEvents = new Class<?>[] {
+			AlarmsModifiedEvent.class, // Anlegen ...
+			AlarmsModifiedEvent.class, // ... der drei ...
+			AlarmsModifiedEvent.class, // ... Alarme
+			AlarmsModifiedEvent.class, // Deaktivierung des Alarms beim Auslösen
+			AlarmExpiredEvent.class, // Auslösen des Alarms
+		};
+
+		// sicherstellen, dass erwartete Ereignisse ausgelöst wurden
+		verify(eventListener, timeout(WAIT_FOR_EVENT).times(expectedEvents.length)).handleEvent(eventCaptor.capture());
+		final List<TimeyEvent> events = eventCaptor.getAllValues();
+		assertEquals(expectedEvents.length, events.size());
+		assertContainsAllAndOnlyTypes(events, expectedEvents);
 	}
 
 	/**

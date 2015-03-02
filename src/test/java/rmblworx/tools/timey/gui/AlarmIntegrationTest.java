@@ -1,6 +1,7 @@
 package rmblworx.tools.timey.gui;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
@@ -14,7 +15,9 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -27,6 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import rmblworx.tools.timey.ITimey;
 import rmblworx.tools.timey.TimeyFacade;
 import rmblworx.tools.timey.gui.component.TimePicker;
+import rmblworx.tools.timey.vo.AlarmDescriptor;
 
 /*
  * Copyright 2014 Christian Raue
@@ -57,6 +61,16 @@ public class AlarmIntegrationTest extends FxmlGuiTest {
 		return new TimeyFacade();
 	}
 
+	@Before
+	public void setUp() {
+		final ITimey facade = getController().getGuiHelper().getFacade();
+
+		// alle Alarme löschen
+		for (final AlarmDescriptor alarm : facade.getAllAlarms()) {
+			facade.removeAlarm(alarm);
+		}
+	}
+
 	/**
 	 * Testet
 	 * <ol>
@@ -67,13 +81,15 @@ public class AlarmIntegrationTest extends FxmlGuiTest {
 	 */
 	@Test
 	@Ignore("schlägt derzeit fehl") // TODO
-	public final void testAlarmCreatingAndExpiring() {
+	public final void testCreateAlarmAndHandleEvent() {
 		/*
 		 * Zeitdifferenz, die der Alarm in der Zukunft ausgelöst werden soll.
 		 * Wert möglichst klein halten, um Test nich unnötig lange dauern zu lassen, aber dennoch groß genug, um sicherzustellen, dass
 		 * Alarm bis zu diesem Zeitpunkt vollständig angelegt werden kann.
 		 */
 		final int bufferInSeconds = 2;
+
+		final String alarmDescription = "relevanter Alarm";
 
 		final AlarmController controller = (AlarmController) getController();
 		final GuiHelper guiHelper = controller.getGuiHelper();
@@ -91,11 +107,13 @@ public class AlarmIntegrationTest extends FxmlGuiTest {
 
 		final Scene dialogScene = controller.getDialogStage().getScene();
 		final TimePicker alarmTimePicker = (TimePicker) dialogScene.lookup("#alarmTimePicker");
+		final TextField alarmDescriptionTextField = (TextField) dialogScene.lookup("#alarmDescriptionTextField");
 		final Button alarmSaveButton = (Button) dialogScene.lookup("#alarmSaveButton");
 
 		Platform.runLater(new Runnable() {
 			public void run() {
 				alarmTimePicker.setValue(alarmTimePicker.getValue().plusSeconds(bufferInSeconds));
+				alarmDescriptionTextField.setText(alarmDescription);
 			}
 		});
 		FXTestUtils.awaitEvents();
@@ -107,8 +125,8 @@ public class AlarmIntegrationTest extends FxmlGuiTest {
 		click(alarmSaveButton);
 		waitForThreads();
 
-		// sicherstellen, dass Ereignis verarbeitet wird
-		verify(messageHelper, timeout(WAIT_FOR_EVENT)).showTrayMessageWithFallbackToDialog(anyString(), anyString(),
+		// sicherstellen, dass Ereignis genau einmal für den korrekten Alarm eintritt und verarbeitet wird
+		verify(messageHelper, timeout(WAIT_FOR_EVENT)).showTrayMessageWithFallbackToDialog(anyString(), eq(alarmDescription),
 				isNull(TrayIcon.class), isA(ResourceBundle.class));
 	}
 
