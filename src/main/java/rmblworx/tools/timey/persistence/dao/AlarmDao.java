@@ -21,7 +21,7 @@ import rmblworx.tools.timey.vo.AlarmDescriptor;
 import rmblworx.tools.timey.vo.TimeDescriptor;
 
 /*
- * Copyright 2014 Christian Raue
+ * Copyright 2014-2015 Christian Raue
  * MIT License http://opensource.org/licenses/mit-license.php
  */
 /**
