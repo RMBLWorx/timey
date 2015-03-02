@@ -67,10 +67,6 @@
     <module name="InnerAssignment"/>
     <module name="MagicNumber"/>
     <module name="MissingSwitchDefault"/>
-    <module name="RedundantThrows">
-      <property name="allowUnchecked" value="true"/>
-      <property name="suppressLoadErrors" value="true"/>
-    </module>
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
     <module name="DesignForExtension"/>
@@ -104,7 +100,6 @@
     <module name="FinalLocalVariable">
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
     </module>
-    <module name="JUnitTestCase"/>
     <module name="MissingDeprecated"/>
     <module name="MissingOverride"/>
     <module name="PackageAnnotation"/>
