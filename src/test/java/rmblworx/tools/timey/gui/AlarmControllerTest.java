@@ -178,6 +178,7 @@ public class AlarmControllerTest extends FxmlGuiControllerTest {
 		final Alarm alarm2 = new Alarm(now.plusSeconds(10), "alarm2");
 		tableData.add(alarm1);
 		tableData.add(alarm2);
+		FXTestUtils.awaitEvents();
 		final int alarmsCount = tableData.size();
 
 		final Button alarmDeleteAllButton = (Button) scene.lookup("#alarmDeleteAllButton");
