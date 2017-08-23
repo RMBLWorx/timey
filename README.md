@@ -3,7 +3,7 @@
 ## Zielsetzung
 
 Es soll eine Anwendung entstehen, die folgende Funktionalitäten
-mittels einem GUI für alle Plattformen (Android, iOS, etc.) bietet:
+mittels einem GUI für die Betriebssysteme Windows, Linux und OS X bietet:
 * Stoppuhr-Funktion
 * Countdown-Funktion
 * Alarm-Funktion
